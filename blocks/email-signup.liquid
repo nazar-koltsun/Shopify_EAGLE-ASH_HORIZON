@@ -89,7 +89,7 @@
       </div>
     {%- endif -%}
 
-    {%- if form.posted_successfully? and form.id == form_id -%}
+    {% if form.posted_successfully? %}
       <div
         id="Email-signup__message-success-{{ block.id }}"
         class="email-signup__message"
