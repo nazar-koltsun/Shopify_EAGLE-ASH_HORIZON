@@ -1,0 +1,599 @@
+{% doc %}
+  @prompt
+    Create 4 layer multirow
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-multirow-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-multirow-container-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.row_spacing }}px;
+  }
+
+  .ai-multirow-row-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.column_gap }}px;
+  }
+
+  .ai-multirow-row-{{ ai_gen_id }}--reverse {
+    flex-direction: row-reverse;
+  }
+
+  .ai-multirow-image-wrapper-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-multirow-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-multirow-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: {{ block.settings.placeholder_bg_color }};
+    border-radius: {{ block.settings.image_border_radius }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-multirow-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 300px;
+    opacity: 0.3;
+  }
+
+  .ai-multirow-content-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.content_spacing }}px;
+    padding: {{ block.settings.content_padding }}px;
+  }
+
+  .ai-multirow-heading-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    line-height: 1.2;
+  }
+
+  .ai-multirow-text-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    line-height: 1.5;
+  }
+
+  .ai-multirow-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_text_size }}px;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+  }
+
+  .ai-multirow-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-multirow-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-multirow-row-{{ ai_gen_id }},
+    .ai-multirow-row-{{ ai_gen_id }}--reverse {
+      flex-direction: column;
+    }
+
+    .ai-multirow-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.8);
+    }
+
+    .ai-multirow-text-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.text_size }}px * 0.9);
+    }
+  }
+{% endstyle %}
+
+<multirow-block-{{ ai_gen_id }} class="ai-multirow-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-multirow-container-{{ ai_gen_id }}">
+    {% for i in (1..4) %}
+      {% liquid
+        assign row_enabled_key = 'row_' | append: i | append: '_enabled'
+        assign row_image_key = 'row_' | append: i | append: '_image'
+        assign row_heading_key = 'row_' | append: i | append: '_heading'
+        assign row_text_key = 'row_' | append: i | append: '_text'
+        assign row_button_text_key = 'row_' | append: i | append: '_button_text'
+        assign row_button_link_key = 'row_' | append: i | append: '_button_link'
+        assign row_layout_key = 'row_' | append: i | append: '_layout'
+
+        assign row_enabled = block.settings[row_enabled_key]
+        assign row_image = block.settings[row_image_key]
+        assign row_heading = block.settings[row_heading_key]
+        assign row_text = block.settings[row_text_key]
+        assign row_button_text = block.settings[row_button_text_key]
+        assign row_button_link = block.settings[row_button_link_key]
+        assign row_layout = block.settings[row_layout_key]
+      %}
+
+      {% if row_enabled %}
+        <div class="ai-multirow-row-{{ ai_gen_id }} {% if row_layout == 'image_right' %}ai-multirow-row-{{ ai_gen_id }}--reverse{% endif %}">
+          <div class="ai-multirow-image-wrapper-{{ ai_gen_id }}">
+            {% if row_image %}
+              <img
+                src="{{ row_image | image_url: width: 1200 }}"
+                alt="{{ row_image.alt | escape }}"
+                loading="lazy"
+                width="{{ row_image.width }}"
+                height="{{ row_image.height }}"
+                class="ai-multirow-image-{{ ai_gen_id }}"
+              >
+            {% else %}
+              <div class="ai-multirow-image-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="ai-multirow-content-{{ ai_gen_id }}">
+            {% if row_heading != blank %}
+              <h3 class="ai-multirow-heading-{{ ai_gen_id }}">{{ row_heading }}</h3>
+            {% endif %}
+
+            {% if row_text != blank %}
+              <div class="ai-multirow-text-{{ ai_gen_id }}">{{ row_text }}</div>
+            {% endif %}
+
+            {% if row_button_text != blank and row_button_link != blank %}
+              <a href="{{ row_button_link }}" class="ai-multirow-button-{{ ai_gen_id }}">
+                {{ row_button_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</multirow-block-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class MultirowBlock{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+    }
+
+    customElements.define('multirow-block-{{ ai_gen_id }}', MultirowBlock{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "4 layer multirow",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "row_spacing",
+      "label": "Row spacing",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "content_spacing",
+      "label": "Content spacing",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Content padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Image style"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "placeholder_bg_color",
+      "label": "Placeholder background",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "header",
+      "content": "Text style"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Vertical padding",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background",
+      "default": "#fd5000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Row 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_1_enabled",
+      "label": "Enable row 1",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "row_1_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_left"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "row_1_heading",
+      "label": "Heading",
+      "default": "Feature heading"
+    },
+    {
+      "type": "richtext",
+      "id": "row_1_text",
+      "label": "Text",
+      "default": "<p>Describe your feature with compelling details that engage your customers.</p>"
+    },
+    {
+      "type": "text",
+      "id": "row_1_button_text",
+      "label": "Button text",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "row_1_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Row 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_2_enabled",
+      "label": "Enable row 2",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "row_2_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_right"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "row_2_heading",
+      "label": "Heading",
+      "default": "Feature heading"
+    },
+    {
+      "type": "richtext",
+      "id": "row_2_text",
+      "label": "Text",
+      "default": "<p>Describe your feature with compelling details that engage your customers.</p>"
+    },
+    {
+      "type": "text",
+      "id": "row_2_button_text",
+      "label": "Button text",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "row_2_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Row 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_3_enabled",
+      "label": "Enable row 3",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "row_3_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_left"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "row_3_heading",
+      "label": "Heading",
+      "default": "Feature heading"
+    },
+    {
+      "type": "richtext",
+      "id": "row_3_text",
+      "label": "Text",
+      "default": "<p>Describe your feature with compelling details that engage your customers.</p>"
+    },
+    {
+      "type": "text",
+      "id": "row_3_button_text",
+      "label": "Button text",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "row_3_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Row 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_4_enabled",
+      "label": "Enable row 4",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "row_4_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_right"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "row_4_heading",
+      "label": "Heading",
+      "default": "Feature heading"
+    },
+    {
+      "type": "richtext",
+      "id": "row_4_text",
+      "label": "Text",
+      "default": "<p>Describe your feature with compelling details that engage your customers.</p>"
+    },
+    {
+      "type": "text",
+      "id": "row_4_button_text",
+      "label": "Button text",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "row_4_button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "4 layer multirow"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}

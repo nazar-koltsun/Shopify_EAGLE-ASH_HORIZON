@@ -1,0 +1,661 @@
+{% doc %}
+  @prompt
+    Create timeline:
+    
+    1. on left side
+    2. on right side
+    3. on left side
+    4. on right side
+    
+    Please add top margin: 20 
+    Bottom margin: 20
+    
+    Timeline has to be fully customizable, Please add image possibility to every point. Also add header and subheader to the top of the block., Please add images to the opposite side of the timeline and text for each item remains how they are right now
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-timeline-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin-top: {{ block.settings.top_margin }}px;
+    margin-bottom: {{ block.settings.bottom_margin }}px;
+    padding: 0 20px;
+  }
+
+  .ai-timeline-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-timeline-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_font_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 12px 0;
+    font-weight: 700;
+  }
+
+  .ai-timeline-subheading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheading_font_size }}px;
+    color: {{ block.settings.subheading_color }};
+    margin: 0;
+  }
+
+  .ai-timeline-container-{{ ai_gen_id }} {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-timeline-line-{{ ai_gen_id }} {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: {{ block.settings.line_width }}px;
+    background-color: {{ block.settings.line_color }};
+    transform: translateX(-50%);
+  }
+
+  .ai-timeline-item-{{ ai_gen_id }} {
+    position: relative;
+    margin-bottom: {{ block.settings.item_spacing }}px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ai-timeline-item-{{ ai_gen_id }}:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-timeline-content-{{ ai_gen_id }} {
+    width: calc(50% - {{ block.settings.dot_size | divided_by: 2 }}px - 30px);
+    padding: {{ block.settings.content_padding }}px;
+    background-color: {{ block.settings.content_background }};
+    border-radius: {{ block.settings.content_border_radius }}px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-timeline-image-wrapper-{{ ai_gen_id }} {
+    width: calc(50% - {{ block.settings.dot_size | divided_by: 2 }}px - 30px);
+  }
+
+  .ai-timeline-left-{{ ai_gen_id }} .ai-timeline-content-{{ ai_gen_id }} {
+    text-align: right;
+    order: 1;
+  }
+
+  .ai-timeline-left-{{ ai_gen_id }} .ai-timeline-image-wrapper-{{ ai_gen_id }} {
+    order: 3;
+    margin-left: 30px;
+  }
+
+  .ai-timeline-right-{{ ai_gen_id }} .ai-timeline-content-{{ ai_gen_id }} {
+    text-align: left;
+    order: 3;
+  }
+
+  .ai-timeline-right-{{ ai_gen_id }} .ai-timeline-image-wrapper-{{ ai_gen_id }} {
+    order: 1;
+    margin-right: 30px;
+  }
+
+  .ai-timeline-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-timeline-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #f4f4f4;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-timeline-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-timeline-dot-{{ ai_gen_id }} {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: {{ block.settings.dot_size }}px;
+    height: {{ block.settings.dot_size }}px;
+    background-color: {{ block.settings.dot_color }};
+    border: {{ block.settings.dot_border_width }}px solid {{ block.settings.dot_border_color }};
+    border-radius: 50%;
+    z-index: 2;
+    order: 2;
+  }
+
+  .ai-timeline-date-{{ ai_gen_id }} {
+    font-size: {{ block.settings.date_font_size }}px;
+    color: {{ block.settings.date_color }};
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .ai-timeline-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_font_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 8px 0;
+    font-weight: 700;
+  }
+
+  .ai-timeline-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_font_size }}px;
+    color: {{ block.settings.description_color }};
+    line-height: 1.6;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-timeline-line-{{ ai_gen_id }} {
+      left: 20px;
+    }
+
+    .ai-timeline-item-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .ai-timeline-content-{{ ai_gen_id }} {
+      width: calc(100% - 60px);
+      margin-left: 60px !important;
+      margin-right: 0 !important;
+      text-align: left !important;
+      order: 2 !important;
+    }
+
+    .ai-timeline-image-wrapper-{{ ai_gen_id }} {
+      width: calc(100% - 60px);
+      margin-left: 60px !important;
+      margin-right: 0 !important;
+      margin-bottom: 15px;
+      order: 1 !important;
+    }
+
+    .ai-timeline-dot-{{ ai_gen_id }} {
+      left: 20px;
+      top: 0;
+      order: 3 !important;
+    }
+  }
+{% endstyle %}
+
+<timeline-block-{{ ai_gen_id }} class="ai-timeline-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.heading != blank or block.settings.subheading != blank %}
+    <div class="ai-timeline-header-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-timeline-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+      {% endif %}
+      {% if block.settings.subheading != blank %}
+        <p class="ai-timeline-subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="ai-timeline-container-{{ ai_gen_id }}">
+    <div class="ai-timeline-line-{{ ai_gen_id }}"></div>
+
+    {% for i in (1..4) %}
+      {% liquid
+        assign image_key = 'item_' | append: i | append: '_image'
+        assign date_key = 'item_' | append: i | append: '_date'
+        assign title_key = 'item_' | append: i | append: '_title'
+        assign description_key = 'item_' | append: i | append: '_description'
+        
+        assign item_image = block.settings[image_key]
+        assign item_date = block.settings[date_key]
+        assign item_title = block.settings[title_key]
+        assign item_description = block.settings[description_key]
+        
+        assign position = 'left'
+        if i == 2 or i == 4
+          assign position = 'right'
+        endif
+      %}
+
+      <div class="ai-timeline-item-{{ ai_gen_id }} ai-timeline-{{ position }}-{{ ai_gen_id }}">
+        <div class="ai-timeline-content-{{ ai_gen_id }}">
+          {% if item_date != blank %}
+            <div class="ai-timeline-date-{{ ai_gen_id }}">{{ item_date }}</div>
+          {% endif %}
+          {% if item_title != blank %}
+            <h3 class="ai-timeline-title-{{ ai_gen_id }}">{{ item_title }}</h3>
+          {% endif %}
+          {% if item_description != blank %}
+            <div class="ai-timeline-description-{{ ai_gen_id }}">{{ item_description }}</div>
+          {% endif %}
+        </div>
+
+        <div class="ai-timeline-dot-{{ ai_gen_id }}"></div>
+
+        <div class="ai-timeline-image-wrapper-{{ ai_gen_id }}">
+          {% if item_image != blank %}
+            <img
+              src="{{ item_image | image_url: width: 600 }}"
+              alt="{{ item_image.alt | escape }}"
+              loading="lazy"
+              width="{{ item_image.width }}"
+              height="{{ item_image.height }}"
+              class="ai-timeline-image-{{ ai_gen_id }}"
+            >
+          {% elsif block.settings.show_image_placeholder %}
+            <div class="ai-timeline-image-placeholder-{{ ai_gen_id }}">
+              {{ 'image' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</timeline-block-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class TimelineBlock{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.adjustLineHeight();
+        window.addEventListener('resize', () => this.adjustLineHeight());
+      }
+
+      adjustLineHeight() {
+        const line = this.querySelector('.ai-timeline-line-{{ ai_gen_id }}');
+        const items = this.querySelectorAll('.ai-timeline-item-{{ ai_gen_id }}');
+        
+        if (items.length > 0) {
+          const lastItem = items[items.length - 1];
+          const lastItemBottom = lastItem.offsetTop + lastItem.offsetHeight;
+          line.style.height = lastItemBottom + 'px';
+        }
+      }
+    }
+
+    customElements.define('timeline-block-{{ ai_gen_id }}', TimelineBlock{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Timeline",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our journey"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover the milestones that shaped our story"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading font size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "Subheading font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "top_margin",
+      "label": "Top margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "bottom_margin",
+      "label": "Bottom margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "label": "Item spacing",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Timeline line"
+    },
+    {
+      "type": "range",
+      "id": "line_width",
+      "label": "Line width",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Timeline dots"
+    },
+    {
+      "type": "range",
+      "id": "dot_size",
+      "label": "Dot size",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot color",
+      "default": "#fd5000"
+    },
+    {
+      "type": "range",
+      "id": "dot_border_width",
+      "label": "Dot border width",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "color",
+      "id": "dot_border_color",
+      "label": "Dot border color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Content box"
+    },
+    {
+      "type": "color",
+      "id": "content_background",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Padding",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image_placeholder",
+      "label": "Show placeholder when no image",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "date_font_size",
+      "label": "Date font size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "date_color",
+      "label": "Date color",
+      "default": "#fd5000"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title font size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "label": "Description font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "item_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "item_1_date",
+      "label": "Date",
+      "default": "2020"
+    },
+    {
+      "type": "text",
+      "id": "item_1_title",
+      "label": "Title",
+      "default": "Company founded"
+    },
+    {
+      "type": "textarea",
+      "id": "item_1_description",
+      "label": "Description",
+      "default": "Our journey began with a vision to create exceptional products."
+    },
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "item_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "item_2_date",
+      "label": "Date",
+      "default": "2021"
+    },
+    {
+      "type": "text",
+      "id": "item_2_title",
+      "label": "Title",
+      "default": "First product launch"
+    },
+    {
+      "type": "textarea",
+      "id": "item_2_description",
+      "label": "Description",
+      "default": "We introduced our flagship product to the market."
+    },
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "item_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "item_3_date",
+      "label": "Date",
+      "default": "2023"
+    },
+    {
+      "type": "text",
+      "id": "item_3_title",
+      "label": "Title",
+      "default": "Expansion"
+    },
+    {
+      "type": "textarea",
+      "id": "item_3_description",
+      "label": "Description",
+      "default": "We expanded our operations to serve customers worldwide."
+    },
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "item_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "item_4_date",
+      "label": "Date",
+      "default": "2024"
+    },
+    {
+      "type": "text",
+      "id": "item_4_title",
+      "label": "Title",
+      "default": "Innovation award"
+    },
+    {
+      "type": "textarea",
+      "id": "item_4_description",
+      "label": "Description",
+      "default": "Recognized for our commitment to innovation and quality."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Timeline"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,150 @@
+{% doc %}
+  @prompt
+    Header + subheader together under each other
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-header-subheader-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-header-subheader__container-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.spacing }}px;
+  }
+
+  .ai-header-subheader__heading-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    line-height: 1.2;
+  }
+
+  .ai-header-subheader__subheading-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.subheading_color }};
+    font-size: {{ block.settings.subheading_size }}px;
+    line-height: 1.4;
+  }
+{% endstyle %}
+
+<div class="ai-header-subheader-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-header-subheader__container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-header-subheader__heading-{{ ai_gen_id }}">
+        {{ block.settings.heading }}
+      </h2>
+    {% endif %}
+    {% if block.settings.subheading != blank %}
+      <p class="ai-header-subheader__subheading-{{ ai_gen_id }}">
+        {{ block.settings.subheading }}
+      </p>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header and subheader",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Your heading here</p>"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Your subheading text goes here</p>"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Spacing between texts",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header and subheader"
+    }
+  ]
+}
+{% endschema %}

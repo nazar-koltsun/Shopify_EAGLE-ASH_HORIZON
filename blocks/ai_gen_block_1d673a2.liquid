@@ -1,0 +1,622 @@
+{% doc %}
+  @prompt
+    Create 4 layer multirow with top header and subheader.
+    
+    Section top margin: 20
+    Section bottom margin: 20
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-multirow-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin-top: {{ block.settings.section_top_margin }}px;
+    margin-bottom: {{ block.settings.section_bottom_margin }}px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ai-multirow-header-{{ ai_gen_id }} {
+    text-align: {{ block.settings.header_alignment }};
+    margin-bottom: {{ block.settings.header_spacing }}px;
+  }
+
+  .ai-multirow-heading-{{ ai_gen_id }} {
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 {{ block.settings.subheader_spacing }}px 0;
+    font-size: {{ block.settings.heading_size }}px;
+  }
+
+  .ai-multirow-subheading-{{ ai_gen_id }} {
+    color: {{ block.settings.subheading_color }};
+    margin: 0;
+    font-size: {{ block.settings.subheading_size }}px;
+  }
+
+  .ai-multirow-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+    gap: {{ block.settings.row_gap }}px {{ block.settings.column_gap }}px;
+  }
+
+  .ai-multirow-layer-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.layer_border_radius }}px;
+    background-color: {{ block.settings.layer_background }};
+    padding: {{ block.settings.layer_padding }}px;
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.layer_content_gap }}px;
+  }
+
+  .ai-multirow-layer-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.image_height }}px;
+    object-fit: cover;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-multirow-layer-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.image_height }}px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-multirow-layer-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  .ai-multirow-layer-title-{{ ai_gen_id }} {
+    color: {{ block.settings.layer_title_color }};
+    margin: 0;
+    font-size: {{ block.settings.layer_title_size }}px;
+    font-weight: 600;
+  }
+
+  .ai-multirow-layer-text-{{ ai_gen_id }} {
+    color: {{ block.settings.layer_text_color }};
+    margin: 0;
+    font-size: {{ block.settings.layer_text_size }}px;
+    line-height: 1.5;
+  }
+
+  .ai-multirow-layer-link-{{ ai_gen_id }} {
+    color: {{ block.settings.link_color }};
+    text-decoration: underline;
+    font-size: {{ block.settings.layer_text_size }}px;
+  }
+
+  .ai-multirow-layer-link-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.link_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-multirow-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+    }
+
+    .ai-multirow-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.7);
+    }
+
+    .ai-multirow-subheading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subheading_size }}px * 0.85);
+    }
+
+    .ai-multirow-layer-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.layer_title_size }}px * 0.85);
+    }
+  }
+{% endstyle %}
+
+<multirow-block-{{ ai_gen_id }} class="ai-multirow-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.heading != blank or block.settings.subheading != blank %}
+    <div class="ai-multirow-header-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-multirow-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+      {% endif %}
+      {% if block.settings.subheading != blank %}
+        <div class="ai-multirow-subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="ai-multirow-grid-{{ ai_gen_id }}">
+    {% for i in (1..4) %}
+      {% liquid
+        assign image_key = 'layer_' | append: i | append: '_image'
+        assign title_key = 'layer_' | append: i | append: '_title'
+        assign text_key = 'layer_' | append: i | append: '_text'
+        assign link_text_key = 'layer_' | append: i | append: '_link_text'
+        assign link_url_key = 'layer_' | append: i | append: '_link_url'
+
+        assign layer_image = block.settings[image_key]
+        assign layer_title = block.settings[title_key]
+        assign layer_text = block.settings[text_key]
+        assign layer_link_text = block.settings[link_text_key]
+        assign layer_link_url = block.settings[link_url_key]
+      %}
+
+      <div class="ai-multirow-layer-{{ ai_gen_id }}">
+        {% if layer_image %}
+          <img
+            src="{{ layer_image | image_url: width: 800 }}"
+            alt="{{ layer_image.alt | escape }}"
+            loading="lazy"
+            width="{{ layer_image.width }}"
+            height="{{ layer_image.height }}"
+            class="ai-multirow-layer-image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-multirow-layer-image-placeholder-{{ ai_gen_id }}">
+            {{ 'image' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+
+        {% if layer_title != blank %}
+          <h3 class="ai-multirow-layer-title-{{ ai_gen_id }}">{{ layer_title }}</h3>
+        {% endif %}
+
+        {% if layer_text != blank %}
+          <div class="ai-multirow-layer-text-{{ ai_gen_id }}">{{ layer_text }}</div>
+        {% endif %}
+
+        {% if layer_link_text != blank and layer_link_url != blank %}
+          <a href="{{ layer_link_url }}" class="ai-multirow-layer-link-{{ ai_gen_id }}">
+            {{ layer_link_text }}
+          </a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</multirow-block-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class MultirowBlock{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('multirow-block-{{ ai_gen_id }}', MultirowBlock{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Multirow",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_top_margin",
+      "label": "Top margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "section_bottom_margin",
+      "label": "Bottom margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover our latest products"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "label": "Header spacing",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "subheader_spacing",
+      "label": "Subheader spacing",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Grid layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "label": "Row gap",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Layer style"
+    },
+    {
+      "type": "color",
+      "id": "layer_background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "layer_padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "layer_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "layer_content_gap",
+      "label": "Content gap",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Height",
+      "min": 100,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Layer content"
+    },
+    {
+      "type": "range",
+      "id": "layer_title_size",
+      "label": "Title size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "layer_text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "layer_title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "layer_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link hover color",
+      "default": "#fd5000"
+    },
+    {
+      "type": "header",
+      "content": "Layer 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "layer_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "layer_1_title",
+      "label": "Title",
+      "default": "Layer 1"
+    },
+    {
+      "type": "textarea",
+      "id": "layer_1_text",
+      "label": "Text",
+      "default": "Add description for this layer"
+    },
+    {
+      "type": "text",
+      "id": "layer_1_link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "layer_1_link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Layer 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "layer_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "layer_2_title",
+      "label": "Title",
+      "default": "Layer 2"
+    },
+    {
+      "type": "textarea",
+      "id": "layer_2_text",
+      "label": "Text",
+      "default": "Add description for this layer"
+    },
+    {
+      "type": "text",
+      "id": "layer_2_link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "layer_2_link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Layer 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "layer_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "layer_3_title",
+      "label": "Title",
+      "default": "Layer 3"
+    },
+    {
+      "type": "textarea",
+      "id": "layer_3_text",
+      "label": "Text",
+      "default": "Add description for this layer"
+    },
+    {
+      "type": "text",
+      "id": "layer_3_link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "layer_3_link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Layer 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "layer_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "layer_4_title",
+      "label": "Title",
+      "default": "Layer 4"
+    },
+    {
+      "type": "textarea",
+      "id": "layer_4_text",
+      "label": "Text",
+      "default": "Add description for this layer"
+    },
+    {
+      "type": "text",
+      "id": "layer_4_link_text",
+      "label": "Link text",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "layer_4_link_url",
+      "label": "Link URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multirow"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,404 @@
+{% doc %}
+  @prompt
+    multirow section for customers to read about us
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-multirow-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-multirow-container-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.row_spacing }}px;
+  }
+
+  .ai-multirow-row-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.content_gap }}px;
+    flex-direction: row;
+  }
+
+  .ai-multirow-row-{{ ai_gen_id }}.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .ai-multirow-image-wrapper-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-multirow-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-multirow-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    position: relative;
+  }
+
+  .ai-multirow-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-multirow-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-multirow-content-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-multirow-heading-{{ ai_gen_id }} {
+    margin: 0 0 {{ block.settings.heading_spacing }}px;
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    line-height: 1.2;
+  }
+
+  .ai-multirow-text-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-multirow-row-{{ ai_gen_id }},
+    .ai-multirow-row-{{ ai_gen_id }}.reverse {
+      flex-direction: column;
+    }
+
+    .ai-multirow-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-multirow-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-multirow-container-{{ ai_gen_id }}">
+    {% for i in (1..3) %}
+      {% liquid
+        assign row_enabled_key = 'row_' | append: i | append: '_enabled'
+        assign row_image_key = 'row_' | append: i | append: '_image'
+        assign row_heading_key = 'row_' | append: i | append: '_heading'
+        assign row_text_key = 'row_' | append: i | append: '_text'
+        assign row_layout_key = 'row_' | append: i | append: '_layout'
+
+        assign row_enabled = block.settings[row_enabled_key]
+        assign row_image = block.settings[row_image_key]
+        assign row_heading = block.settings[row_heading_key]
+        assign row_text = block.settings[row_text_key]
+        assign row_layout = block.settings[row_layout_key]
+      %}
+
+      {% if row_enabled %}
+        <div class="ai-multirow-row-{{ ai_gen_id }} {% if row_layout == 'image_right' %}reverse{% endif %}">
+          <div class="ai-multirow-image-wrapper-{{ ai_gen_id }}">
+            {% if row_image %}
+              <img
+                src="{{ row_image | image_url: width: 1200 }}"
+                alt="{{ row_image.alt | escape }}"
+                loading="lazy"
+                width="{{ row_image.width }}"
+                height="{{ row_image.height }}"
+                class="ai-multirow-image-{{ ai_gen_id }}"
+              >
+            {% else %}
+              <div class="ai-multirow-image-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+                <div class="ai-multirow-empty-state-{{ ai_gen_id }}">
+                  Add an image for row {{ i }}
+                </div>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="ai-multirow-content-{{ ai_gen_id }}">
+            {% if row_heading != blank %}
+              <h3 class="ai-multirow-heading-{{ ai_gen_id }}">{{ row_heading }}</h3>
+            {% endif %}
+
+            {% if row_text != blank %}
+              <div class="ai-multirow-text-{{ ai_gen_id }}">{{ row_text }}</div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About us multirow",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "row_spacing",
+      "label": "Space between rows",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Space between image and text",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Image style"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Text style"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Heading spacing",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Row 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_1_enabled",
+      "label": "Enable row 1",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "row_1_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_left"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "row_1_heading",
+      "label": "Heading",
+      "default": "Our story"
+    },
+    {
+      "type": "richtext",
+      "id": "row_1_text",
+      "label": "Text",
+      "default": "<p>Share your brand's story and what makes you unique. Tell customers about your values, mission, and the passion behind your products.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Row 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_2_enabled",
+      "label": "Enable row 2",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "row_2_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_right"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "row_2_heading",
+      "label": "Heading",
+      "default": "Our mission"
+    },
+    {
+      "type": "richtext",
+      "id": "row_2_text",
+      "label": "Text",
+      "default": "<p>Describe your commitment to quality, sustainability, or customer satisfaction. Explain what drives your business forward.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Row 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_3_enabled",
+      "label": "Enable row 3",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "row_3_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_left"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "row_3_heading",
+      "label": "Heading",
+      "default": "Our team"
+    },
+    {
+      "type": "richtext",
+      "id": "row_3_text",
+      "label": "Text",
+      "default": "<p>Introduce the people behind your brand. Share what makes your team special and how you work together to serve your customers.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About us multirow"
+    }
+  ]
+}
+{% endschema %}

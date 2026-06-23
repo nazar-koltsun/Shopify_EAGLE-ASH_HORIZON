@@ -1,0 +1,628 @@
+{% doc %}
+  @prompt
+    Create 4 layer multirow with top header and subheader. Multirows should be replaced under each other.
+    
+    Section top margin: 20
+    Section bottom margin: 20, Each feature should be one row
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-multirow-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin-top: {{ block.settings.section_top_margin }}px;
+    margin-bottom: {{ block.settings.section_bottom_margin }}px;
+  }
+
+  .ai-multirow-header-{{ ai_gen_id }} {
+    text-align: {{ block.settings.header_alignment }};
+    margin-bottom: {{ block.settings.header_spacing }}px;
+  }
+
+  .ai-multirow-heading-{{ ai_gen_id }} {
+    margin: 0 0 {{ block.settings.subheader_spacing }}px 0;
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px;
+  }
+
+  .ai-multirow-subheading-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.subheading_color }};
+    font-size: {{ block.settings.subheading_size }}px;
+  }
+
+  .ai-multirow-layers-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.row_spacing }}px;
+  }
+
+  .ai-multirow-row-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: {{ block.settings.image_width }}% 1fr;
+    gap: {{ block.settings.content_gap }}px;
+    align-items: center;
+    padding: {{ block.settings.row_padding }}px;
+    background-color: {{ block.settings.row_background }};
+    border-radius: {{ block.settings.row_border_radius }}px;
+  }
+
+  .ai-multirow-row-{{ ai_gen_id }}.reverse {
+    grid-template-columns: 1fr {{ block.settings.image_width }}%;
+  }
+
+  .ai-multirow-row-{{ ai_gen_id }}.reverse .ai-multirow-image-{{ ai_gen_id }} {
+    order: 2;
+  }
+
+  .ai-multirow-row-{{ ai_gen_id }}.reverse .ai-multirow-content-{{ ai_gen_id }} {
+    order: 1;
+  }
+
+  .ai-multirow-image-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: {{ block.settings.image_aspect_ratio }};
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-multirow-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-multirow-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-multirow-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-multirow-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ai-multirow-title-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.item_title_color }};
+    font-size: {{ block.settings.item_title_size }}px;
+    font-weight: 600;
+  }
+
+  .ai-multirow-text-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.item_text_color }};
+    font-size: {{ block.settings.item_text_size }}px;
+    line-height: 1.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-multirow-row-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-multirow-row-{{ ai_gen_id }}.reverse {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-multirow-row-{{ ai_gen_id }}.reverse .ai-multirow-image-{{ ai_gen_id }} {
+      order: 1;
+    }
+
+    .ai-multirow-row-{{ ai_gen_id }}.reverse .ai-multirow-content-{{ ai_gen_id }} {
+      order: 2;
+    }
+  }
+{% endstyle %}
+
+<multirow-block-{{ ai_gen_id }} class="ai-multirow-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.heading != blank or block.settings.subheading != blank %}
+    <div class="ai-multirow-header-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-multirow-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+      {% endif %}
+      {% if block.settings.subheading != blank %}
+        <div class="ai-multirow-subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="ai-multirow-layers-{{ ai_gen_id }}">
+    {% for row in (1..4) %}
+      {% liquid
+        assign image_key = 'row_' | append: row | append: '_image'
+        assign title_key = 'row_' | append: row | append: '_title'
+        assign text_key = 'row_' | append: row | append: '_text'
+        assign layout_key = 'row_' | append: row | append: '_layout'
+        
+        assign row_image = block.settings[image_key]
+        assign row_title = block.settings[title_key]
+        assign row_text = block.settings[text_key]
+        assign row_layout = block.settings[layout_key]
+        
+        assign reverse_class = ''
+        if row_layout == 'image_right'
+          assign reverse_class = 'reverse'
+        endif
+      %}
+      
+      <div class="ai-multirow-row-{{ ai_gen_id }} {{ reverse_class }}">
+        <div class="ai-multirow-image-{{ ai_gen_id }}">
+          {% if row_image %}
+            <img
+              src="{{ row_image | image_url: width: 1200 }}"
+              alt="{{ row_image.alt | escape }}"
+              loading="lazy"
+              width="{{ row_image.width }}"
+              height="{{ row_image.height }}"
+            >
+          {% else %}
+            <div class="ai-multirow-image-placeholder-{{ ai_gen_id }}">
+              {{ 'image' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+        
+        <div class="ai-multirow-content-{{ ai_gen_id }}">
+          {% if row_title != blank %}
+            <h3 class="ai-multirow-title-{{ ai_gen_id }}">{{ row_title }}</h3>
+          {% endif %}
+          
+          {% if row_text != blank %}
+            <div class="ai-multirow-text-{{ ai_gen_id }}">{{ row_text }}</div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</multirow-block-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class MultirowBlock{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('multirow-block-{{ ai_gen_id }}', MultirowBlock{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Multirow layers",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_top_margin",
+      "label": "Top margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "section_bottom_margin",
+      "label": "Bottom margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our collection"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Explore our curated selection"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "label": "Spacing below header",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "subheader_spacing",
+      "label": "Spacing below heading",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Image width",
+      "min": 30,
+      "max": 70,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "row_spacing",
+      "label": "Space between rows",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Space between image and text",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Row style"
+    },
+    {
+      "type": "range",
+      "id": "row_padding",
+      "label": "Row padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "row_background",
+      "label": "Row background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "range",
+      "id": "row_border_radius",
+      "label": "Row border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Image style"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        {
+          "value": "1 / 1",
+          "label": "Square"
+        },
+        {
+          "value": "4 / 3",
+          "label": "Landscape"
+        },
+        {
+          "value": "3 / 4",
+          "label": "Portrait"
+        },
+        {
+          "value": "16 / 9",
+          "label": "Wide"
+        }
+      ],
+      "default": "4 / 3"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Text style"
+    },
+    {
+      "type": "range",
+      "id": "item_title_size",
+      "label": "Title size",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "item_text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "item_title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "item_text_color",
+      "label": "Text color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Row 1"
+    },
+    {
+      "type": "select",
+      "id": "row_1_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_left"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "row_1_title",
+      "label": "Title",
+      "default": "Feature one"
+    },
+    {
+      "type": "richtext",
+      "id": "row_1_text",
+      "label": "Text",
+      "default": "<p>Describe your feature here with compelling details that engage your customers.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Row 2"
+    },
+    {
+      "type": "select",
+      "id": "row_2_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_right"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "row_2_title",
+      "label": "Title",
+      "default": "Feature two"
+    },
+    {
+      "type": "richtext",
+      "id": "row_2_text",
+      "label": "Text",
+      "default": "<p>Describe your feature here with compelling details that engage your customers.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Row 3"
+    },
+    {
+      "type": "select",
+      "id": "row_3_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_left"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "row_3_title",
+      "label": "Title",
+      "default": "Feature three"
+    },
+    {
+      "type": "richtext",
+      "id": "row_3_text",
+      "label": "Text",
+      "default": "<p>Describe your feature here with compelling details that engage your customers.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Row 4"
+    },
+    {
+      "type": "select",
+      "id": "row_4_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image right"
+        }
+      ],
+      "default": "image_right"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "row_4_title",
+      "label": "Title",
+      "default": "Feature four"
+    },
+    {
+      "type": "richtext",
+      "id": "row_4_text",
+      "label": "Text",
+      "default": "<p>Describe your feature here with compelling details that engage your customers.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multirow layers"
+    }
+  ]
+}
+{% endschema %}

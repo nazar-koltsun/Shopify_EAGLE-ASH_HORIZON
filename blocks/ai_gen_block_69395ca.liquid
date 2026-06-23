@@ -1,0 +1,149 @@
+{% doc %}
+  @prompt
+    A heading with subheader close to each other
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-heading-subheader-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-heading-subheader__heading-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    line-height: 1.2;
+  }
+
+  .ai-heading-subheader__subheader-{{ ai_gen_id }} {
+    margin: {{ block.settings.spacing }}px 0 0 0;
+    color: {{ block.settings.subheader_color }};
+    font-size: {{ block.settings.subheader_size }}px;
+    line-height: 1.4;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-heading-subheader__heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.8);
+    }
+
+    .ai-heading-subheader__subheader-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subheader_size }}px * 0.9);
+    }
+  }
+{% endstyle %}
+
+<div class="ai-heading-subheader-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.heading != blank %}
+    <h2 class="ai-heading-subheader__heading-{{ ai_gen_id }}">
+      {{ block.settings.heading }}
+    </h2>
+  {% endif %}
+
+  {% if block.settings.subheader != blank %}
+    <div class="ai-heading-subheader__subheader-{{ ai_gen_id }}">
+      {{ block.settings.subheader }}
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Heading with subheader",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your heading here"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "richtext",
+      "id": "subheader",
+      "label": "Subheader",
+      "default": "<p>Add your subheader text here</p>"
+    },
+    {
+      "type": "range",
+      "id": "subheader_size",
+      "label": "Subheader size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subheader_color",
+      "label": "Subheader color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Spacing between",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heading with subheader"
+    }
+  ]
+}
+{% endschema %}
