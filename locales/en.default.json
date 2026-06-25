@@ -122,6 +122,14 @@
       "placeholder": "Email address",
       "success": "Thanks for subscribing!"
     },
+    "email_signup_klaviyo": {
+      "interest_label": "I'm interested in:",
+      "interest_b2c": "Personal Gifting",
+      "interest_b2b": "Corporate & Event Gifting",
+      "success": "Thanks for subscribing!",
+      "fields_required": "Please fill out all the fields.",
+      "error": "Something went wrong. Please try again."
+    },
     "filter": "Filter",
     "load_video": "Load video: {{ description }}",
     "sold_out": "Sold out",
