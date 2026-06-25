@@ -1,6 +1,6 @@
 /**
  * Submits email signups to Klaviyo with a custom Interest Type profile property.
- */
+ */ 
 class EmailSignupKlaviyo extends HTMLElement {
   /** @type {HTMLFormElement | null} */
   #form = null;
