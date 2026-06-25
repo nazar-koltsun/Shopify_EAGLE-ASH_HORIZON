@@ -65,7 +65,7 @@ class EmailSignupKlaviyo extends HTMLElement {
           headers: {
             'Content-Type': 'application/vnd.api+json',
             Accept: 'application/vnd.api+json',
-            revision: '2024-07-15',
+            revision: '2025-07-15',
           },
           body: JSON.stringify({
             data: {
@@ -105,7 +105,17 @@ class EmailSignupKlaviyo extends HTMLElement {
       );
 
       if (!response.ok) {
-        throw new Error('Klaviyo subscription failed');
+        let detail = `${response.status} ${response.statusText}`;
+        try {
+          const errorBody = await response.json();
+          if (Array.isArray(errorBody?.errors) && errorBody.errors.length > 0) {
+            detail = errorBody.errors.map((/** @type {any} */ error) => error.detail).join(' | ');
+          }
+        } catch {
+          // Response body was not JSON; keep the status-based detail.
+        }
+        console.error('Email signup (Klaviyo) failed:', detail);
+        throw new Error(detail);
       }
 
       this.#form.reset();
