@@ -1,4 +1,5 @@
 {% assign block_settings = block.settings %}
+
 <email-signup-klaviyo
   class="email-signup-block size-style spacing-style color-scheme-1"
   style="{% render 'size-style', settings: block_settings %}{% render 'spacing-style', settings: block_settings %}"
@@ -10,6 +11,9 @@
   {{ block.shopify_attributes }}
 >
   <form class="email-signup__form spacing-style" novalidate>
+    <div class="email-signup__fields">
+
+    </div>
     <div
       class="email-signup__input-group {% if block_settings.integrated_button and block_settings.border_style != 'underline' %}email-signup__input-group--integrated{% endif %} {% if block_settings.border_style == 'underline' %}email-signup__input-group--underline{% endif %} {% if block_settings.border_style == 'none' %}email-signup__input-group--no-border{% endif %} {% if block_settings.display_type == 'arrow' %}email-signup__input-group--arrow{% endif %} color-scheme-1"
       style="--border-width: {{ block_settings.border_width }}px; --border-radius: {{ block_settings.border_radius }}px;"
@@ -19,7 +23,7 @@
       </label>
       <input
         id="EmailInput-{{ block.id }}"
-        class="email-signup__input email-signup__input--{{ block_settings.border_style }} {{ block_settings.input_type_preset }} {{ block_settings.border_variation }}"
+        class="email-signup__input"
         type="email"
         name="email"
         autocorrect="off"
@@ -120,6 +124,7 @@
     --arrow-icon-size: 32px;
     --arrow-icon-size-small: 24px;
 
+    color: #000000;
     min-width: fit-content;
     background-color: transparent;
 
@@ -143,7 +148,7 @@
     flex-direction: column;
     align-items: center;
     gap: var(--gap-lg);
-    color: white;
+    color: #000000;
   }
 
   .email-signup-klaviyo__interest-label {
@@ -209,35 +214,20 @@
   }
 }
 
-.email-signup__input-group--integrated {
-  border-width: var(--border-width);
-  border-radius: var(--border-radius);
-  border-style: solid;
-  border-color: var(--color-input-border);
-  background-color: var(--color-input-background);
-}
-
-.email-signup__input-group--integrated.email-signup__input-group--no-border {
-  border: none;
-}
-
-.email-signup__input {
-  flex: 1;
-  min-width: 0;
-  border-width: var(--border-width);
-  border-radius: var(--border-radius);
-  border-style: solid;
-  border-color: var(--color-input-border);
-
-  @media screen and (max-width: 749px) {
-    width: 100%;
-  }
-}
-
-.email-signup__input-group--integrated .email-signup__input {
+.email-signup__form .email-signup__input {
+  min-height: 55px;
+  padding: 0 8px;
+  font-family: "Lora", serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #000000;
   background-color: transparent;
-  border: none;
   border-radius: 0;
+  border-color: black;
+
+  &::placeholder {
+    color: black;
+  }
 }
 
 .email-signup__input.paragraph {

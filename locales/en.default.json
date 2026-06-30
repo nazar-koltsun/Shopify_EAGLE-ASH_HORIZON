@@ -119,7 +119,7 @@
     },
     "email_signup": {
       "label": "Email",
-      "placeholder": "Email address",
+      "placeholder": "Email",
       "success": "Thanks for subscribing!"
     },
     "email_signup_klaviyo": {
