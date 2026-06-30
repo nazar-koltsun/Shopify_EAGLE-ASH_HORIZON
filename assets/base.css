@@ -13,6 +13,13 @@ body {
 }
 
 :root {
+  /* Base shop colors */
+  --deepest-brand-blue: #07272D;
+  --soaring-brand-blue: #D5EBEE;
+  --ash-amber-orange: #FE5000;
+  --blue-spectrum-dark: #115E67;
+  --blue-spectrum-light: #94B7BB;
+
   --hover-lift-amount: 4px;
   --hover-scale-amount: 1.03;
   --hover-subtle-zoom-amount: 1.015;
