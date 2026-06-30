@@ -117,6 +117,10 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
+
+    @media screen and (max-width: 710px) {
+      flex-direction: column;
+    }
   }
 
   .email-signup-klaviyo__interest {
@@ -138,11 +142,13 @@
     margin-top: 20px;
     font-size: 18px;
 
+    @media screen and (max-width: 950px) {
+      font-size: 16px;
+    }
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 460px) {
       flex-direction: column;
-      align-items: center;
-      gap: var(--gap-lg);
+      gap: 10px;
     }
   }
 
@@ -163,6 +169,11 @@
     border-width: 2px;
     width: 30px;
     height: 30px;
+
+    @media screen and (max-width: 950px) {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   .email-signup-klaviyo__interest-option:hover input {
@@ -193,10 +204,19 @@
     &::placeholder {
       color: black;
     }
+
+    @media screen and (max-width: 950px) {
+      font-size: 18px;
+      min-height: 45px;
+    }
   }
 
   .email-signup__fields {
     flex-grow: 1;
+
+    @media screen and (max-width: 710px) {
+      width: 100%;
+    }
   }
 
   .email-signup-klaviyo__input.paragraph {
@@ -220,12 +240,19 @@
     cursor: pointer;
     transition: 0.3s ease;
 
-     &:hover {
+    
+    &:hover {
       background-color: black;
     }
+    
+    @media screen and (max-width: 950px) {
+      font-size: 18px;
+      min-height: 45px;
+    }
 
-    @media screen and (max-width: 749px) {
+    @media screen and (max-width: 710px) {
       width: 100%;
+      margin-top: 28px;
     }
   }
 
@@ -234,15 +261,34 @@
     align-items: center;
     gap: 4px;
     margin-left: -6px;
+
+    @media screen and (max-width: 710px) {
+      margin-left: 0;
+    }
   }
   
   .email-signup-klaviyo__message svg {
       width: 40px;
       height: 40px;
+
+      @media screen and (max-width: 950px) {
+        width: 30px;
+        height: 30px;
+      }
   }
 
   .email-signup-klaviyo__message-text {
     margin: 0;
+  }
+
+  .email-signup-klaviyo__message .icon-success {
+    width: 40px;
+    height: 40px;
+
+    @media screen and (max-width: 950px) {
+      width: 30px;
+      height: 30px;
+    }
   }
 
 {% endstylesheet %}
