@@ -1,115 +1,92 @@
 {% assign block_settings = block.settings %}
 
 <email-signup-klaviyo
-  class="email-signup-block size-style spacing-style color-scheme-1"
+  class="email-signup-block"
   style="{% render 'size-style', settings: block_settings %}{% render 'spacing-style', settings: block_settings %}"
   data-company-id="{{ block_settings.klaviyo_company_id | escape }}"
   data-list-id="{{ block_settings.klaviyo_list_id | escape }}"
   data-custom-source="Eagle & Ash password page"
   data-fields-required="{{ 'blocks.email_signup_klaviyo.fields_required' | t | escape }}"
   data-error-message="{{ 'blocks.email_signup_klaviyo.error' | t | escape }}"
-  {{ block.shopify_attributes }}
->
-  <form class="email-signup__form spacing-style" novalidate>
-    <div class="email-signup__fields">
+  {{ block.shopify_attributes }}>
+  <form class="email-signup-klaviyo__form" novalidate>
+    <div class="email-signup-klaviyo__form-wrap">
 
-    </div>
-    <div
-      class="email-signup__input-group {% if block_settings.integrated_button and block_settings.border_style != 'underline' %}email-signup__input-group--integrated{% endif %} {% if block_settings.border_style == 'underline' %}email-signup__input-group--underline{% endif %} {% if block_settings.border_style == 'none' %}email-signup__input-group--no-border{% endif %} {% if block_settings.display_type == 'arrow' %}email-signup__input-group--arrow{% endif %} color-scheme-1"
-      style="--border-width: {{ block_settings.border_width }}px; --border-radius: {{ block_settings.border_radius }}px;"
-    >
-      <label for="EmailInput-{{ block.id }}" class="visually-hidden">
-        {{ 'blocks.email_signup.label' | t }}
-      </label>
-      <input
-        id="EmailInput-{{ block.id }}"
-        class="email-signup__input"
-        type="email"
-        name="email"
-        autocorrect="off"
-        autocapitalize="off"
-        autocomplete="email"
-        placeholder="{{ 'blocks.email_signup.placeholder' | t }}"
-        required
-      >
-    </div>
+      <div class="email-signup__fields">
+        <div class="email-signup-klaviyo__input-group">
+          <label for="EmailInput-{{ block.id }}" class="visually-hidden">
+            {{ 'blocks.email_signup.label' | t }}
+          </label>
+          <input
+            id="EmailInput-{{ block.id }}"
+            class="email-signup-klaviyo__input"
+            type="email"
+            name="email"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"
+            placeholder="{{ 'blocks.email_signup.placeholder' | t }}"
+            required>
+        </div>
 
-    <fieldset class="email-signup-klaviyo__interest">
-      <legend class="email-signup-klaviyo__interest-label">
-        {{ 'blocks.email_signup_klaviyo.interest_label' | t }}
-      </legend>
-      <div class="email-signup-klaviyo__interest-options">
-        <label class="email-signup-klaviyo__interest-option">
-          <input
-            type="radio"
-            name="interest_type"
-            value="B2C"
-            required
-          >
-          <span>{{ 'blocks.email_signup_klaviyo.interest_b2c' | t }}</span>
-        </label>
-        <label class="email-signup-klaviyo__interest-option">
-          <input
-            type="radio"
-            name="interest_type"
-            value="B2B"
-            required
-          >
-          <span>{{ 'blocks.email_signup_klaviyo.interest_b2b' | t }}</span>
-        </label>
+        <fieldset class="email-signup-klaviyo__interest">
+          <div class="email-signup-klaviyo__interest-options">
+            <label class="email-signup-klaviyo__interest-option">
+              <input
+                type="radio"
+                name="interest_type"
+                value="B2C"
+                required>
+              <span>{{ 'blocks.email_signup_klaviyo.interest_b2c' | t }}</span>
+            </label>
+            <label class="email-signup-klaviyo__interest-option">
+              <input
+                type="radio"
+                name="interest_type"
+                value="B2B"
+                required>
+              <span>{{ 'blocks.email_signup_klaviyo.interest_b2b' | t }}</span>
+            </label>
+          </div>
+        </fieldset>
       </div>
-    </fieldset>
 
-    <button
-      type="submit"
-      class="email-signup__button {% if block_settings.integrated_button or block_settings.border_style == 'underline' %}email-signup__button--integrated{% endif %} email-signup__button--{{ block_settings.display_type }} {{ block_settings.button_type_preset }} {{ block_settings.style_class }} {{ block_settings.style_class }}--{{ block.id }} color-scheme-1"
-      {% if block_settings.display_type != 'text' %}
-        aria-label="{{ 'actions.sign_up' | t }}"
-      {% endif %}
-    >
-      {% if block_settings.display_type == 'text' %}
+      <button
+        type="submit"
+        class="email-signup-klaviyo__button"
+        aria-label="{{ 'actions.sign_up' | t }}">
         {{ block_settings.label }}
-      {% else %}
-        <svg
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-          focusable="false"
-          aria-hidden="true"
-          class="email-signup__button-icon"
-        >
-          {% render 'icon', icon: 'arrow' %}
-        </svg>
-      {% endif %}
-    </button>
+      </button>
+    </div>
+
+
 
     <div
       data-signup-error
-      class="email-signup__message hidden"
+      class="email-signup-klaviyo__message hidden"
       tabindex="-1"
-      role="alert"
-    >
+      role="alert">
       <svg
         viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg"
         focusable="false"
         aria-hidden="true"
-        class="icon-error"
-      >
-        {%- render 'icon', icon: 'error' -%}
+        class="icon-error">
+        {%- render 'icon'
+          , icon: 'error' -%}
       </svg>
-      <p class="email-signup__message-text">{{ 'blocks.email_signup_klaviyo.fields_required' | t }}</p>
+      <p class="email-signup-klaviyo__message-text">{{ 'blocks.email_signup_klaviyo.fields_required' | t }}</p>
     </div>
 
     <div
       data-signup-success
-      class="email-signup__message hidden"
+      class="email-signup-klaviyo__message hidden"
       tabindex="-1"
-      role="status"
-    >
+      role="status">
       <span class="svg-wrapper icon-success">
         {{ 'icon-checkmark.svg' | inline_asset_content }}
       </span>
-      <p class="email-signup__message-text">{{ 'blocks.email_signup_klaviyo.success' | t }}</p>
+      <p class="email-signup-klaviyo__message-text">{{ 'blocks.email_signup_klaviyo.success' | t }}</p>
     </div>
   </form>
 </email-signup-klaviyo>
@@ -118,12 +95,6 @@
 
 {% stylesheet %}
   .email-signup-block {
-    --arrow-button-size: 58px;
-    --arrow-button-size-integrated: 42px;
-    --arrow-button-size-small: 20px;
-    --arrow-icon-size: 32px;
-    --arrow-icon-size-small: 24px;
-
     color: #000000;
     min-width: fit-content;
     background-color: transparent;
@@ -132,12 +103,20 @@
       width: 100%;
       min-width: unset;
     }
-}
+  }
 
-  .email-signup__form {
+  .email-signup-klaviyo__form {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-2xl);
+    gap: 20px;
+    font-family: "Lora"
+    , serif;
+  }
+
+  .email-signup-klaviyo__form-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
   }
 
   .email-signup-klaviyo__interest {
@@ -151,17 +130,14 @@
     color: #000000;
   }
 
-  .email-signup-klaviyo__interest-label {
-    width: 100%;
-    text-align: center;
-    padding: 0;
-    font: inherit;
-  }
-
   .email-signup-klaviyo__interest-options {
     display: flex;
+    justify-content: space-between;
     gap: var(--gap-2xl);
+    width: 100%;
     margin-top: 20px;
+    font-size: 18px;
+
 
     @media (max-width: 768px) {
       flex-direction: column;
@@ -175,260 +151,105 @@
     align-items: center;
     gap: var(--gap-xs);
     cursor: pointer;
+
+    & > span {
+      opacity: 0.6;
+    }
   }
 
   .email-signup-klaviyo__interest-option input {
     accent-color: var(--color-primary);
-    border-color: white;
+    border-color: black;
+    border-width: 2px;
+    width: 30px;
+    height: 30px;
   }
 
   .email-signup-klaviyo__interest-option:hover input {
-    border-color: white;
+    border-color: black;
   }
 
-  .email-signup-klaviyo__interest-option:hover input[type=radio]:not(:disabled):hover:checked {
-    border-color: white;
-    background-color: transparent;
-  }
-
-  .email-signup-klaviyo__interest-option input[type=radio]:after,
-  .email-signup-klaviyo__interest-option:hover input[type=radio]:checked:after {
-    background-color: white;
-  }
-
-  .email-signup__input-group {
+  .email-signup-klaviyo__input-group {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     background-color: transparent;
   }
 
-  .password-main-content .email-signup__input-group:not(.email-signup__input-group--integrated):not(.email-signup__input-group--underline) {
-    gap: var(--gap-2xl);
-    align-items: center;
-  }
-
-  .email-signup__input-group:not(.email-signup__input-group--arrow):not(.email-signup__input-group--underline):not(.email-signup__input-group--integrated) {
-  @media screen and (max-width: 749px) {
-    flex-direction: column;
-  }
-}
-
-.email-signup__form .email-signup__input {
-  min-height: 55px;
-  padding: 0 8px;
-  font-family: "Lora", serif;
-  font-size: 22px;
-  font-weight: 400;
-  color: #000000;
-  background-color: transparent;
-  border-radius: 0;
-  border-color: black;
-
-  &::placeholder {
-    color: black;
-  }
-}
-
-.email-signup__input.paragraph {
-  width: 100%;
-  color: var(--color-input-text);
-  outline-color: var(--color-input-background);
-}
-
-.email-signup__button {
-  width: 100%;
-  white-space: nowrap;
-  padding: 0;
-
-  @media screen and (max-width: 749px) {
-    width: 100%;
-  }
-}
-
-.email-signup__input,
-.email-signup__button--text {
-  padding: var(--padding-lg) var(--padding-3xl);
-}
-
-.email-signup__input-group--underline {
-  --box-shadow-color: var(--color-input-border);
-  --box-shadow-multiplier: 1;
-  --box-shadow-focused-multiplier: 1.75;
-
-  box-shadow: 0 calc(var(--border-width) * var(--box-shadow-multiplier)) 0 var(--box-shadow-color);
-  transition: box-shadow var(--animation-values);
-  margin-block-end: calc(var(--border-width) * var(--box-shadow-focused-multiplier));
-
-   &:focus-within {
-    --box-shadow-multiplier: var(--box-shadow-focused-multiplier);
-    --box-shadow-color: var(--color-input-text);
-  }
-}
-
-.email-signup__input-group .email-signup__input--underline {
-  color: var(--color-input-text);
-  background-color: transparent;
-  padding: 12px 0;
-  border: none;
-  border-radius: 0;
-
-   &:focus-visible {
-    outline: none;
-  }
-}
-
-.email-signup__input::placeholder {
-  color: rgb(var(--color-input-text-rgb) / var(--opacity-70));
-}
-
-.email-signup__input-group .email-signup__input--none {
-  color: var(--color-input-text);
-  background-color: var(--color-input-background);
-  border: none;
-}
-
-.email-signup__button-icon {
-  color: currentcolor;
-  padding: 5px;
-
-  @media screen and (max-width: 749px) {
-    padding: 0;
-    align-self: center;
-    justify-self: center;
-    width: var(--icon-size-lg);
-    height: var(--icon-size-lg);
-  }
-}
-
-.email-signup__button--arrow {
-  width: var(--arrow-button-size-small);
-  height: var(--arrow-button-size-small);
-  padding: 0;
-
-   &:not(.email-signup__button--integrated) {
-    width: var(--arrow-button-size);
-    height: var(--arrow-button-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    > .email-signup__button-icon {
-      width: var(--arrow-icon-size);
-      height: var(--arrow-icon-size);
-      padding: 0;
-    }
-  }
-}
-
-.email-signup__button--integrated {
-  --button-offset: var(--margin-xs);
-  align-self: stretch;
-  margin: var(--button-offset);
-  flex-shrink: 0;
-
-  @media screen and (max-width: 749px) {
-    width: fit-content;
-  }
-
-  &.email-signup__button--text {
-    padding: 0 var(--padding-3xl);
-  }
-
-  &.email-signup__button--text.button-unstyled {
-    padding: 0 var(--padding-xl);
-  }
-
-  &.button-unstyled {
-    border-radius: var(--border-radius);
-  }
-
-  > .email-signup__button-icon {
-    padding: 0;
-  }
-
-  &.email-signup__button--arrow {
-    width: var(--arrow-button-size-integrated);
-    height: var(--arrow-button-size-integrated);
-    align-self: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    > .email-signup__button-icon {
-      width: var(--arrow-icon-size-small);
-      height: var(--arrow-icon-size-small);
-    }
-  }
-}
-
-.email-signup__input--underline + .email-signup__button--integrated {
-  margin: 0;
-  align-self: center;
-
-  &.email-signup__button--text {
-    padding-block: 9px;
-  }
-
-  &.email-signup__button--text.button-unstyled {
-    padding-inline: 0;
-  }
-
-  &.button-unstyled {
+  .email-signup-klaviyo__form .email-signup-klaviyo__input {
+    min-height: 55px;
+    padding: 0 8px;
+    font-family: "Lora"
+    , serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #000000;
+    background-color: transparent;
     border-radius: 0;
-  }
+    border-color: black !important;
+    border-width: 1px;
+    outline: none;
 
-  &.email-signup__button--arrow {
-    width: var(--arrow-button-size-integrated);
-    height: var(--arrow-button-size-integrated);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    > .email-signup__button-icon {
-      width: var(--arrow-icon-size-small);
-      height: var(--arrow-icon-size-small);
+    &::placeholder {
+      color: black;
     }
   }
-}
 
-.email-signup__button:not(.button-unstyled) {
-  margin-top: 20px;
+  .email-signup__fields {
+    flex-grow: 1;
+  }
 
-  background-color: var(--button-background-color);
-  color: var(--button-color);
-  text-transform: var(--button-text-case-primary);
-}
+  .email-signup-klaviyo__input.paragraph {
+    width: 100%;
+    color: var(--color-input-text);
+    outline-color: var(--color-input-background);
+  }
 
-.email-signup__button.button-secondary {
-  text-transform: var(--button-text-case-secondary);
-}
+  .email-signup-klaviyo__button {
+    white-space: nowrap;
+    padding: 8px 36px;
+    min-height: 55px;
+    font-family: "Lora"
+    , serif;
+    font-weight: 400;
+    color: var(--ash-amber-orange);
+    background-color: var(--deepest-brand-blue);
+    border: none;
+    font-size: 24px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s ease;
 
-.email-signup__button.button-unstyled {
-  background-color: transparent;
-  color: var(--color-input-text);
-}
+     &:hover {
+      background-color: black;
+    }
 
-.email-signup__button.button-unstyled:hover {
-  color: rgb(var(--color-input-text-rgb) / var(--opacity-70));
-  cursor: pointer;
-}
+    @media screen and (max-width: 749px) {
+      width: 100%;
+    }
+  }
 
-.email-signup__message {
-  display: flex;
-  align-items: center;
-  gap: var(--gap-xs);
-}
+  .email-signup-klaviyo__message {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: -6px;
+  }
+  
+  .email-signup-klaviyo__message svg {
+      width: 40px;
+      height: 40px;
+  }
 
-.email-signup__message-text {
-  margin: 0;
-}
+  .email-signup-klaviyo__message-text {
+    margin: 0;
+  }
+
 {% endstylesheet %}
 
 {% schema %}
   {
     "name": "t:names.email_signup_klaviyo",
-    "tag": null,
     "settings": [
       {
         "type": "paragraph",
@@ -449,231 +270,14 @@
         "id": "klaviyo_list_id",
         "label": "t:settings.klaviyo_list_id",
         "info": "t:info.klaviyo_list_id"
-      },
-      {
-        "type": "select",
-        "id": "width",
-        "label": "t:settings.width",
-        "options": [
-          {
-            "value": "fill",
-            "label": "t:options.fill"
-          }, {
-            "value": "custom",
-            "label": "t:options.custom"
-          }
-        ],
-        "default": "fill"
-      },
-      {
-        "type": "range",
-        "id": "custom_width",
-        "label": "t:settings.custom_width",
-        "min": 20,
-        "max": 100,
-        "step": 1,
-        "unit": "%",
-        "default": 100,
-        "visible_if": "{{ block.settings.width == \"custom\" }}"
-      },
-      {
-        "type": "header",
-        "content": "t:content.input"
-      }, {
-        "type": "select",
-        "id": "border_style",
-        "label": "t:settings.border",
-        "options": [
-          {
-            "value": "all",
-            "label": "t:options.all"
-          }, {
-            "value": "underline",
-            "label": "t:options.underline"
-          }, {
-            "value": "none",
-            "label": "t:options.none"
-          }
-        ],
-        "default": "all"
-      }, {
-        "type": "range",
-        "id": "border_width",
-        "label": "t:settings.border_width",
-        "min": 0,
-        "max": 4,
-        "step": 0.5,
-        "unit": "px",
-        "default": 1,
-        "visible_if": "{{ block.settings.border_style != \"none\" }}"
-      }, {
-        "type": "range",
-        "id": "border_radius",
-        "label": "t:settings.border_radius",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "unit": "px",
-        "default": 5,
-        "visible_if": "{{ block.settings.border_style != \"underline\" }}"
-      }, {
-        "type": "select",
-        "id": "input_type_preset",
-        "label": "t:settings.type_preset",
-        "options": [
-          {
-            "value": "",
-            "label": "t:options.default"
-          },
-          {
-            "value": "paragraph",
-            "label": "t:options.paragraph"
-          },
-          {
-            "value": "h1",
-            "label": "t:options.h1"
-          },
-          {
-            "value": "h2",
-            "label": "t:options.h2"
-          }, {
-            "value": "h3",
-            "label": "t:options.h3"
-          }, {
-            "value": "h4",
-            "label": "t:options.h4"
-          }, {
-            "value": "h5",
-            "label": "t:options.h5"
-          }, {
-            "value": "h6",
-            "label": "t:options.h6"
-          }
-        ],
-        "default": "paragraph",
-        "info": "t:info.edit_presets_in_theme_settings"
       }, {
         "type": "header",
         "content": "t:content.submit_button"
       }, {
-        "type": "select",
-        "id": "style_class",
-        "label": "t:settings.style",
-        "options": [
-          {
-            "value": "button",
-            "label": "t:options.primary"
-          }, {
-            "value": "button-secondary",
-            "label": "t:options.secondary"
-          }, {
-            "value": "button-unstyled",
-            "label": "t:options.link"
-          }
-        ],
-        "default": "button"
-      }, {
-        "type": "select",
-        "id": "display_type",
-        "label": "t:settings.display",
-        "options": [
-          {
-            "value": "text",
-            "label": "t:options.text"
-          }, {
-            "value": "arrow",
-            "label": "t:options.arrow"
-          }
-        ],
-        "default": "text"
-      }, {
         "type": "text",
         "id": "label",
         "label": "t:settings.label",
-        "default": "t:text_defaults.sign_up",
-        "visible_if": "{{ block.settings.display_type == \"text\" }}"
-      }, {
-        "type": "checkbox",
-        "id": "integrated_button",
-        "label": "t:settings.integrated_button",
-        "default": false,
-        "visible_if": "{{ block.settings.border_style != \"underline\" }}"
-      }, {
-        "type": "select",
-        "id": "button_type_preset",
-        "label": "t:settings.type_preset",
-        "options": [
-          {
-            "value": "",
-            "label": "t:options.default"
-          },
-          {
-            "value": "paragraph",
-            "label": "t:options.paragraph"
-          },
-          {
-            "value": "h1",
-            "label": "t:options.h1"
-          },
-          {
-            "value": "h2",
-            "label": "t:options.h2"
-          }, {
-            "value": "h3",
-            "label": "t:options.h3"
-          }, {
-            "value": "h4",
-            "label": "t:options.h4"
-          }, {
-            "value": "h5",
-            "label": "t:options.h5"
-          }, {
-            "value": "h6",
-            "label": "t:options.h6"
-          }
-        ],
-        "default": "paragraph",
-        "info": "t:info.edit_presets_in_theme_settings",
-        "visible_if": "{{ block.settings.display_type == \"text\" }}"
-      }, {
-        "type": "header",
-        "content": "t:content.padding"
-      }, {
-        "type": "range",
-        "id": "padding-block-start",
-        "label": "t:settings.top",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "unit": "px",
-        "default": 0
-      }, {
-        "type": "range",
-        "id": "padding-block-end",
-        "label": "t:settings.bottom",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "unit": "px",
-        "default": 0
-      }, {
-        "type": "range",
-        "id": "padding-inline-start",
-        "label": "t:settings.left",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "unit": "px",
-        "default": 0
-      }, {
-        "type": "range",
-        "id": "padding-inline-end",
-        "label": "t:settings.right",
-        "min": 0,
-        "max": 100,
-        "step": 1,
-        "unit": "px",
-        "default": 0
+        "default": "t:text_defaults.sign_up"
       }
     ],
     "presets": [
