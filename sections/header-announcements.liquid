@@ -8,10 +8,9 @@
   ></script>
 {% endif %}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background"></div>
 <aside
-  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
-  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;"
+  class="announcement-bar"
 >
   {% liquid
     assign autoplay = false
@@ -39,8 +38,15 @@
 </aside>
 
 {% stylesheet %}
+  .section-background {
+    background-color: var(--deepest-brand-blue);
+  }
   .announcement-bar {
-    border-block-end: var(--border-bottom-width) solid var(--color-border);
+    padding: 16px 40px;
+
+    @media screen and (max-width: 768px) {
+      padding: 8px 20px;
+    }
   }
 
   .announcement-bar__slider {
@@ -57,7 +63,6 @@
   .announcement-bar__slides {
     display: grid;
     grid: [stack] auto / [stack] auto;
-    width: calc(100% - var(--button-size) * 2);
     max-width: 680px;
     margin-inline: auto;
   }
@@ -82,7 +87,7 @@
   }
 
   .announcement-bar__slider slideshow-arrows .slideshow-control {
-    color: var(--color-foreground);
+    color: white;
   }
 
   .announcement-bar__slider .slideshow-control {
@@ -111,6 +116,19 @@
 
   .announcement-bar__slide {
     place-content: center;
+  }
+
+  .announcement-bar__text {
+    padding: 0 40px;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    font-family: Lora, serif;
+    font-weight: 500;
+
+    @media screen and (max-width: 768px) {
+      font-size: 14px;
+    }
   }
 
   .announcement-bar__text:first-child {
@@ -143,77 +161,16 @@
       "max": 10,
       "default": 5,
       "unit": "sec"
-    },
-    {
-      "type": "header",
-      "content": "t:content.appearance"
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "t:settings.section_width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "default": "page-width"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "default": "scheme-4",
-      "label": "t:settings.color_scheme"
-    },
-    {
-      "type": "range",
-      "id": "divider_width",
-      "label": "t:settings.divider_thickness",
-      "min": 0,
-      "max": 5,
-      "step": 0.5,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "t:content.padding"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 15
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 15
     }
   ],
   "presets": [
     {
       "name": "t:names.announcement_bar",
-      "blocks": {
-        "announcement_1": {
+      "blocks": [
+        {
           "type": "_announcement"
         }
-      },
-      "block_order": ["announcement_1"]
+      ]
     }
   ]
 }
