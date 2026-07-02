@@ -767,6 +767,11 @@
   .header__columns {
     --padding-block-start: 32px;
     --padding-block-end: 32px;
+
+    @media screen and (max-width: 1024px) {
+      --padding-block-start: 16px;
+      --padding-block-end: 16px;
+    }
   }
 
   .header:not(.header--compact) .header__row--bottom {
