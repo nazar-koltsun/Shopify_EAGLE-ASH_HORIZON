@@ -77,75 +77,6 @@
       endif
     %}
 
-    {% capture children %}
-      {% for link in block_settings.menu.links %}
-        <li
-          role="presentation"
-          class="menu-list__list-item"
-          on:focus="/activate"
-          on:blur="/deactivate"
-          on:pointerenter="/activate"
-          on:pointerleave="/deactivate"
-        >
-          <a
-            href="{{ link.url }}"
-            data-skip-node-update="true"
-            class="menu-list__link{% if link.active %} menu-list__link--active{% endif %}"
-            {%- if link.links != blank -%}
-              aria-controls="submenu-{{ forloop.index }}"
-              aria-haspopup="true"
-              aria-expanded="false"
-            {%- endif -%}
-            ref="menuitem"
-          >
-            <span class="menu-list__link-title">{{- link.title -}}</span>
-          </a>
-          {%- if link.links != blank -%}
-            <div class="menu-list__submenu{{ color_scheme_classes }}" ref="submenu[]">
-              <div
-                id="submenu-{{ forloop.index }}"
-                class="menu-list__submenu-inner"
-                style="{% render 'submenu-font-styles', settings: block_settings %}"
-              >
-                {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
-                <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
-                  <div
-                    class="mega-menu__grid"
-                    data-menu-grid-id="{{ list_id }}"
-                  >
-                    {% render 'mega-menu-list',
-                      parent_link: link,
-                      id: list_id,
-                      section: section,
-                      grid_columns_count: 6,
-                      grid_columns_count_tablet: 4,
-                      grid_columns_count_collection_images: 8,
-                      menu_content_type: menu_content_type,
-                      content_aspect_ratio: ratio,
-                      image_border_radius: image_border_radius
-                    %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          {%- endif -%}
-        </li>
-      {% endfor %}
-      <li
-        class="menu-list__list-item"
-        role="presentation"
-        slot="more"
-        on:focus="/activate"
-        on:blur="/deactivate"
-        on:pointerenter="/activate"
-        on:pointerleave="/deactivate"
-      >
-        <button role="menuitem" class="menu-list__link button-unstyled">
-          <span class="menu-list__link-title">{{ 'actions.more' | t }}</span>
-        </button>
-      </li>
-    {% endcapture %}
-
     <header-menu
       ref="headerMenu"
       class="header-menu"
@@ -154,18 +85,67 @@
     >
       <div class="header-menu__inner">
         <nav
-          class="menu-list"
+          class="menu-list{{ color_scheme_classes }}"
           style="{% render 'menu-font-styles', settings: block_settings %}"
         >
-          {% assign class = 'overflow-menu' | append: color_scheme_classes %}
-          {% render 'overflow-list',
-            class: class,
-            ref: 'overflowMenu',
-            children: children,
-            minimum-items: 2,
-            data-testid: 'header-menu-overflow-list',
-            attributes: 'data-skip-node-update'
-          %}
+          <ul
+            class="menu-list__list list-unstyled"
+            role="list"
+          >
+            {% for link in block_settings.menu.links %}
+              <li
+                role="presentation"
+                class="menu-list__list-item"
+                on:focus="/activate"
+                on:blur="/deactivate"
+                on:pointerenter="/activate"
+                on:pointerleave="/deactivate"
+              >
+                <a
+                  href="{{ link.url }}"
+                  data-skip-node-update="true"
+                  class="menu-list__link{% if link.active %} menu-list__link--active{% endif %}"
+                  {%- if link.links != blank -%}
+                    aria-controls="submenu-{{ forloop.index }}"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  {%- endif -%}
+                  ref="menuitem"
+                >
+                  <span class="menu-list__link-title">{{- link.title -}}</span>
+                </a>
+                {%- if link.links != blank -%}
+                  <div class="menu-list__submenu{{ color_scheme_classes }}" ref="submenu[]">
+                    <div
+                      id="submenu-{{ forloop.index }}"
+                      class="menu-list__submenu-inner"
+                      style="{% render 'submenu-font-styles', settings: block_settings %}"
+                    >
+                      {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
+                      <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                        <div
+                          class="mega-menu__grid"
+                          data-menu-grid-id="{{ list_id }}"
+                        >
+                          {% render 'mega-menu-list',
+                            parent_link: link,
+                            id: list_id,
+                            section: section,
+                            grid_columns_count: 6,
+                            grid_columns_count_tablet: 4,
+                            grid_columns_count_collection_images: 8,
+                            menu_content_type: menu_content_type,
+                            content_aspect_ratio: ratio,
+                            image_border_radius: image_border_radius
+                          %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </li>
+            {% endfor %}
+          </ul>
         </nav>
       </div>
 
@@ -254,20 +234,29 @@
   .menu-list {
     --menu-horizontal-gap: var(--gap-xl);
     --menu-vertical-gap: var(--gap-xl);
+    /* Make sure focus outline is not cut off by overflow hidden */
+    --focus-outline-size: calc(var(--focus-outline-offset) + var(--focus-outline-width));
 
+    position: relative;
     display: flex;
     height: 100%;
+    background-color: transparent;
+    padding: var(--focus-outline-size);
+    margin: calc(-1 * var(--focus-outline-size));
   }
 
   .menu-list__list {
     display: flex;
     justify-content: var(--grid-area-alignment);
+    gap: 0;
+    margin-inline: calc(-1 * var(--menu-horizontal-gap) / 2);
   }
 
   .menu-list__list-item {
     flex-shrink: 0;
     white-space: nowrap;
     display: flex;
+    flex-direction: column;
     align-items: center;
     height: 100%;
   }
@@ -324,22 +313,11 @@
     }
   }
 
-  [slot='overflow'] .menu-list__link-title {
-    padding-inline: 0;
-  }
-
-  .menu-list__list-item:not([slot='overflow']) {
-    flex-direction: column;
-  }
-  .menu-list__list-item:not([slot='overflow'])::after {
+  .menu-list__list-item::after {
     content: '';
     width: 100%;
     height: var(--header-padding);
     margin-bottom: calc(-1 * var(--header-padding));
-  }
-
-  [slot='overflow'] > .menu-list__link::after {
-    content: none;
   }
 
   /*
@@ -356,27 +334,11 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   .menu-list:not(:has(.menu-list__list-item:hover)) .menu-list__link--active,
-  .menu-list .menu-list__list-item:where(:hover, :focus-within) .menu-list__link,
-  .menu-list .menu-list__list-item[slot='overflow'] .menu-list__link[aria-expanded='true'] {
+  .menu-list .menu-list__list-item:where(:hover, :focus-within) .menu-list__link {
     color: var(--menu-top-level-font-color);
   }
 
-  .overflow-menu::part(list) {
-    /* Make sure focus outline is not cut off by overflow hidden */
-    --focus-outline-size: calc(var(--focus-outline-offset) + var(--focus-outline-width));
-
-    gap: 0;
-    margin-inline: calc(-1 * var(--menu-horizontal-gap) / 2);
-  }
-
-  .overflow-menu {
-    background-color: transparent;
-    padding: var(--focus-outline-size);
-    margin: calc(-1 * var(--focus-outline-size));
-  }
-
-  /* the submenu background element to animate */
-  .overflow-menu::after {
+  .menu-list::after {
     content: '';
     position: absolute;
     top: calc(100% - 1px + var(--border-bottom-width));
@@ -393,8 +355,7 @@
   }
 
   /** mega menu **/
-  .menu-list__submenu,
-  .overflow-menu::part(overflow) {
+  .menu-list__submenu {
     --submenu-padding-block-start: var(--padding-3xl);
     --submenu-padding-block-end: var(--padding-3xl);
 
@@ -403,13 +364,12 @@
 
   .header__row[style*='--border-bottom-width: 0px'] {
     .menu-list__submenu.color-scheme-matches-parent,
-    .overflow-menu.color-scheme-matches-parent::part(overflow) {
+    .menu-list.color-scheme-matches-parent .menu-list__submenu {
       --submenu-padding-block-start: 0px;
     }
   }
 
-  .menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu,
-  .overflow-menu::part(overflow) {
+  .menu-list__list-item > .menu-list__submenu {
     --submenu-content-opacity: 0;
     --submenu-content-animation: opacity calc(var(--submenu-animation-speed) * 0.75) var(--animation-easing);
 
@@ -427,93 +387,11 @@
 
   /* Show the submenus on hover */
   .menu-list__list-item:has([aria-expanded='true']) > .menu-list__submenu,
-  /* Show the overflow menu when a menu item is hovered */
-  .overflow-menu:has([slot="overflow"] [aria-expanded='true'])::part(overflow),
   /* Keep the submenus open when they are hovered */
-  .menu-list__submenu:is(:hover),
-  .overflow-menu::part(overflow):hover {
+  .menu-list__submenu:is(:hover) {
     --submenu-content-opacity: 1;
 
     visibility: visible;
-  }
-
-  .menu-list__submenu-inner,
-  .overflow-menu::part(overflow-list) {
-    grid-column: 2;
-    padding-block-start: var(--submenu-padding-block-start);
-    padding-block-end: var(--submenu-padding-block-end);
-    padding-inline: var(--section-padding-inline);
-  }
-
-  .overflow-menu::part(overflow) {
-    --menu-top-level-font-size: var(--font-size--xlarge);
-
-    display: grid;
-    grid-template-columns: var(--full-page-grid-with-margins);
-  }
-
-  .overflow-menu::part(overflow-list) {
-    --submenu-content-opacity: 0;
-
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(auto, 200px) 1fr;
-    grid-template-areas: 'left right';
-    grid-template-rows: max-content;
-    grid-gap: 0;
-  }
-
-  /* Make overflow menu scrollable when content exceeds viewport */
-  .menu-list__submenu-inner,
-  .overflow-menu::part(overflow-list) {
-    max-height: calc(80vh - var(--header-height));
-    overflow-y: auto;
-    overflow-x: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: rgb(var(--color-foreground-rgb) / var(--opacity-40)) transparent;
-  }
-
-  .menu-list__list-item:is([slot='overflow']) {
-    --menu-top-level-font-color: var(--color-foreground);
-    --menu-top-level-font-color-rgb: var(--color-foreground-rgb);
-
-    display: contents;
-    white-space: normal;
-
-    .menu-list__link {
-      --submenu-content-opacity: 0;
-
-      grid-area: left;
-      grid-row: auto;
-      height: min-content;
-      font-size: var(--font-size--xl);
-      opacity: var(--submenu-content-opacity);
-      transition: var(--submenu-content-animation);
-    }
-
-    .menu-list__submenu {
-      visibility: hidden;
-      grid-row: 1;
-      grid-area: right;
-      grid-row-end: span calc(var(--overflow-count) + 1);
-      padding-inline-start: var(--menu-horizontal-gap);
-
-      .menu-list__submenu-inner {
-        padding-block-start: 0;
-        grid-column: unset;
-      }
-    }
-
-    .menu-list__link[aria-expanded='true'] + .menu-list__submenu {
-      visibility: visible;
-    }
-  }
-
-  .header-menu {
-    height: 100%;
-  }
-  .header-menu[data-overflow-expanded='true'] .menu-list__list-item:where([slot='overflow']) .menu-list__link {
-    --submenu-content-opacity: 1;
   }
 
   .menu-list__submenu-inner {
@@ -521,8 +399,21 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    grid-column: 2;
+    padding-block-start: var(--submenu-padding-block-start);
+    padding-block-end: var(--submenu-padding-block-end);
+    padding-inline: var(--section-padding-inline);
+    max-height: calc(80vh - var(--header-height));
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--color-foreground-rgb) / var(--opacity-40)) transparent;
     opacity: var(--submenu-content-opacity);
     transition: var(--submenu-content-animation);
+  }
+
+  .header-menu {
+    height: 100%;
   }
 
   .mega-menu__link {
@@ -687,23 +578,8 @@
     }
   }
 
-  .menu-list__list-item[slot='overflow'] .section {
-    grid-template-columns: 1fr;
-  }
-
-  .menu-list__list-item[slot='overflow'] .section .mega-menu__grid {
-    grid-column: 1;
-  }
-
   .mega-menu__content-list li {
     white-space: normal;
-  }
-
-  /* mega more menu */
-  .mega-menu__more-list {
-    --menu-child-font-size: var(--font-size--xl);
-
-    width: 200px;
   }
 
   .mega-menu__submenu {

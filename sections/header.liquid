@@ -419,8 +419,7 @@
     /* Only show opaque background when hovering over menu items with children (mega menu)
        Multiple selectors for performance: each simple :has() check is faster than one complex selector with multiple conditions */
     &:has(.mega-menu__list:hover),
-    &:has(.menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true'])),
-    &:has(.menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'])) {
+    &:has(.menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true'])) {
       --header-logo-display: unset;
       --header-logo-inverse-display: unset;
       --header-bg-color: unset;
@@ -449,8 +448,7 @@
     .header__row:not(
       :has(
           .mega-menu__list:hover,
-          .menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true']),
-          .menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'])
+          .menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true'])
         )
     ) {
     /* while transparent, header-row ignores its color-scheme settings, pull from the header-component */
@@ -464,10 +462,6 @@
 
   .header--inherit-color-scheme-on-menu-open:has(.mega-menu__list:hover) .header__row,
   .header--inherit-color-scheme-on-menu-open:has(.menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true']))
-    .header__row,
-  .header--inherit-color-scheme-on-menu-open:has(
-      .menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'])
-    )
     .header__row {
     --color-foreground: inherit;
     --color-foreground-rgb: inherit;
@@ -574,7 +568,7 @@
     justify-content: center;
     grid-area: center;
 
-    header-menu:only-child .overflow-menu::part(list) {
+    header-menu:only-child .menu-list__list {
       justify-content: center;
     }
   }
@@ -584,7 +578,7 @@
     justify-content: flex-end;
     grid-area: right;
 
-    .overflow-menu::part(list) {
+    .menu-list__list {
       justify-content: flex-end;
     }
   }
@@ -822,8 +816,7 @@
 
   /* Force visibility when open/animating and in overflow submenu to prevent layout issues */
   .header-menu details[open] .menu-list__submenu,
-  .header-menu .menu-list__submenu[data-active],
-  .header-menu .menu-list__list-item[slot='overflow'] .menu-list__submenu {
+  .header-menu .menu-list__submenu[data-active] {
     content-visibility: visible;
   }
 
