@@ -304,8 +304,21 @@
   }
 
   .menu-list__link-title {
-    padding-inline: calc(var(--gap-xl) / 2);
+    padding-inline: 24px;
+    color: var(--ash-amber-orange);
+    font-weight: 400;
+    font-family: Assistant, sans-serif;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--deepest-brand-blue);
+    }
+
+    .menu-list__link--active & {
+      color: var(--deepest-brand-blue);
+    }
   }
+
   [slot='overflow'] .menu-list__link-title {
     padding-inline: 0;
   }

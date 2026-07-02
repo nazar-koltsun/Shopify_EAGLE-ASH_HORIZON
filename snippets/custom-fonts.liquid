@@ -6,10 +6,19 @@
   inside base.css, which is why the relative/asset_url paths there did not work.
 {% endcomment %}
 {{ 'Lora-Regular.woff2' | asset_url | preload_tag: as: 'font' }}
+{{ 'Assistant-Regular.woff2' | asset_url | preload_tag: as: 'font' }}
 {% style %}
   @font-face {
     font-family: 'Lora';
     src: url('{{ "Lora-Regular.woff2" | asset_url }}') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Assistant';
+    src: url('{{ "Assistant-Regular.woff2" | asset_url }}') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
