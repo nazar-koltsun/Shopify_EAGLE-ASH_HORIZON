@@ -19,6 +19,44 @@
         "link_url": "#"
       }
     },
+    "features_section": {
+      "type": "features-section",
+      "settings": {
+        "heading": "Product features"
+      },
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "text": "Timeless Design"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "text": "Crafted with Purpose"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "text": "Lasting Quality"
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "text": "Made for Gifting"
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4"
+      ]
+    },
     "section_6x9fXa": {
       "type": "section",
       "blocks": {
@@ -1106,6 +1144,7 @@
   },
   "order": [
     "promo_section",
+    "features_section",
     "section_6x9fXa",
     "section_tBVktb",
     "177679100417993b99",
