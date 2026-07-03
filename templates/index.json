@@ -52,7 +52,40 @@
         "feature_2",
         "feature_3",
         "feature_4"
+      ]
+    },
+    "brand_story": {
+      "type": "brand-story",
+      "settings": {
+        "heading": "Designed with Purpose. Made to Be Remembered.",
+        "description_1": "<p>At Eagle & Ash, we believe the objects surrounding the game should carry as much meaning as the moments themselves. That's why we create premium golf gifts that combine thoughtful design, lasting quality and refined presentation in every detail.</p>",
+        "description_2": "<p>From everyday accessories to memorable awards and distinctive gifts, each piece is designed to be used, displayed and remembered. Inspired by the traditions of golf and crafted with purpose, our collection celebrates the game both on and beyond the course.</p>"
+      }
+    },
+    "section_6x9fXa": {
+      "type": "section",
+      "blocks": {
+        "ai_gen_block_69395ca_CnfMrG": {
+          "type": "ai_gen_block_69395ca",
+          "settings": {
+            "heading": "Designed to be Gifted",
+            "heading_size": 50,
+            "heading_color": "#001e26",
+            "subheader": "<p>Premium Golf Accessories & Gifts</p>",
+            "subheader_size": 30,
+            "subheader_color": "#001e26",
+            "spacing": 8,
+            "text_alignment": "left",
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_69395ca_CnfMrG"
       ],
+      "disabled": true,
+      "name": "t:names.large_logo",
       "settings": {
         "heading": "Product features"
       }
@@ -452,6 +485,8 @@
   "order": [
     "promo_section",
     "features_section",
+    "brand_story",
+    "section_6x9fXa",
     "177679100417993b99",
     "177678085667a6749d",
     "blocks_WdaeKT",

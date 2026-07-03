@@ -1,0 +1,232 @@
+{%- liquid
+  assign heading = section.settings.heading
+  assign description_1 = section.settings.description_1
+  assign description_2 = section.settings.description_2
+  assign image_small = section.settings.image_small
+  assign image_big = section.settings.image_big
+-%}
+
+<div class="brand-story">
+  <div class="brand-story__inner">
+    <div class="brand-story__header">
+      {%- if heading != blank -%}
+        <h2 class="brand-story__heading">{{ heading }}</h2>
+      {%- endif -%}
+
+      <div class="brand-story__descriptions">
+        {%- if description_1 != blank -%}
+          <div class="brand-story__description">{{ description_1 }}</div>
+        {%- endif -%}
+
+        {%- if description_2 != blank -%}
+          <div class="brand-story__description">{{ description_2 }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if image_small != blank or image_big != blank -%}
+      <div class="brand-story__media">
+        <div class="brand-story__media-item brand-story__media-item--small">
+          {%- if image_small != blank -%}
+            <img
+              class="brand-story__image"
+              src="{{ image_small | image_url: width: 800 }}"
+              srcset="
+                {{ image_small | image_url: width: 400 }} 400w,
+                {{ image_small | image_url: width: 600 }} 600w,
+                {{ image_small | image_url: width: 800 }} 800w,
+                {{ image_small | image_url: width: 1200 }} 1200w
+              "
+              sizes="(max-width: 749px) 100vw, 40vw"
+              width="{{ image_small.width }}"
+              height="{{ image_small.height }}"
+              alt="{{ image_small.alt | escape }}"
+              loading="lazy"
+            >
+          {%- endif -%}
+        </div>
+
+        <div class="brand-story__media-item brand-story__media-item--big">
+          {%- if image_big != blank -%}
+            <img
+              class="brand-story__image"
+              src="{{ image_big | image_url: width: 1200 }}"
+              srcset="
+                {{ image_big | image_url: width: 600 }} 600w,
+                {{ image_big | image_url: width: 900 }} 900w,
+                {{ image_big | image_url: width: 1200 }} 1200w,
+                {{ image_big | image_url: width: 1600 }} 1600w
+              "
+              sizes="(max-width: 749px) 100vw, 50vw"
+              width="{{ image_big.width }}"
+              height="{{ image_big.height }}"
+              alt="{{ image_big.alt | escape }}"
+              loading="lazy"
+            >
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .brand-story {
+    width: 100%;
+    background-color: var(--color-background, #ffffff);
+  }
+
+  .brand-story__inner {
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    padding-inline: 116px;
+    padding-block: 80px;
+
+    @media screen and (max-width: 1200px) {
+      padding-inline: 80px;
+    }
+
+    @media screen and (max-width: 950px) {
+      padding-inline: 40px;
+      padding-block: 56px;
+    }
+  }
+
+  .brand-story__header {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    column-gap: 40px;
+    align-items: start;
+
+    @media screen and (max-width: 990px) {
+      grid-template-columns: 1fr 1fr;
+      row-gap: 24px;
+    }
+
+    @media screen and (max-width: 749px) {
+      grid-template-columns: 1fr;
+      row-gap: 20px;
+    }
+  }
+
+  .brand-story__heading {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.15;
+    color: var(--color-foreground, #001e26);
+
+    @media screen and (max-width: 990px) {
+      grid-column: 1 / -1;
+      font-size: 34px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 30px;
+    }
+  }
+
+  .brand-story__descriptions {
+    display: contents;
+
+    @media screen and (max-width: 749px) {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+
+  .brand-story__description {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-foreground, #001e26);
+  }
+
+  .brand-story__description > :first-child {
+    margin-block-start: 0;
+  }
+
+  .brand-story__description > :last-child {
+    margin-block-end: 0;
+  }
+
+  .brand-story__media {
+    margin-block-start: 64px;
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    column-gap: 68px;
+    align-items: center;
+
+    @media screen and (max-width: 950px) {
+      column-gap: 32px;
+    }
+
+    @media screen and (max-width: 749px) {
+      grid-template-columns: 1fr;
+      row-gap: 24px;
+      margin-block-start: 40px;
+    }
+  }
+
+  .brand-story__media-item {
+    display: flex;
+  }
+
+  .brand-story__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Brand Story",
+  "class": "section-wrapper section-brand-story",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Designed with Purpose. Made to Be Remembered."
+    },
+    {
+      "type": "richtext",
+      "id": "description_1",
+      "label": "Description column 1",
+      "default": "<p>At Eagle & Ash, we believe the objects surrounding the game should carry as much meaning as the moments themselves. That's why we create premium golf gifts that combine thoughtful design, lasting quality and refined presentation in every detail.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "description_2",
+      "label": "Description column 2",
+      "default": "<p>From everyday accessories to memorable awards and distinctive gifts, each piece is designed to be used, displayed and remembered. Inspired by the traditions of golf and crafted with purpose, our collection celebrates the game both on and beyond the course.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_small",
+      "label": "Small image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_big",
+      "label": "Big image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Story"
+    }
+  ]
+}
+{% endschema %}
