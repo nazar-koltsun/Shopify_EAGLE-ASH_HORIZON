@@ -14,11 +14,11 @@ body {
 
 :root {
   /* Base shop colors */
-  --deepest-brand-blue: #07272D;
-  --soaring-brand-blue: #D5EBEE;
-  --ash-amber-orange: #FE5000;
-  --blue-spectrum-dark: #115E67;
-  --blue-spectrum-light: #94B7BB;
+  --deepest-brand-blue: #07272d;
+  --soaring-brand-blue: #d5ebee;
+  --ash-amber-orange: #fe5000;
+  --blue-spectrum-dark: #115e67;
+  --blue-spectrum-light: #94b7bb;
 
   --hover-lift-amount: 4px;
   --hover-scale-amount: 1.03;
@@ -35,7 +35,8 @@ body {
 html {
   /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: rgb(var(--color-foreground-rgb) / var(--opacity-40)) var(--color-background);
+  scrollbar-color: rgb(var(--color-foreground-rgb) / var(--opacity-40))
+    var(--color-background);
   scroll-behavior: smooth;
 }
 
@@ -74,6 +75,24 @@ select {
   background-color: var(--color-background);
   color: currentcolor;
 }
+
+.btn {
+  font-family: 'Lora', sans-serif;
+  font-size: 20px;
+  color: black;;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 10px;
+  transition:
+    opacity 0.2s ease,
+    text-underline-offset 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+    text-underline-offset: 12px;
+  }
+}
+
 
 .collection-card,
 .featured-blog-posts-card {
@@ -145,7 +164,8 @@ select {
 .predictive-search-results__card--product,
 .predictive-search-results__card {
   position: relative;
-  transition: transform var(--hover-transition-duration) var(--hover-transition-timing),
+  transition:
+    transform var(--hover-transition-duration) var(--hover-transition-timing),
     box-shadow var(--hover-transition-duration) var(--hover-transition-timing);
   z-index: var(--layer-flat);
 }
@@ -212,7 +232,8 @@ select {
   .card-hover-effect-subtle-zoom .product-card__image,
   .card-hover-effect-subtle-zoom .resource-card__image {
     overflow: hidden;
-    transition: transform var(--hover-transition-duration) var(--hover-transition-timing);
+    transition: transform var(--hover-transition-duration)
+      var(--hover-transition-timing);
   }
 
   .predictive-search-results__card .card-gallery,
@@ -231,13 +252,34 @@ select {
   }
 
   .card-hover-effect-subtle-zoom .header .product-card:hover .card-gallery,
-  .card-hover-effect-subtle-zoom .header .collection-card:hover .collection-card__image,
-  .card-hover-effect-subtle-zoom .header .product-card:hover .product-card__image,
-  .card-hover-effect-subtle-zoom .header .resource-card:hover .resource-card__image,
-  .card-hover-effect-subtle-zoom .header-drawer .product-card:hover .card-gallery,
-  .card-hover-effect-subtle-zoom .header-drawer .collection-card:hover .collection-card__image,
-  .card-hover-effect-subtle-zoom .header-drawer .product-card:hover .product-card__image,
-  .card-hover-effect-subtle-zoom .header-drawer .resource-card:hover .resource-card__image {
+  .card-hover-effect-subtle-zoom
+    .header
+    .collection-card:hover
+    .collection-card__image,
+  .card-hover-effect-subtle-zoom
+    .header
+    .product-card:hover
+    .product-card__image,
+  .card-hover-effect-subtle-zoom
+    .header
+    .resource-card:hover
+    .resource-card__image,
+  .card-hover-effect-subtle-zoom
+    .header-drawer
+    .product-card:hover
+    .card-gallery,
+  .card-hover-effect-subtle-zoom
+    .header-drawer
+    .collection-card:hover
+    .collection-card__image,
+  .card-hover-effect-subtle-zoom
+    .header-drawer
+    .product-card:hover
+    .product-card__image,
+  .card-hover-effect-subtle-zoom
+    .header-drawer
+    .resource-card:hover
+    .resource-card__image {
     transform: none;
   }
 
@@ -315,11 +357,13 @@ p:empty {
     pointer-events: none;
   }
 
-  html:active-view-transition-type(page-navigation) main[data-page-transition-enabled='true'] {
+  html:active-view-transition-type(page-navigation)
+    main[data-page-transition-enabled='true'] {
     view-transition-name: main-content;
   }
 
-  html:active-view-transition-type(page-navigation) main[data-product-transition='true'][data-template*='product'] {
+  html:active-view-transition-type(page-navigation)
+    main[data-product-transition='true'][data-template*='product'] {
     view-transition-name: none;
   }
 
@@ -437,18 +481,22 @@ p:empty {
     calc(100% - var(--page-margin) * 2)
   );
   --full-page-grid-margin: minmax(var(--page-margin), 1fr);
-  --full-page-grid-with-margins: var(--full-page-grid-margin) var(--full-page-grid-central-column-width)
-    var(--full-page-grid-margin);
+  --full-page-grid-with-margins: var(--full-page-grid-margin)
+    var(--full-page-grid-central-column-width) var(--full-page-grid-margin);
 
   /* Utility variable gives the grid's first column width. Provides an offset width for components like carousels */
   --util-page-margin-offset: max(
     var(--page-margin),
-    calc((100% - min(var(--page-content-width), 100% - var(--page-margin) * 2)) / 2)
+    calc(
+      (100% - min(var(--page-content-width), 100% - var(--page-margin) * 2)) / 2
+    )
   );
 
   /* Offset for full-width sections to account for the page margin,
   used for Marquee — note that --util-page-margin-offset doesn't work here */
-  --full-page-margin-inline-offset: calc(((100vw - var(--full-page-grid-central-column-width)) / 2) * -1);
+  --full-page-margin-inline-offset: calc(
+    ((100vw - var(--full-page-grid-central-column-width)) / 2) * -1
+  );
 
   width: 100%;
 
@@ -535,7 +583,9 @@ p:empty {
 }
 
 .section-content-wrapper.section-content-wrapper {
-  min-height: calc(var(--section-min-height, 'auto') - var(--section-height-offset, 0px));
+  min-height: calc(
+    var(--section-min-height, 'auto') - var(--section-height-offset, 0px)
+  );
   position: relative;
   width: 100%;
   height: 100%;
@@ -622,7 +672,10 @@ p:empty {
   .grid {
     display: grid;
     gap: 0;
-    grid-template-columns: var(--margin-4xl) repeat(var(--centered-column-number), minmax(0, 1fr)) var(--margin-4xl);
+    grid-template-columns: var(--margin-4xl) repeat(
+        var(--centered-column-number),
+        minmax(0, 1fr)
+      ) var(--margin-4xl);
     grid-template-areas: 'column-0 column-1 column-2 column-3 column-4 column-5 column-6 column-7 column-8 column-9 column-10 column-11 column-12 column-13';
   }
 }
@@ -632,7 +685,13 @@ p:empty {
     grid-template-columns:
       1fr repeat(
         var(--centered-column-number),
-        minmax(0, calc((var(--page-width) - var(--page-margin) * 2) / var(--centered-column-number)))
+        minmax(
+          0,
+          calc(
+            (var(--page-width) - var(--page-margin) * 2) /
+              var(--centered-column-number)
+          )
+        )
       )
       1fr;
   }
@@ -957,7 +1016,8 @@ a {
   text-decoration-color: transparent;
   text-decoration-thickness: 0.075em;
   text-underline-offset: 0.125em;
-  transition: text-decoration-color var(--animation-speed) var(--animation-easing),
+  transition:
+    text-decoration-color var(--animation-speed) var(--animation-easing),
     color var(--animation-speed) var(--animation-easing);
 }
 
@@ -965,9 +1025,17 @@ a {
   --button-color: var(--color, var(--color-primary-hover));
 }
 
+a.btn--white,
+.btn--white {
+  --button-color: white;
+  color: white;
+}
+
 /* Add underline to text using our paragraph styles only. */
 p:not(.h1, .h2, .h3, .h4, .h5, .h6) a:where(:not(.button, .button-secondary)),
-.rte :is(p, ul, ol, table):not(.h1, .h2, .h3, .h4, .h5, .h6) a:where(:not(.button, .button-secondary)) {
+.rte
+  :is(p, ul, ol, table):not(.h1, .h2, .h3, .h4, .h5, .h6)
+  a:where(:not(.button, .button-secondary)) {
   text-decoration-color: currentcolor;
 
   &:hover {
@@ -1000,7 +1068,9 @@ summary::-webkit-details-marker {
 }
 
 /* When header is transparent, pull the first main content section up to sit under the floating header */
-body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child {
+body:has(.header[transparent])
+  .content-for-layout
+  > .shopify-section:first-child {
   margin-top: calc(var(--header-group-height) * -1);
 }
 
@@ -1050,7 +1120,8 @@ body:has(.header[transparent]) #header-group > *:not(.header-section) {
 }
 
 .product-grid__item {
-  border: var(--product-card-border-width) solid rgb(var(--color-border-rgb) / var(--product-card-border-opacity));
+  border: var(--product-card-border-width) solid
+    rgb(var(--color-border-rgb) / var(--product-card-border-opacity));
 }
 
 .product-grid--organic[product-grid-view='default'] .product-grid__item {
@@ -1108,7 +1179,11 @@ ul[product-grid-view='zoom-out'] .product-grid__card .card-gallery {
 
 [product-grid-view='zoom-out']
   .card-gallery
-  > :is(quick-add-component, .product-badges, slideshow-component > slideshow-controls) {
+  > :is(
+    quick-add-component,
+    .product-badges,
+    slideshow-component > slideshow-controls
+  ) {
   display: none;
 }
 
@@ -1119,7 +1194,10 @@ ul[product-grid-view='zoom-out'] .card-gallery > img {
 [product-grid-view='zoom-out'] {
   --product-grid-columns-desktop: repeat(
     10,
-    minmax(clamp(50px, calc(100% - 9 * var(--product-grid-gap)) / 10, 80px), 1fr)
+    minmax(
+      clamp(50px, calc(100% - 9 * var(--product-grid-gap)) / 10, 80px),
+      1fr
+    )
   );
 }
 
@@ -1198,7 +1276,8 @@ ul[product-grid-view='zoom-out'] .card-gallery > img {
 
 results-list[initialized] {
   .product-grid__item {
-    transition: opacity var(--animation-speed) var(--animation-easing),
+    transition:
+      opacity var(--animation-speed) var(--animation-easing),
       transform var(--animation-speed) var(--animation-easing);
 
     @starting-style {
@@ -1290,16 +1369,19 @@ results-list[initialized] {
 }
 
 .dialog-modal[open] {
-  animation: elementSlideInTop var(--animation-speed) var(--animation-easing) forwards;
+  animation: elementSlideInTop var(--animation-speed) var(--animation-easing)
+    forwards;
 
   &::backdrop {
-    animation: backdropFilter var(--animation-speed) var(--animation-easing) forwards;
+    animation: backdropFilter var(--animation-speed) var(--animation-easing)
+      forwards;
     transition: opacity var(--animation-speed) var(--animation-easing);
   }
 }
 
 .dialog-modal.dialog-closing {
-  animation: elementSlideOutTop var(--animation-speed) var(--animation-easing) forwards;
+  animation: elementSlideOutTop var(--animation-speed) var(--animation-easing)
+    forwards;
 
   &::backdrop {
     opacity: 0;
@@ -1323,7 +1405,8 @@ results-list[initialized] {
   --end-x: var(--custom-transform-to, 0px);
   --start-opacity: 1;
 
-  animation: var(--dialog-drawer-opening-animation) var(--animation-speed) var(--animation-easing) forwards;
+  animation: var(--dialog-drawer-opening-animation) var(--animation-speed)
+    var(--animation-easing) forwards;
 }
 
 .dialog-drawer[open].dialog-closing {
@@ -1332,7 +1415,8 @@ results-list[initialized] {
   --start-opacity: 1;
   --end-opacity: 1;
 
-  animation: var(--dialog-drawer-closing-animation) var(--animation-speed) var(--animation-easing);
+  animation: var(--dialog-drawer-closing-animation) var(--animation-speed)
+    var(--animation-easing);
 }
 
 .dialog-drawer--right[open] {
@@ -1346,7 +1430,8 @@ results-list[initialized] {
   --start-opacity: 1;
   --end-opacity: 1;
 
-  animation: var(--dialog-drawer-closing-animation) var(--animation-speed) var(--animation-easing);
+  animation: var(--dialog-drawer-closing-animation) var(--animation-speed)
+    var(--animation-easing);
 }
 
 /* Buttons */
@@ -1369,7 +1454,8 @@ button.shopify-payment-button__button--unbranded {
   font-size: var(--font-paragraph--size);
   line-height: var(--font-paragraph--line-height);
   margin-block: 0;
-  transition: color var(--animation-speed) var(--animation-easing),
+  transition:
+    color var(--animation-speed) var(--animation-easing),
     box-shadow var(--animation-speed) var(--animation-easing),
     background-color var(--animation-speed) var(--animation-easing);
   cursor: pointer;
@@ -1527,13 +1613,17 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
 
 shopify-accelerated-checkout,
 shopify-accelerated-checkout-cart {
-  --shopify-accelerated-checkout-button-border-radius: var(--style-border-radius-buttons-primary);
+  --shopify-accelerated-checkout-button-border-radius: var(
+    --style-border-radius-buttons-primary
+  );
   --shopify-accelerated-checkout-button-block-size: var(--height-buy-buttons);
 }
 
 .product-form-buttons:has(.add-to-cart-button.button-secondary)
   :is(shopify-accelerated-checkout, shopify-accelerated-checkout-cart) {
-  --shopify-accelerated-checkout-button-border-radius: var(--style-border-radius-buttons-secondary);
+  --shopify-accelerated-checkout-button-border-radius: var(
+    --style-border-radius-buttons-secondary
+  );
   --shopify-accelerated-checkout-button-block-size: var(--height-buy-buttons);
 }
 
@@ -1581,13 +1671,19 @@ summary .icon-plus :is(.horizontal, .vertical),
 
 details[open] > summary .icon-plus .horizontal,
 .details-open > summary .icon-plus .horizontal,
-.show-more:where([data-expanded='true']) .show-more__button .icon-plus .horizontal {
+.show-more:where([data-expanded='true'])
+  .show-more__button
+  .icon-plus
+  .horizontal {
   transform: rotate(90deg);
 }
 
 details[open] > summary .icon-plus .vertical,
 .details-open > summary .icon-plus .vertical,
-.show-more:where([data-expanded='true']) .show-more__button .icon-plus .vertical {
+.show-more:where([data-expanded='true'])
+  .show-more__button
+  .icon-plus
+  .vertical {
   transform: rotate(90deg);
   opacity: 0;
 }
@@ -1627,7 +1723,10 @@ media-gallery {
     /* arbitrary offset value based on average theme spacing and header height */
     --viewport-offset: 400px;
     --constrained-min-height: 300px;
-    --constrained-height: max(var(--constrained-min-height), calc(100vh - var(--viewport-offset)));
+    --constrained-height: max(
+      var(--constrained-min-height),
+      calc(100vh - var(--viewport-offset))
+    );
 
     margin-right: auto;
     margin-left: auto;
@@ -1643,7 +1742,9 @@ media-gallery:where(.media-gallery--grid) .media-gallery__grid {
   display: none;
 }
 
-media-gallery.media-gallery--grid .media-gallery__grid .product-media-container {
+media-gallery.media-gallery--grid
+  .media-gallery__grid
+  .product-media-container {
   /* Needed for safari to stretch to full grid height */
   height: 100%;
 }
@@ -1664,7 +1765,8 @@ media-gallery.media-gallery--grid .media-gallery__grid .product-media-container 
     --constrained-min-height: 500px;
   }
 
-  body:has(header-component[transparent]) .product-media-container.constrain-height {
+  body:has(header-component[transparent])
+    .product-media-container.constrain-height {
     --viewport-offset: 0px;
   }
 
@@ -1795,7 +1897,8 @@ zoom-dialog dialog {
 }
 
 .dialog--closed .close-button {
-  animation: elementSlideOutBottom calc(var(--animation-speed) * 0.5) var(--animation-easing) forwards;
+  animation: elementSlideOutBottom calc(var(--animation-speed) * 0.5)
+    var(--animation-easing) forwards;
 }
 
 .dialog-thumbnails-list-container {
@@ -1807,7 +1910,9 @@ zoom-dialog dialog {
 }
 
 .dialog-thumbnails-list {
-  --active-thumbnail-border-color: rgb(var(--color-border-rgb) / var(--media-border-opacity));
+  --active-thumbnail-border-color: rgb(
+    var(--color-border-rgb) / var(--media-border-opacity)
+  );
 
   position: relative;
   display: inline-flex;
@@ -1819,12 +1924,14 @@ zoom-dialog dialog {
   padding: var(--padding-lg);
   margin-inline: auto;
   scrollbar-width: none;
-  animation: thumbnailsSlideInBottom calc(var(--animation-speed) * 0.75) var(--animation-easing) forwards;
+  animation: thumbnailsSlideInBottom calc(var(--animation-speed) * 0.75)
+    var(--animation-easing) forwards;
   animation-delay: calc(var(--animation-speed) * 1.5);
 }
 
 .dialog--closed .dialog-thumbnails-list {
-  animation: thumbnailsSlideOutBottom var(--animation-speed) var(--animation-easing) forwards;
+  animation: thumbnailsSlideOutBottom var(--animation-speed)
+    var(--animation-easing) forwards;
 }
 
 @media screen and (min-width: 750px) {
@@ -1835,12 +1942,14 @@ zoom-dialog dialog {
     right: 0;
     max-height: calc(100vh - 200px);
     overflow-y: auto;
-    animation: thumbnailsSlideInTop var(--spring-d220-b0-duration) var(--spring-d220-b0-easing) forwards;
+    animation: thumbnailsSlideInTop var(--spring-d220-b0-duration)
+      var(--spring-d220-b0-easing) forwards;
     animation-delay: calc(var(--spring-d220-b0-duration) * 0.5);
   }
 
   .dialog--closed .dialog-thumbnails-list {
-    animation: thumbnailsSlideOutTop var(--animation-speed) var(--animation-easing) forwards;
+    animation: thumbnailsSlideOutTop var(--animation-speed)
+      var(--animation-easing) forwards;
   }
 }
 
@@ -1866,7 +1975,9 @@ zoom-dialog dialog {
 }
 
 @supports (anchor-name: --test) {
-  .dialog-thumbnails-list:has(.dialog-thumbnails-list__thumbnail:is([aria-selected='true']))::after {
+  .dialog-thumbnails-list:has(
+      .dialog-thumbnails-list__thumbnail:is([aria-selected='true'])
+    )::after {
     --inset-offset: calc(var(--focus-outline-offset) / 2);
 
     content: '';
@@ -1881,7 +1992,9 @@ zoom-dialog dialog {
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .dialog-thumbnails-list:has(.dialog-thumbnails-list__thumbnail:is([aria-selected='true']))::after {
+    .dialog-thumbnails-list:has(
+        .dialog-thumbnails-list__thumbnail:is([aria-selected='true'])
+      )::after {
       transition-property: inset;
       transition-duration: var(--spring-d180-b0-duration);
       transition-timing-function: var(--spring-d180-b0-easing);
@@ -1946,19 +2059,26 @@ Otherwise, it should be a block to rely on its own size */
   padding: inherit;
 }
 
-slideshow-slide .shopify-model-viewer-ui__controls-area.shopify-model-viewer-ui__controls-area {
+slideshow-slide
+  .shopify-model-viewer-ui__controls-area.shopify-model-viewer-ui__controls-area {
   bottom: var(--padding-sm);
   right: var(--padding-sm);
 }
 
-.dialog-zoomed-gallery .shopify-model-viewer-ui__controls-area.shopify-model-viewer-ui__controls-area {
+.dialog-zoomed-gallery
+  .shopify-model-viewer-ui__controls-area.shopify-model-viewer-ui__controls-area {
   /* Move the controls above the thumbnails. Need to calculate the height of the thumbnails list */
-  bottom: calc(var(--thumbnail-width) / var(--media-preview-ratio) + var(--padding-lg) * 2);
+  bottom: calc(
+    var(--thumbnail-width) / var(--media-preview-ratio) + var(--padding-lg) * 2
+  );
   right: var(--padding-lg);
 }
 
 @media screen and (max-width: 749px) {
-  slideshow-component:has(:not(.mobile\:hidden) :is(.slideshow-controls__dots, .slideshow-controls__counter))
+  slideshow-component:has(
+      :not(.mobile\:hidden)
+        :is(.slideshow-controls__dots, .slideshow-controls__counter)
+    )
     .shopify-model-viewer-ui__controls-area {
     /* Position the controls just above the counter */
     bottom: calc(var(--minimum-touch-target) + var(--padding-sm));
@@ -1966,13 +2086,17 @@ slideshow-slide .shopify-model-viewer-ui__controls-area.shopify-model-viewer-ui_
 }
 
 @media screen and (min-width: 750px) {
-  slideshow-component:has(:not(.desktop\:hidden) :is(.slideshow-controls__dots, .slideshow-controls__counter))
+  slideshow-component:has(
+      :not(.desktop\:hidden)
+        :is(.slideshow-controls__dots, .slideshow-controls__counter)
+    )
     .shopify-model-viewer-ui__controls-area {
     /* Position the controls just above the counter */
     bottom: calc(var(--minimum-touch-target) + var(--padding-sm));
   }
 
-  .dialog-zoomed-gallery .shopify-model-viewer-ui__controls-area.shopify-model-viewer-ui__controls-area {
+  .dialog-zoomed-gallery
+    .shopify-model-viewer-ui__controls-area.shopify-model-viewer-ui__controls-area {
     /* Move the controls up to match the padding on the thumbnails */
     bottom: var(--padding-lg);
 
@@ -2059,7 +2183,11 @@ deferred-media[data-media-loaded] img {
   }
 }
 
-deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__poster-button ~ video) {
+deferred-media[class]
+  :is(
+    .deferred-media__poster-button img,
+    .deferred-media__poster-button ~ video
+  ) {
   /* only apply this on the video block not product media */
   object-fit: cover;
   height: 100%;
@@ -2086,7 +2214,9 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
 /* Swatches */
 .swatch {
-  --color-border: rgb(var(--color-foreground-rgb) / var(--style-border-swatch-opacity));
+  --color-border: rgb(
+    var(--color-foreground-rgb) / var(--style-border-swatch-opacity)
+  );
   --min-width-unitless: 15.9999; /* want to avoid division by 0 */
   --min-height-unitless: 15.9999; /* want to avoid division by 0 */
   --min-height: 16px;
@@ -2099,8 +2229,12 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   --max-filter-size: 32px;
 
   /* From the settings */
-  --offset-swatch-width: calc(var(--variant-picker-swatch-width-unitless) - var(--min-width-unitless));
-  --offset-swatch-height: calc(var(--variant-picker-swatch-height-unitless) - var(--min-height-unitless));
+  --offset-swatch-width: calc(
+    var(--variant-picker-swatch-width-unitless) - var(--min-width-unitless)
+  );
+  --offset-swatch-height: calc(
+    var(--variant-picker-swatch-height-unitless) - var(--min-height-unitless)
+  );
 
   /**
     Offset values are obtained from the following formulas:
@@ -2118,23 +2252,31 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     by some scaling factor.
   */
   --offset-scaled-width: calc(
-    var(--scaling-factor) * var(--offset-swatch-width) / var(--offset-swatch-height) * var(--offset-max-swatch-size)
+    var(--scaling-factor) * var(--offset-swatch-width) /
+      var(--offset-swatch-height) * var(--offset-max-swatch-size)
   );
   --offset-scaled-height: calc(
-    var(--scaling-factor) * var(--offset-swatch-height) / var(--offset-swatch-width) * var(--offset-max-swatch-size)
+    var(--scaling-factor) * var(--offset-swatch-height) /
+      var(--offset-swatch-width) * var(--offset-max-swatch-size)
   );
   --offset-max-swatch-size: calc(var(--max-swatch-size) - var(--min-width));
 
   /* width = min(m + sU, (m + s * W'/H' * M'), M) */
   --swatch-width: min(
-    calc(var(--min-width) + var(--scaling-factor) * var(--offset-swatch-width) * 1px),
+    calc(
+      var(--min-width) + var(--scaling-factor) * var(--offset-swatch-width) *
+        1px
+    ),
     calc(var(--min-width) + var(--offset-scaled-width)),
     var(--max-swatch-size)
   );
 
   /* height = min(m + sV, (m + s * H'/W' * M'), M) */
   --swatch-height: min(
-    calc(var(--min-height) + var(--scaling-factor) * var(--offset-swatch-height) * 1px),
+    calc(
+      var(--min-height) + var(--scaling-factor) * var(--offset-swatch-height) *
+        1px
+    ),
     calc(var(--min-height) + var(--offset-scaled-height)),
     var(--max-swatch-size)
   );
@@ -2143,7 +2285,8 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   background: var(--swatch-background);
   background-position: var(--swatch-focal-point, center);
   border-radius: var(--variant-picker-swatch-radius);
-  border: var(--style-border-swatch-width) var(--style-border-swatch-style) var(--color-border);
+  border: var(--style-border-swatch-width) var(--style-border-swatch-style)
+    var(--color-border);
   width: var(--swatch-width);
   height: var(--swatch-height);
 
@@ -2181,7 +2324,9 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   &.swatch--pill {
     --style-border-swatch-width: var(--variant-picker-border-width);
     --style-border-swatch-style: var(--variant-picker-border-style);
-    --color-border: rgb(var(--color-foreground-rgb) / var(--variant-picker-border-opacity));
+    --color-border: rgb(
+      var(--color-foreground-rgb) / var(--variant-picker-border-opacity)
+    );
   }
 
   &.swatch--variant-image {
@@ -2255,9 +2400,14 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   .variant-option__select-wrapper,
   .variant-option__button-label::before,
   .variant-option__button-label::after,
-  .variant-option__button-label:has([data-previous-checked='true'], [data-current-checked='true'])
+  .variant-option__button-label:has(
+      [data-previous-checked='true'],
+      [data-current-checked='true']
+    )
     .variant-option__button-label__pill,
-  .variant-option__button-label:not(.variant-option__button-label--has-swatch) svg line:last-of-type {
+  .variant-option__button-label:not(.variant-option__button-label--has-swatch)
+    svg
+    line:last-of-type {
     transition-duration: var(--animation-speed);
     transition-timing-function: var(--animation-easing);
   }
@@ -2266,11 +2416,16 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     transition-property: transform;
   }
 
-  .variant-option__button-label:not(.variant-option__button-label--has-swatch) svg line:last-of-type {
+  .variant-option__button-label:not(.variant-option__button-label--has-swatch)
+    svg
+    line:last-of-type {
     transition-property: clip-path;
   }
 
-  .variant-option__button-label:has([data-previous-checked='true'], [data-current-checked='true'])
+  .variant-option__button-label:has(
+      [data-previous-checked='true'],
+      [data-current-checked='true']
+    )
     .variant-option__button-label__pill {
     transition-property: transform;
   }
@@ -2320,7 +2475,9 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   /* we need something like overflow-clip-margin to use the pseudoelement but it doesn't work in Safari */
 
   /* so instead use the layered background image trick */
-  &:not(.variant-option__button-label--has-swatch):has([data-option-available='false']) {
+  &:not(.variant-option__button-label--has-swatch):has(
+      [data-option-available='false']
+    ) {
     border-width: 0;
   }
 
@@ -2328,11 +2485,14 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
   /* ::after is the unavailable variant border that clips in */
   &:not(.variant-option__button-label--has-swatch)::before,
-  &:has([data-option-available='false']):not(.variant-option__button-label--has-swatch)::after {
+  &:has([data-option-available='false']):not(
+      .variant-option__button-label--has-swatch
+    )::after {
     content: '';
     position: absolute;
     inset: 0;
-    border: var(--options-border-width) solid var(--color-selected-variant-border);
+    border: var(--options-border-width) solid
+      var(--color-selected-variant-border);
     border-radius: inherit;
     pointer-events: none;
     z-index: 2;
@@ -2340,7 +2500,9 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     clip-path: inset(var(--clip, 0 0 0 0));
   }
 
-  &:has([data-option-available='false']):not(.variant-option__button-label--has-swatch)::before {
+  &:has([data-option-available='false']):not(
+      .variant-option__button-label--has-swatch
+    )::before {
     inset: 0;
   }
 
@@ -2351,7 +2513,10 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     inset: calc(var(--options-border-width) * -1);
   }
 
-  &:has(:checked):not(.variant-option__button-label--has-swatch, :has([data-option-available='false']))::before {
+  &:has(:checked):not(
+      .variant-option__button-label--has-swatch,
+      :has([data-option-available='false'])
+    )::before {
     border-color: var(--color-selected-variant-border);
   }
 
@@ -2364,7 +2529,8 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     }
   }
 
-  &:has([data-previous-checked='true']) ~ label:has([data-current-checked='true']),
+  &:has([data-previous-checked='true'])
+    ~ label:has([data-current-checked='true']),
   &:has(:checked) ~ label {
     .variant-option__button-label__pill {
       left: 0;
@@ -2382,19 +2548,25 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
   &:has([data-current-checked='true']):first-of-type
     ~ label:last-of-type:not(.variant-option__button-label--has-swatch),
-  &:not(:has(:checked)):has(~ label > :checked):not(.variant-option__button-label--has-swatch) {
+  &:not(:has(:checked)):has(~ label > :checked):not(
+      .variant-option__button-label--has-swatch
+    ) {
     --clip: 0 0 0 100%;
   }
 
-  &:not(:has([data-current-checked='true'])):first-of-type:has(~ label:last-of-type > :checked):not(
-      .variant-option__button-label--has-swatch
-    ),
+  &:not(:has([data-current-checked='true'])):first-of-type:has(
+      ~ label:last-of-type > :checked
+    ):not(.variant-option__button-label--has-swatch),
   &:has(:checked) ~ label:not(.variant-option__button-label--has-swatch) {
     --clip: 0 100% 0 0;
   }
 
-  &:has([data-previous-checked='true'], [data-current-checked='true']) .variant-option__button-label__pill {
-    width: max(var(--pill-width-current, 100%), var(--pill-width-previous, 100%));
+  &:has([data-previous-checked='true'], [data-current-checked='true'])
+    .variant-option__button-label__pill {
+    width: max(
+      var(--pill-width-current, 100%),
+      var(--pill-width-previous, 100%)
+    );
   }
 
   @media screen and (min-width: 750px) {
@@ -2406,13 +2578,14 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
 /* the more complex selector rules here produce the wrap around effect for first/last variants */
 .variant-option--buttons:has(:nth-of-type(3)) {
-  .variant-option__button-label:has([data-current-checked='true']):first-of-type ~ label:last-of-type {
+  .variant-option__button-label:has([data-current-checked='true']):first-of-type
+    ~ label:last-of-type {
     --pill-offset: calc(100% + 1px);
   }
 
-  .variant-option__button-label:not(:has([data-current-checked='true'])):first-of-type:has(
-      ~ label:last-of-type > :checked
-    ) {
+  .variant-option__button-label:not(
+      :has([data-current-checked='true'])
+    ):first-of-type:has(~ label:last-of-type > :checked) {
     --pill-offset: calc(-100% - 1px);
   }
 }
@@ -2436,10 +2609,17 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 }
 
 .variant-option--equal-width-buttons {
-  --variant-min-width: clamp(44px, calc(var(--variant-option-padding-inline) * 2 + var(--variant-ch)), 100%);
+  --variant-min-width: clamp(
+    44px,
+    calc(var(--variant-option-padding-inline) * 2 + var(--variant-ch)),
+    100%
+  );
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--variant-min-width), 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(var(--variant-min-width), 1fr)
+  );
 
   .variant-option__button-label {
     min-width: var(--variant-min-width);
@@ -2492,7 +2672,8 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 }
 
 .variant-option__button-label--has-swatch:hover {
-  outline: var(--focus-outline-width) solid rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
+  outline: var(--focus-outline-width) solid
+    rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
   outline-offset: var(--focus-outline-offset);
 }
 
@@ -2525,7 +2706,9 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   }
 }
 
-.variant-option__button-label:has([data-option-available='false']):has(:checked) {
+.variant-option__button-label:has([data-option-available='false']):has(
+    :checked
+  ) {
   background-color: inherit;
   color: rgb(var(--color-variant-text-rgb) / var(--opacity-60));
 }
@@ -2564,7 +2747,8 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   stroke: var(--variant-picker-stroke-color);
 }
 
-.variant-option__button-label:not(.variant-option__button-label--has-swatch) svg {
+.variant-option__button-label:not(.variant-option__button-label--has-swatch)
+  svg {
   stroke: var(--color-variant-border);
 
   line {
@@ -2729,7 +2913,10 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
 
 .spacing-style,
 .inherit-spacing {
-  padding-block: calc(var(--padding-block-start) + var(--section-top-offset, 0px)) var(--padding-block-end);
+  padding-block: calc(
+      var(--padding-block-start) + var(--section-top-offset, 0px)
+    )
+    var(--padding-block-end);
   padding-inline: var(--padding-inline-start) var(--padding-inline-end);
   margin-block: var(--margin-block-start) var(--margin-block-end);
   margin-inline: var(--margin-inline-start) var(--margin-inline-end);
@@ -2865,7 +3052,9 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
   flex-grow: 1;
   text-align: left;
   border-radius: var(--style-border-radius-inputs);
-  transition: box-shadow var(--animation-speed) ease, background-color var(--animation-speed) ease;
+  transition:
+    box-shadow var(--animation-speed) ease,
+    background-color var(--animation-speed) ease;
   padding: var(--input-padding);
   box-shadow: var(--input-box-shadow);
   background-color: var(--color-input-background);
@@ -2902,7 +3091,9 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
   margin-bottom: 0;
   pointer-events: none;
   position: absolute;
-  transition: top var(--animation-speed) ease, font-size var(--animation-speed) ease;
+  transition:
+    top var(--animation-speed) ease,
+    font-size var(--animation-speed) ease;
 }
 
 /* RTE styles */
@@ -2932,7 +3123,8 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
     margin-inline: 1.5em 2.3em;
     margin-block: 3.8em;
     padding-inline-start: 0.8em;
-    border-inline-start: 1.5px solid rgb(var(--color-foreground-rgb) / var(--opacity-25));
+    border-inline-start: 1.5px solid
+      rgb(var(--color-foreground-rgb) / var(--opacity-25));
     font-style: italic;
     font-weight: 500;
   }
@@ -2955,7 +3147,8 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
   }
 
   tr:has(td) {
-    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
+    border-bottom: 1px solid
+      rgb(var(--color-foreground-rgb) / var(--opacity-10));
   }
 
   th,
@@ -3081,7 +3274,9 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
 input[type='radio'] {
   border-radius: var(--style-border-radius-50);
   background: transparent;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 :where(input[type='radio']):checked {
@@ -3130,7 +3325,9 @@ input[type='radio'] {
 :where(input[type='checkbox']) {
   border-radius: var(--checkbox-border-radius);
   background-color: var(--color-background);
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 :where(input[type='checkbox']):checked {
@@ -3294,7 +3491,8 @@ label:has(input[type='checkbox']:disabled) {
   }
 }
 
-.product-form-buttons:has(.add-to-cart-button.button-secondary) .quantity-selector {
+.product-form-buttons:has(.add-to-cart-button.button-secondary)
+  .quantity-selector {
   border-radius: var(--style-border-radius-buttons-secondary);
 }
 
@@ -3358,7 +3556,9 @@ label:has(input[type='checkbox']:disabled) {
   text-align: center;
   border: none;
   appearance: none;
-  max-width: calc(var(--quantity-selector-width) - var(--minimum-touch-target) * 2);
+  max-width: calc(
+    var(--quantity-selector-width) - var(--minimum-touch-target) * 2
+  );
   border-radius: var(--style-border-radius-buttons);
   color: var(--color-input-text);
   background-color: transparent;
@@ -3378,7 +3578,9 @@ label:has(input[type='checkbox']:disabled) {
 /* Pills (used in facets and predictive search) */
 
 .pills__pill {
-  --pills-pill-background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
+  --pills-pill-background-color: rgb(
+    var(--color-foreground-rgb) / var(--opacity-5-15)
+  );
 
   color: var(--color-foreground);
   display: flex;
@@ -3393,7 +3595,9 @@ label:has(input[type='checkbox']:disabled) {
   transition: background-color var(--animation-speed) var(--animation-easing);
 
   &:hover {
-    --pills-pill-background-color: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
+    --pills-pill-background-color: rgb(
+      var(--color-foreground-rgb) / var(--opacity-10-25)
+    );
   }
 
   @media screen and (max-width: 749px) {
@@ -3445,7 +3649,8 @@ fly-to-cart {
   translate: var(--start-x, 0) var(--start-y, 0);
   transform: translate(-50%, -50%);
   animation-name: travel-x, travel-y, travel-scale;
-  animation-timing-function: var(--x-timing), var(--y-timing), var(--scale-timing);
+  animation-timing-function:
+    var(--x-timing), var(--y-timing), var(--scale-timing);
   animation-duration: 0.6s;
   animation-composition: accumulate;
   animation-fill-mode: both;
@@ -3519,7 +3724,13 @@ fly-to-cart.fly-to-cart--sticky {
     grid-template-columns:
       1fr repeat(
         var(--centered-column-number),
-        minmax(0, calc((var(--page-width) - var(--page-margin) * 2) / var(--centered-column-number)))
+        minmax(
+          0,
+          calc(
+            (var(--page-width) - var(--page-margin) * 2) /
+              var(--centered-column-number)
+          )
+        )
       )
       1fr;
   }
@@ -3536,22 +3747,36 @@ fly-to-cart.fly-to-cart--sticky {
     grid-template-columns:
       minmax(var(--page-margin), 1fr) repeat(
         var(--centered-column-number),
-        minmax(0, calc((var(--page-width) - var(--page-margin) * 2) / var(--centered-column-number)))
+        minmax(
+          0,
+          calc(
+            (var(--page-width) - var(--page-margin) * 2) /
+              var(--centered-column-number)
+          )
+        )
       )
       minmax(var(--page-margin), 1fr);
   }
 }
 
-.collection-wrapper:has(.facets--vertical) .facets-block-wrapper--vertical:not(.hidden) ~ .main-collection-grid {
+.collection-wrapper:has(.facets--vertical)
+  .facets-block-wrapper--vertical:not(.hidden)
+  ~ .main-collection-grid {
   @media screen and (min-width: 750px) {
-    grid-column: var(--facets-vertical-col-width) / var(--full-width-column-number);
+    grid-column: var(--facets-vertical-col-width) /
+      var(--full-width-column-number);
   }
 }
 
-.collection-wrapper:has(.facets-block-wrapper--vertical:not(#filters-drawer)):has(.collection-wrapper--full-width) {
+.collection-wrapper:has(
+    .facets-block-wrapper--vertical:not(#filters-drawer)
+  ):has(.collection-wrapper--full-width) {
   @media screen and (min-width: 750px) {
     grid-column: 1 / -1;
-    grid-template-columns: 0fr repeat(var(--centered-column-number), minmax(0, 1fr)) 0fr;
+    grid-template-columns: 0fr repeat(
+        var(--centered-column-number),
+        minmax(0, 1fr)
+      ) 0fr;
   }
 }
 
@@ -3577,8 +3802,12 @@ fly-to-cart.fly-to-cart--sticky {
 :is(.collection-wrapper--full-width) .card-gallery,
 :is(.collection-wrapper--full-width-on-mobile) .card-gallery {
   @media screen and (max-width: 749px) {
-    margin-inline-start: calc(-1 * max(var(--padding-xs), var(--padding-inline-start)));
-    margin-inline-end: calc(-1 * max(var(--padding-xs), var(--padding-inline-end)));
+    margin-inline-start: calc(
+      -1 * max(var(--padding-xs), var(--padding-inline-start))
+    );
+    margin-inline-end: calc(
+      -1 * max(var(--padding-xs), var(--padding-inline-end))
+    );
   }
 }
 
@@ -3598,7 +3827,8 @@ fly-to-cart.fly-to-cart--sticky {
   }
 }
 
-.collection-wrapper:has(.product-grid-mobile--large) .facets-mobile-wrapper.facets-controls-wrapper {
+.collection-wrapper:has(.product-grid-mobile--large)
+  .facets-mobile-wrapper.facets-controls-wrapper {
   @media screen and (max-width: 749px) {
     display: none;
   }
@@ -3929,7 +4159,9 @@ slideshow-component.slideshow--content-below-media slideshow-slide {
   display: grid;
 }
 
-.slideshow--content-below-media slideshow-slide :is(.slide__image-container, .slide__content) {
+.slideshow--content-below-media
+  slideshow-slide
+  :is(.slide__image-container, .slide__content) {
   position: static;
 }
 
@@ -4101,7 +4333,10 @@ slideshow-slide.product-media-container--tallest {
  * Be specific about HTML children structure to avoid targeting nested slideshows.
  * Ensure that the content is 'visible' while scrolling instead of 'auto' to avoid issues in Safari.
  */
-slideshow-component:is([dragging], [transitioning], :hover) > slideshow-container > slideshow-slides > slideshow-slide {
+slideshow-component:is([dragging], [transitioning], :hover)
+  > slideshow-container
+  > slideshow-slides
+  > slideshow-slide {
   content-visibility: visible;
 }
 
@@ -4136,7 +4371,8 @@ slideshow-container {
 }
 
 @media screen and (min-width: 750px) {
-  .media-gallery--carousel slideshow-component:has(slideshow-controls[thumbnails]) {
+  .media-gallery--carousel
+    slideshow-component:has(slideshow-controls[thumbnails]) {
     &:has(slideshow-controls[pagination-position='right']) {
       display: grid;
       grid-template:
@@ -4252,11 +4488,14 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 }
 
 :not(.media-gallery--carousel)
-  > :is(slideshow-component:hover, slideshow-component:focus-within):not(:has(slideshow-controls:hover))
+  > :is(slideshow-component:hover, slideshow-component:focus-within):not(
+    :has(slideshow-controls:hover)
+  )
   > slideshow-container
   > slideshow-arrows
   .slideshow-control {
-  animation: arrowsSlideIn var(--animation-speed) var(--animation-easing) forwards;
+  animation: arrowsSlideIn var(--animation-speed) var(--animation-easing)
+    forwards;
 }
 
 @keyframes arrowsSlideIn {
@@ -4326,8 +4565,14 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 
 .resource-list {
   --resource-list-mobile-gap-max: 9999px;
-  --resource-list-column-gap: min(var(--resource-list-column-gap-desktop), var(--resource-list-mobile-gap-max));
-  --resource-list-row-gap: min(var(--resource-list-row-gap-desktop), var(--resource-list-mobile-gap-max));
+  --resource-list-column-gap: min(
+    var(--resource-list-column-gap-desktop),
+    var(--resource-list-mobile-gap-max)
+  );
+  --resource-list-row-gap: min(
+    var(--resource-list-row-gap-desktop),
+    var(--resource-list-mobile-gap-max)
+  );
 
   width: 100%;
 
@@ -4373,7 +4618,11 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
       --resource-list-columns-per-row: 5;
     }
 
-    &:has(.resource-list__item:first-child:nth-last-child(n + 7):nth-last-child(-n + 8)) {
+    &:has(
+      .resource-list__item:first-child:nth-last-child(n + 7):nth-last-child(
+          -n + 8
+        )
+    ) {
       --resource-list-columns-per-row: 4;
     }
 
@@ -4422,17 +4671,28 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 
 @container resource-list-carousel (max-width: 749px) {
   .resource-list__carousel .resource-list__slide {
-    --slide-width: clamp(150px, var(--mobile-card-size, 60cqw), var(--slide-width-max));
+    --slide-width: clamp(
+      150px,
+      var(--mobile-card-size, 60cqw),
+      var(--slide-width-max)
+    );
   }
 }
 
 @container resource-list-carousel (min-width: 750px) {
   .resource-list__carousel .resource-list__slide {
     --section-slide-width: calc(
-      (100% - (var(--resource-list-column-gap) * (var(--column-count) - 1)) - var(--peek-next-slide-size)) /
+      (
+          100% - (var(--resource-list-column-gap) * (var(--column-count) - 1)) -
+            var(--peek-next-slide-size)
+        ) /
         var(--column-count)
     );
-    --fallback-slide-width: clamp(150px, var(--mobile-card-size, 60cqw), var(--slide-width-max));
+    --fallback-slide-width: clamp(
+      150px,
+      var(--mobile-card-size, 60cqw),
+      var(--slide-width-max)
+    );
     --slide-width: var(--section-slide-width, var(--fallback-slide-width));
   }
 }
@@ -4479,7 +4739,8 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 }
 
 /* Container styles */
-.section-content-wrapper.section-content-wrapper:where(.layout-panel-flex) .group-block--fill {
+.section-content-wrapper.section-content-wrapper:where(.layout-panel-flex)
+  .group-block--fill {
   flex: 1;
 }
 
@@ -4527,7 +4788,8 @@ accordion-custom {
       overflow-y: clip;
       opacity: 0;
       interpolate-size: allow-keywords;
-      transition: content-visibility var(--animation-speed-slow) allow-discrete,
+      transition:
+        content-visibility var(--animation-speed-slow) allow-discrete,
         padding-block var(--animation-speed-slow) var(--animation-easing),
         opacity var(--animation-speed-slow) var(--animation-easing),
         block-size var(--animation-speed-slow) var(--animation-easing);
@@ -4634,11 +4896,13 @@ text-component {
 }
 
 .transition-transform {
-  transition: transform var(--animation-speed-medium) var(--animation-timing-bounce);
+  transition: transform var(--animation-speed-medium)
+    var(--animation-timing-bounce);
 }
 
 .transition-border-color {
-  transition: border-color var(--animation-speed-medium) var(--animation-timing-hover);
+  transition: border-color var(--animation-speed-medium)
+    var(--animation-timing-hover);
 }
 
 /* Global scrollbar styles */
@@ -4671,7 +4935,9 @@ text-component {
 }
 
 /* Product card title truncation - applied only to zoom-out view */
-[product-grid-view='zoom-out'] :is(.product-card, .product-grid__card) :is(h4, .h4) {
+[product-grid-view='zoom-out']
+  :is(.product-card, .product-grid__card)
+  :is(h4, .h4) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -4697,7 +4963,8 @@ text-component {
 .predictive-search-results__card:hover {
   position: relative;
   z-index: var(--layer-raised);
-  transition: transform var(--hover-transition-duration) var(--hover-transition-timing),
+  transition:
+    transform var(--hover-transition-duration) var(--hover-transition-timing),
     box-shadow var(--hover-transition-duration) var(--hover-transition-timing);
 }
 
@@ -4809,7 +5076,8 @@ product-recommendations:has([data-has-recommendations='false']) {
   animation-duration: var(--animation-speed);
   animation-timing-function: var(--animation-easing);
   animation-fill-mode: forwards;
-  transition: width var(--animation-speed) var(--animation-easing),
+  transition:
+    width var(--animation-speed) var(--animation-easing),
     opacity var(--animation-speed) var(--animation-easing);
 }
 
@@ -4914,28 +5182,41 @@ product-recommendations:has([data-has-recommendations='false']) {
     .tick {
       transition-property: scale;
       transition-duration: calc((calc(var(--tick-speed) * 1s)));
-      transition-delay: calc(((var(--base-delay) + (var(--check-speed) * (var(--step-delay) * 1.1))) * 1s));
+      transition-delay: calc(
+        (
+          (
+              var(--base-delay) +
+                (var(--check-speed) * (var(--step-delay) * 1.1))
+            ) *
+            1s
+        )
+      );
       transition-timing-function: ease-out;
     }
 
     .ring {
       transition-property: opacity, scale;
       transition-duration: calc((calc(var(--ring-speed) * 1s)));
-      transition-delay: calc(((var(--base-delay) + (var(--check-speed) * var(--step-delay))) * 1s));
+      transition-delay: calc(
+        ((var(--base-delay) + (var(--check-speed) * var(--step-delay))) * 1s)
+      );
       transition-timing-function: var(--ease-out-quad);
     }
 
     .line {
       transition-property: stroke-dashoffset;
       transition-duration: calc((calc(var(--burst-speed) * 1s)));
-      transition-delay: calc(((var(--base-delay) + (var(--check-speed) * var(--step-delay))) * 1s));
+      transition-delay: calc(
+        ((var(--base-delay) + (var(--check-speed) * var(--step-delay))) * 1s)
+      );
       transition-timing-function: var(--ease-out-cubic);
     }
   }
 
   .add-to-cart-text {
     transition-property: clip-path, opacity, filter, translate;
-    transition-duration: calc((var(--text-speed) * 0.6s)), calc((var(--text-speed) * 1s));
+    transition-duration:
+      calc((var(--text-speed) * 0.6s)), calc((var(--text-speed) * 1s));
     transition-timing-function: ease-out;
   }
 }

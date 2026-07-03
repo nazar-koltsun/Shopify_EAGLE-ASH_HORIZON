@@ -37,7 +37,7 @@
       {%- endif -%}
 
       {%- if section.settings.link_label != blank and section.settings.link_url != blank -%}
-        <a class="promo-section__link" href="{{ section.settings.link_url }}">
+        <a class="promo-section__link btn btn--white" href="{{ section.settings.link_url }}">
           {{ section.settings.link_label }}
         </a>
       {%- endif -%}
@@ -53,7 +53,6 @@
     display: flex;
     align-items: center;
     width: 100%;
-    min-height: 500px;
     overflow: hidden;
     background-color: var(--deepest-brand-blue, #07272d);
     isolation: isolate;
@@ -76,12 +75,6 @@
   .promo-section__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      90deg,
-      rgba(7, 39, 45, 0.75) 0%,
-      rgba(7, 39, 45, 0.45) 45%,
-      rgba(7, 39, 45, 0.05) 100%
-    );
   }
 
   .promo-section__inner {
@@ -89,11 +82,13 @@
     width: 100%;
     max-width: 1920px;
     margin-inline: auto;
-    padding: 80px;
+    padding-inline: 116px;
+    padding-block-start: 240px;
+    padding-block-end: 190px;
   }
 
   .promo-section__content {
-    max-width: 560px;
+    max-width: 580px;
     display: flex;
     flex-direction: column;
     color: var(--color-white, #ffffff);
@@ -102,18 +97,19 @@
   .promo-section__heading {
     margin: 0;
     font-family: 'Lora', serif;
-    font-weight: 400;
-    font-size: 48px;
+    font-weight: 500;
+    font-size: 40px;
     line-height: 1.2;
-    color: var(--color-white, #ffffff);
+    color: white;
   }
 
   .promo-section__description {
+    max-width: 365px;
     margin-top: 20px;
-    font-family: 'Assistant', sans-serif;
-    font-size: 18px;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: white;
   }
 
   .promo-section__description > :first-child {
@@ -125,19 +121,8 @@
   }
 
   .promo-section__link {
-    margin-top: 40px;
+    margin-top: 80px;
     align-self: flex-start;
-    font-family: 'Assistant', sans-serif;
-    font-size: 16px;
-    color: var(--color-white, #ffffff);
-    text-decoration: underline;
-    text-underline-offset: 6px;
-    transition: opacity 0.2s ease, text-underline-offset 0.2s ease;
-  }
-
-  .promo-section__link:hover {
-    opacity: 0.8;
-    text-underline-offset: 8px;
   }
 
   .promo-section__accent-bar {
@@ -175,6 +160,7 @@
 {
   "name": "Promo Section",
   "class": "section-wrapper section-promo",
+  "tag": "section",
   "settings": [
     {
       "type": "image_picker",
