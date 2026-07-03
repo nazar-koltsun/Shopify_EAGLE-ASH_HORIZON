@@ -85,6 +85,24 @@
     padding-inline: 116px;
     padding-block-start: 240px;
     padding-block-end: 190px;
+
+    @media screen and (max-width: 1200px) {
+      padding-inline: 80px;
+      padding-block-start: 180px;
+      padding-block-end: 140px;
+    }
+
+    @media screen and (max-width: 950px) {
+      padding-inline: 40px;
+      padding-block-start: 120px;
+      padding-block-end: 100px;
+    }
+
+    @media screen and (max-width: 749px) {
+      padding-inline: 20px;
+      padding-block-start: 80px;
+      padding-block-end: 70px;
+    }
   }
 
   .promo-section__content {
@@ -101,6 +119,10 @@
     font-size: 40px;
     line-height: 1.2;
     color: white;
+
+    @media screen and (max-width: 749px) {
+      font-size: 32px;
+    }
   }
 
   .promo-section__description {
@@ -110,6 +132,10 @@
     font-weight: 300;
     font-size: 20px;
     color: white;
+
+    @media screen and (max-width: 749px) {
+      font-size: 18px;
+    }
   }
 
   .promo-section__description > :first-child {
@@ -123,35 +149,9 @@
   .promo-section__link {
     margin-top: 80px;
     align-self: flex-start;
-  }
 
-  .promo-section__accent-bar {
-    position: absolute;
-    inset-inline: 0;
-    bottom: 0;
-    height: 6px;
-    background-color: var(--blue-spectrum-dark, #115e67);
-  }
-
-  @media screen and (max-width: 950px) {
-    .promo-section {
-      min-height: 420px;
-    }
-
-    .promo-section__inner {
-      padding: var(--padding-5xl, 48px) var(--padding-xl, 24px);
-    }
-
-    .promo-section__content {
-      max-width: 100%;
-    }
-
-    .promo-section__heading {
-      font-size: 34px;
-    }
-
-    .promo-section__description {
-      font-size: 16px;
+    @media screen and (max-width: 749px) {
+      margin-top: 55px;
     }
   }
 {% endstylesheet %}

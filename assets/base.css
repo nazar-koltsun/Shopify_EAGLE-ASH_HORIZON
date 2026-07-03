@@ -91,6 +91,10 @@ select {
     opacity: 0.8;
     text-underline-offset: 12px;
   }
+
+  @media screen and (max-width: 749px) {
+    font-size: 18px;
+  }
 }
 
 
