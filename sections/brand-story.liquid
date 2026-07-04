@@ -23,7 +23,9 @@
         {%- endif -%}
       </div>
     </div>
+  </div>
 
+  <div>
     {%- if image_small != blank or image_big != blank -%}
       <div class="brand-story__media">
         <div class="brand-story__media-item brand-story__media-item--small">
@@ -71,8 +73,16 @@
 </div>
 
 {% stylesheet %}
+  .section-brand-story {
+    background-color: white;
+  }
+  
   .brand-story {
     width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    padding-block-start: 135px;
+    padding-block-end: 72px;
     background-color: var(--color-background, #ffffff);
   }
 
@@ -80,24 +90,14 @@
     width: 100%;
     max-width: 1920px;
     margin-inline: auto;
-    padding-inline: 116px;
-    padding-block: 80px;
-
-    @media screen and (max-width: 1200px) {
-      padding-inline: 80px;
-    }
-
-    @media screen and (max-width: 950px) {
-      padding-inline: 40px;
-      padding-block: 56px;
-    }
+    padding-inline: 40px;
   }
 
   .brand-story__header {
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr;
-    column-gap: 40px;
-    align-items: start;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    column-gap: 27px;
+    align-items: center;
 
     @media screen and (max-width: 990px) {
       grid-template-columns: 1fr 1fr;
@@ -114,9 +114,9 @@
     margin: 0;
     font-family: 'Lora', serif;
     font-weight: 500;
-    font-size: 40px;
-    line-height: 1.15;
-    color: var(--color-foreground, #001e26);
+    font-size: 48px;
+    line-height: 1.3;
+    color: var(--deepest-brand-blue);
 
     @media screen and (max-width: 990px) {
       grid-column: 1 / -1;
@@ -140,10 +140,10 @@
 
   .brand-story__description {
     font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--color-foreground, #001e26);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.35;
+    color: var(--deepest-brand-blue);
   }
 
   .brand-story__description > :first-child {
@@ -155,10 +155,11 @@
   }
 
   .brand-story__media {
-    margin-block-start: 64px;
+    margin-block-start: 30px;
+    padding-inline-start: 123px;
     display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
-    column-gap: 68px;
+    grid-template-columns: minmax(0, 0.7081fr) minmax(0, 1fr);
+    column-gap: 107px;
     align-items: center;
 
     @media screen and (max-width: 950px) {
