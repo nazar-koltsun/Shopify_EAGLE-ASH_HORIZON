@@ -126,10 +126,10 @@
       "type": "contact-split",
       "settings": {
         "title": "Let's Create Something Worth Remembering",
-        "description": "<p>Whether you're recognising achievement, thanking clients or creating memorable event gifts, we're here to help.</p><p>Rather than mass-produced alternatives, we collaborate with carefully selected makers and trusted workshops to deliver exceptional craftsmanship, thoughtful presentation and products made to leave a lasting impression.</p><p>Whether you already have a clear vision or are looking for inspiration, we'd love to hear your ideas and explore what's possible together.</p>",
+        "description": "<p>Whether you're recognising achievement, thanking clients or creating memorable event gifts, we're here to help.</p><p>Rather than mass-produced alternatives, we collaborate with carefully selected makers and trusted workshops to deliver exceptional craftsmanship, thoughtful presentation and products made to leave a lasting impression.<br/>Every project is approached with care, flexibility and attention to detail — because meaningful gifts deserve more than a one-size-fits-all solution.</p><p>Whether you already have a clear vision or are looking for inspiration, we'd love to hear your ideas and explore what's possible together.</p>",
         "cta_label": "Let's Start a Conversation",
-        "cta_link": "",
-        "image": ""
+        "cta_link": "#",
+        "image": "shopify://shop_images/contact-split.webp"
       }
     }
   },
