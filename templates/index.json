@@ -73,31 +73,41 @@
         "card_1": {
           "type": "card",
           "settings": {
-            "title": "Awards"
+            "image": "shopify://shop_images/carousel-award.webp",
+            "title": "Awards",
+            "link": ""
           }
         },
         "card_2": {
           "type": "card",
           "settings": {
-            "title": "Recovery"
+            "image": "shopify://shop_images/carousel-recovery.webp",
+            "title": "Recovery",
+            "link": ""
           }
         },
         "card_3": {
           "type": "card",
           "settings": {
-            "title": "Tees"
+            "image": "shopify://shop_images/carousel-tees.webp",
+            "title": "Tees",
+            "link": ""
           }
         },
         "card_4": {
           "type": "card",
           "settings": {
-            "title": "Essentials"
+            "image": "shopify://shop_images/carousel-essentials.webp",
+            "title": "Essentials",
+            "link": ""
           }
         },
         "card_5": {
           "type": "card",
           "settings": {
-            "title": "Leather"
+            "image": "shopify://shop_images/carousel-leather.webp",
+            "title": "Leather",
+            "link": ""
           }
         }
       },
