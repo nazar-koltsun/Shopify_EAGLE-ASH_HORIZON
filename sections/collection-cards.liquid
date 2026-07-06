@@ -109,15 +109,25 @@
     padding-block-end: 114px;
     background-color: var(--deepest-brand-blue);
 
+    @media screen and (min-width: 1600px) {
+      --cc-per-view: 4.13;
+    }
 
     @media screen and (max-width: 1200px) {
-      padding-block-start: 60px;
-      padding-block-end: 72px;
+      padding-block-end: 80px;
+    }
+
+    @media screen and (max-width: 850px) {
+      --cc-per-view: 2.2;
     }
 
     @media screen and (max-width: 749px) {
-      padding-block-start: 40px;
-      padding-block-end: 48px;
+      padding-block-start: 20px;
+      padding-block-end: 60px;
+    }
+
+    @media screen and (max-width: 580px) {
+      --cc-per-view: 1.2;
     }
   }
 
@@ -131,11 +141,11 @@
     margin-block-end: 50px;
 
     @media screen and (max-width: 990px) {
-      margin-block-end: 28px;
+      margin-block-end: 40px;
     }
 
     @media screen and (max-width: 749px) {
-      margin-block-end: 20px;
+      margin-block-end: 30px;
     }
   }
 
@@ -149,15 +159,15 @@
     color: white;
 
     @media screen and (max-width: 1200px) {
-      font-size: 40px;
+      font-size: 28px;
     }
 
     @media screen and (max-width: 990px) {
-      font-size: 34px;
+      font-size: 24px;
     }
 
     @media screen and (max-width: 749px) {
-      font-size: 28px;
+      font-size: 20px;
     }
   }
 
@@ -229,11 +239,22 @@
     inset-block-end: 0;
     inset-inline-start: 14px;
     font-family: 'Roboto', sans-serif;
-    font-weight: 300;
+    font-weight: 200;
     font-size: 24px;
     line-height: 29px;
     color: white;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+
+    @media screen and (max-width: 1200px) {
+      font-size: 20px;
+      line-height: 24px;
+      inset-inline-start: 10px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 18px;
+      line-height: 22px;
+      inset-inline-start: 8px;
+    }
   }
 {% endstylesheet %}
 
