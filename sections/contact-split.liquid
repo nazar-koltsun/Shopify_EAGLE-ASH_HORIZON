@@ -1,0 +1,224 @@
+{%- liquid
+  assign title = section.settings.title
+  assign description = section.settings.description
+  assign cta_label = section.settings.cta_label
+  assign cta_link = section.settings.cta_link
+  assign image = section.settings.image
+-%}
+
+<div class="contact-split">
+  <div class="contact-split__inner">
+    <div class="contact-split__media">
+      {%- if image != blank -%}
+        <img
+          class="contact-split__image"
+          src="{{ image | image_url: width: 1200 }}"
+          srcset="
+            {{ image | image_url: width: 480 }} 480w,
+            {{ image | image_url: width: 720 }} 720w,
+            {{ image | image_url: width: 960 }} 960w,
+            {{ image | image_url: width: 1200 }} 1200w,
+            {{ image | image_url: width: 1600 }} 1600w
+          "
+          sizes="(max-width: 749px) 100vw, 50vw"
+          width="{{ image.width }}"
+          height="{{ image.height }}"
+          alt="{{ image.alt | escape }}"
+          loading="lazy"
+        >
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'contact-split__image contact-split__image--placeholder' }}
+      {%- endif -%}
+    </div>
+
+    <div class="contact-split__content">
+      {%- if title != blank -%}
+        <h2 class="contact-split__title">{{ title }}</h2>
+      {%- endif -%}
+
+      {%- if description != blank -%}
+        <div class="contact-split__description">{{ description }}</div>
+      {%- endif -%}
+
+      {%- if cta_label != blank and cta_link != blank -%}
+        <a class="contact-split__cta btn" href="{{ cta_link }}">{{ cta_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="contact-split__accent" aria-hidden="true" role="presentation"></div>
+</div>
+
+{% stylesheet %}
+  .section-contact-split {
+    background-color: var(--color-background, #f7f7f5);
+  }
+
+  .contact-split {
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    padding-block-start: 149px;
+    background-color: var(--color-background, #f7f7f5);
+
+    @media screen and (max-width: 1200px) {
+      padding-block-start: 56px;
+    }
+
+    @media screen and (max-width: 749px) {
+      padding-block: 36px 12px;
+    }
+  }
+
+  .contact-split__inner {
+    display: grid;
+    grid-template-columns: 1.153fr 1fr;
+    background-color: var(--color-background, #f7f7f5);
+
+    @media screen and (max-width: 990px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .contact-split__media {
+    position: relative;
+    min-height: 560px;
+    background-color: rgba(0, 35, 46, 0.08);
+
+    @media screen and (max-width: 1200px) {
+      min-height: 500px;
+    }
+
+    @media screen and (max-width: 990px) {
+      min-height: 420px;
+    }
+
+    @media screen and (max-width: 749px) {
+      min-height: 340px;
+    }
+  }
+
+  .contact-split__image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .contact-split__image--placeholder {
+    background-color: var(--blue-spectrum-dark);
+    fill: var(--blue-spectrum-light);
+  }
+
+  .contact-split__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 32px;
+    padding-inline-start: 45px;
+    padding-inline-end: 52px;
+    color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 1200px) {
+      padding: 64px 52px;
+      gap: 32px;
+    }
+
+    @media screen and (max-width: 990px) {
+      padding: 48px 32px;
+      gap: 24px;
+    }
+
+    @media screen and (max-width: 749px) {
+      padding: 36px 20px;
+    }
+  }
+
+  .contact-split__title {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1.2;
+    color: var(--deepest-brand-blue);
+  }
+
+  .contact-split__description {
+    margin-block-start: 140px;
+    padding-inline-start: 111px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--deepest-brand-blue);
+  }
+
+  .contact-split__description > :first-child {
+    margin-block-start: 0;
+  }
+
+  .contact-split__description > :last-child {
+    margin-block-end: 0;
+  }
+
+  .contact-split__cta {
+    margin-block-start: 90px;
+    padding-inline-start: 111px;
+  }
+
+  .contact-split__accent {
+    height: 38px;
+    background-color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 1200px) {
+      height: 30px;
+    }
+
+    @media screen and (max-width: 749px) {
+      height: 24px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Contact Split",
+  "class": "section-wrapper section-contact-split",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Let's Create Something Worth Remembering"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Whether you're recognising achievement, thanking clients or creating memorable event gifts, we're here to help.</p><p>Rather than mass-produced alternatives, we collaborate with carefully selected makers and trusted workshops to deliver exceptional craftsmanship, thoughtful presentation and products made to leave a lasting impression.</p><p>Whether you already have a clear vision or are looking for inspiration, we'd love to hear your ideas and explore what's possible together.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Call to action label",
+      "default": "Let's Start a Conversation"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Call to action link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Split"
+    }
+  ]
+}
+{% endschema %}
