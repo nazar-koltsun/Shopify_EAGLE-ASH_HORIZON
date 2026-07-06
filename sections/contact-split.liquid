@@ -62,11 +62,11 @@
     background-color: var(--color-background, #f7f7f5);
 
     @media screen and (max-width: 1200px) {
-      padding-block-start: 56px;
+      padding-block-start: 100px;
     }
 
     @media screen and (max-width: 749px) {
-      padding-block: 36px 12px;
+      padding-block-start: 60px; 
     }
   }
 
@@ -76,7 +76,13 @@
     background-color: var(--color-background, #f7f7f5);
 
     @media screen and (max-width: 990px) {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 48px;
+    }
+
+    @media screen and (max-width: 749px) {
+      gap: 32px;
     }
   }
 
@@ -90,11 +96,17 @@
     }
 
     @media screen and (max-width: 990px) {
-      min-height: 420px;
+      height: 500px;
     }
 
     @media screen and (max-width: 749px) {
-      min-height: 340px;
+      height: 400px;
+      min-height: 400px;
+    }
+
+    @media screen and (max-width: 580px) {
+      height: 300px;
+      min-height: 300px;
     }
   }
 
@@ -120,17 +132,15 @@
     color: var(--deepest-brand-blue);
 
     @media screen and (max-width: 1200px) {
-      padding: 64px 52px;
-      gap: 32px;
+      padding: 24px 32px;
     }
 
     @media screen and (max-width: 990px) {
-      padding: 48px 32px;
-      gap: 24px;
+      padding: 0 40px;
     }
 
     @media screen and (max-width: 749px) {
-      padding: 36px 20px;
+      padding: 0 20px;
     }
   }
 
@@ -141,6 +151,18 @@
     font-size: 48px;
     line-height: 1.2;
     color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 1200px) {
+      font-size: 40px;
+    }
+
+    @media screen and (max-width: 990px) {
+      font-size: 34px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 28px;
+    }
   }
 
   .contact-split__description {
@@ -151,6 +173,20 @@
     font-size: 16px;
     line-height: 1.4;
     color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 1200px) {
+      margin-block-start: 100px;
+      padding-inline-start: 40px;
+    }
+
+    @media screen and (max-width: 990px) {
+      margin-block-start: 60px;
+      padding-inline-start: 0;
+    }
+
+    @media screen and (max-width: 749px) {
+      margin-block-start: 20px;
+    }
   }
 
   .contact-split__description > :first-child {
@@ -164,6 +200,16 @@
   .contact-split__cta {
     margin-block-start: 90px;
     padding-inline-start: 111px;
+
+    @media screen and (max-width: 1200px) {
+      margin-block-start: 60px;
+      padding-inline-start: 40px;
+    }
+
+    @media screen and (max-width: 990px) {
+      margin-block-start: 40px;
+      padding-inline-start: 0;
+    }
   }
 
   .contact-split__accent {
