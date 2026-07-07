@@ -52,10 +52,21 @@
           alt="{{ footer_logo.alt | default: section.settings.logo_alt | default: shop.name | escape }}"
           loading="lazy"
         >
-      {% elsif section.settings.brand_text != blank %}
-        <p class="custom-footer__brand-text">{{ section.settings.brand_text }}</p>
       {% endif %}
-    </div>
+
+      <div class="custom-footer__meta" aria-label="{{ section.settings.bottom_meta_label | escape }}">
+        {% if section.settings.meta_part_one != blank %}
+          <span class="custom-footer__meta-brand">{{ section.settings.meta_part_one }}</span>
+        {% endif %}
+        {% if section.settings.meta_part_two != blank %}
+          <span>{{ section.settings.meta_part_two }}</span>
+        {% endif %}
+        {% if section.settings.meta_part_three != blank %}
+          <span>{{ section.settings.meta_part_three }}</span>
+        {% endif %}
+      </div>
+      
+    </div> 
 
     <div class="custom-footer__menus">
       <nav class="custom-footer__menu-column" aria-label="{{ section.settings.primary_menu_label | escape }}">
@@ -89,18 +100,6 @@
   </div>
 
   <div class="custom-footer__bottom">
-    <div class="custom-footer__meta" aria-label="{{ section.settings.bottom_meta_label | escape }}">
-      {% if section.settings.meta_part_one != blank %}
-        <span>{{ section.settings.meta_part_one }}</span>
-      {% endif %}
-      {% if section.settings.meta_part_two != blank %}
-        <span>{{ section.settings.meta_part_two }}</span>
-      {% endif %}
-      {% if section.settings.meta_part_three != blank %}
-        <span>{{ section.settings.meta_part_three }}</span>
-      {% endif %}
-    </div>
-
     {% if section.settings.contact_email != blank %}
       <a class="custom-footer__email" href="mailto:{{ section.settings.contact_email | strip | escape }}">
         {{- section.settings.contact_email | escape -}}
@@ -233,14 +232,9 @@
 
   .custom-footer__main {
     display: grid;
-    grid-template-columns: minmax(260px, 1fr) auto minmax(220px, 0.9fr);
+    grid-template-columns: 325px 1fr 325px;  
     align-items: start;
-    column-gap: clamp(18px, 4vw, 56px);
-    row-gap: 24px;
-  }
-
-  .custom-footer__newsletter {
-    max-width: 325px;
+    column-gap: 36px;
   }
 
   .custom-footer__newsletter-heading {
@@ -254,24 +248,35 @@
 
   .custom-footer__brand {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;  
+    gap: 20px;
     min-height: 100%;
+    margin-block-start: -6px;
   }
 
   .custom-footer__logo-image {
     display: block;
     width: 100%;
     height: auto;
-    max-width: 152px;
+    max-width: 160px;
   }
 
-  .custom-footer__brand-text {
-    margin: 0;
-    font-size: clamp(18px, 1.5vw, 30px);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  .custom-footer__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-family: 'Lora', serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ash-amber-orange); 
   }
+
+  .custom-footer__meta-brand {
+    font-weight: 600;
+    text-transform: uppercase; 
+  } 
 
   .custom-footer__menus {
     display: grid;
@@ -290,16 +295,16 @@
   }
 
   .custom-footer__menu-link {
-    color: #1f2937;
+    color: var(--ash-amber-orange);
     font-family: 'Lora', serif;
-    font-size: clamp(13px, 1vw, 18px);
-    line-height: 1.35;
+    font-size: 12px;
+    font-weight: 400;
     text-decoration: none;
+    transition: color .3s ease;
   }
 
   .custom-footer__menu-link:hover {
-    text-decoration: underline;
-    text-underline-offset: 2px;
+    color: var(--deepest-brand-blue);
   }
 
   .custom-footer__bottom {
@@ -369,12 +374,6 @@
       "id": "logo_alt",
       "label": "Logo alt text",
       "default": "Eagle & Ash"
-    },
-    {
-      "type": "text",
-      "id": "brand_text",
-      "label": "Fallback brand text",
-      "default": "EAGLE & ASH"
     },
     {
       "type": "header",

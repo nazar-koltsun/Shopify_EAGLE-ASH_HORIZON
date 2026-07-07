@@ -6,6 +6,7 @@
   inside base.css, which is why the relative/asset_url paths there did not work.
 {% endcomment %}
 {{ 'Lora-Regular.woff2' | asset_url | preload_tag: as: 'font' }}
+{{ 'Lora-SemiBold.woff2' | asset_url | preload_tag: as: 'font' }}
 {{ 'Assistant-Regular.woff2' | asset_url | preload_tag: as: 'font' }}
 {{ 'Roboto-ExtraLight.woff2' | asset_url | preload_tag: as: 'font' }}
 {{ 'Roboto-Light.woff2' | asset_url | preload_tag: as: 'font' }}
@@ -46,6 +47,14 @@
     font-family: 'Lora';
     src: url('{{ "Lora-Medium.woff2" | asset_url }}') format('woff2');
     font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Lora';
+    src: url('{{ "Lora-SemiBold.woff2" | asset_url }}') format('woff2');
+    font-weight: 600;
     font-style: normal;
     font-display: swap;
   }
