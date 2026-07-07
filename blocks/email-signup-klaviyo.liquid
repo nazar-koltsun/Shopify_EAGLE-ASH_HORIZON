@@ -1,97 +1,20 @@
-{% assign block_settings = block.settings %}
+{% liquid
+  assign block_settings = block.settings
+  capture klaviyo_style
+    render 'size-style', settings: block_settings
+    render 'spacing-style', settings: block_settings
+  endcapture
+%}
 
-<email-signup-klaviyo
-  class="email-signup-block"
-  style="{% render 'size-style', settings: block_settings %}{% render 'spacing-style', settings: block_settings %}"
-  data-company-id="{{ block_settings.klaviyo_company_id | escape }}"
-  data-list-id="{{ block_settings.klaviyo_list_id | escape }}"
-  data-custom-source="Eagle & Ash password page"
-  data-fields-required="{{ 'blocks.email_signup_klaviyo.fields_required' | t | escape }}"
-  data-error-message="{{ 'blocks.email_signup_klaviyo.error' | t | escape }}"
-  {{ block.shopify_attributes }}>
-  <form class="email-signup-klaviyo__form" novalidate>
-    <div class="email-signup-klaviyo__form-wrap">
-
-      <div class="email-signup__fields">
-        <div class="email-signup-klaviyo__input-group">
-          <label for="EmailInput-{{ block.id }}" class="visually-hidden">
-            {{ 'blocks.email_signup.label' | t }}
-          </label>
-          <input
-            id="EmailInput-{{ block.id }}"
-            class="email-signup-klaviyo__input"
-            type="email"
-            name="email"
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="email"
-            placeholder="{{ 'blocks.email_signup.placeholder' | t }}"
-            required>
-        </div>
-
-        <fieldset class="email-signup-klaviyo__interest">
-          <div class="email-signup-klaviyo__interest-options">
-            <label class="email-signup-klaviyo__interest-option">
-              <input
-                type="radio"
-                name="interest_type"
-                value="B2C"
-                required>
-              <span>{{ 'blocks.email_signup_klaviyo.interest_b2c' | t }}</span>
-            </label>
-            <label class="email-signup-klaviyo__interest-option">
-              <input
-                type="radio"
-                name="interest_type"
-                value="B2B"
-                required>
-              <span>{{ 'blocks.email_signup_klaviyo.interest_b2b' | t }}</span>
-            </label>
-          </div>
-        </fieldset>
-      </div>
-
-      <button
-        type="submit"
-        class="email-signup-klaviyo__button"
-        aria-label="{{ 'actions.sign_up' | t }}">
-        {{ block_settings.label }}
-      </button>
-    </div>
-
-
-
-    <div
-      data-signup-error
-      class="email-signup-klaviyo__message hidden"
-      tabindex="-1"
-      role="alert">
-      <svg
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-        focusable="false"
-        aria-hidden="true"
-        class="icon-error">
-        {%- render 'icon'
-          , icon: 'error' -%}
-      </svg>
-      <p class="email-signup-klaviyo__message-text">{{ 'blocks.email_signup_klaviyo.fields_required' | t }}</p>
-    </div>
-
-    <div
-      data-signup-success
-      class="email-signup-klaviyo__message hidden"
-      tabindex="-1"
-      role="status">
-      <span class="svg-wrapper icon-success">
-        {{ 'icon-checkmark.svg' | inline_asset_content }}
-      </span>
-      <p class="email-signup-klaviyo__message-text">{{ 'blocks.email_signup_klaviyo.success' | t }}</p>
-    </div>
-  </form>
-</email-signup-klaviyo>
-
-<script src="{{ 'email-signup-klaviyo.js' | asset_url }}" type="module"></script>
+{% render 'email-signup-klaviyo-form',
+  klaviyo_company_id: block_settings.klaviyo_company_id,
+  klaviyo_list_id: block_settings.klaviyo_list_id,
+  label: block_settings.label,
+  custom_source: 'Eagle & Ash password page',
+  form_id: block.id,
+  shopify_attributes: block.shopify_attributes,
+  style: klaviyo_style
+%}
 
 {% stylesheet %}
   .email-signup-block {
