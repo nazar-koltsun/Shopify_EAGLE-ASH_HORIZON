@@ -99,10 +99,19 @@
               "link": "https://www.instagram.com/eagleandash/",
               "icon": "instagram"
             }
+          },
+          "social_link_yfBhyz": {
+            "type": "social_link",
+            "settings": {
+              "title": "Facebook",
+              "link": "https://www.facebook.com/profile.php?id=61590270338294",
+              "icon": "facebook"
+            }
           }
         },
         "block_order": [
-          "social_link_MFQhVx"
+          "social_link_MFQhVx",
+          "social_link_yfBhyz"
         ],
         "settings": {
           "email": "hello@eagleandash.com"
