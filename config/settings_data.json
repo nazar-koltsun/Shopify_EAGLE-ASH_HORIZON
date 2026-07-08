@@ -84,6 +84,31 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "equal-width-buttons",
+    "sections": {
+      "password-header": {
+        "type": "password-header",
+        "settings": {}
+      },
+      "password-footer": {
+        "type": "password-footer",
+        "blocks": {
+          "social_link_MFQhVx": {
+            "type": "social_link",
+            "settings": {
+              "title": "Instagram",
+              "link": "https://www.instagram.com/eagleandash/",
+              "icon": "instagram"
+            }
+          }
+        },
+        "block_order": [
+          "social_link_MFQhVx"
+        ],
+        "settings": {
+          "email": "hello@eagleandash.com"
+        }
+      }
+    },
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
