@@ -107,11 +107,20 @@
               "link": "https://www.facebook.com/profile.php?id=61590270338294",
               "icon": "facebook"
             }
+          },
+          "social_link_nWqFkH": {
+            "type": "social_link",
+            "settings": {
+              "title": "Amazon",
+              "link": "https://www.amazon.com/stores/page/54F7FEDD-529C-4894-8E55-8D4A601F3CC1",
+              "icon": "amazon"
+            }
           }
         },
         "block_order": [
           "social_link_MFQhVx",
-          "social_link_yfBhyz"
+          "social_link_yfBhyz",
+          "social_link_nWqFkH"
         ],
         "settings": {
           "email": "hello@eagleandash.com"
