@@ -81,6 +81,29 @@
             {% endfor %}
           </ul>
         {% endif %}
+
+        <div class="custom-footer__contact">
+          {% if section.settings.contact_email != blank %}
+            <a class="custom-footer__email" href="mailto:{{ section.settings.contact_email | strip | escape }}">
+              {{- section.settings.contact_email | escape -}}
+            </a>
+          {% endif %}
+      
+          <ul class="custom-footer__social" role="list" aria-label="{{ section.settings.social_label | escape }}">
+            {% for block in section.blocks %}
+              {% if block.type == 'social_link' %}
+                {% render 'password-footer-social-item',
+                  title: block.settings.title,
+                  link: block.settings.link,
+                  icon: block.settings.icon,
+                  image_upload: block.settings.custom_icon,
+                  shopify_attributes: block.shopify_attributes,
+                  modifier_class: 'custom-footer__social-item'
+                %}
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
       </nav>
 
       <nav class="custom-footer__menu-column" aria-label="{{ section.settings.secondary_menu_label | escape }}">
@@ -98,28 +121,6 @@
       </nav>
     </div>
   </div>
-
-  <div class="custom-footer__bottom">
-    {% if section.settings.contact_email != blank %}
-      <a class="custom-footer__email" href="mailto:{{ section.settings.contact_email | strip | escape }}">
-        {{- section.settings.contact_email | escape -}}
-      </a>
-    {% endif %}
-
-    <ul class="custom-footer__social" role="list" aria-label="{{ section.settings.social_label | escape }}">
-      {% for block in section.blocks %}
-        {% if block.type == 'social_link' %}
-          {% render 'password-footer-social-item',
-            title: block.settings.title,
-            link: block.settings.link,
-            image_upload: block.settings.custom_icon,
-            shopify_attributes: block.shopify_attributes,
-            modifier_class: 'custom-footer__social-item'
-          %}
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </div>
 </div>
 
 {% stylesheet %}
@@ -129,8 +130,7 @@
   }
 
   .custom-footer,
-  .custom-footer__main,
-  .custom-footer__bottom {
+  .custom-footer__main {
     background-color: #ffffff;
   }
 
@@ -148,6 +148,7 @@
     & .email-signup-klaviyo__form-wrap {
       position: relative;
       gap: 0;
+      padding: 0;
     }
 
     & .email-signup__fields {
@@ -251,9 +252,8 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;  
-    gap: 20px;
+    gap: 32px;
     min-height: 100%;
-    margin-block-start: -6px;
   }
 
   .custom-footer__logo-image {
@@ -285,6 +285,9 @@
   }
 
   .custom-footer__menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -292,6 +295,7 @@
 
   .custom-footer__menu-item {
     margin: 0;
+    line-height: 15px; 
   }
 
   .custom-footer__menu-link {
@@ -303,20 +307,57 @@
     transition: color .3s ease;
   }
 
-  .custom-footer__menu-link:hover {
+  .custom-footer__menu-link:hover,
+  .custom-footer__email:hover {
     color: var(--deepest-brand-blue);
   }
 
-  .custom-footer__bottom {
-    margin-top: 12px;
-    padding-top: 8px;
-    border-top: 1px solid #1f2937;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
-    align-items: center;
-    column-gap: 24px;
-    row-gap: 8px;
+  .custom-footer__contact {
+    margin-block-start: 6px;
   }
+
+  .custom-footer__email {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Lora', serif;
+    color: var(--ash-amber-orange);
+    text-decoration: none;
+    transition: color .3s ease;
+  }
+
+  .custom-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    margin-inline-start: -12px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .custom-footer__social a {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    color: var(--ash-amber-orange);
+    text-decoration: none;
+    transition: color .3s ease; 
+  }
+
+  .custom-footer__social a:hover {
+    color: var(--deepest-brand-blue);
+  }
+
+  .custom-footer__social .password-footer__social-icon {
+    display: block;
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+  }
+
 {% endstylesheet %}
 
 {% schema %}
@@ -461,6 +502,98 @@
           "label": "t:settings.link"
         },
         {
+          "type": "select",
+          "id": "icon",
+          "label": "t:settings.icon",
+          "options": [
+            {
+              "value": "amazon",
+              "label": "t:options.amazon"
+            },
+            {
+              "value": "bluesky",
+              "label": "t:options.social_bluesky"
+            },
+            {
+              "value": "discord",
+              "label": "t:options.social_discord"
+            },
+            {
+              "value": "facebook",
+              "label": "t:options.social_facebook"
+            },
+            {
+              "value": "instagram",
+              "label": "t:options.social_instagram"
+            },
+            {
+              "value": "linkedin",
+              "label": "t:options.social_linkedin"
+            },
+            {
+              "value": "mastodon",
+              "label": "t:options.social_mastodon"
+            },
+            {
+              "value": "pinterest",
+              "label": "t:options.social_pinterest"
+            },
+            {
+              "value": "reddit",
+              "label": "t:options.social_reddit"
+            },
+            {
+              "value": "snapchat",
+              "label": "t:options.social_snapchat"
+            },
+            {
+              "value": "spotify",
+              "label": "t:options.social_spotify"
+            },
+            {
+              "value": "telegram",
+              "label": "t:options.social_telegram"
+            },
+            {
+              "value": "threads",
+              "label": "t:options.social_threads"
+            },
+            {
+              "value": "tiktok",
+              "label": "t:options.social_tiktok"
+            },
+            {
+              "value": "tumblr",
+              "label": "t:options.social_tumblr"
+            },
+            {
+              "value": "twitch",
+              "label": "t:options.social_twitch"
+            },
+            {
+              "value": "twitter",
+              "label": "t:options.social_twitter"
+            },
+            {
+              "value": "vimeo",
+              "label": "t:options.social_vimeo"
+            },
+            {
+              "value": "whatsapp",
+              "label": "t:options.social_whatsapp"
+            },
+            {
+              "value": "x",
+              "label": "t:options.social_x"
+            },
+            {
+              "value": "youtube",
+              "label": "t:options.social_youtube"
+            }
+          ],
+          "default": "instagram"
+        },
+        {
           "type": "image_picker",
           "id": "custom_icon",
           "label": "t:settings.image_icon",
@@ -484,6 +617,7 @@
           "type": "social_link",
           "settings": {
             "title": "Instagram",
+            "icon": "instagram",
             "link": "https://www.instagram.com/eagleandash/"
           }
         },
@@ -491,6 +625,7 @@
           "type": "social_link",
           "settings": {
             "title": "Facebook",
+            "icon": "facebook",
             "link": "https://www.facebook.com/people/eagleandash/61590270338294/"
           }
         },
@@ -498,6 +633,7 @@
           "type": "social_link",
           "settings": {
             "title": "Amazon",
+            "icon": "amazon",
             "link": "https://www.amazon.com/stores/page/54F7FEDD-529C-4894-8E55-8D4A601F3CC1"
           }
         }
