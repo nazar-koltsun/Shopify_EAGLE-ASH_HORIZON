@@ -1,1 +1,54 @@
-{"type":"footer","name":"Footer","sections":{"footer_m9NzUG":{"type":"custom-footer","name":"t:names.footer","settings":{"newsletter_heading":"Be the first to discover new collections.","klaviyo_submit_label":"SEND","logo_alt":"Eagle & Ash","primary_menu":"footer","primary_menu_label":"Footer links column one","secondary_menu":"footer-menu-block-two","secondary_menu_label":"Footer links column two","meta_part_one":"EAGLE & ASH","meta_part_two":"Veritohne O\u00dc","meta_part_three":"Betooni tn 14a, 13816, Tallinn, Estonia","bottom_meta_label":"Company metadata","contact_email":"hello@eagleandash.com","social_label":"Social media links"},"blocks":{"social_link_instagram":{"type":"social_link","settings":{"title":"Instagram","link":"https://www.instagram.com/eagleandash/"}},"social_link_facebook":{"type":"social_link","settings":{"title":"Facebook","link":"https://www.facebook.com/people/eagleandash/61590270338294/"}},"social_link_amazon":{"type":"social_link","settings":{"title":"Amazon","link":"https://www.amazon.com/stores/page/54F7FEDD-529C-4894-8E55-8D4A601F3CC1"}}},"block_order":["social_link_instagram","social_link_facebook","social_link_amazon"]},"footer_utilities_jLGE8U":{"type":"footer-utilities","blocks":{"footer_copyright_jweRK8":{"type":"footer-copyright","settings":{"show_powered_by":true,"font_size":"0.75rem","case":"none"},"blocks":{}},"footer_policy_list_VCdnpa":{"type":"footer-policy-list","settings":{"font_size":"0.75rem","case":"none"},"blocks":{}}},"block_order":["footer_copyright_jweRK8","footer_policy_list_VCdnpa"],"name":"t:names.utilities","settings":{"section_width":"page-width","gap":24,"divider_thickness":0,"color_scheme":"scheme-4","padding-block-start":10,"padding-block-end":10}}},"order":["footer_m9NzUG","footer_utilities_jLGE8U"]}
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer_m9NzUG": {
+      "type": "custom-footer",
+      "name": "t:names.footer",
+      "settings": {
+        "newsletter_heading": "Be the first to discover new collections.",
+        "klaviyo_submit_label": "SEND",
+        "logo_alt": "Eagle & Ash",
+        "primary_menu": "footer",
+        "primary_menu_label": "Footer links column one",
+        "secondary_menu": "footer-menu-block-two",
+        "secondary_menu_label": "Footer links column two",
+        "meta_part_one": "EAGLE & ASH",
+        "meta_part_two": "Veritohne OÜ",
+        "meta_part_three": "Betooni tn 14a, 13816, Tallinn, Estonia",
+        "bottom_meta_label": "Company metadata",
+        "contact_email": "hello@eagleandash.com",
+        "social_label": "Social media links"
+      },
+      "blocks": {
+        "social_link_instagram": {
+          "type": "social_link",
+          "settings": {
+            "title": "Instagram",
+            "link": "https://www.instagram.com/eagleandash/"
+          }
+        },
+        "social_link_facebook": {
+          "type": "social_link",
+          "settings": {
+            "title": "Facebook",
+            "link": "https://www.facebook.com/people/eagleandash/61590270338294/"
+          }
+        },
+        "social_link_amazon": {
+          "type": "social_link",
+          "settings": {
+            "title": "Amazon",
+            "link": "https://www.amazon.com/stores/page/54F7FEDD-529C-4894-8E55-8D4A601F3CC1"
+          }
+        }
+      },
+      "block_order": [
+        "social_link_instagram",
+        "social_link_facebook",
+        "social_link_amazon"
+      ]
+    }
+  },
+  "order": ["footer_m9NzUG"]
+}
