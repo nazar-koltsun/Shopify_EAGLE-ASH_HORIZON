@@ -13,7 +13,7 @@
       "type": "contact-banner",
       "settings": {
         "title": "Contact Us",
-        "background_image": ""
+        "background_image": "shopify://shop_images/contact-us-banner.webp"
       }
     },
     "main": {
