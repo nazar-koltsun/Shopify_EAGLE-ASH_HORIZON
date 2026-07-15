@@ -1,0 +1,603 @@
+{%- liquid
+  assign description = section.settings.description
+  assign title = section.settings.title
+  assign email = section.settings.email
+  assign phone = section.settings.phone
+  assign form_title = section.settings.form_title
+  assign submit_label = section.settings.submit_label
+  assign form_id = section.id | prepend: 'ContactForm-'
+-%}
+
+<div class="contact-info">
+  <div class="contact-info__inner">
+    <div class="contact-info__left">
+      {%- if description != blank -%}
+        <p class="contact-info__description">{{ description | escape | newline_to_br }}</p>
+      {%- endif -%}
+
+      {%- if title != blank -%}
+        <h2 class="contact-info__title">{{ title | escape }}</h2>
+      {%- endif -%}
+
+      <div class="contact-info__details">
+        {%- if email != blank -%}
+          <div class="contact-info__detail">
+            <span class="contact-info__detail-label">Email</span>
+            <a class="contact-info__detail-value" href="mailto:{{ email | strip | escape }}">
+              {{- email | escape -}}
+            </a>
+          </div>
+        {%- endif -%}
+
+        {%- if phone != blank -%}
+          <div class="contact-info__detail">
+            <span class="contact-info__detail-label">Phone</span>
+            <a class="contact-info__detail-value" href="tel:{{ phone | strip | replace: ' ', '' | escape }}">
+              {{- phone | escape -}}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <ul
+        class="contact-info__social"
+        role="list"
+        aria-label="Social media links">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'social_link' -%}
+            {% render 'password-footer-social-item'
+              , title: block.settings.title
+              , link: block.settings.link
+              , icon: block.settings.icon
+              , image_upload: block.settings.custom_icon
+              , shopify_attributes: block.shopify_attributes
+              , modifier_class: 'contact-info__social-item'
+            %}
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    <div class="contact-info__right">
+      {%- if form_title != blank -%}
+        <h2 class="contact-info__title contact-info__title--form">{{ form_title | escape }}</h2>
+      {%- endif -%}
+
+      {%- form 'contact'
+        , id: form_id
+        , class: 'contact-info__form' -%}
+        <input
+          name="contact[id]"
+          type="hidden"
+          value="{{ form_id }}">
+
+        {%- if form.errors and form.id == form_id -%}
+          <div
+            class="contact-info__error"
+            tabindex="-1"
+            autofocus>
+            {{- 'icon-error.svg' | inline_asset_content -}}
+
+            {{- form.errors.translated_fields.email | capitalize }}
+            {{ form.errors.messages.email -}}
+          </div>
+        {%- endif -%}
+
+        {%- if form.posted_successfully? -%}
+          <div
+            class="contact-info__success"
+            role="status"
+            tabindex="-1"
+            autofocus>
+            <span class="contact-info__success-icon" aria-hidden="true">
+              {{- 'icon-checkmark.svg' | inline_asset_content -}}
+            </span>
+            <p class="contact-info__success-text">
+              {{- 'blocks.contact_form.post_success' | t -}}
+            </p>
+          </div>
+        {%- endif -%}
+
+        <div class="contact-info__field">
+          <input
+            type="text"
+            id="ContactForm-name"
+            class="contact-info__input"
+            autocomplete="name"
+            name="contact[name]"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            required
+            aria-required="true"
+            placeholder=" ">
+          <label class="contact-info__field-label" for="ContactForm-name">
+            {{- 'blocks.contact_form.name' | t -}}
+          </label>
+        </div>
+
+        <div class="contact-info__field">
+          <input
+            type="email"
+            id="ContactForm-email"
+            class="contact-info__input"
+            autocomplete="email"
+            name="contact[email]"
+            spellcheck="false"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            required
+            aria-required="true"
+            {% if form.errors contains 'email' and form.id == form_id %}
+            aria-invalid="true"
+            aria-describedby="ContactForm-email-error"
+            {% endif %}
+            placeholder=" ">
+          <label class="contact-info__field-label" for="ContactForm-email">
+            {{- 'blocks.contact_form.email' | t -}}
+          </label>
+        </div>
+
+        <div class="contact-info__field contact-info__field--message">
+          <textarea
+            rows="6"
+            id="ContactForm-body"
+            class="contact-info__input contact-info__input--textarea"
+            name="contact[body]"
+            required
+            aria-required="true"
+            placeholder=" ">{{- form.body -}}</textarea>
+          <label class="contact-info__field-label" for="ContactForm-body">
+            Message
+          </label>
+        </div>
+
+        <button type="submit" class="contact-info__submit">
+          {{- submit_label | default: 'SEND' | escape -}}
+        </button>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .contact-info {
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+  .contact-info__inner {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 150px;
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding: 78px 210px 50px;
+  }
+
+  @media screen and (max-width: 990px) {
+    .contact-info__inner {
+      gap: 60px;
+      padding: 60px 40px 80px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .contact-info__inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      padding: 48px 20px 64px;
+    }
+  }
+
+  .contact-info__left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-info__description {
+    margin: 0;
+    max-width: 36em;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #000000;
+  }
+
+  .contact-info__title {
+    margin: 40px 0 0;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 500;
+    font-size: 36px;
+    color: var(--deepest-brand-blue);
+  }
+
+  .contact-info__title--form {
+    margin-block-start: 0;
+  }
+
+  @media screen and (max-width: 990px) {
+    .contact-info__title {
+      font-size: 34px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .contact-info__title {
+      margin-block-start: 28px;
+      font-size: 28px;
+    }
+
+    .contact-info__title--form {
+      margin-block-start: 0;
+    }
+  }
+
+  .contact-info__details {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-block-start: 56px;
+  }
+
+  .contact-info__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contact-info__detail-label {
+    font-family: 'Lora'
+    , serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #000000;
+    text-transform: uppercase;
+  }
+
+  .contact-info__detail-value {
+    font-family: 'Roboto'
+    , sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #000000;
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  .contact-info__social {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    margin-block-start: 35px;
+    margin-inline-start: -12px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contact-info__social a,
+  .contact-info__social .password-footer__social-link {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    color: var(--ash-amber-orange, #fe5000);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .contact-info__social a:hover {
+    color: var(--deepest-brand-blue, #07272d);
+  }
+
+  .contact-info__social .password-footer__social-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+
+  .contact-info__right {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-info__form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-block-start: 60px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .contact-info__form {
+      margin-block-start: 28px;
+      gap: 24px;
+    }
+  }
+
+  .contact-info__field {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-block-start: 20px;
+  }
+
+  .contact-info__field-label {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    margin: 0;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #000000;
+    text-transform: uppercase;
+    pointer-events: none;
+    transform-origin: left top;
+    transition: top 0.2s ease
+    , font-size 0.2s ease
+    , letter-spacing 0.2s ease
+    , transform 0.2s ease;
+  }
+
+  .contact-info__input:focus + .contact-info__field-label,
+  .contact-info__input:not(:placeholder-shown) + .contact-info__field-label,
+  .contact-info__input:-webkit-autofill + .contact-info__field-label {
+    top: 0;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    pointer-events: auto;
+  }
+
+  .contact-info__field .contact-info__input {
+    width: 100%;
+    margin: 0;
+    padding: 0 0 4px;
+    font-family: 'Lora'
+    , serif;
+    font-size: 16px;
+    color: #000000;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .contact-info__input--textarea {
+    resize: vertical;
+    height: 140px;
+    padding-block-end: 10px;
+  }
+
+  .contact-info__submit {
+    align-self: flex-start;
+    margin: 0;
+    margin-block-start: 8px;
+    padding: 0;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #000000;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .contact-info__submit:hover {
+    color: var(--ash-amber-orange, #fe5000);
+  }
+
+  .contact-info__error,
+  .contact-info__success {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-block-end: 16px;
+    padding: 12px 14px;
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--deepest-brand-blue, #07272d);
+    background-color: #f5f7f7;
+  }
+
+  .contact-info__success-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-block-start: 1px;
+  }
+
+  .contact-info__success-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .contact-info__success-text {
+    margin: 0;
+  }
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "Contact Info",
+    "class": "section-wrapper section-contact-info",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description",
+        "default": "Whether you're sourcing premium golf gifts, exploring a wholesale partnership or looking for something more bespoke, we'd love to hear from you. Tell us a little about what you're looking for, and we'll take it from there."
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Get in Touch"
+      },
+      {
+        "type": "text",
+        "id": "email",
+        "label": "Email",
+        "default": "hello@eagleandash.com"
+      },
+      {
+        "type": "text",
+        "id": "phone",
+        "label": "Phone",
+        "default": "+372 5xx xx xxx"
+      }, {
+        "type": "text",
+        "id": "form_title",
+        "label": "Form title",
+        "default": "Start a Conversation"
+      }, {
+        "type": "text",
+        "id": "submit_label",
+        "label": "Submit button label",
+        "default": "SEND"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "social_link",
+        "name": "t:names.social_link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "t:settings.title",
+            "default": "Instagram",
+            "info": "t:info.password_footer_social_title"
+          }, {
+            "type": "url",
+            "id": "link",
+            "label": "t:settings.link"
+          }, {
+            "type": "select",
+            "id": "icon",
+            "label": "t:settings.icon",
+            "options": [
+              {
+                "value": "amazon",
+                "label": "t:options.amazon"
+              },
+              {
+                "value": "bluesky",
+                "label": "t:options.social_bluesky"
+              },
+              {
+                "value": "discord",
+                "label": "t:options.social_discord"
+              },
+              {
+                "value": "facebook",
+                "label": "t:options.social_facebook"
+              }, {
+                "value": "instagram",
+                "label": "t:options.social_instagram"
+              }, {
+                "value": "linkedin",
+                "label": "t:options.social_linkedin"
+              }, {
+                "value": "mastodon",
+                "label": "t:options.social_mastodon"
+              }, {
+                "value": "pinterest",
+                "label": "t:options.social_pinterest"
+              }, {
+                "value": "reddit",
+                "label": "t:options.social_reddit"
+              }, {
+                "value": "snapchat",
+                "label": "t:options.social_snapchat"
+              }, {
+                "value": "spotify",
+                "label": "t:options.social_spotify"
+              }, {
+                "value": "telegram",
+                "label": "t:options.social_telegram"
+              }, {
+                "value": "threads",
+                "label": "t:options.social_threads"
+              }, {
+                "value": "tiktok",
+                "label": "t:options.social_tiktok"
+              }, {
+                "value": "tumblr",
+                "label": "t:options.social_tumblr"
+              }, {
+                "value": "twitch",
+                "label": "t:options.social_twitch"
+              }, {
+                "value": "twitter",
+                "label": "t:options.social_twitter"
+              }, {
+                "value": "vimeo",
+                "label": "t:options.social_vimeo"
+              }, {
+                "value": "whatsapp",
+                "label": "t:options.social_whatsapp"
+              }, {
+                "value": "x",
+                "label": "t:options.social_x"
+              }, {
+                "value": "youtube",
+                "label": "t:options.social_youtube"
+              }
+            ],
+            "default": "instagram"
+          }, {
+            "type": "image_picker",
+            "id": "custom_icon",
+            "label": "t:settings.image_icon",
+            "info": "t:info.password_footer_social_custom_icon"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Contact Info",
+        "blocks": [
+          {
+            "type": "social_link",
+            "settings": {
+              "title": "Instagram",
+              "icon": "instagram",
+              "link": "https://www.instagram.com/eagleandash/"
+            }
+          }, {
+            "type": "social_link",
+            "settings": {
+              "title": "Facebook",
+              "icon": "facebook",
+              "link": "https://www.facebook.com/people/eagleandash/61590270338294/"
+            }
+          }, {
+            "type": "social_link",
+            "settings": {
+              "title": "Amazon",
+              "icon": "amazon",
+              "link": "https://www.amazon.com/stores/page/54F7FEDD-529C-4894-8E55-8D4A601F3CC1"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

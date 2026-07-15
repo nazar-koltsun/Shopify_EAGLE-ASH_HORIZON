@@ -76,10 +76,14 @@ select {
   color: currentcolor;
 }
 
+a:hover {
+  color: var(--ash-amber-orange);
+}
+
 .btn {
   font-family: 'Lora', sans-serif;
   font-size: 20px;
-  color: black;;
+  color: black;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 10px;
@@ -88,6 +92,7 @@ select {
     text-underline-offset 0.2s ease;
 
   &:hover {
+    color: currentcolor;
     opacity: 0.8;
     text-underline-offset: 12px;
   }
@@ -96,7 +101,6 @@ select {
     font-size: 18px;
   }
 }
-
 
 .collection-card,
 .featured-blog-posts-card {
@@ -676,10 +680,9 @@ p:empty {
   .grid {
     display: grid;
     gap: 0;
-    grid-template-columns: var(--margin-4xl) repeat(
-        var(--centered-column-number),
-        minmax(0, 1fr)
-      ) var(--margin-4xl);
+    grid-template-columns:
+      var(--margin-4xl) repeat(var(--centered-column-number), minmax(0, 1fr))
+      var(--margin-4xl);
     grid-template-areas: 'column-0 column-1 column-2 column-3 column-4 column-5 column-6 column-7 column-8 column-9 column-10 column-11 column-12 column-13';
   }
 }
@@ -3777,10 +3780,9 @@ fly-to-cart.fly-to-cart--sticky {
   ):has(.collection-wrapper--full-width) {
   @media screen and (min-width: 750px) {
     grid-column: 1 / -1;
-    grid-template-columns: 0fr repeat(
-        var(--centered-column-number),
-        minmax(0, 1fr)
-      ) 0fr;
+    grid-template-columns:
+      0fr repeat(var(--centered-column-number), minmax(0, 1fr))
+      0fr;
   }
 }
 
