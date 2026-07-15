@@ -15,10 +15,11 @@
   endif
 %}
 
-<div class="custom-footer-divider" aria-hidden="true" role="presentation"></div>
 <div
-  class="custom-footer"
->
+  class="custom-footer-divider"
+  aria-hidden="true"
+  role="presentation"></div>
+<div class="custom-footer">
   <div class="custom-footer__main">
     <div class="custom-footer__newsletter">
       {% if section.settings.newsletter_heading != blank %}
@@ -32,12 +33,12 @@
             assign klaviyo_submit_label = 'SEND'
           endif
         -%}
-        {% render 'email-signup-klaviyo-form',
-          klaviyo_company_id: section.settings.klaviyo_company_id,
-          klaviyo_list_id: section.settings.klaviyo_list_id,
-          label: klaviyo_submit_label,
-          custom_source: 'Eagle & Ash footer',
-          form_id: section.id
+        {% render 'email-signup-klaviyo-form'
+          , klaviyo_company_id: section.settings.klaviyo_company_id
+          , klaviyo_list_id: section.settings.klaviyo_list_id
+          , label: klaviyo_submit_label
+          , custom_source: 'Eagle & Ash footer'
+          , form_id: section.id
         %}
       </div>
     </div>
@@ -50,8 +51,7 @@
           width="{{ footer_logo.width }}"
           height="{{ footer_logo.height }}"
           alt="{{ footer_logo.alt | default: section.settings.logo_alt | default: shop.name | escape }}"
-          loading="lazy"
-        >
+          loading="lazy">
       {% endif %}
 
       <div class="custom-footer__meta" aria-label="{{ section.settings.bottom_meta_label | escape }}">
@@ -65,8 +65,8 @@
           <span>{{ section.settings.meta_part_three }}</span>
         {% endif %}
       </div>
-      
-    </div> 
+
+    </div>
 
     <div class="custom-footer__menus">
       <nav class="custom-footer__menu-column" aria-label="{{ section.settings.primary_menu_label | escape }}">
@@ -88,17 +88,20 @@
               {{- section.settings.contact_email | escape -}}
             </a>
           {% endif %}
-      
-          <ul class="custom-footer__social" role="list" aria-label="{{ section.settings.social_label | escape }}">
+
+          <ul
+            class="custom-footer__social"
+            role="list"
+            aria-label="{{ section.settings.social_label | escape }}">
             {% for block in section.blocks %}
               {% if block.type == 'social_link' %}
-                {% render 'password-footer-social-item',
-                  title: block.settings.title,
-                  link: block.settings.link,
-                  icon: block.settings.icon,
-                  image_upload: block.settings.custom_icon,
-                  shopify_attributes: block.shopify_attributes,
-                  modifier_class: 'custom-footer__social-item'
+                {% render 'password-footer-social-item'
+                  , title: block.settings.title
+                  , link: block.settings.link
+                  , icon: block.settings.icon
+                  , image_upload: block.settings.custom_icon
+                  , shopify_attributes: block.shopify_attributes
+                  , modifier_class: 'custom-footer__social-item'
                 %}
               {% endif %}
             {% endfor %}
@@ -127,6 +130,10 @@
   .custom-footer-divider {
     height: 56px;
     background-color: var(--deepest-brand-blue);
+
+    @media (max-width: 749px) {
+      height: 28px;
+    }
   }
 
   .custom-footer,
@@ -163,7 +170,7 @@
     & .email-signup-klaviyo__message svg {
       width: 24px;
       height: 24px;
-    } 
+    }
 
     & .email-signup-klaviyo__form {
       gap: 8px;
@@ -175,8 +182,7 @@
 
     & .email-signup-klaviyo__form .email-signup-klaviyo__input {
       min-height: 26px;
-      padding: 0;
-      padding-right: 80px;
+      padding: 0 80px 0 0;
       font-size: 16px;
       color: var(--ash-amber-orange);
       border: none;
@@ -196,14 +202,14 @@
       font-size: 16px;
       background-color: transparent;
       border-bottom: 1px solid var(--ash-amber-orange);
-      transition: color .3s ease;
+      transition: color 0.3s ease;
 
       @media (max-width: 710px) {
         width: auto;
         margin-block-start: 0;
       }
 
-      &:hover {
+       &:hover {
         background-color: transparent;
         color: var(--deepest-brand-blue);
       }
@@ -226,7 +232,7 @@
       color: #000;
     }
 
-    & .email-signup-klaviyo__interest-option:hover input {
+     & .email-signup-klaviyo__interest-option:hover input {
       border-color: var(--ash-amber-orange);
     }
 
@@ -236,7 +242,7 @@
       background-color: var(--ash-amber-orange);
     }
 
-    & .email-signup-klaviyo__interest-option input:checked::after {
+     & .email-signup-klaviyo__interest-option input:checked::after {
       background-color: var(--ash-amber-orange);
     }
 
@@ -244,19 +250,19 @@
       font-size: 12px;
       color: var(--ash-amber-orange);
     }
-    
+
     & .email-signup-klaviyo__interest-option > span {
       opacity: 1;
     }
 
-    & label:has(input[type=radio]) {
-      gap: 5px; 
+     & label:has(input[type=radio]) {
+      gap: 5px;
     }
   }
 
   .custom-footer__main {
     display: grid;
-    grid-template-columns: 325px 1fr 325px;  
+    grid-template-columns: 325px 1fr 325px;
     align-items: start;
     gap: 36px;
 
@@ -271,7 +277,8 @@
 
   .custom-footer__newsletter-heading {
     margin: 0;
-    font-family: 'Lora', serif;
+    font-family: 'Lora'
+    , serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 20px;
@@ -282,7 +289,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: center;  
+    align-items: center;
     gap: 32px;
     min-height: 100%;
 
@@ -292,7 +299,7 @@
 
     @media (max-width: 990px) {
       grid-column: 1 / -1;
-      grid-row: 1; 
+      grid-row: 1;
     }
   }
 
@@ -310,16 +317,17 @@
     text-align: center;
     gap: 24px;
     row-gap: 8px;
-    font-family: 'Lora', serif;
+    font-family: 'Lora'
+    , serif;
     font-size: 12px;
     font-weight: 400;
-    color: var(--ash-amber-orange); 
+    color: var(--ash-amber-orange);
   }
 
   .custom-footer__meta-brand {
     font-weight: 600;
-    text-transform: uppercase; 
-  } 
+    text-transform: uppercase;
+  }
 
   .custom-footer__menus {
     display: grid;
@@ -338,16 +346,17 @@
 
   .custom-footer__menu-item {
     margin: 0;
-    line-height: 15px; 
+    line-height: 15px;
   }
 
   .custom-footer__menu-link {
     color: var(--ash-amber-orange);
-    font-family: 'Lora', serif;
+    font-family: 'Lora'
+    , serif;
     font-size: 12px;
     font-weight: 400;
     text-decoration: none;
-    transition: color .3s ease;
+    transition: color 0.3s ease;
   }
 
   .custom-footer__menu-link:hover,
@@ -362,10 +371,11 @@
   .custom-footer__email {
     font-size: 12px;
     font-weight: 400;
-    font-family: 'Lora', serif;
+    font-family: 'Lora'
+    , serif;
     color: var(--ash-amber-orange);
     text-decoration: none;
-    transition: color .3s ease;
+    transition: color 0.3s ease;
   }
 
   .custom-footer__social {
@@ -387,7 +397,7 @@
     justify-content: center;
     color: var(--ash-amber-orange);
     text-decoration: none;
-    transition: color .3s ease; 
+    transition: color 0.3s ease;
   }
 
   .custom-footer__social a:hover {
@@ -404,284 +414,245 @@
 {% endstylesheet %}
 
 {% schema %}
-{
-  "name": "Custom footer",
-  "class": "section-wrapper custom-footer-section",
-  "tag": "footer",
-  "enabled_on": {
-    "groups": ["footer"]
-  },
-  "settings": [
-    {
-      "type": "header",
-      "content": "Newsletter content"
+  {
+    "name": "Custom footer",
+    "class": "section-wrapper custom-footer-section",
+    "tag": "footer",
+    "enabled_on": {
+      "groups": ["footer"]
     },
-    {
-      "type": "text",
-      "id": "newsletter_heading",
-      "label": "Heading",
-      "default": "Be the first to discover new collections."
-    },
-    {
-      "type": "header",
-      "content": "t:content.klaviyo_setup"
-    },
-    {
-      "type": "text",
-      "id": "klaviyo_company_id",
-      "label": "t:settings.klaviyo_company_id",
-      "info": "t:info.klaviyo_company_id"
-    },
-    {
-      "type": "text",
-      "id": "klaviyo_list_id",
-      "label": "t:settings.klaviyo_list_id",
-      "info": "t:info.klaviyo_list_id"
-    },
-    {
-      "type": "text",
-      "id": "klaviyo_submit_label",
-      "label": "t:settings.label",
-      "default": "SEND"
-    },
-    {
-      "type": "header",
-      "content": "Brand content"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo_image",
-      "label": "Logo image"
-    },
-    {
-      "type": "text",
-      "id": "logo_alt",
-      "label": "Logo alt text",
-      "default": "Eagle & Ash"
-    },
-    {
-      "type": "header",
-      "content": "Menus"
-    },
-    {
-      "type": "link_list",
-      "id": "primary_menu",
-      "label": "Primary menu",
-      "default": "footer"
-    },
-    {
-      "type": "text",
-      "id": "primary_menu_label",
-      "label": "Primary menu aria label",
-      "default": "Footer links column one"
-    },
-    {
-      "type": "link_list",
-      "id": "secondary_menu",
-      "label": "Secondary menu"
-    },
-    {
-      "type": "text",
-      "id": "secondary_menu_label",
-      "label": "Secondary menu aria label",
-      "default": "Footer links column two"
-    },
-    {
-      "type": "header",
-      "content": "Bottom row"
-    },
-    {
-      "type": "text",
-      "id": "meta_part_one",
-      "label": "Metadata part one",
-      "default": "EAGLE & ASH"
-    },
-    {
-      "type": "text",
-      "id": "meta_part_two",
-      "label": "Metadata part two",
-      "default": "Veritohne OÜ"
-    },
-    {
-      "type": "text",
-      "id": "meta_part_three",
-      "label": "Metadata part three",
-      "default": "Betooni tn 14a, 13816, Tallinn, Estonia"
-    },
-    {
-      "type": "text",
-      "id": "bottom_meta_label",
-      "label": "Metadata aria label",
-      "default": "Company metadata"
-    },
-    {
-      "type": "text",
-      "id": "contact_email",
-      "label": "Contact email",
-      "default": "hello@eagleandash.com"
-    },
-    {
-      "type": "text",
-      "id": "social_label",
-      "label": "Social links aria label",
-      "default": "Social media links"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "social_link",
-      "name": "t:names.social_link",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "t:settings.title",
-          "default": "Instagram",
-          "info": "t:info.password_footer_social_title"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "t:settings.link"
-        },
-        {
-          "type": "select",
-          "id": "icon",
-          "label": "t:settings.icon",
-          "options": [
-            {
-              "value": "amazon",
-              "label": "t:options.amazon"
-            },
-            {
-              "value": "bluesky",
-              "label": "t:options.social_bluesky"
-            },
-            {
-              "value": "discord",
-              "label": "t:options.social_discord"
-            },
-            {
-              "value": "facebook",
-              "label": "t:options.social_facebook"
-            },
-            {
-              "value": "instagram",
-              "label": "t:options.social_instagram"
-            },
-            {
-              "value": "linkedin",
-              "label": "t:options.social_linkedin"
-            },
-            {
-              "value": "mastodon",
-              "label": "t:options.social_mastodon"
-            },
-            {
-              "value": "pinterest",
-              "label": "t:options.social_pinterest"
-            },
-            {
-              "value": "reddit",
-              "label": "t:options.social_reddit"
-            },
-            {
-              "value": "snapchat",
-              "label": "t:options.social_snapchat"
-            },
-            {
-              "value": "spotify",
-              "label": "t:options.social_spotify"
-            },
-            {
-              "value": "telegram",
-              "label": "t:options.social_telegram"
-            },
-            {
-              "value": "threads",
-              "label": "t:options.social_threads"
-            },
-            {
-              "value": "tiktok",
-              "label": "t:options.social_tiktok"
-            },
-            {
-              "value": "tumblr",
-              "label": "t:options.social_tumblr"
-            },
-            {
-              "value": "twitch",
-              "label": "t:options.social_twitch"
-            },
-            {
-              "value": "twitter",
-              "label": "t:options.social_twitter"
-            },
-            {
-              "value": "vimeo",
-              "label": "t:options.social_vimeo"
-            },
-            {
-              "value": "whatsapp",
-              "label": "t:options.social_whatsapp"
-            },
-            {
-              "value": "x",
-              "label": "t:options.social_x"
-            },
-            {
-              "value": "youtube",
-              "label": "t:options.social_youtube"
-            }
-          ],
-          "default": "instagram"
-        },
-        {
-          "type": "image_picker",
-          "id": "custom_icon",
-          "label": "t:settings.image_icon",
-          "info": "t:info.password_footer_social_custom_icon"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Custom footer",
-      "category": "t:categories.footer",
-      "settings": {
-        "newsletter_heading": "Be the first to discover new collections.",
-        "klaviyo_submit_label": "SEND",
-        "primary_menu": "footer",
-        "contact_email": "hello@eagleandash.com"
+    "settings": [
+      {
+        "type": "header",
+        "content": "Newsletter content"
       },
-      "blocks": [
-        {
-          "type": "social_link",
-          "settings": {
-            "title": "Instagram",
-            "icon": "instagram",
-            "link": "https://www.instagram.com/eagleandash/"
+      {
+        "type": "text",
+        "id": "newsletter_heading",
+        "label": "Heading",
+        "default": "Be the first to discover new collections."
+      },
+      {
+        "type": "header",
+        "content": "t:content.klaviyo_setup"
+      },
+      {
+        "type": "text",
+        "id": "klaviyo_company_id",
+        "label": "t:settings.klaviyo_company_id",
+        "info": "t:info.klaviyo_company_id"
+      }, {
+        "type": "text",
+        "id": "klaviyo_list_id",
+        "label": "t:settings.klaviyo_list_id",
+        "info": "t:info.klaviyo_list_id"
+      }, {
+        "type": "text",
+        "id": "klaviyo_submit_label",
+        "label": "t:settings.label",
+        "default": "SEND"
+      }, {
+        "type": "header",
+        "content": "Brand content"
+      }, {
+        "type": "image_picker",
+        "id": "logo_image",
+        "label": "Logo image"
+      }, {
+        "type": "text",
+        "id": "logo_alt",
+        "label": "Logo alt text",
+        "default": "Eagle & Ash"
+      }, {
+        "type": "header",
+        "content": "Menus"
+      }, {
+        "type": "link_list",
+        "id": "primary_menu",
+        "label": "Primary menu",
+        "default": "footer"
+      }, {
+        "type": "text",
+        "id": "primary_menu_label",
+        "label": "Primary menu aria label",
+        "default": "Footer links column one"
+      }, {
+        "type": "link_list",
+        "id": "secondary_menu",
+        "label": "Secondary menu"
+      }, {
+        "type": "text",
+        "id": "secondary_menu_label",
+        "label": "Secondary menu aria label",
+        "default": "Footer links column two"
+      }, {
+        "type": "header",
+        "content": "Bottom row"
+      }, {
+        "type": "text",
+        "id": "meta_part_one",
+        "label": "Metadata part one",
+        "default": "EAGLE & ASH"
+      }, {
+        "type": "text",
+        "id": "meta_part_two",
+        "label": "Metadata part two",
+        "default": "Veritohne OÜ"
+      }, {
+        "type": "text",
+        "id": "meta_part_three",
+        "label": "Metadata part three",
+        "default": "Betooni tn 14a, 13816, Tallinn, Estonia"
+      }, {
+        "type": "text",
+        "id": "bottom_meta_label",
+        "label": "Metadata aria label",
+        "default": "Company metadata"
+      }, {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Contact email",
+        "default": "hello@eagleandash.com"
+      }, {
+        "type": "text",
+        "id": "social_label",
+        "label": "Social links aria label",
+        "default": "Social media links"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "social_link",
+        "name": "t:names.social_link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "t:settings.title",
+            "default": "Instagram",
+            "info": "t:info.password_footer_social_title"
+          }, {
+            "type": "url",
+            "id": "link",
+            "label": "t:settings.link"
+          }, {
+            "type": "select",
+            "id": "icon",
+            "label": "t:settings.icon",
+            "options": [
+              {
+                "value": "amazon",
+                "label": "t:options.amazon"
+              },
+              {
+                "value": "bluesky",
+                "label": "t:options.social_bluesky"
+              },
+              {
+                "value": "discord",
+                "label": "t:options.social_discord"
+              },
+              {
+                "value": "facebook",
+                "label": "t:options.social_facebook"
+              }, {
+                "value": "instagram",
+                "label": "t:options.social_instagram"
+              }, {
+                "value": "linkedin",
+                "label": "t:options.social_linkedin"
+              }, {
+                "value": "mastodon",
+                "label": "t:options.social_mastodon"
+              }, {
+                "value": "pinterest",
+                "label": "t:options.social_pinterest"
+              }, {
+                "value": "reddit",
+                "label": "t:options.social_reddit"
+              }, {
+                "value": "snapchat",
+                "label": "t:options.social_snapchat"
+              }, {
+                "value": "spotify",
+                "label": "t:options.social_spotify"
+              }, {
+                "value": "telegram",
+                "label": "t:options.social_telegram"
+              }, {
+                "value": "threads",
+                "label": "t:options.social_threads"
+              }, {
+                "value": "tiktok",
+                "label": "t:options.social_tiktok"
+              }, {
+                "value": "tumblr",
+                "label": "t:options.social_tumblr"
+              }, {
+                "value": "twitch",
+                "label": "t:options.social_twitch"
+              }, {
+                "value": "twitter",
+                "label": "t:options.social_twitter"
+              }, {
+                "value": "vimeo",
+                "label": "t:options.social_vimeo"
+              }, {
+                "value": "whatsapp",
+                "label": "t:options.social_whatsapp"
+              }, {
+                "value": "x",
+                "label": "t:options.social_x"
+              }, {
+                "value": "youtube",
+                "label": "t:options.social_youtube"
+              }
+            ],
+            "default": "instagram"
+          }, {
+            "type": "image_picker",
+            "id": "custom_icon",
+            "label": "t:settings.image_icon",
+            "info": "t:info.password_footer_social_custom_icon"
           }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom footer",
+        "category": "t:categories.footer",
+        "settings": {
+          "newsletter_heading": "Be the first to discover new collections.",
+          "klaviyo_submit_label": "SEND",
+          "primary_menu": "footer",
+          "contact_email": "hello@eagleandash.com"
         },
-        {
-          "type": "social_link",
-          "settings": {
-            "title": "Facebook",
-            "icon": "facebook",
-            "link": "https://www.facebook.com/people/eagleandash/61590270338294/"
+        "blocks": [
+          {
+            "type": "social_link",
+            "settings": {
+              "title": "Instagram",
+              "icon": "instagram",
+              "link": "https://www.instagram.com/eagleandash/"
+            }
+          }, {
+            "type": "social_link",
+            "settings": {
+              "title": "Facebook",
+              "icon": "facebook",
+              "link": "https://www.facebook.com/people/eagleandash/61590270338294/"
+            }
+          }, {
+            "type": "social_link",
+            "settings": {
+              "title": "Amazon",
+              "icon": "amazon",
+              "link": "https://www.amazon.com/stores/page/54F7FEDD-529C-4894-8E55-8D4A601F3CC1"
+            }
           }
-        },
-        {
-          "type": "social_link",
-          "settings": {
-            "title": "Amazon",
-            "icon": "amazon",
-            "link": "https://www.amazon.com/stores/page/54F7FEDD-529C-4894-8E55-8D4A601F3CC1"
-          }
-        }
-      ]
-    }
-  ]
-}
+        ]
+      }
+    ]
+  }
 {% endschema %}
