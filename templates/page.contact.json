@@ -9,8 +9,8 @@
  */
 {
   "sections": {
-    "contact_banner": {
-      "type": "contact-banner",
+    "page_banner": {
+      "type": "page-banner",
       "settings": {
         "title": "Contact Us",
         "background_image": "shopify://shop_images/contact-us-banner.webp"
@@ -126,7 +126,7 @@
     }
   },
   "order": [
-    "contact_banner",
+    "page_banner",
     "main",
     "form"
   ]
