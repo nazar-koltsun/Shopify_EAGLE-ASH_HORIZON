@@ -38,6 +38,8 @@ html {
   scrollbar-color: rgb(var(--color-foreground-rgb) / var(--opacity-40))
     var(--color-background);
   scroll-behavior: smooth;
+
+  background-color: #ffffff;
 }
 
 html[scroll-lock] {

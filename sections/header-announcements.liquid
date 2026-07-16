@@ -1,17 +1,12 @@
-
-
 {% if section.blocks.size > 1 %}
   <script
     src="{{ 'announcement-bar.js' | asset_url }}"
     type="module"
-    fetchpriority="low"
-  ></script>
+    fetchpriority="low"></script>
 {% endif %}
 
 <div class="section-background"></div>
-<aside
-  class="announcement-bar"
->
+<aside class="announcement-bar">
   {% liquid
     assign autoplay = false
     assign show_arrows = false
@@ -24,11 +19,12 @@
   <announcement-bar-component
     class="announcement-bar__slider"
     {% if autoplay == true %}
-      autoplay="{{ section.settings.speed }}" aria-live="polite"
-    {% endif %}
-  >
+    autoplay="{{ section.settings.speed }}"
+    aria-live="polite"
+    {% endif %}>
     {% if show_arrows %}
-      {% render 'slideshow-arrows', icon_style: 'chevron' %}
+      {% render 'slideshow-arrows'
+        , icon_style: 'chevron' %}
     {% endif %}
 
     <div class="announcement-bar__slides">
@@ -43,7 +39,7 @@
   }
   .announcement-bar {
     padding: 16px 40px;
-
+    background-color: var(--deepest-brand-blue);
     @media screen and (max-width: 768px) {
       padding: 8px 20px;
     }
@@ -72,7 +68,8 @@
   }
 
   .announcement-bar__slide {
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out
+    , visibility 0.5s ease-in-out;
     content-visibility: visible;
 
     &[aria-hidden='true'] {
@@ -123,7 +120,8 @@
     font-size: 16px;
     color: white;
     text-align: center;
-    font-family: Lora, serif;
+    font-family: Lora
+    , serif;
     font-weight: 500;
 
     @media screen and (max-width: 768px) {
@@ -142,36 +140,36 @@
 {% endstylesheet %}
 
 {% schema %}
-{
-  "name": "t:names.announcement_bar",
-  "blocks": [
-    {
-      "type": "_announcement"
-    }
-  ],
-  "enabled_on": {
-    "groups": ["header"]
-  },
-  "settings": [
-    {
-      "type": "range",
-      "id": "speed",
-      "label": "t:settings.scroll_speed",
-      "min": 2,
-      "max": 10,
-      "default": 5,
-      "unit": "sec"
-    }
-  ],
-  "presets": [
-    {
-      "name": "t:names.announcement_bar",
-      "blocks": [
-        {
-          "type": "_announcement"
-        }
-      ]
-    }
-  ]
-}
+  {
+    "name": "t:names.announcement_bar",
+    "blocks": [
+      {
+        "type": "_announcement"
+      }
+    ],
+    "enabled_on": {
+      "groups": ["header"]
+    },
+    "settings": [
+      {
+        "type": "range",
+        "id": "speed",
+        "label": "t:settings.scroll_speed",
+        "min": 2,
+        "max": 10,
+        "default": 5,
+        "unit": "sec"
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:names.announcement_bar",
+        "blocks": [
+          {
+            "type": "_announcement"
+          }
+        ]
+      }
+    ]
+  }
 {% endschema %}
