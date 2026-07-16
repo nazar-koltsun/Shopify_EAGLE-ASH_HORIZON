@@ -1,0 +1,201 @@
+{%- liquid
+  assign section_title = section.settings.section_title
+-%}
+
+<div class="three-promises">
+  <div class="three-promises__inner">
+    {%- if section_title != blank -%}
+      <h2 class="three-promises__title">{{ section_title | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="three-promises__grid">
+        {%- for block in section.blocks -%}
+          <article class="three-promises__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.title != blank -%}
+              <h3 class="three-promises__item-title">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.text != blank -%}
+              <p class="three-promises__item-text">{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .section-three-promises {
+    background-color: #ffffff;
+  }
+
+  .three-promises {
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+  .three-promises__inner {
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    padding: 70px 150px 100px;
+    text-align: center;
+
+    @media screen and (max-width: 1600px) {
+      padding-inline: 100px;
+    }
+
+    @media screen and (max-width: 1300px) {
+      padding-inline: 40px;
+    }
+
+    @media screen and (max-width: 749px) {
+      padding: 60px 20px 48px;
+    }
+  }
+
+  .three-promises__title {
+    margin: 0;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1.35;
+    color: var(--deepest-brand-blue);
+    white-space: pre-line;
+
+    @media screen and (max-width: 990px) {
+      font-size: 42px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 30px;
+    }
+  }
+
+  .three-promises__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 170px;
+    margin-block-start: 64px;
+    text-align: start;
+
+    @media screen and (max-width: 1600px) {
+      gap: 120px;
+    }
+
+    @media screen and (max-width: 1300px) {
+      gap: 8vw;
+    }
+
+    @media screen and (max-width: 990px) {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin-block-start: 48px;
+    }
+
+    @media screen and (max-width: 749px) {
+      gap: 32px;
+      margin-block-start: 30px;
+    }
+  }
+
+  .three-promises__item {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+
+    @media screen and (max-width: 990px) {
+      gap: 16px;
+      text-align: left;
+    }
+  }
+
+  .three-promises__item-title {
+    margin: 0;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: #000000;
+
+    @media screen and (max-width: 749px) {
+      font-size: 20px;
+    }
+  }
+
+  .three-promises__item-text {
+    margin: 0;
+    font-family: 'Roboto'
+    , sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.2;
+    color: var(--deepest-brand-blue);
+  }
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "Three Promises",
+    "class": "section-wrapper section-three-promises",
+    "tag": "section",
+    "max_blocks": 6,
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "section_title",
+        "label": "Section title",
+        "default": "Three Promises.\nEvery Product."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "promise",
+        "name": "Promise",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Promise title",
+            "default": "Promise title"
+          }, {
+            "type": "textarea",
+            "id": "text",
+            "label": "Promise text",
+            "default": "Promise text"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Three Promises",
+        "blocks": [
+          {
+            "type": "promise",
+            "settings": {
+              "title": "Thoughtfully Crafted",
+              "text": "Every product is developed with intention, refined through multiple iterations and created to meet the standards we set for ourselves before anyone else."
+            }
+          }, {
+            "type": "promise",
+            "settings": {
+              "title": "Carefully Produced",
+              "text": "We work with trusted makers and selected workshops, choosing quality and craftsmanship over mass production."
+            }
+          }, {
+            "type": "promise",
+            "settings": {
+              "title": "Built for Lasting Impressions",
+              "text": "From materials to presentation, every detail is considered to create products you'll be proud to give, display and represent."
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
