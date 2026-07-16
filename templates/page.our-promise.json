@@ -13,7 +13,7 @@
       "type": "page-banner",
       "settings": {
         "title": "Our Promise",
-        "background_image": "shopify://shop_images/our-promise-banner.webp"
+        "background_image": "shopify://shop_images/our-promise-bg.webp"
       }
     },
     "main": {
