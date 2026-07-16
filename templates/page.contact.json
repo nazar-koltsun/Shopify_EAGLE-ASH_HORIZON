@@ -57,10 +57,37 @@
         "form_title": "Start a Conversation",
         "submit_label": "SEND"
       }
+    },
+    "meet_the_founders": {
+      "type": "meet-the-founders",
+      "blocks": {
+        "owner_yvelin": {
+          "type": "owner",
+          "settings": {
+            "name": "Yvelin Karu",
+            "role": "Co-CEO"
+          }
+        },
+        "owner_liisi": {
+          "type": "owner",
+          "settings": {
+            "name": "ANU AUN",
+            "role": "Co-CEO"
+          }
+        }
+      },
+      "block_order": [
+        "owner_yvelin",
+        "owner_liisi"
+      ],
+      "settings": {
+        "title": "Meet the Founders"
+      }
     }
   },
   "order": [
     "page_banner",
-    "contact_info"
+    "contact_info",
+    "meet_the_founders"
   ]
 }

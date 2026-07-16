@@ -1,0 +1,226 @@
+{%- liquid
+  assign title = section.settings.title
+-%}
+
+<div class="meet-the-founders">
+  <div class="meet-the-founders__inner">
+    {%- if title != blank -%}
+      <h2 class="meet-the-founders__title">{{ title | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="meet-the-founders__grid">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign owner_image = block.settings.image
+            assign owner_name = block.settings.name
+            assign owner_role = block.settings.role
+          -%}
+          <article class="meet-the-founders__owner" {{ block.shopify_attributes }}>
+            <div class="meet-the-founders__media">
+              {%- if owner_image != blank -%}
+                <img
+                  class="meet-the-founders__image"
+                  src="{{ owner_image | image_url: width: 800 }}"
+                  srcset="
+                    {{ owner_image | image_url: width: 400 }} 400w,
+                    {{ owner_image | image_url: width: 600 }} 600w,
+                    {{ owner_image | image_url: width: 800 }} 800w,
+                    {{ owner_image | image_url: width: 1200 }} 1200w
+                  "
+                  sizes="(max-width: 749px) 80vw, 320px"
+                  width="{{ owner_image.width }}"
+                  height="{{ owner_image.height }}"
+                  alt="{{ owner_image.alt | default: owner_name | escape }}"
+                  loading="lazy">
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'meet-the-founders__image meet-the-founders__image--placeholder' }}
+              {%- endif -%}
+            </div>
+
+            {%- if owner_name != blank -%}
+              <h3 class="meet-the-founders__name">{{ owner_name | escape }}</h3>
+            {%- endif -%}
+
+            {%- if owner_role != blank -%}
+              <p class="meet-the-founders__role">{{ owner_role | escape }}</p>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% style %}
+  .meet-the-founders {
+    width: 100%;
+    background-color: var(--deepest-brand-blue);
+  }
+
+  .meet-the-founders__inner {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding: 45px 40px 8px;
+
+    @media screen and (max-width: 749px) {
+      padding: 60px 20px 20px;
+    }
+  }
+
+  .meet-the-founders__title {
+    margin: 0;
+    text-align: center;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.4;
+    color: #ffffff;
+
+    @media screen and (max-width: 749px) {
+      font-size: 28px;
+    }
+  }
+
+  .meet-the-founders__grid {
+    display: grid;
+    grid-template-columns: 408px 408px;
+    justify-content: center;
+    gap: 200px;
+    margin-block-start: 34px;
+
+    @media screen and (max-width: 1300px) {
+      grid-template-columns: 360px 360px;
+      gap: 100px;
+    }
+
+    @media screen and (max-width: 990px) {
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    @media screen and (max-width: 749px) {
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    @media screen and (max-width: 600px) {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+
+  .meet-the-founders__owner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .meet-the-founders__media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    overflow: hidden;
+    background-color: #745A43;
+    padding: 55px 4px;
+  }
+
+  .meet-the-founders__image {
+    aspect-ratio: 1 / 1;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .meet-the-founders__image--placeholder {
+    background-color: var(--blue-spectrum-dark, #115e67);
+    fill: var(--blue-spectrum-light, #94b7bb);
+  }
+
+  .meet-the-founders__name,
+  .meet-the-founders__role {
+    margin: 0;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 500;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: #ffffff;
+
+    @media screen and (max-width: 749px) {
+      font-size: 15px;
+    }
+  }
+
+  .meet-the-founders__name {
+    margin: 27px 0 0;
+
+    @media screen and (max-width: 749px) {
+      margin: 20px 0 0;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "Meet the Founders",
+    "class": "section-wrapper section-meet-the-founders",
+    "tag": "section",
+    "max_blocks": 4,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Meet the Founders"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "owner",
+        "name": "Owner",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Owner image"
+          }, {
+            "type": "text",
+            "id": "name",
+            "label": "Owner name",
+            "default": "Owner Name"
+          }, {
+            "type": "text",
+            "id": "role",
+            "label": "Owner role",
+            "default": "Co-CEO"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Meet the Founders",
+        "blocks": [
+          {
+            "type": "owner",
+            "settings": {
+              "name": "Yvelin Karu",
+              "role": "Co-CEO"
+            }
+          }, {
+            "type": "owner",
+            "settings": {
+              "name": "ANU AUN",
+              "role": "Co-CEO"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
