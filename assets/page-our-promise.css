@@ -3,3 +3,24 @@
 .section-contact-split .contact-split {
   padding-block-start: 0;
 }
+
+.section-contact-split .contact-split__inner {
+  @media screen and (max-width: 990px) {
+    flex-direction: column;
+    margin-top: 28px
+  }
+
+  @media screen and (max-width: 749px) {
+    margin-top: 20px;
+  }
+}
+
+.section-contact-split .contact-split__content {
+  @media screen and (max-width: 990px) {
+    padding-block-end: 58px;
+  }
+
+  @media screen and (max-width: 749px) {
+    padding-block-end: 48px;
+  }
+}
