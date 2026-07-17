@@ -1,0 +1,127 @@
+{%- liquid
+  assign title = section.settings.title
+  assign video = section.settings.video
+-%}
+
+<script
+  src="{{ 'craftsmanship-video.js' | asset_url }}"
+  type="module"
+></script>
+
+<div class="craftsmanship">
+  <div class="craftsmanship__inner">
+    {%- if title != blank -%}
+      <h2 class="craftsmanship__title">{{ title | escape }}</h2>
+    {%- endif -%}
+  </div>
+  <craftsmanship-video class="craftsmanship__media">
+    {%- if video != blank -%}
+      {{
+        video
+        | video_tag:
+          image_size: '1920x',
+          autoplay: false,
+          loop: true,
+          muted: true,
+          controls: false,
+          class: 'craftsmanship__video'
+      }}
+    {%- endif -%}
+  </craftsmanship-video>
+
+</div>
+
+{% stylesheet %}
+  .craftsmanship {
+    max-width: 1920px;
+    margin-inline: auto;
+    overflow: hidden;
+    background-color: var(--deepest-brand-blue);
+    isolation: isolate;
+  }
+
+  .craftsmanship__media {
+    width: 100%;
+    height: auto;
+  }
+
+  .craftsmanship__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .craftsmanship__inner {
+    max-width: 1920px;
+    margin-inline: auto;
+    padding-inline: 40px;
+    padding-block-start: 56px;
+    padding-block-end: 50px;
+
+    @media screen and (max-width: 1200px) {
+      padding-block-start: 50px;
+      padding-block-end: 44px;
+    }
+
+    @media screen and (max-width: 990px) {
+      padding-block-start: 40px;
+      padding-block-end: 34px;
+    }
+
+    @media screen and (max-width: 749px) {
+      padding-block-start: 20px;
+      padding-block-end: 20px;
+      padding-inline: 20px;
+    }
+  }
+
+  .craftsmanship__title {
+    margin: 0;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: #ffffff;
+    text-align: center;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 28px;
+    }
+
+    @media screen and (max-width: 990px) {
+      font-size: 24px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 20px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "Craftsmanship",
+    "class": "section-wrapper section-craftsmanship",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section title",
+        "default": "Craftsmanship You Can See"
+      },
+      {
+        "type": "video",
+        "id": "video",
+        "label": "Video"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Craftsmanship"
+      }
+    ]
+  }
+{% endschema %}

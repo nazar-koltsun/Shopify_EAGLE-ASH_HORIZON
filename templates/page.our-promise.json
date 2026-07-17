@@ -126,6 +126,12 @@
         "title": "The Eagle & Ash Standard"
       }
     },
+    "craftsmanship": {
+      "type": "craftsmanship",
+      "settings": {
+        "title": "Craftsmanship You Can See"
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -143,6 +149,7 @@
     "three_promises",
     "contact_split",
     "eagle_ash_standard",
+    "craftsmanship",
     "main"
   ]
 }
