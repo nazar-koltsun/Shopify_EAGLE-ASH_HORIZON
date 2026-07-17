@@ -60,6 +60,72 @@
         "image": "shopify://shop_images/standarts.webp"
       }
     },
+    "eagle_ash_standard": {
+      "type": "eagle-ash-standard",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "label": "Understanding the Need"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "label": "Thoughtful Design"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "label": "Prototype & Refinement"
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "label": "Personally Selected Makers"
+          }
+        },
+        "step_5": {
+          "type": "step",
+          "settings": {
+            "label": "European Production"
+          }
+        },
+        "step_6": {
+          "type": "step",
+          "settings": {
+            "label": "Quality Inspection"
+          }
+        },
+        "step_7": {
+          "type": "step",
+          "settings": {
+            "label": "Thoughtful Presentation"
+          }
+        },
+        "step_8": {
+          "type": "step",
+          "settings": {
+            "label": "Ready to Be Gifted"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "step_5",
+        "step_6",
+        "step_7",
+        "step_8"
+      ],
+      "settings": {
+        "title": "The Eagle & Ash Standard"
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -76,6 +142,7 @@
     "page_banner",
     "three_promises",
     "contact_split",
+    "eagle_ash_standard",
     "main"
   ]
 }

@@ -1,0 +1,293 @@
+{%- liquid
+  assign title = section.settings.title
+  assign step_count = section.blocks.size
+-%}
+
+<div class="eagle-ash-standard">
+  <div class="eagle-ash-standard__inner">
+    {%- if title != blank -%}
+      <h2 class="eagle-ash-standard__title">{{ title | escape }}</h2>
+    {%- endif -%}
+
+    {%- if step_count > 0 -%}
+      <ol class="eagle-ash-standard__track" style="--eagle-ash-standard-count: {{ step_count }};">
+        {%- for block in section.blocks -%}
+          <li class="eagle-ash-standard__step" {{ block.shopify_attributes }}>
+            <span class="eagle-ash-standard__marker" aria-hidden="true"></span>
+            {%- if block.settings.label != blank -%}
+              <p class="eagle-ash-standard__label">{{ block.settings.label | escape }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ol>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .section-eagle-ash-standard {
+    background-color: #ffffff;
+  }
+
+  .eagle-ash-standard {
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+  .eagle-ash-standard__inner {
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    padding: 60px 64px 160px;
+
+    @media screen and (max-width: 1300px) {
+      padding: 60px 40px 100px;
+    }
+
+    @media screen and (max-width: 990px) {
+      padding: 20px 40px 80px;
+    }
+
+    @media screen and (max-width: 749px) {
+      padding: 20px 20px 60px;
+    }
+  }
+
+  .eagle-ash-standard__title {
+    padding-inline: 24px;
+    margin: 0;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.2;
+    color: #000000;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 32px;
+    }
+
+    @media screen and (max-width: 990px) {
+      font-size: 28px;
+      padding-inline: 0;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 24px;
+    }
+  }
+
+  .eagle-ash-standard__track {
+    --eagle-ash-standard-marker: 15px;
+    --eagle-ash-standard-line: 2px;
+    --eagle-ash-standard-accent: var(--ash-amber-orange);
+
+    display: grid;
+    grid-template-columns: repeat(var(--eagle-ash-standard-count, 8), minmax(0, 1fr));
+    list-style: none;
+    margin: 90px 0 0;
+    padding: 0;
+
+    @media screen and (max-width: 1300px) {
+      margin-block-start: 70px;
+    }
+
+    @media screen and (max-width: 990px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      justify-items: center;
+    }
+
+    @media screen and (max-width: 749px) {
+      margin-block-start: 50px;
+    }
+  }
+
+  .eagle-ash-standard__step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 43px;
+    min-width: 0;
+
+    @media screen and (max-width: 1200px) {
+      gap: 36px;
+    }
+
+    @media screen and (max-width: 990px) {
+      height: 80px;
+
+      &:last-child {
+        height: 23px;
+      }
+    }
+  }
+
+  .eagle-ash-standard__step:nth-child(2n) {
+
+    & .eagle-ash-standard__label {
+      @media screen and (max-width: 990px) {
+        left: 20px;
+        right: auto;
+        text-align: left;
+      }
+    }
+  }
+
+
+  /* Continuous horizontal line: each cell draws edge-to-edge; first/last clip to marker center */
+  .eagle-ash-standard__step::before {
+    content: '';
+    position: absolute;
+    top: calc(var(--eagle-ash-standard-marker) / 2 - var(--eagle-ash-standard-line) / 2);
+    left: 0;
+    right: 0;
+    height: var(--eagle-ash-standard-line);
+    background-color: var(--eagle-ash-standard-accent);
+    pointer-events: none;
+
+    @media screen and (max-width: 990px) {
+      width: var(--eagle-ash-standard-line);
+      height: 100%;
+      left: calc(50% - var(--eagle-ash-standard-line) / 2);
+    }
+  }
+
+  .eagle-ash-standard__step:first-child::before {
+    left: 50%;
+
+    @media screen and (max-width: 990px) {
+      left: calc(50% - var(--eagle-ash-standard-line) / 2);
+    }
+  }
+
+  .eagle-ash-standard__step:last-child::before {
+    right: 50%;
+
+    @media screen and (max-width: 990px) {
+      height: 0;
+    }
+  }
+
+  .eagle-ash-standard__marker {
+    position: relative;
+    z-index: 1;
+    width: var(--eagle-ash-standard-marker);
+    height: var(--eagle-ash-standard-marker);
+    flex-shrink: 0;
+    border: 5px solid var(--eagle-ash-standard-accent);
+    border-radius: 50%;
+    background-color: #ffffff;
+  }
+
+  .eagle-ash-standard__label {
+    padding: 0 10px;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #000000;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 14px;
+    }
+
+    @media screen and (max-width: 990px) {
+      position: absolute;
+      top: -4px;
+      right: 20px;
+      width: 230px;
+      text-align: right;
+      font-size: 16px;
+    }
+
+    @media screen and (max-width: 749px) {
+      width: 40vw;
+      
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "Eagle & Ash Standard",
+    "class": "section-wrapper section-eagle-ash-standard",
+    "tag": "section",
+    "max_blocks": 8,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "The Eagle & Ash Standard"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "step",
+        "name": "Step",
+        "settings": [
+          {
+            "type": "text",
+            "id": "label",
+            "label": "Label",
+            "default": "Step label"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Eagle & Ash Standard",
+        "blocks": [
+          {
+            "type": "step",
+            "settings": {
+              "label": "Understanding the Need"
+            }
+          },
+          {
+            "type": "step",
+            "settings": {
+              "label": "Thoughtful Design"
+            }
+          },
+          {
+            "type": "step",
+            "settings": {
+              "label": "Prototype & Refinement"
+            }
+          },
+          {
+            "type": "step",
+            "settings": {
+              "label": "Personally Selected Makers"
+            }
+          }, {
+            "type": "step",
+            "settings": {
+              "label": "European Production"
+            }
+          }, {
+            "type": "step",
+            "settings": {
+              "label": "Quality Inspection"
+            }
+          }, {
+            "type": "step",
+            "settings": {
+              "label": "Thoughtful Presentation"
+            }
+          }, {
+            "type": "step",
+            "settings": {
+              "label": "Ready to Be Gifted"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
