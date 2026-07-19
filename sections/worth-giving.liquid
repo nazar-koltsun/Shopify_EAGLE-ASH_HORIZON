@@ -1,0 +1,162 @@
+{%- liquid
+  assign title = section.settings.title
+  assign text = section.settings.text
+  assign link_title = section.settings.link_title
+  assign link_url = section.settings.link_url
+-%}
+
+<div class="worth-giving">
+  <div class="worth-giving__inner">
+    {%- if title != blank -%}
+      <h2 class="worth-giving__title">{{ title | escape }}</h2>
+    {%- endif -%}
+
+    <div class="worth-giving__row">
+      {%- if text != blank -%}
+        <div class="worth-giving__text">{{ text | escape | newline_to_br }}</div>
+      {%- endif -%}
+
+      {%- if link_title != blank -%}
+        <div class="worth-giving__action">
+          <a
+            class="worth-giving__link btn"
+            {% if link_url != blank %}
+              href="{{ link_url }}"
+            {% else %}
+              role="link"
+              aria-disabled="true"
+            {% endif %}
+          >
+            {{ link_title | escape }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .section-worth-giving {
+    background-color: #ffffff;
+  }
+
+  .worth-giving {
+    width: 100%;
+    background-color: #ffffff;
+    border-block-end: 1px solid var(--deepest-brand-blue, #07272d);
+  }
+
+  .worth-giving__inner {
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    padding: 88px 110px 115px;
+
+    @media screen and (max-width: 1300px) {
+      padding: 80px 40px 90px;
+    }
+
+    @media screen and (max-width: 749px) {
+      padding: 60px 20px 70px;
+    }
+  }
+
+  .worth-giving__title {
+    margin: 0;
+    text-align: center;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1.3;
+    color: #000000;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 40px;
+    }
+
+    @media screen and (max-width: 990px) {
+      font-size: 34px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 28px;
+    }
+  }
+
+  .worth-giving__row {
+    display: flex;
+    align-items: flex-end;
+    gap: 154px;
+    margin-block-start: 93px;
+
+    @media screen and (max-width: 1300px) {
+      margin-block-start: 60px;
+      gap: 100px;
+    }
+
+    @media screen and (max-width: 990px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 40px;
+    }
+
+    @media screen and (max-width: 749px) {
+      margin-block-start: 30px;
+    }
+  }
+
+  .worth-giving__text {
+    flex: 1 1 auto;
+    max-width: 56%;
+    padding-block-end: 16px;
+    font-family: 'Lora'
+    , serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #000000;
+
+    @media screen and (max-width: 990px) {
+      padding-block-end: 0;
+      max-width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "Worth Giving",
+    "class": "section-wrapper section-worth-giving",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section title",
+        "default": "Worth Giving. Worth Remembering."
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Text",
+        "default": "Whether you're sourcing premium golf gifts for clients, tournaments, retail or something entirely bespoke, we're here to help create products that reflect your standards as much as our own. We believe the best partnerships begin with a conversation, not a catalogue. Tell us what you're looking for, and together we'll create something thoughtful, beautifully presented and made to leave a lasting impression."
+      },
+      {
+        "type": "text",
+        "id": "link_title",
+        "label": "Link title",
+        "default": "Tell Us About Your Project"
+      },
+      {
+        "type": "url",
+        "id": "link_url",
+        "label": "Link URL"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Worth Giving"
+      }
+    ]
+  }
+{% endschema %}
