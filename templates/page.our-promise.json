@@ -129,7 +129,8 @@
     "craftsmanship": {
       "type": "craftsmanship",
       "settings": {
-        "title": "Craftsmanship You Can See"
+        "title": "Craftsmanship You Can See",
+        "video": "shopify://files/videos/Untitled design.mp4"
       }
     },
     "main": {
