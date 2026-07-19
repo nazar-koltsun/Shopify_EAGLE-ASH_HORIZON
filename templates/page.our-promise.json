@@ -133,14 +133,6 @@
         "video": "shopify://files/videos/Untitled design.mp4"
       }
     },
-    "worth_giving": {
-      "type": "worth-giving",
-      "settings": {
-        "title": "Worth Giving. Worth Remembering.",
-        "text": "Whether you're sourcing premium golf gifts for clients, tournaments, retail or something entirely bespoke, we're here to help create products that reflect your standards as much as our own.\n\nWe believe the best partnerships begin with a conversation, not a catalogue. Tell us what you're looking for, and together we'll create something thoughtful, beautifully presented and made to leave a lasting impression.",
-        "link_title": "Tell Us About Your Project"
-      }
-    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -159,7 +151,6 @@
     "contact_split",
     "eagle_ash_standard",
     "craftsmanship",
-    "worth_giving",
     "main"
   ]
 }
