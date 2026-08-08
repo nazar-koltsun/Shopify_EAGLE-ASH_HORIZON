@@ -2,7 +2,10 @@
   assign heading = section.settings.heading
 -%}
 
-<div class="collection-cards">
+<div
+  class="collection-cards"
+  style="--cc-back-image: url('{{ 'card-back-bg.webp' | asset_url }}');"
+>
   <div class="collection-cards__inner">
     {%- if heading != blank -%}
       <div class="collection-cards__header">
@@ -24,46 +27,78 @@
               {%- liquid
                 assign card_image = block.settings.image
                 assign card_title = block.settings.title
-                assign card_link = block.settings.link
+                assign back_title = block.settings.back_title
+                assign back_text = block.settings.back_text
+                assign back_action_title = block.settings.back_action_title
+                assign back_action_url = block.settings.back_action_url
               -%}
               <div class="embla__slide collection-cards__item" role="listitem" {{ block.shopify_attributes }}>
-                {%- capture card_inner -%}
-                  <div class="collection-cards__media">
-                    {%- if card_image != blank -%}
-                      <img
-                        class="collection-cards__image"
-                        src="{{ card_image | image_url: width: 600 }}"
-                        srcset="
-                          {{ card_image | image_url: width: 300 }} 300w,
-                          {{ card_image | image_url: width: 450 }} 450w,
-                          {{ card_image | image_url: width: 600 }} 600w,
-                          {{ card_image | image_url: width: 900 }} 900w
-                        "
-                        sizes="(max-width: 720px) 40vw, (max-width: 1199px) 30vw, 20vw"
-                        width="{{ card_image.width }}"
-                        height="{{ card_image.height }}"
-                        alt="{{ card_image.alt | escape }}"
-                        loading="lazy"
-                        draggable="false"
-                      >
-                    {%- else -%}
-                      {{ 'collection-1' | placeholder_svg_tag: 'collection-cards__image collection-cards__image--placeholder' }}
-                    {%- endif -%}
+                <div
+                  class="collection-cards__card"
+                  data-flip-card
+                  tabindex="0"
+                  aria-expanded="false"
+                  aria-label="{{ card_title | default: 'Collection card' | strip_html | escape }}. Activate to flip."
+                >
+                  <div class="collection-cards__flipper">
+                    <div class="collection-cards__face collection-cards__face--front">
+                      <div class="collection-cards__media">
+                        {%- if card_image != blank -%}
+                          <img
+                            class="collection-cards__image"
+                            src="{{ card_image | image_url: width: 600 }}"
+                            srcset="
+                              {{ card_image | image_url: width: 300 }} 300w,
+                              {{ card_image | image_url: width: 450 }} 450w,
+                              {{ card_image | image_url: width: 600 }} 600w,
+                              {{ card_image | image_url: width: 900 }} 900w
+                            "
+                            sizes="(max-width: 720px) 40vw, (max-width: 1199px) 30vw, 20vw"
+                            width="{{ card_image.width }}"
+                            height="{{ card_image.height }}"
+                            alt="{{ card_image.alt | escape }}"
+                            loading="lazy"
+                            draggable="false"
+                          >
+                        {%- else -%}
+                          {{ 'collection-1' | placeholder_svg_tag: 'collection-cards__image collection-cards__image--placeholder' }}
+                        {%- endif -%}
 
-                    {%- if card_title != blank -%}
-                      <span class="collection-cards__title">{{ card_title }}</span>
-                    {%- endif -%}
+                        </div>
+                        {%- if card_title != blank -%}
+                          <span class="collection-cards__title">{{ card_title }}</span>
+                        {%- endif -%}
+                    </div>
+
+                    <div class="collection-cards__face collection-cards__face--back" aria-hidden="true">
+                      <div class="collection-cards__back-body">
+                        {%- if back_title != blank -%}
+                          <h3 class="collection-cards__back-title">{{ back_title }}</h3>
+                        {%- endif -%}
+
+                        {%- if back_text != blank -%}
+                          <p class="collection-cards__back-text">{{ back_text | newline_to_br }}</p>
+                        {%- endif -%}
+
+                        {%- if back_action_title != blank -%}
+                          {%- if back_action_url != blank -%}
+                            <a class="collection-cards__back-action btn btn--white" href="{{ back_action_url }}" data-flip-ignore>
+                              {{- back_action_title | escape -}}
+                            </a>
+                          {%- else -%}
+                            <span class="collection-cards__back-action">{{ back_action_title | escape }}</span>
+                          {%- endif -%}
+                        {%- endif -%}
+                      </div>
+
+                      <div class="collection-cards__back-features">
+                        <span class="collection-cards__back-feature">Wholesale</span>
+                        <span class="collection-cards__back-feature">Retail</span>
+                        <span class="collection-cards__back-feature">Bespoke</span>
+                      </div>
+                    </div>
                   </div>
-                {%- endcapture -%}
-                {%- if card_link != blank -%}
-                  <a class="collection-cards__card" href="{{ card_link }}">
-                    {{ card_inner }}
-                  </a>
-                {%- else -%}
-                  <div class="collection-cards__card">
-                    {{ card_inner }}
-                  </div>
-                {%- endif -%}
+                </div>
               </div>
             {%- endfor -%}
           </div>
@@ -91,6 +126,67 @@
       dragFree: false,
       containScroll: 'trimSnaps',
     });
+
+    var startX = 0;
+    var startY = 0;
+    var dragged = false;
+    var DRAG_THRESHOLD = 8;
+
+    function setFlipped(card, flipped) {
+      card.classList.toggle('is-flipped', flipped);
+      card.setAttribute('aria-expanded', flipped ? 'true' : 'false');
+
+      var back = card.querySelector('.collection-cards__face--back');
+      if (back) back.setAttribute('aria-hidden', flipped ? 'false' : 'true');
+    }
+
+    function unflipOthers(exceptCard) {
+      root.querySelectorAll('[data-flip-card].is-flipped').forEach(function (card) {
+        if (card !== exceptCard) setFlipped(card, false);
+      });
+    }
+
+    function toggleCard(card) {
+      var next = !card.classList.contains('is-flipped');
+      unflipOthers(card);
+      setFlipped(card, next);
+    }
+
+    root.addEventListener('pointerdown', function (event) {
+      if (!event.target.closest('[data-flip-card]')) return;
+      startX = event.clientX;
+      startY = event.clientY;
+      dragged = false;
+    });
+
+    root.addEventListener('pointermove', function (event) {
+      if (
+        Math.abs(event.clientX - startX) > DRAG_THRESHOLD ||
+        Math.abs(event.clientY - startY) > DRAG_THRESHOLD
+      ) {
+        dragged = true;
+      }
+    });
+
+    root.addEventListener('click', function (event) {
+      if (event.target.closest('[data-flip-ignore]')) return;
+
+      var card = event.target.closest('[data-flip-card]');
+      if (!card || dragged) return;
+
+      event.preventDefault();
+      toggleCard(card);
+    });
+
+    root.addEventListener('keydown', function (event) {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+
+      var card = event.target.closest('[data-flip-card]');
+      if (!card || event.target.closest('[data-flip-ignore]')) return;
+
+      event.preventDefault();
+      toggleCard(card);
+    });
   })();
 </script>
 
@@ -102,19 +198,15 @@
   .collection-cards {
     --cc-gap: 14px;
     --cc-per-view: 3.13;
+    --cc-back-brown: #5c4033;
     width: 100%;
     max-width: 1920px;
     margin-inline: auto;
     padding-block-start: 29px;
-    padding-block-end: 114px;
     background-color: var(--deepest-brand-blue);
 
     @media screen and (min-width: 1600px) {
-      --cc-per-view: 4.13;
-    }
-
-    @media screen and (max-width: 1200px) {
-      padding-block-end: 80px;
+      --cc-per-view: 4;
     }
 
     @media screen and (max-width: 850px) {
@@ -123,7 +215,6 @@
 
     @media screen and (max-width: 749px) {
       padding-block-start: 20px;
-      padding-block-end: 60px;
     }
 
     @media screen and (max-width: 580px) {
@@ -135,18 +226,6 @@
     width: 100%;
     max-width: 1920px;
     margin-inline: auto;
-  }
-
-  .collection-cards__header {
-    margin-block-end: 50px;
-
-    @media screen and (max-width: 990px) {
-      margin-block-end: 40px;
-    }
-
-    @media screen and (max-width: 749px) {
-      margin-block-end: 30px;
-    }
   }
 
   .collection-cards__heading {
@@ -174,13 +253,17 @@
   /* Embla structural styles */
   .embla {
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
 
   .collection-cards__viewport {
     overflow: hidden;
-    /* Keep hover/focus rings from being clipped vertically */
-    padding-block: 6px;
-    margin-block: -6px;
+    padding-block: 50px;
+
+    @media screen and (max-width: 749px) {
+      padding-block: 30px;
+    }
   }
 
   .collection-cards__container {
@@ -199,14 +282,62 @@
 
   .collection-cards__card {
     display: block;
-    text-decoration: none;
-    color: inherit;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    perspective: 1200px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .collection-cards__card:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 3px;
+  }
+
+  .collection-cards__flipper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4.05;
+    transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+  }
+
+  .collection-cards__card.is-flipped .collection-cards__flipper {
+    transform: rotateY(180deg);
+  }
+
+  .collection-cards__face {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .collection-cards__face--front {
+    z-index: 1;
+  }
+
+  .collection-cards__face--back {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    transform: rotateY(180deg);
+    z-index: 0;
   }
 
   .collection-cards__media {
     position: relative;
     width: 100%;
-    aspect-ratio: 3 / 3.743;
+    height: 100%;
     overflow: hidden;
     background-color: rgba(255, 255, 255, 0.06);
   }
@@ -224,22 +355,14 @@
     fill: var(--blue-spectrum-light);
   }
 
-  .collection-cards__card:hover .collection-cards__image,
-  .collection-cards__card:focus-visible .collection-cards__image {
+  .collection-cards__card:hover:not(.is-flipped) .collection-cards__image {
     transform: scale(1.04);
   }
 
-  .collection-cards__card:focus-visible {
-    outline: 2px solid white;
-    outline-offset: 3px;
-  }
-
   .collection-cards__title {
-    position: absolute;
-    inset-block-end: 0;
     inset-inline-start: 14px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 200;
+    font-family: 'Lora', serif;
+    font-weight: 400;
     font-size: 24px;
     line-height: 29px;
     color: white;
@@ -254,6 +377,114 @@
       font-size: 18px;
       line-height: 22px;
       inset-inline-start: 8px;
+    }
+  }
+
+  .collection-cards__back-body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 67px 45px 44px;
+    background-color: var(--cc-back-brown);
+    background-image: var(--cc-back-image);
+    background-size: cover;
+    background-position: center;
+    overflow: auto;
+    text-align: start;
+
+    @media screen and (max-width: 1200px) {
+      padding: 40px 20px 40px;
+    }
+  }
+
+  .collection-cards__back-title {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.25;
+    color: white;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 28px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 20px;
+    }
+  }
+
+  .collection-cards__back-text {
+    margin: 0;
+    margin-block-start: 40px;
+    margin-block-end: 16px;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.45;
+    color: white;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 14px;
+      margin-block-start: 24px;
+    }
+  }
+
+  .collection-cards__back-action {
+    margin-block-start: auto;
+    font-size: 16px;
+  }
+
+  .collection-cards__back-features {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 3.32px 25px;
+    background-color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 1200px) {
+      padding-inline: 14px;
+    }
+
+    @media screen and (max-width: 749px) {
+      padding-inline: 12px;
+    }
+  }
+
+  .collection-cards__back-feature {
+    display: flex;
+    align-items: center;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.4;
+    color: white;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 13px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 12px;
+    }
+  }
+
+  .collection-cards__back-feature::after {
+    content: '';
+    margin-inline-start: 8px;
+    width: 5px;
+    height: 5px;
+    background-color: white;
+    border-radius: 50%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .collection-cards__flipper,
+    .collection-cards__image {
+      transition: none;
     }
   }
 {% endstylesheet %}
@@ -289,9 +520,27 @@
           "default": "Card title"
         },
         {
+          "type": "text",
+          "id": "back_title",
+          "label": "Back title",
+          "default": "Handcrafted Awards That Carry Meaning"
+        },
+        {
+          "type": "textarea",
+          "id": "back_text",
+          "label": "Back text",
+          "default": "More than trophies, these are lasting symbols of achievement. Each Eagle & Ash award is handcrafted in Estonia by a carefully selected artisan, bringing together timeless design, exceptional craftsmanship and premium materials. Available in a range of designs and sizes, with bespoke solutions for clubs, tournaments and corporate events."
+        },
+        {
+          "type": "text",
+          "id": "back_action_title",
+          "label": "Back action title",
+          "default": "Start a Conversation"
+        },
+        {
           "type": "url",
-          "id": "link",
-          "label": "Link"
+          "id": "back_action_url",
+          "label": "Back action URL"
         }
       ]
     }
