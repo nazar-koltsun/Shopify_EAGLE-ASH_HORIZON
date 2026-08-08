@@ -136,6 +136,20 @@
           </label>
         </div>
 
+        <div class="contact-info__field">
+          <input
+            type="text"
+            id="ContactForm-company"
+            class="contact-info__input"
+            autocomplete="organization"
+            name="contact[company]"
+            value="{% if form.company %}{{ form.company }}{% endif %}"
+            placeholder=" ">
+          <label class="contact-info__field-label" for="ContactForm-company">
+            {{- 'blocks.contact_form.company' | t -}}
+          </label>
+        </div>
+
         <div class="contact-info__field contact-info__field--message">
           <textarea
             rows="6"
@@ -185,8 +199,9 @@
     }
 
     @media screen and (max-width: 749px) {
-      grid-template-columns: 1fr;
-      gap: 48px;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 80px;
       padding: 60px 20px;
     }
   }
@@ -325,11 +340,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-block-start: 60px;
-
-    @media screen and (max-width: 749px) {
-      margin-block-start: 8px;
-    }
+    margin-block-start: 16px;
   }
 
 
