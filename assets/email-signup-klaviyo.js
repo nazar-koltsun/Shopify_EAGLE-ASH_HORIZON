@@ -135,7 +135,7 @@ class EmailSignupKlaviyo extends HTMLElement {
   #showError(message) {
     if (!this.#errorMessage || !message) return;
 
-    const text = this.#errorMessage.querySelector('.email-signup__message-text');
+    const text = this.#errorMessage.querySelector('.email-signup-klaviyo__message-text');
     if (text) text.textContent = message;
 
     this.#errorMessage.classList.remove('hidden');
