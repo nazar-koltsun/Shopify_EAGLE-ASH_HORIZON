@@ -16,6 +16,46 @@
         "background_image": "shopify://shop_images/wholesale-head-bg.webp"
       }
     },
+    "wholesale_inquiry": {
+      "type": "wholesale-inquiry",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "title": "Wholesale"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "title": "Retail"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "title": "Corporate"
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "title": "Bespoke"
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4"
+      ],
+      "settings": {
+        "title": "Looking for Something More Personal?",
+        "description_top": "<p>Whether you're building a retail assortment, sourcing tournament gifts or looking for a long-term wholesale partnership, we'd love to hear from you.</p>",
+        "description_bottom": "<p>Tell us a little about your business and what you're looking for — and we'll take it from there.</p>"
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -30,6 +70,7 @@
   },
   "order": [
     "page_banner",
+    "wholesale_inquiry",
     "main"
   ]
 }

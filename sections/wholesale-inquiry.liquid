@@ -1,0 +1,277 @@
+{%- liquid
+  assign title = section.settings.title
+  assign description_top = section.settings.description_top
+  assign description_bottom = section.settings.description_bottom
+  assign form_id = section.id | prepend: 'ContactForm-'
+-%}
+
+<div class="wholesale-inquiry">
+  <div class="wholesale-inquiry__inner">
+    <div class="wholesale-inquiry__left">
+      {%- if title != blank -%}
+        <h2 class="wholesale-inquiry__title">{{ title | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="wholesale-inquiry__features" role="list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'feature' -%}
+              <li class="wholesale-inquiry__feature" {{ block.shopify_attributes }}>
+                {%- if block.settings.icon != blank -%}
+                  <span class="wholesale-inquiry__feature-icon" aria-hidden="true">
+                    {{
+                      block.settings.icon
+                      | image_url: width: 96
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '48, 96',
+                        sizes: '48px',
+                        class: 'wholesale-inquiry__feature-image'
+                    }}
+                  </span>
+                {%- endif -%}
+
+                {%- if block.settings.title != blank -%}
+                  <span class="wholesale-inquiry__feature-title">{{ block.settings.title | escape }}</span>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="wholesale-inquiry__middle">
+      {%- if description_top != blank -%}
+        <div class="wholesale-inquiry__description wholesale-inquiry__description--top">
+          {{ description_top }}
+        </div>
+      {%- endif -%}
+
+      {%- if description_bottom != blank -%}
+        <div class="wholesale-inquiry__description wholesale-inquiry__description--bottom">
+          {{ description_bottom }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="wholesale-inquiry__right">
+      {% render 'contact-form', form_id: form_id %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .section-wholesale-inquiry {
+    background-color: #ffffff;
+  }
+
+  .wholesale-inquiry {
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+  .wholesale-inquiry__inner {
+    display: grid;
+    grid-template-columns: 490fr 288fr 325fr;
+    column-gap: 7.87%;
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    padding: 77px 60px 90px;
+
+    @media screen and (max-width: 1300px) {
+      padding: 78px 150px 60px;
+      gap: 80px;
+    }
+
+    @media screen and (max-width: 1100px) {
+      gap: 60px;
+      padding: 60px 40px;
+    }
+
+    @media screen and (max-width: 749px) {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 80px;
+      padding: 60px 20px;
+    }
+  }
+
+  .wholesale-inquiry__left,
+  .wholesale-inquiry__middle,
+  .wholesale-inquiry__right {
+    display: flex;
+    flex-direction: column;
+
+  }
+
+  .wholesale-inquiry__title {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.25;
+    color: var(--deepest-brand-blue, #07272d);
+
+    @media screen and (max-width: 990px) {
+      font-size: 34px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 28px;
+    }
+  }
+
+  .wholesale-inquiry__features {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 40px;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+
+    @media screen and (max-width: 990px) {
+      gap: 24px 28px;
+      margin-block-start: 36px;
+    }
+
+    @media screen and (max-width: 749px) {
+      gap: 20px 16px;
+      margin-block-start: 28px;
+    }
+  }
+
+  .wholesale-inquiry__feature {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .wholesale-inquiry__feature-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+  }
+
+  .wholesale-inquiry__feature-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .wholesale-inquiry__feature-title {
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.3;
+    color: #000000;
+
+    @media screen and (max-width: 749px) {
+      font-size: 16px;
+    }
+  }
+
+  .wholesale-inquiry__description {
+    margin: 0;
+    max-width: 36em;
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #000000;
+  }
+
+  .wholesale-inquiry__description > :first-child {
+    margin-block-start: 0;
+  }
+
+  .wholesale-inquiry__description > :last-child {
+    margin-block-end: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Wholesale Inquiry",
+  "class": "section-wrapper section-wholesale-inquiry",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Looking for Something More Personal?"
+    },
+    {
+      "type": "richtext",
+      "id": "description_top",
+      "label": "Description top",
+      "default": "<p>Whether you're building a retail assortment, sourcing tournament gifts or looking for a long-term wholesale partnership, we'd love to hear from you.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "description_bottom",
+      "label": "Description bottom",
+      "default": "<p>Tell us a little about your business and what you're looking for — and we'll take it from there.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wholesale Inquiry",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Wholesale"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Retail"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Corporate"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Bespoke"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
