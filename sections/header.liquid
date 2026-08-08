@@ -345,7 +345,7 @@
           style="{{ style | strip }}"
         {%- endif -%}
       >
-        <div class="header__columns spacing-style">
+        <div class="header__columns">
           {{ content }}
         </div>
       </div>
@@ -598,6 +598,7 @@
     grid-template-areas: 'left center right';
     grid-gap: var(--gap-xl);
     grid-template-columns: var(--header-template-columns);
+    padding-block: 8px;
 
     /* If menu is in center column */
     &:has(.header__column--center header-menu) {
