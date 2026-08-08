@@ -80,6 +80,7 @@
         "owner_yvelin",
         "owner_liisi"
       ],
+      "disabled": true,
       "settings": {
         "title": "Meet the Founders"
       }
