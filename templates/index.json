@@ -90,14 +90,6 @@
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/carousel-tees.webp",
-            "title": "Tees",
-            "link": ""
-          }
-        },
-        "card_4": {
-          "type": "card",
-          "settings": {
-            "image": "shopify://shop_images/carousel-essentials.webp",
             "title": "Essentials",
             "link": ""
           }
@@ -115,7 +107,6 @@
         "card_1",
         "card_2",
         "card_3",
-        "card_4",
         "card_5"
       ],
       "settings": {
