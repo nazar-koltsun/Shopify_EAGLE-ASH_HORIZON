@@ -22,24 +22,28 @@
         "feature_1": {
           "type": "feature",
           "settings": {
+            "icon": "shopify://shop_images/events.png",
             "title": "Events & Tournaments"
           }
         },
         "feature_2": {
           "type": "feature",
           "settings": {
+            "icon": "shopify://shop_images/pro-shop.png",
             "title": "Pro-shop"
           }
         },
         "feature_3": {
           "type": "feature",
           "settings": {
+            "icon": "shopify://shop_images/corporate.png",
             "title": "Corporate & Group gifting"
           }
         },
         "feature_4": {
           "type": "feature",
           "settings": {
+            "icon": "shopify://shop_images/Bespoke.png",
             "title": "Bespoke Options"
           }
         }
