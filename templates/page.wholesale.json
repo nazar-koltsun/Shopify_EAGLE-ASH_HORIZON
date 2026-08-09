@@ -94,11 +94,12 @@
         "card_PdRV6e": {
           "type": "card",
           "settings": {
-            "title": "Tees",
-            "back_title": "Handcrafted Awards That Carry Meaning",
-            "back_text": "More than trophies, these are lasting symbols of achievement. Each Eagle & Ash award is handcrafted in Estonia by a carefully selected artisan, bringing together timeless design, exceptional craftsmanship and premium materials. Available in a range of designs and sizes, with bespoke solutions for clubs, tournaments and corporate events.",
+            "image": "shopify://shop_images/carousel-tees.webp",
+            "title": "Essentials",
+            "back_title": "Everyday Essentials, Thoughtfully Made",
+            "back_text": "Crafted from bamboo and designed for everyday play, our golf tees combine clean design with practical performance. High and low height markings make them easy to use, while multiple pack sizes offer flexibility for retail, gifting and event use. Even the smallest details deserve thoughtful design.",
             "back_action_title": "Start a Conversation",
-            "back_action_url": ""
+            "back_action_url": "shopify://pages/contact"
           }
         },
         "card_iNRai6": {
