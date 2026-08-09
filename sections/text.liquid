@@ -1,0 +1,82 @@
+{%- liquid
+  assign text = section.settings.text
+-%}
+
+{%- if text != blank -%}
+  <div class="text-section">
+    <div class="text-section__inner">
+      <div class="text-section__text">{{ text }}</div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .section-text {
+    background-color: #ffffff;
+  }
+
+  .text-section {
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+  .text-section__inner {
+    width: 100%;
+    max-width: 970px;
+    margin-inline: auto;
+    padding: 80px 60px;
+    display: flex;
+    justify-content: center;
+
+    @media screen and (max-width: 1300px) {
+      padding: 70px 60px;
+    }
+
+    @media screen and (max-width: 749px) {
+      padding: 60px 20px;
+    }
+  }
+
+  .text-section__text {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.25;
+    color: var(--deepest-brand-blue);
+    text-align: center;
+
+    & > :first-child {
+      margin-block-start: 0;
+    }
+
+    & > :last-child {
+      margin-block-end: 0;
+    }
+
+    & a {
+      text-decoration: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "Text",
+    "class": "section-wrapper section-text",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Thoughtfully crafted golf gifts for partners who value exceptional quality, meaningful design and lasting impressions. From retail and tournaments to corporate gifting and bespoke projects, our collection is designed to help you create moments your customers, clients and guests will remember.</p>"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Text"
+      }
+    ]
+  }
+{% endschema %}

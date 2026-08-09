@@ -16,6 +16,12 @@
         "background_image": "shopify://shop_images/wholesale-head-bg.webp"
       }
     },
+    "text": {
+      "type": "text",
+      "settings": {
+        "text": "<p>Thoughtfully crafted golf gifts for partners who value exceptional quality, meaningful design and lasting impressions. From retail and tournaments to corporate gifting and bespoke projects, our collection is designed to help you create moments your customers, clients and guests will remember.</p>"
+      }
+    },
     "wholesale_inquiry": {
       "type": "wholesale-inquiry",
       "blocks": {
@@ -75,6 +81,7 @@
   "order": [
     "page_banner",
     "wholesale_inquiry",
+    "text",
     "main"
   ]
 }
