@@ -16,12 +16,6 @@
         "background_image": "shopify://shop_images/wholesale-head-bg.webp"
       }
     },
-    "text": {
-      "type": "text",
-      "settings": {
-        "text": "<p>Thoughtfully crafted golf gifts for partners who value exceptional quality, meaningful design and lasting impressions. From retail and tournaments to corporate gifting and bespoke projects, our collection is designed to help you create moments your customers, clients and guests will remember.</p>"
-      }
-    },
     "wholesale_inquiry": {
       "type": "wholesale-inquiry",
       "blocks": {
@@ -66,6 +60,78 @@
         "description_bottom": "<p>If you'd like to learn more about the standards behind every Eagle & Ash product, explore <a href=\"/pages/our-promise\" title=\"Our Promise\"><strong>Our Promise</strong></a><strong> </strong>before getting in touch.</p>"
       }
     },
+    "text": {
+      "type": "text",
+      "settings": {
+        "text": "<p>Thoughtfully crafted golf gifts for partners who value exceptional quality, meaningful design and lasting impressions. From retail and tournaments to corporate gifting and bespoke projects, our collection is designed to help you create moments your customers, clients and guests will remember.</p>"
+      }
+    },
+    "collection_cards_aRbCQw": {
+      "type": "collection-cards",
+      "blocks": {
+        "card_NBjdqP": {
+          "type": "card",
+          "settings": {
+            "title": "Awards",
+            "back_title": "Handcrafted Awards That Carry Meaning",
+            "back_text": "More than trophies, these are lasting symbols of achievement. Each Eagle & Ash award is handcrafted in Estonia by a carefully selected artisan, bringing together timeless design, exceptional craftsmanship and premium materials. Available in a range of designs and sizes, with bespoke solutions for clubs, tournaments and corporate events.",
+            "back_action_title": "Start a Conversation",
+            "back_action_url": ""
+          }
+        },
+        "card_AUzME4": {
+          "type": "card",
+          "settings": {
+            "title": "Recovery",
+            "back_title": "Handcrafted Awards That Carry Meaning",
+            "back_text": "More than trophies, these are lasting symbols of achievement. Each Eagle & Ash award is handcrafted in Estonia by a carefully selected artisan, bringing together timeless design, exceptional craftsmanship and premium materials. Available in a range of designs and sizes, with bespoke solutions for clubs, tournaments and corporate events.",
+            "back_action_title": "Start a Conversation",
+            "back_action_url": ""
+          }
+        },
+        "card_PdRV6e": {
+          "type": "card",
+          "settings": {
+            "title": "Tees",
+            "back_title": "Handcrafted Awards That Carry Meaning",
+            "back_text": "More than trophies, these are lasting symbols of achievement. Each Eagle & Ash award is handcrafted in Estonia by a carefully selected artisan, bringing together timeless design, exceptional craftsmanship and premium materials. Available in a range of designs and sizes, with bespoke solutions for clubs, tournaments and corporate events.",
+            "back_action_title": "Start a Conversation",
+            "back_action_url": ""
+          }
+        },
+        "card_iNRai6": {
+          "type": "card",
+          "settings": {
+            "title": "Essentials",
+            "back_title": "Handcrafted Awards That Carry Meaning",
+            "back_text": "More than trophies, these are lasting symbols of achievement. Each Eagle & Ash award is handcrafted in Estonia by a carefully selected artisan, bringing together timeless design, exceptional craftsmanship and premium materials. Available in a range of designs and sizes, with bespoke solutions for clubs, tournaments and corporate events.",
+            "back_action_title": "Start a Conversation",
+            "back_action_url": ""
+          }
+        },
+        "card_FYX7Nz": {
+          "type": "card",
+          "settings": {
+            "title": "Leather",
+            "back_title": "Handcrafted Awards That Carry Meaning",
+            "back_text": "More than trophies, these are lasting symbols of achievement. Each Eagle & Ash award is handcrafted in Estonia by a carefully selected artisan, bringing together timeless design, exceptional craftsmanship and premium materials. Available in a range of designs and sizes, with bespoke solutions for clubs, tournaments and corporate events.",
+            "back_action_title": "Start a Conversation",
+            "back_action_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_NBjdqP",
+        "card_AUzME4",
+        "card_PdRV6e",
+        "card_iNRai6",
+        "card_FYX7Nz"
+      ],
+      "name": "Collection Cards",
+      "settings": {
+        "heading": "What We Offer"
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -82,6 +148,7 @@
     "page_banner",
     "wholesale_inquiry",
     "text",
+    "collection_cards_aRbCQw",
     "main"
   ]
 }
