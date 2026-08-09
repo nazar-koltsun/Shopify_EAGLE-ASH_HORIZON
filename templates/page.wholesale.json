@@ -138,7 +138,13 @@
     "photos_grid": {
       "type": "photos-grid",
       "settings": {
-        "image_1": "shopify://shop_images/photo1.webp"
+        "image_1": "shopify://shop_images/photo1.webp",
+        "image_2": "shopify://shop_images/photo2.webp",
+        "image_3": "shopify://shop_images/photo3.webp",
+        "image_4": "shopify://shop_images/photo4.webp",
+        "image_5": "shopify://shop_images/photo5.webp",
+        "image_6": "shopify://shop_images/photo6.webp",
+        "image_7": "shopify://shop_images/photo7.webp"
       }
     },
     "main": {
