@@ -137,7 +137,9 @@
     },
     "photos_grid": {
       "type": "photos-grid",
-      "settings": {}
+      "settings": {
+        "image_1": "shopify://shop_images/photo1.webp"
+      }
     },
     "main": {
       "type": "main-page",
