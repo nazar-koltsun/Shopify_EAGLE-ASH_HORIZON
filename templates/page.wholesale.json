@@ -22,25 +22,25 @@
         "feature_1": {
           "type": "feature",
           "settings": {
-            "title": "Wholesale"
+            "title": "Events & Tournaments"
           }
         },
         "feature_2": {
           "type": "feature",
           "settings": {
-            "title": "Retail"
+            "title": "Pro-shop"
           }
         },
         "feature_3": {
           "type": "feature",
           "settings": {
-            "title": "Corporate"
+            "title": "Corporate & Group gifting"
           }
         },
         "feature_4": {
           "type": "feature",
           "settings": {
-            "title": "Bespoke"
+            "title": "Bespoke Options"
           }
         }
       },

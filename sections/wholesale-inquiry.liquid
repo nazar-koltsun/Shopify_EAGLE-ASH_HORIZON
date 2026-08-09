@@ -17,19 +17,21 @@
           {%- for block in section.blocks -%}
             {%- if block.type == 'feature' -%}
               <li class="wholesale-inquiry__feature" {{ block.shopify_attributes }}>
-                {%- if block.settings.icon != blank -%}
-                  <span class="wholesale-inquiry__feature-icon" aria-hidden="true">
+                <span class="wholesale-inquiry__feature-icon" aria-hidden="true">
+                  {%- if block.settings.icon != blank -%}
                     {{
                       block.settings.icon
-                      | image_url: width: 96
+                      | image_url: width: 73
                       | image_tag:
                         loading: 'lazy',
-                        widths: '48, 96',
-                        sizes: '48px',
+                        widths: '73, 146',
+                        sizes: '73px',
                         class: 'wholesale-inquiry__feature-image'
                     }}
-                  </span>
-                {%- endif -%}
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'wholesale-inquiry__feature-image wholesale-inquiry__feature-image--placeholder' }}
+                  {%- endif -%}
+                </span>
 
                 {%- if block.settings.title != blank -%}
                   <span class="wholesale-inquiry__feature-title">{{ block.settings.title | escape }}</span>
@@ -112,40 +114,30 @@
     font-weight: 500;
     font-size: 36px;
     line-height: 1.25;
-    color: var(--deepest-brand-blue, #07272d);
+    color: var(--deepest-brand-blue);
+    text-align: center;
 
-    @media screen and (max-width: 990px) {
-      font-size: 34px;
-    }
-
-    @media screen and (max-width: 749px) {
-      font-size: 28px;
-    }
   }
 
   .wholesale-inquiry__features {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px 40px;
-    margin: 48px 0 0;
+    grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+    gap: 20px 8px;
+    margin: 90px 0 0;
     padding: 0;
     list-style: none;
 
-    @media screen and (max-width: 990px) {
+    /* @media screen and (max-width: 990px) {
       gap: 24px 28px;
       margin-block-start: 36px;
-    }
-
-    @media screen and (max-width: 749px) {
-      gap: 20px 16px;
-      margin-block-start: 28px;
-    }
+    } */
   }
 
   .wholesale-inquiry__feature {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 25px;
     min-width: 0;
   }
 
@@ -154,27 +146,36 @@
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 73px;
+    height: 73px;
+    min-width: 73px;
+    min-height: 73px;
   }
 
   .wholesale-inquiry__feature-image {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 73px;
+    height: 73px;
+    max-width: none;
     object-fit: contain;
+  }
+
+  .wholesale-inquiry__feature-image--placeholder {
+    width: 73px;
+    height: 73px;
+    fill: #3D301D;
+    border-radius: 50%;
+    border: 1px solid #3D301D;
+    
   }
 
   .wholesale-inquiry__feature-title {
     font-family: 'Lora', serif;
-    font-weight: 500;
-    font-size: 18px;
+    font-weight: 400;
+    font-size: 16px;
     line-height: 1.3;
     color: #000000;
-
-    @media screen and (max-width: 749px) {
-      font-size: 16px;
-    }
+    text-align: center;
   }
 
   .wholesale-inquiry__description {
@@ -249,25 +250,25 @@
         {
           "type": "feature",
           "settings": {
-            "title": "Wholesale"
+            "title": "Events & Tournaments"
           }
         },
         {
           "type": "feature",
           "settings": {
-            "title": "Retail"
+            "title": "Pro-shop"
           }
         },
         {
           "type": "feature",
           "settings": {
-            "title": "Corporate"
+            "title": "Corporate & Group gifting"
           }
         },
         {
           "type": "feature",
           "settings": {
-            "title": "Bespoke"
+            "title": "Bespoke Options"
           }
         }
       ]
