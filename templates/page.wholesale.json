@@ -135,6 +135,10 @@
         "image": "shopify://shop_images/Collection.webp"
       }
     },
+    "photos_grid": {
+      "type": "photos-grid",
+      "settings": {}
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -153,6 +157,7 @@
     "text",
     "collection_cards_aRbCQw",
     "content_with_image",
+    "photos_grid",
     "main"
   ]
 }

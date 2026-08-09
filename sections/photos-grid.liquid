@@ -1,0 +1,278 @@
+{%- liquid
+  assign image_1 = section.settings.image_1
+  assign image_2 = section.settings.image_2
+  assign image_3 = section.settings.image_3
+  assign image_4 = section.settings.image_4
+  assign image_5 = section.settings.image_5
+  assign image_6 = section.settings.image_6
+  assign image_7 = section.settings.image_7
+-%}
+
+<div class="photos-grid">
+  <div class="photos-grid__inner">
+    <div class="photos-grid__item photos-grid__item--1">
+      {%- if image_1 != blank -%}
+        {{
+          image_1
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'lazy',
+            widths: '400, 600, 800, 1200',
+            sizes: '(max-width: 749px) 50vw, 22vw',
+            class: 'photos-grid__image',
+            alt: image_1.alt
+        }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'photos-grid__image photos-grid__image--placeholder' }}
+      {%- endif -%}
+    </div>
+
+    <div class="photos-grid__item photos-grid__item--2">
+      {%- if image_2 != blank -%}
+        {{
+          image_2
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'lazy',
+            widths: '600, 900, 1200, 1600',
+            sizes: '(max-width: 749px) 100vw, 34vw',
+            class: 'photos-grid__image',
+            alt: image_2.alt
+        }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'photos-grid__image photos-grid__image--placeholder' }}
+      {%- endif -%}
+    </div>
+
+    <div class="photos-grid__item photos-grid__item--3">
+      {%- if image_3 != blank -%}
+        {{
+          image_3
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'lazy',
+            widths: '400, 600, 800, 1200',
+            sizes: '(max-width: 749px) 50vw, 22vw',
+            class: 'photos-grid__image',
+            alt: image_3.alt
+        }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'photos-grid__image photos-grid__image--placeholder' }}
+      {%- endif -%}
+    </div>
+
+    <div class="photos-grid__item photos-grid__item--4">
+      {%- if image_4 != blank -%}
+        {{
+          image_4
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'lazy',
+            widths: '400, 600, 800, 1200',
+            sizes: '(max-width: 749px) 50vw, 22vw',
+            class: 'photos-grid__image',
+            alt: image_4.alt
+        }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'photos-grid__image photos-grid__image--placeholder' }}
+      {%- endif -%}
+    </div>
+
+    <div class="photos-grid__item photos-grid__item--5">
+      {%- if image_5 != blank -%}
+        {{
+          image_5
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'lazy',
+            widths: '400, 600, 800, 1200',
+            sizes: '(max-width: 749px) 50vw, 22vw',
+            class: 'photos-grid__image',
+            alt: image_5.alt
+        }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'photos-grid__image photos-grid__image--placeholder' }}
+      {%- endif -%}
+    </div>
+
+    <div class="photos-grid__item photos-grid__item--6">
+      {%- if image_6 != blank -%}
+        {{
+          image_6
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'lazy',
+            widths: '400, 600, 800, 1200',
+            sizes: '(max-width: 749px) 50vw, 22vw',
+            class: 'photos-grid__image',
+            alt: image_6.alt
+        }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'photos-grid__image photos-grid__image--placeholder' }}
+      {%- endif -%}
+    </div>
+
+    <div class="photos-grid__item photos-grid__item--7">
+      {%- if image_7 != blank -%}
+        {{
+          image_7
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'lazy',
+            widths: '400, 600, 800, 1200',
+            sizes: '(max-width: 749px) 50vw, 22vw',
+            class: 'photos-grid__image',
+            alt: image_7.alt
+        }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'photos-grid__image photos-grid__image--placeholder' }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .section-photos-grid {
+    background-color: #ffffff;
+  }
+
+  .photos-grid {
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+  .photos-grid__inner {
+    display: grid;
+    grid-template-columns: 301fr 467fr 301fr 301fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 19px;
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+
+    @media screen and (max-width: 1200px) {
+      gap: 16px;
+    }
+
+    @media screen and (max-width: 749px) {
+      gap: 6px;
+    }
+  }
+
+  .photos-grid__item {
+    position: relative;
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+    background-color: rgba(7, 39, 45, 0.06);
+    aspect-ratio: 301 / 373;
+  }
+
+  .photos-grid__item--1 {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .photos-grid__item--2 {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photos-grid__item--3 {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .photos-grid__item--4 {
+    grid-column: 4;
+    grid-row: 1;
+  }
+
+  .photos-grid__item--5 {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .photos-grid__item--6 {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .photos-grid__item--7 {
+    grid-column: 4;
+    grid-row: 2;
+  }
+
+  .photos-grid__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photos-grid__image--placeholder {
+    background-color: var(--blue-spectrum-dark, #07272d);
+    fill: var(--blue-spectrum-light, #d9e2e3);
+  }
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "Photos Grid",
+    "class": "section-wrapper section-photos-grid",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Top row"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_1",
+        "label": "Image 1 (left)"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_2",
+        "label": "Image 2 (tall)"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_3",
+        "label": "Image 3"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_4",
+        "label": "Image 4 (right)"
+      },
+      {
+        "type": "header",
+        "content": "Bottom row"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_5",
+        "label": "Image 5 (left)"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_6",
+        "label": "Image 6"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_7",
+        "label": "Image 7 (right)"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Photos Grid"
+      }
+    ]
+  }
+{% endschema %}
