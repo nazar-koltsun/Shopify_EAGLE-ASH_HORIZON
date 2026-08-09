@@ -125,6 +125,16 @@
         "heading": "What We Offer"
       }
     },
+    "content_with_image": {
+      "type": "content-with-image",
+      "settings": {
+        "title": "Experience the Collection First",
+        "description": "<p>We believe exceptional craftsmanship should be experienced, not just viewed.</p><p><strong>Request a curated sample collection and discover the quality, materials, and finishing of every Eagle & Ash product before placing your wholesale order.</strong></p><p>Each sample collection includes one piece from our current range. Simply get in touch, and we'll prepare a tailored quotation based on your location and requirements.</p>",
+        "cta_label": "Request a Sample Collection",
+        "cta_link": "shopify://pages/contact",
+        "image": ""
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -142,6 +152,7 @@
     "wholesale_inquiry",
     "text",
     "collection_cards_aRbCQw",
+    "content_with_image",
     "main"
   ]
 }

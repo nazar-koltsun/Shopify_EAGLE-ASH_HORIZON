@@ -1,0 +1,237 @@
+{%- liquid
+  assign title = section.settings.title
+  assign description = section.settings.description
+  assign cta_label = section.settings.cta_label
+  assign cta_link = section.settings.cta_link
+  assign image = section.settings.image
+-%}
+
+<div class="content-with-image">
+  <div class="content-with-image__inner">
+    <div class="content-with-image__content">
+      {%- if title != blank -%}
+        <h2 class="content-with-image__title">{{ title | escape }}</h2>
+      {%- endif -%}
+
+      {%- if description != blank -%}
+        <div class="content-with-image__description">{{ description }}</div>
+      {%- endif -%}
+
+      {%- if cta_label != blank -%}
+        <a
+          class="content-with-image__cta btn"
+          {% if cta_link != blank %}
+            href="{{ cta_link }}"
+          {% else %}
+            role="link"
+            aria-disabled="true"
+          {% endif %}
+        >
+          {{ cta_label | escape }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="content-with-image__media">
+      {%- if image != blank -%}
+        <img
+          class="content-with-image__image"
+          src="{{ image | image_url: width: 1400 }}"
+          srcset="
+            {{ image | image_url: width: 480 }} 480w,
+            {{ image | image_url: width: 720 }} 720w,
+            {{ image | image_url: width: 960 }} 960w,
+            {{ image | image_url: width: 1200 }} 1200w,
+            {{ image | image_url: width: 1600 }} 1600w
+          "
+          sizes="(max-width: 990px) 100vw, 50vw"
+          width="{{ image.width }}"
+          height="{{ image.height }}"
+          alt="{{ image.alt | escape }}"
+          loading="lazy"
+        >
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'content-with-image__image content-with-image__image--placeholder' }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .section-content-with-image {
+    background-color: #ffffff;
+  }
+
+  .content-with-image {
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+  .content-with-image__inner {
+    display: grid;
+    grid-template-columns: 525fr 555fr;
+    align-items: center;
+    column-gap: 16.1%;
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    padding-block-start: 70px;
+    padding-block-end: 90px;
+    padding-inline-start: 140px;
+
+    @media screen and (max-width: 1300px) {
+      column-gap: 56px;
+      padding: 80px 60px;
+    }
+
+    @media screen and (max-width: 990px) {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      padding: 70px 40px;
+    }
+
+    @media screen and (max-width: 749px) {
+      gap: 32px;
+      padding: 60px 20px;
+    }
+  }
+
+  .content-with-image__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 560px;
+  }
+
+  .content-with-image__title {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.25;
+    color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 1200px) {
+      font-size: 32px;
+    }
+
+    @media screen and (max-width: 990px) {
+      font-size: 28px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 24px;
+    }
+  }
+
+  .content-with-image__description {
+    margin-block-start: 100px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 990px) {
+      margin-block-start: 32px;
+    }
+
+    @media screen and (max-width: 749px) {
+      margin-block-start: 24px;
+    }
+
+    & > :first-child {
+      margin-block-start: 0;
+    }
+
+    & > :last-child {
+      margin-block-end: 0;
+    }
+
+    & p + p {
+      margin-block-start: 1em;
+    }
+
+    & a {
+      text-decoration: none;
+    }
+  }
+
+  .content-with-image__cta {
+    margin-block-start: 70px;
+
+    @media screen and (max-width: 990px) {
+      margin-block-start: 50px;
+    }
+
+    @media screen and (max-width: 749px) {
+      margin-block-start: 30px;
+    }
+  }
+
+  .content-with-image__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 555 / 370;
+    background-color: rgba(7, 39, 45, 0.06);
+  }
+
+  .content-with-image__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .content-with-image__image--placeholder {
+    background-color: var(--blue-spectrum-dark);
+    fill: var(--blue-spectrum-light);
+  }
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "Content with Image",
+    "class": "section-wrapper section-content-with-image",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section title",
+        "default": "Experience the Collection First"
+      },
+      {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description",
+        "default": "<p>We believe exceptional craftsmanship should be experienced, not just viewed.</p><p><strong>Request a curated sample collection and discover the quality, materials, and finishing of every Eagle & Ash product before placing your wholesale order.</strong></p><p>Each sample collection includes one piece from our current range. Simply get in touch, and we'll prepare a tailored quotation based on your location and requirements.</p>"
+      },
+      {
+        "type": "header",
+        "content": "Call to action"
+      },
+      {
+        "type": "text",
+        "id": "cta_label",
+        "label": "Button label",
+        "default": "Request a Sample Collection"
+      },
+      {
+        "type": "url",
+        "id": "cta_link",
+        "label": "Button link"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Content with Image"
+      }
+    ]
+  }
+{% endschema %}
