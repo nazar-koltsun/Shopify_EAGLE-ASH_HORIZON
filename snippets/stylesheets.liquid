@@ -6,3 +6,6 @@
 {% if template.suffix == 'our-story' %}
   {{ 'page-our-story.css' | asset_url | stylesheet_tag }}
 {% endif %}
+{% if template.suffix == 'policy' %}
+  {{ 'page-policy.css' | asset_url | stylesheet_tag }}
+{% endif %}

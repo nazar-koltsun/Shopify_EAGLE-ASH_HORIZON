@@ -1,0 +1,161 @@
+<div class="policy-content">
+  <div class="policy-content__inner">
+    {%- if page.title != blank -%}
+      <h1 class="policy-content__title">{{ page.title | escape }}</h1>
+    {%- endif -%}
+
+    {%- if page.content != blank -%}
+      <div class="policy-content__body">{{ page.content }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .section-policy-content {
+    background-color: #ffffff;
+  }
+
+  .policy-content {
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+  .policy-content__inner {
+    width: 100%;
+    max-width: 860px;
+    margin-inline: auto;
+    padding: 100px 60px;
+
+    @media screen and (max-width: 1300px) {
+      padding: 80px 60px;
+    }
+
+    @media screen and (max-width: 749px) {
+      padding: 60px 20px;
+    }
+  }
+
+  .policy-content__title {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.25;
+    color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 1200px) {
+      font-size: 32px;
+    }
+
+    @media screen and (max-width: 990px) {
+      font-size: 28px;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 24px;
+    }
+  }
+
+  .policy-content__body {
+    margin-block-start: 40px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 749px) {
+      margin-block-start: 28px;
+    }
+
+    & > :first-child {
+      margin-block-start: 0;
+    }
+
+    & > :last-child {
+      margin-block-end: 0;
+    }
+
+    & h2,
+    & h3,
+    & h4,
+    & h5,
+    & h6 {
+      margin-block-start: 1.75em;
+      margin-block-end: 0.6em;
+      font-family: 'Lora', serif;
+      font-weight: 500;
+      line-height: 1.3;
+      color: var(--deepest-brand-blue);
+    }
+
+    & h2 {
+      font-size: 24px;
+
+      @media screen and (max-width: 749px) {
+        font-size: 22px;
+      }
+    }
+
+    & h3 {
+      font-size: 20px;
+
+      @media screen and (max-width: 749px) {
+        font-size: 18px;
+      }
+    }
+
+    & h4,
+    & h5,
+    & h6 {
+      font-size: 18px;
+
+      @media screen and (max-width: 749px) {
+        font-size: 16px;
+      }
+    }
+
+    & p {
+      margin-block: 0 1em;
+    }
+
+    & ul,
+    & ol {
+      margin-block: 0 1em;
+      padding-inline-start: 1.5em;
+    }
+
+    & li {
+      margin-block-end: 0.4em;
+    }
+
+    & li:last-child {
+      margin-block-end: 0;
+    }
+
+    & strong,
+    & b {
+      font-weight: 600;
+    }
+
+    & a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+  {
+    "name": "Policy Content",
+    "class": "section-wrapper section-policy-content",
+    "tag": "section",
+    "settings": [],
+    "presets": [
+      {
+        "name": "Policy Content"
+      }
+    ]
+  }
+{% endschema %}
