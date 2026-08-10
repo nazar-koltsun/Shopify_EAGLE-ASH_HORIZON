@@ -1,0 +1,12 @@
+/* Our Story page-only overrides */
+.section-contact-split .contact-split {
+  padding-block-start: 0;
+
+  @media screen and (max-width: 990px) {
+    padding-block-start: 40px;
+  }
+
+  @media screen and (max-width: 749px) {
+    padding-block-start: 10px;
+  }
+}
