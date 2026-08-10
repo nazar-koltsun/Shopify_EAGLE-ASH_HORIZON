@@ -59,7 +59,8 @@
         "title": "Explore What’s Possible",
         "description": "<p>Whether you're looking for meaningful gifts, bespoke awards or partnerships for your club or business, we'd love to create something together.<br/>Explore our collection, discover what's possible, or start a conversation.</p>",
         "cta_label": "View Collections & Partnerships",
-        "cta_link": "shopify://pages/contact"
+        "cta_link": "shopify://pages/contact",
+        "image": "shopify://shop_images/explore.webp"
       }
     },
     "main": {
