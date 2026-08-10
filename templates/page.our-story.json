@@ -16,6 +16,42 @@
         "background_image": "shopify://shop_images/our-story-banner.webp"
       }
     },
+    "story_values_TRrng8": {
+      "type": "story-values",
+      "blocks": {
+        "item_AG64UF": {
+          "type": "item",
+          "settings": {
+            "title": "Forged by Experience.",
+            "description": "<p>The best things are rarely created overnight. They're shaped through challenges, setbacks, quiet persistence and countless small decisions. We believe the objects we keep should carry that same sense of meaning.</p>"
+          }
+        },
+        "item_njt733": {
+          "type": "item",
+          "settings": {
+            "title": "Crafted with Intention.",
+            "description": "<p>At Eagle & Ash, every piece begins with intention. From premium materials to thoughtful craftsmanship, every detail is considered—creating gifts and keepsakes people are proud to give and even prouder to keep.</p>"
+          }
+        },
+        "item_Txk4eE": {
+          "type": "item",
+          "settings": {
+            "title": "Made to Last.",
+            "description": "<p>Fire doesn't only destroy. It transforms. It's where experience becomes wisdom, confidence is earned, and new beginnings take shape. That belief lives in everything we create.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_AG64UF",
+        "item_njt733",
+        "item_Txk4eE"
+      ],
+      "name": "Story Values",
+      "settings": {
+        "title": "Born from fire.\nMade to fly.",
+        "image": "shopify://shop_images/born-from-fire.webp"
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -30,6 +66,7 @@
   },
   "order": [
     "page_banner",
+    "story_values_TRrng8",
     "main"
   ]
 }
