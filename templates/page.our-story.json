@@ -52,6 +52,16 @@
         "image": "shopify://shop_images/born-from-fire.webp"
       }
     },
+    "contact_split_AAgKnq": {
+      "type": "contact-split",
+      "name": "Contact Split",
+      "settings": {
+        "title": "Explore What’s Possible",
+        "description": "<p>Whether you're looking for meaningful gifts, bespoke awards or partnerships for your club or business, we'd love to create something together.<br/>Explore our collection, discover what's possible, or start a conversation.</p>",
+        "cta_label": "View Collections & Partnerships",
+        "cta_link": "shopify://pages/contact"
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -67,6 +77,7 @@
   "order": [
     "page_banner",
     "story_values_TRrng8",
+    "contact_split_AAgKnq",
     "main"
   ]
 }
