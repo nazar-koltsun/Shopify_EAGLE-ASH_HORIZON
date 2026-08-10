@@ -12,7 +12,8 @@
     "page_banner": {
       "type": "page-banner",
       "settings": {
-        "title": "Why We Exist"
+        "title": "Why We Exist",
+        "background_image": "shopify://shop_images/our-story-banner.webp"
       }
     },
     "main": {
