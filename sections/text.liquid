@@ -1,11 +1,25 @@
 {%- liquid
   assign text = section.settings.text
+  assign show_origin_badge = section.settings.show_origin_badge
 -%}
 
-{%- if text != blank -%}
+{%- if text != blank or show_origin_badge -%}
   <div class="text-section">
     <div class="text-section__inner">
-      <div class="text-section__text">{{ text }}</div>
+      {%- if text != blank -%}
+        <div class="text-section__text">{{ text }}</div>
+      {%- endif -%}
+
+      {%- if show_origin_badge -%}
+        <img
+          class="text-section__origin-badge"
+          src="{{ 'made-in-eu-dark.webp' | asset_url }}"
+          width="115"
+          height="134"
+          alt="Made in EU"
+          loading="lazy"
+        >
+      {%- endif -%}
     </div>
   </div>
 {%- endif -%}
@@ -24,16 +38,17 @@
     width: 100%;
     max-width: 970px;
     margin-inline: auto;
-    padding: 80px 60px 160px;
+    padding: 80px 60px 80px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
     @media screen and (max-width: 1300px) {
-      padding: 70px 60px 140px;
+      padding: 70px 60px 70px;
     }
 
     @media screen and (max-width: 749px) {
-      padding: 60px 20px 120px;
+      padding: 60px 20px 60px;
     }
   }
 
@@ -58,6 +73,24 @@
       text-decoration: none;
     }
   }
+
+  .text-section__origin-badge {
+    display: block;
+    width: 115px;
+    height: auto;
+    margin-block-start: 48px;
+
+    @media screen and (max-width: 1200px) {
+      width: 76px;
+      margin-block-start: 40px;
+    }
+
+    @media screen and (max-width: 749px) {
+      width: 64px;
+      margin-block-start: 32px;
+
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -71,6 +104,12 @@
         "id": "text",
         "label": "Text",
         "default": "<p>Thoughtfully crafted golf gifts for partners who value exceptional quality, meaningful design and lasting impressions. From retail and tournaments to corporate gifting and bespoke projects, our collection is designed to help you create moments your customers, clients and guests will remember.</p>"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_origin_badge",
+        "label": "Show origin badge",
+        "default": false
       }
     ],
     "presets": [
