@@ -26,6 +26,15 @@
     <div class="promo-section__overlay"></div>
   </div>
 
+  <img
+    class="promo-section__made-in-eu"
+    src="{{ 'made-in-eu.webp' | asset_url }}"
+    width="112"
+    height="132"
+    alt="Made in EU"
+    loading="lazy"
+  >
+
   <div class="promo-section__inner">
     <div class="promo-section__content">
       {%- if section.settings.heading != blank -%}
@@ -75,6 +84,29 @@
   .promo-section__overlay {
     position: absolute;
     inset: 0;
+  }
+
+  .promo-section__made-in-eu {
+    position: absolute;
+    top: 17px;
+    right: 10px;
+    z-index: 1;
+    width: 112px;
+    height: auto;
+    display: block;
+    pointer-events: none;
+
+    @media screen and (max-width: 990px) {
+      top: 10px;
+      right: 10px;
+      width: 80px;
+    }
+
+    @media screen and (max-width: 749px) {
+      top: 8px;
+      right: 8px;
+      width: 54px;
+    }
   }
 
   .promo-section__inner {
