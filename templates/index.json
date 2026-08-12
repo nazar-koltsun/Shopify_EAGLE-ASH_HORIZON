@@ -22,6 +22,12 @@
     "features_section": {
       "type": "features-section",
       "blocks": {
+        "feature_RPq7zH": {
+          "type": "feature",
+          "settings": {
+            "text": "Made in Europe"
+          }
+        },
         "feature_1": {
           "type": "feature",
           "settings": {
@@ -48,6 +54,7 @@
         }
       },
       "block_order": [
+        "feature_RPq7zH",
         "feature_1",
         "feature_2",
         "feature_3",
