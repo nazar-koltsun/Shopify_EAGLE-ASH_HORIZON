@@ -83,6 +83,7 @@ a:hover {
 }
 
 .btn {
+  width: fit-content;
   font-family: 'Lora', sans-serif;
   font-size: 20px;
   color: black;
