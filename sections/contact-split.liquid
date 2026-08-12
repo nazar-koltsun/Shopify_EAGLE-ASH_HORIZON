@@ -4,6 +4,7 @@
   assign cta_label = section.settings.cta_label
   assign cta_link = section.settings.cta_link
   assign image = section.settings.image
+  assign show_origin_badge = section.settings.show_origin_badge
 -%}
 
 <div class="contact-split">
@@ -32,8 +33,23 @@
     </div>
 
     <div class="contact-split__content">
-      {%- if title != blank -%}
-        <h2 class="contact-split__title">{{ title }}</h2>
+      {%- if title != blank or show_origin_badge -%}
+        <div class="contact-split__heading{% if show_origin_badge %} contact-split__heading--with-badge{% endif %}">
+          {%- if title != blank -%}
+            <h2 class="contact-split__title">{{ title }}</h2>
+          {%- endif -%}
+
+          {%- if show_origin_badge -%}
+            <img
+              class="contact-split__origin-badge"
+              src="{{ 'made-in-eu-dark.webp' | asset_url }}"
+              width="115"
+              height="134"
+              alt="Made in EU"
+              loading="lazy"
+            >
+          {%- endif -%}
+        </div>
       {%- endif -%}
 
       {%- if description != blank -%}
@@ -142,6 +158,17 @@
     }
   }
 
+  .contact-split__heading {
+    width: 100%;
+  }
+
+  .contact-split__heading--with-badge {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
   .contact-split__title {
     margin: 0;
     font-family: 'Lora', serif;
@@ -152,6 +179,26 @@
 
     @media screen and (max-width: 749px) {
       font-size: 24px;
+    }
+  }
+
+  .contact-split__heading--with-badge .contact-split__title {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .contact-split__origin-badge {
+    flex: 0 0 auto;
+    width: 115px;
+    height: auto;
+    display: block;
+
+    @media screen and (max-width: 1200px) {
+      width: 76px;
+    }
+
+    @media screen and (max-width: 749px) {
+      width: 64px;
     }
   }
 
@@ -214,6 +261,12 @@
       "id": "title",
       "label": "Title",
       "default": "Let's Create Something Worth Remembering"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_origin_badge",
+      "label": "Show origin badge",
+      "default": false
     },
     {
       "type": "richtext",

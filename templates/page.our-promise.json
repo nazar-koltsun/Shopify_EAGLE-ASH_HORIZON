@@ -54,6 +54,7 @@
       "type": "contact-split",
       "settings": {
         "title": "Built on Standards, Not Shortcuts.",
+        "show_origin_badge": true,
         "description": "<p>Every Eagle & Ash product is developed with one goal in mind:</p><p><strong>to create something partners can give with confidence and customers will remember with appreciation.<br/><br/></strong>From the earliest concept to the final quality inspection, every detail is considered with care. Products are prototyped, refined and developed around real customer needs before moving into production. Every manufacturing partner is personally selected, every workshop personally visited, and every product individually inspected before it leaves production.<br/><br/>We work exclusively with trusted European makers who share our commitment to craftsmanship, consistency and thoughtful design. Because lasting impressions begin long before a product reaches the customer.</p>",
         "cta_label": "Let's Start a Conversation",
         "cta_link": "shopify://pages/contact",
