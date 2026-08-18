@@ -1,0 +1,77 @@
+/* Privacy policy (/policies/privacy-policy) styles */
+main .shopify-policy__container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: 60px 120px;
+
+  @media (max-width: 1300px) {
+    padding: 80px 60px;
+  }
+
+  @media (max-width: 749px) {
+    padding: 60px 20px;
+  }
+}
+
+main .shopify-policy__container h1 {
+  margin: 0;
+  font-family: Lora, serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.25;
+  color: #000;
+  text-align: left;
+
+  @media (max-width: 749px) {
+    font-size: 24px;
+  }
+}
+
+main .shopify-policy__body {
+  margin-block-start: 58px;
+  font-family: Assistant, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #000;
+
+  @media (max-width: 749px) {
+    margin-block-start: 40px;
+  }
+}
+
+main .shopify-policy__body p {
+  margin-block: 0 1em;
+}
+
+main .shopify-policy__body h2, 
+main .shopify-policy__body h3, 
+main .shopify-policy__body h4, 
+main .shopify-policy__body h5, 
+main .shopify-policy__body h6 {
+  margin: 0;
+  margin-block-start: 1em;
+  font-family: Assistant, sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #000;
+}
+
+main .shopify-policy__body h2 {
+  font-size: 16px;
+}
+
+main .shopify-policy__body p.no-margin {
+  margin-block: 0;
+}
+
+main .shopify-policy__body ul.no-margin, 
+main .shopify-policy__body ol.no-margin {
+  margin-block: 0;
+}
+
+main .shopify-policy__body .rte >:last-child {
+  margin-block-end: 0;
+}
+

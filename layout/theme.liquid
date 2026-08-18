@@ -26,6 +26,9 @@
 
     {%- render 'meta-tags' -%}
     {%- render 'stylesheets' -%}
+    {% if request.path contains '/policies/privacy-policy' %}
+      {{ 'shopify-policy.css' | asset_url | stylesheet_tag }}
+    {% endif %}
     {%- render 'fonts' -%}
     {%- render 'custom-fonts' -%}
     {%- render 'scripts' -%}
