@@ -62,7 +62,7 @@
           <span>{{ section.settings.meta_part_two }}</span>
         {% endif %}
         {% if section.settings.meta_part_three != blank %}
-          <span>{{ section.settings.meta_part_three }}</span>
+          <div class="custom-footer__meta-richtext">{{ section.settings.meta_part_three }}</div>
         {% endif %}
       </div>
 
@@ -317,7 +317,6 @@
 
   .custom-footer__meta {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     text-align: center;
     gap: 24px;
@@ -327,11 +326,41 @@
     font-size: 12px;
     font-weight: 400;
     color: var(--ash-amber-orange);
+
+    @media (max-width: 1400px) {
+      flex-direction: column;
+    }
   }
 
   .custom-footer__meta-brand {
     font-weight: 600;
     text-transform: uppercase;
+  }
+
+  .custom-footer__meta-richtext {
+    max-width: 320px;
+    text-align: left;
+
+    @media (max-width: 1400px) {
+      max-width: 100%;
+      text-align: center;
+    }
+  }
+
+  .custom-footer__meta-richtext > :first-child {
+    margin-block-start: 0;
+  }
+
+  .custom-footer__meta-richtext > :last-child {
+    margin-block-end: 0;
+  }
+
+  .custom-footer__meta-richtext p {
+    margin: 0;
+  }
+
+  .custom-footer__meta-richtext a {
+    color: inherit;
   }
 
   .custom-footer__menus {
@@ -506,10 +535,10 @@
         "label": "Metadata part two",
         "default": "Veritohne OÜ"
       }, {
-        "type": "text",
+        "type": "richtext",
         "id": "meta_part_three",
         "label": "Metadata part three",
-        "default": "Betooni tn 14a, 13816, Tallinn, Estonia"
+        "default": "<p>Betooni tn 14a, 13816, Tallinn, Estonia</p>"
       }, {
         "type": "text",
         "id": "bottom_meta_label",
