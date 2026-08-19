@@ -68,6 +68,12 @@
       </button>
     </div>
 
+    {%- if privacy_notice != blank -%}
+      <div class="email-signup-klaviyo__privacy">
+        {{ privacy_notice }}
+      </div>
+    {%- endif -%}
+
     <div
       data-signup-error
       class="email-signup-klaviyo__message hidden"
@@ -98,3 +104,24 @@
 </email-signup-klaviyo>
 
 <script src="{{ 'email-signup-klaviyo.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .email-signup-klaviyo__privacy {
+    margin: 0;
+    margin-block-start: 8px;
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.4;
+    color: inherit;
+  }
+
+  .email-signup-klaviyo__privacy p {
+    margin: 0;
+  }
+
+  .email-signup-klaviyo__privacy a {
+    color: inherit;
+    text-decoration: underline;
+  }
+{% endstylesheet %}

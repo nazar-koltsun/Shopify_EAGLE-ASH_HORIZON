@@ -39,6 +39,7 @@
           , label: klaviyo_submit_label
           , custom_source: 'Eagle & Ash footer'
           , form_id: section.id
+          , privacy_notice: section.settings.privacy_notice
         %}
       </div>
     </div>
@@ -313,6 +314,15 @@
      & label:has(input[type=radio]) {
       gap: 5px;
     }
+
+    & .email-signup-klaviyo__privacy {
+      margin-block-start: 12px;
+      color: var(--ash-amber-orange);
+    }
+
+    & .email-signup-klaviyo__privacy a:hover {
+      color: var(--deepest-brand-blue);
+    }
   }
 
   .custom-footer__main {
@@ -568,6 +578,12 @@
         "label": "t:settings.label",
         "default": "SEND"
       }, {
+        "type": "richtext",
+        "id": "privacy_notice",
+        "label": "Privacy notice",
+        "info": "Shown under the send button. Use this to link to your Privacy Policy.",
+        "default": "<p>Yes, email me news and launch updates. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>"
+      }, {
         "type": "header",
         "content": "Brand content"
       }, {
@@ -755,6 +771,7 @@
         "settings": {
           "newsletter_heading": "Be the first to discover new collections.",
           "klaviyo_submit_label": "SEND",
+          "privacy_notice": "<p>Yes, email me news and launch updates. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
           "primary_menu": "footer",
           "contact_email": "hello@eagleandash.com"
         },
