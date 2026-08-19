@@ -55,7 +55,8 @@
         "email": "hello@eagleandash.com",
         "phone": "",
         "form_title": "Start a Conversation",
-        "submit_label": "SEND"
+        "submit_label": "SEND",
+        "privacy_notice": "<p>We use the details you provide only to respond to your enquiry. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>"
       }
     },
     "meet_the_founders": {

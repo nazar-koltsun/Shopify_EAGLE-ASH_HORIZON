@@ -57,7 +57,8 @@
       "settings": {
         "title": "Looking for Something More Personal?",
         "description_top": "<p>Some of our products can be customised to suit tournaments, clubs, corporate events and special occasions. <br/>From handcrafted trophies to tailored gifting solutions, we'd be delighted to explore what's possible.<br/><br/>Tell us what you're looking for, and we'll help you find the right solution. </p>",
-        "description_bottom": "<p>If you'd like to learn more about the standards behind every Eagle & Ash product, explore <a href=\"/pages/our-promise\" title=\"Our Promise\"><strong>Our Promise</strong></a><strong> </strong>before getting in touch.</p>"
+        "description_bottom": "<p>If you'd like to learn more about the standards behind every Eagle & Ash product, explore <a href=\"/pages/our-promise\" title=\"Our Promise\"><strong>Our Promise</strong></a><strong> </strong>before getting in touch.</p>",
+        "privacy_notice": "<p>We use the details you provide only to respond to your enquiry. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>"
       }
     },
     "text": {

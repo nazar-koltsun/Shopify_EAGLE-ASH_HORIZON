@@ -63,7 +63,7 @@
         <h2 class="contact-info__title contact-info__title--form">{{ form_title | escape }}</h2>
       {%- endif -%}
 
-      {% render 'contact-form', form_id: form_id, submit_label: submit_label %}
+      {% render 'contact-form', form_id: form_id, submit_label: submit_label, privacy_notice: section.settings.privacy_notice %}
     </div>
   </div>
 </div>
@@ -270,6 +270,12 @@
         "id": "submit_label",
         "label": "Submit button label",
         "default": "SEND"
+      }, {
+        "type": "richtext",
+        "id": "privacy_notice",
+        "label": "Privacy notice",
+        "info": "Shown under the send button. Use this to link to your Privacy Policy.",
+        "default": "<p>We use the details you provide only to respond to your enquiry. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>"
       }
     ],
     "blocks": [

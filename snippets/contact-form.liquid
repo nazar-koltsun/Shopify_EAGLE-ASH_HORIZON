@@ -109,6 +109,12 @@
   <button type="submit" class="contact-form__submit">
     {{- submit_label | escape -}}
   </button>
+
+  {%- if privacy_notice != blank -%}
+    <div class="contact-form__privacy">
+      {{ privacy_notice }}
+    </div>
+  {%- endif -%}
 {%- endform -%}
 
 {% stylesheet %}
@@ -233,5 +239,25 @@
 
   .contact-form__success-text {
     margin: 0;
+  }
+
+  .contact-form__privacy {
+    margin: 0;
+    margin-block-start: 40px;
+    font-family: 'Lora', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--deepest-brand-blue, #07272d);
+    
+  }
+
+  .contact-form__privacy p {
+    margin: 0;
+  }
+
+  .contact-form__privacy a {
+    color: inherit;
+    text-decoration: underline;
   }
 {% endstylesheet %}
