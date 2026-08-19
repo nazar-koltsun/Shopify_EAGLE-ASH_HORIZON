@@ -110,21 +110,71 @@
       </nav>
 
       <nav class="custom-footer__menu-column" aria-label="{{ section.settings.secondary_menu_label | escape }}">
-        {% if secondary_menu != blank %}
-          <ul class="custom-footer__menu-list" role="list">
-            {% for link in secondary_menu.links %}
-              <li class="custom-footer__menu-item">
-                <a href="{{ link.url }}" class="custom-footer__menu-link">
-                  {{- link.title -}}
-                </a>
+        {% if secondary_menu != blank or section.settings.show_cookie_settings %}
+          <ul
+            class="custom-footer__menu-list{% if section.settings.show_cookie_settings %} custom-footer__menu-list--cookie-reorder{% endif %}"
+            role="list"
+          >
+            {% if secondary_menu != blank %}
+              {% for link in secondary_menu.links %}
+                <li class="custom-footer__menu-item">
+                  <a href="{{ link.url }}" class="custom-footer__menu-link">
+                    {{- link.title -}}
+                  </a>
+                </li>
+              {% endfor %}
+            {% endif %}
+            {% if section.settings.show_cookie_settings and section.settings.cookie_settings_label != blank %}
+              <li class="custom-footer__menu-item custom-footer__menu-item--cookie">
+                <button
+                  type="button"
+                  class="custom-footer__menu-link"
+                  data-cookie-settings
+                >
+                  {{- section.settings.cookie_settings_label | escape -}}
+                </button>
               </li>
-            {% endfor %}
+            {% endif %}
           </ul>
         {% endif %}
       </nav>
     </div>
   </div>
 </div>
+
+{% if section.settings.show_cookie_settings %}
+  <script>
+    (function () {
+      var section = document.querySelector('#shopify-section-{{ section.id }}');
+      var button = section && section.querySelector('[data-cookie-settings]');
+      if (!button) return;
+
+      function showPreferences() {
+        var banner = window.privacyBanner;
+        if (!banner || typeof banner.showPreferences !== 'function') return false;
+        try {
+          banner.showPreferences();
+        } catch (error) {
+          return false;
+        }
+        return true;
+      }
+
+      button.addEventListener('click', function () {
+        if (showPreferences()) return;
+        if (!window.Shopify || typeof window.Shopify.loadFeatures !== 'function') return;
+
+        window.Shopify.loadFeatures(
+          [{ name: 'consent-tracking-api', version: '0.1' }],
+          function (error) {
+            if (error) return;
+            showPreferences();
+          }
+        );
+      });
+    })();
+  </script>
+{% endif %}
 
 {% stylesheet %}
   .custom-footer-section {
@@ -382,6 +432,22 @@
     list-style: none;
   }
 
+  .custom-footer__menu-list--cookie-reorder > .custom-footer__menu-item:nth-child(1) {
+    order: 1;
+  }
+
+  .custom-footer__menu-list--cookie-reorder > .custom-footer__menu-item:nth-child(2) {
+    order: 2;
+  }
+
+  .custom-footer__menu-list--cookie-reorder > .custom-footer__menu-item--cookie {
+    order: 3;
+  }
+
+  .custom-footer__menu-list--cookie-reorder > .custom-footer__menu-item:nth-child(n + 3):not(.custom-footer__menu-item--cookie) {
+    order: 4;
+  }
+
   .custom-footer__menu-item {
     margin: 0;
     line-height: 15px;
@@ -400,6 +466,16 @@
   .custom-footer__menu-link:hover,
   .custom-footer__email:hover {
     color: var(--deepest-brand-blue);
+  }
+
+  button.custom-footer__menu-link {
+    display: inline;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    text-align: inherit;
   }
 
   .custom-footer__contact {
@@ -525,6 +601,20 @@
         "id": "secondary_menu_label",
         "label": "Secondary menu aria label",
         "default": "Footer links column two"
+      }, {
+        "type": "header",
+        "content": "Cookie settings"
+      }, {
+        "type": "checkbox",
+        "id": "show_cookie_settings",
+        "label": "Show cookie settings link",
+        "info": "Opens Shopify's cookie banner so visitors can change their preference. Requires the cookie banner in Shopify admin (Settings > Customer privacy).",
+        "default": true
+      }, {
+        "type": "text",
+        "id": "cookie_settings_label",
+        "label": "Cookie settings label",
+        "default": "Cookie preferences"
       }, {
         "type": "header",
         "content": "Bottom row"
