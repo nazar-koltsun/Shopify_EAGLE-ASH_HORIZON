@@ -20,6 +20,7 @@
         video
         | video_tag:
           image_size: '1920x',
+          image_alt: title | escape | default: 'Craftsmanship video',
           autoplay: false,
           loop: true,
           muted: true,
