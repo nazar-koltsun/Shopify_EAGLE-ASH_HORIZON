@@ -1,6 +1,7 @@
 {%- liquid
   assign title = section.settings.title
   assign video = section.settings.video
+  assign video_alt = title | default: 'Craftsmanship video' | escape
 -%}
 
 <script
@@ -20,7 +21,7 @@
         video
         | video_tag:
           image_size: '1920x',
-          image_alt: title | escape | default: 'Craftsmanship video',
+          image_alt: video_alt,
           autoplay: false,
           loop: true,
           muted: true,
