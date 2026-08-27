@@ -13,7 +13,7 @@
       "type": "promo-section",
       "settings": {
         "background_image": "shopify://shop_images/promo-bg.webp",
-        "heading": "Meanigful Golf Gifts, Designed to Be Remembered",
+        "heading": "Meaningful Golf Gifts, Designed to Be Remembered",
         "description": "<p>Thoughtfully crafted with exceptional materials and timeless design.</p>",
         "link_label": "Discover Our Story",
         "link_url": "shopify://pages/our-story"
@@ -136,6 +136,7 @@
       "type": "contact-split",
       "settings": {
         "title": "Let's Create Something Worth Remembering",
+        "show_origin_badge": false,
         "description": "<p>Whether you're recognising achievement, thanking clients or creating memorable event gifts, we're here to help.</p><p>Rather than mass-produced alternatives, we collaborate with carefully selected makers and trusted workshops to deliver exceptional craftsmanship, thoughtful presentation and products made to leave a lasting impression.<br/>Every project is approached with care, flexibility and attention to detail — because meaningful gifts deserve more than a one-size-fits-all solution.</p><p>Whether you already have a clear vision or are looking for inspiration, we'd love to hear your ideas and explore what's possible together.</p>",
         "cta_label": "Let's Start a Conversation",
         "cta_link": "shopify://pages/contact",
