@@ -21,6 +21,15 @@
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
   assign og_description = page_description | default: shop.description | default: shop.name
+  assign meta_description = page_description
+  assign privacy_policy_description = shop.metafields.custom.privacy_policy_meta_description.value
+
+  if privacy_policy_description != blank
+    if request.path contains '/policies/privacy-policy' or page.handle == 'privacy-policy'
+      assign og_description = privacy_policy_description
+      assign meta_description = privacy_policy_description
+    endif
+  endif
 
   if request.page_type == 'product'
     assign og_type = 'product'
@@ -113,9 +122,9 @@
   href="{{ canonical_url }}"
 >
 
-{% if page_description %}
+{% if meta_description != blank %}
   <meta
     name="description"
-    content="{{ page_description | escape }}"
+    content="{{ meta_description | escape }}"
   >
 {% endif %}
