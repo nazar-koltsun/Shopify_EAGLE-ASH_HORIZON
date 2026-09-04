@@ -40,6 +40,68 @@
     {% endif %}
 
     {{ content_for_header }}
+
+    {% if request.page_type == 'index' %}
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://eagleandash.com/#organization",
+            "name": "Eagle & Ash",
+            "alternateName": "EAGLE & ASH",
+            "legalName": "VERTOHOUSE OÜ",
+            "url": "https://eagleandash.com",
+            "logo": "https://cdn.shopify.com/s/files/1/0999/2749/0895/files/logo-square_600x600_7d72a892-ff0b-4db6-8302-e55a742ad07f.webp?v=1788518790",
+            "image": "https://eagleandash.com/cdn/shop/files/1_e1467be3-50b6-4b60-8638-9e3a88d199bf.png?v=1787904690",
+            "email": "hello@eagleandash.com",
+            "vatID": "EE102902789",
+            "identifier": {
+              "@type": "PropertyValue",
+              "name": "Estonian registry code",
+              "value": "17325717"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Betooni tn 14a",
+              "addressLocality": "Tallinn",
+              "addressRegion": "Harju County",
+              "postalCode": "13816",
+              "addressCountry": "EE"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "customer service",
+              "email": "hello@eagleandash.com",
+              "availableLanguage": ["en"]
+            },
+            "sameAs": [
+              "https://www.instagram.com/eagleandash/",
+              "https://www.facebook.com/people/eagleandash/61590270338294/",
+              "https://www.amazon.com/stores/page/54F7FEDD-529C-4894-8E55-8D4A601F3CC1"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://eagleandash.com/#website",
+            "url": "https://eagleandash.com",
+            "name": "Eagle & Ash",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://eagleandash.com/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://eagleandash.com/search?q={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]
+      }
+      </script>
+    {% endif %}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
