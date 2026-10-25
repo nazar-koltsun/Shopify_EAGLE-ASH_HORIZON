@@ -1,0 +1,175 @@
+{%- doc -%}
+  Amazon rating line: stars + "4.8/5 (28) · See reviews on Amazon". Reads the selected variant's
+  custom.amazon_rating (decimal) and custom.amazon_rating_count (integer), falling back to the same
+  product metafields. Updated weekly from the Rating log tab.
+  Deliberately NOT the standard reviews.rating metafield and NOT in structured data: Google does not
+  allow ratings collected on another website in review markup. Renders nothing when the rating is empty.
+{%- enddoc -%}
+
+{% liquid
+  assign product = closest.product
+  assign variant = product.selected_or_first_available_variant
+  # A colour can have its own Amazon rating (separate Amazon listings, e.g. a standalone colour);
+  # without one, the product's rating is shown. The line switches with the selected colour.
+  assign rating = variant.metafields.custom.amazon_rating.value | default: product.metafields.custom.amazon_rating.value
+  assign rating_count = variant.metafields.custom.amazon_rating_count.value | default: product.metafields.custom.amazon_rating_count.value
+  assign amazon_url = variant.metafields.custom.amazon_url.value
+  # "See reviews" jumps to the review section of the Amazon page
+  if amazon_url != blank
+    assign amazon_url = amazon_url | append: ''
+    unless amazon_url contains '#'
+      assign amazon_url = amazon_url | append: '#customerReviews'
+    endunless
+  endif
+
+  # Star rounding is a block setting: from `half_from` a half star, from `full_from` a full star.
+  # Defaults 0.3 / 0.8 → 4.7 shows 4½ stars, 4.8 shows 5 full stars.
+  assign half_from = block.settings.half_star_from | divided_by: 10.0
+  assign full_from = block.settings.full_star_from | divided_by: 10.0
+
+  if rating != blank
+    # round: 4.8 modulo 1 is 0.7999… in floating point, which would wrongly give a half star
+    assign decimal = rating | modulo: 1 | round: 2
+    assign half = false
+    assign full_stars = rating | floor
+    if decimal >= full_from
+      assign full_stars = full_stars | plus: 1
+    elsif decimal >= half_from
+      assign half = true
+    endif
+    assign half_star = full_stars | plus: 1
+    assign rating_label = rating | round: 1
+  endif
+%}
+
+{%- if rating != blank -%}
+  <div class="ea-rating" data-ea-sync="rating-{{ block.id }}">
+    <span class="ea-rating__stars" role="img" aria-label="{{ rating }} out of 5 stars">
+      {%- for star in (1..5) -%}
+        {%- liquid
+          if star <= full_stars
+            assign fill = 'full'
+          elsif half and star == half_star
+            assign fill = 'half'
+          else
+            assign fill = 'empty'
+          endif
+        -%}
+        <svg class="ea-rating__star ea-rating__star--{{ fill }}" viewBox="0 0 32 32" aria-hidden="true">
+          <defs>
+            <linearGradient id="ea-half-{{ block.id }}-{{ star }}" x1="0" x2="100%" y1="0" y2="0">
+              <stop offset="50%" stop-color="currentColor"></stop>
+              <stop offset="50%" stop-color="transparent"></stop>
+            </linearGradient>
+          </defs>
+          <path
+            d="M31.547 12a.848.848 0 00-.677-.577l-9.427-1.376-4.224-8.532a.847.847 0 00-1.516 0l-4.218 8.534-9.427 1.355a.847.847 0 00-.467 1.467l6.823 6.664-1.612 9.375a.847.847 0 001.23.893l8.428-4.434 8.432 4.432a.847.847 0 001.229-.894l-1.615-9.373 6.822-6.665a.845.845 0 00.214-.869z"
+            {% case fill %}
+              {% when 'full' %}fill="currentColor"
+              {% when 'half' %}fill="url(#ea-half-{{ block.id }}-{{ star }})"
+              {% else %}fill="none"
+            {% endcase %}
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+        </svg>
+      {%- endfor -%}
+    </span>
+    <span class="ea-rating__text">
+      {%- capture rating_text -%}
+        {{ rating_label }}/5
+        {%- if block.settings.show_count and rating_count != blank %} ({{ rating_count }}){% endif -%}
+      {%- endcapture -%}
+      {%- if amazon_url != blank -%}
+        {{ rating_text }} ·
+        <a href="{{ amazon_url }}" target="_blank" rel="noopener">{{ block.settings.link_label }}</a>
+      {%- else -%}
+        {{ rating_text }}
+      {%- endif -%}
+    </span>
+  </div>
+{%- elsif request.design_mode -%}
+  <p class="ea-rating ea-rating--missing">Amazon rating is empty. Fill the product metafields "Amazon rating" and "Amazon rating count".</p>
+{%- endif -%}
+
+{% stylesheet %}
+  .ea-rating {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .ea-rating__stars {
+    display: inline-flex;
+    gap: 2px;
+    color: var(--color-primary, currentcolor);
+  }
+
+  .ea-rating__star {
+    width: 1.05em;
+    height: 1.05em;
+  }
+
+  .ea-rating__text a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .ea-rating--missing {
+    padding: 8px;
+    border: 1px dashed currentcolor;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Amazon rating",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the product metafields \"Amazon rating\" (custom.amazon_rating) and \"Amazon rating count\" (custom.amazon_rating_count). Update them weekly from Amazon. Hidden when empty."
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link text",
+      "default": "See reviews on Amazon →"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count",
+      "label": "Show number of ratings",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "half_star_from",
+      "label": "Half star from (tenths)",
+      "info": "3 = from x.3 the last star is half. Example: 4.3 shows 4½ stars.",
+      "min": 1,
+      "max": 9,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "full_star_from",
+      "label": "Full star from (tenths)",
+      "info": "8 = from x.8 the last star is full. Example: 4.8 shows 5 stars, 4.7 shows 4½.",
+      "min": 1,
+      "max": 9,
+      "step": 1,
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Amazon rating"
+    }
+  ]
+}
+{% endschema %}

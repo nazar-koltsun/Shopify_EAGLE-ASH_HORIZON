@@ -99,6 +99,23 @@
     endif
   endif
 
+  # Eagle & Ash, Oct 2026: colour-specific photos. A photo whose file name contains "-color-<colour>"
+  # (for example tee-pouch-zip-04-sized-color-blue.jpg) shows only while that colour is selected.
+  # Photos without such a name always show. Works with the Color (or Colour) option.
+  assign ea_other_color_tokens = ''
+  for ea_option in selected_product.options_with_values
+    assign ea_option_name = ea_option.name | downcase
+    if ea_option_name == 'color' or ea_option_name == 'colour'
+      for ea_value in ea_option.values
+        if ea_value.name != ea_option.selected_value
+          assign ea_value_handle = ea_value.name | handleize
+          assign ea_other_color_tokens = ea_other_color_tokens | append: '-color-' | append: ea_value_handle | append: ','
+        endif
+      endfor
+    endif
+  endfor
+  assign ea_other_color_tokens = ea_other_color_tokens | split: ','
+
   assign sorted_media = '' | split: ','
   if selected_variant_media
     assign sorted_media = sorted_media | concat: selected_product.media | where: 'id', selected_variant_media.id
@@ -108,13 +125,50 @@
         continue
       endif
 
+      if ea_other_color_tokens.size > 0
+        assign ea_media_name = media.preview_image.src | split: '?' | first | split: '/' | last | downcase
+        assign ea_hide_media = false
+        for ea_token in ea_other_color_tokens
+          assign ea_token_dot = ea_token | append: '.'
+          assign ea_token_underscore = ea_token | append: '_'
+          if ea_media_name contains ea_token_dot or ea_media_name contains ea_token_underscore
+            assign ea_hide_media = true
+            break
+          endif
+        endfor
+        if ea_hide_media
+          continue
+        endif
+      endif
+
       if media.id != selected_variant_media.id
         assign found_media = selected_product.media | where: 'id', media.id
         assign sorted_media = sorted_media | concat: found_media
       endif
     endfor
   else
-    assign sorted_media = selected_product.media
+    # Eagle & Ash: a colour without its own photo (e.g. coming soon) shows only the shared photos.
+    for media in selected_product.media
+      assign ea_hide_media = false
+      if ea_other_color_tokens.size > 0
+        assign ea_media_name = media.preview_image.src | split: '?' | first | split: '/' | last | downcase
+        for ea_token in ea_other_color_tokens
+          assign ea_token_dot = ea_token | append: '.'
+          assign ea_token_underscore = ea_token | append: '_'
+          if ea_media_name contains ea_token_dot or ea_media_name contains ea_token_underscore
+            assign ea_hide_media = true
+            break
+          endif
+        endfor
+      endif
+      unless ea_hide_media
+        assign found_media = selected_product.media | where: 'id', media.id
+        assign sorted_media = sorted_media | concat: found_media
+      endunless
+    endfor
+    if sorted_media.size == 0
+      assign sorted_media = selected_product.media
+    endif
   endif
   assign has_image_drop = sorted_media | has: 'media_type', 'image'
 

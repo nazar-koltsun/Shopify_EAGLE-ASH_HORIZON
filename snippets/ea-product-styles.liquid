@@ -1,0 +1,109 @@
+{%- doc -%}
+  Eagle & Ash product page styles that belong to theme parts we do not otherwise change.
+  Rendered once by blocks/amazon-button.liquid; outputs no markup, only the stylesheet below.
+  - Photo thumbnails (Figma design): one row across the full width of the gallery, four per row,
+    in the same tall shape as the photos. More than four scroll sideways. Computers and tablets only;
+    phones keep the dots under the photo.
+  - Quotes section on a light grey gradient, as in the Amazon listing images (white cards on top).
+  - Price in Roboto medium (serif only for headings). Buy area spaced in groups: extra space
+    above and below the buttons.
+  - Heading sizes, in two levels: the product name is the biggest (28px phones, 34px computers);
+    every section heading below it is one size (24px phones, 28px computers).
+{%- enddoc -%}
+
+{% stylesheet %}
+  /* Orange word in section headings written in the editor: put it in italics (em). */
+  .shopify-section[id$='__pairs_with_ea'] h2 em,
+  .shopify-section[id$='__reviews_site_ea'] h2 em,
+  .ea-ps__title em {
+    font-style: normal;
+    color: #fd5000;
+  }
+
+  /* Grey line under a section heading: the text block with this id in templates/product.json */
+  [class*='__text_reviews_subline'] p,
+  .ea-subline {
+    margin: 0;
+    font-size: 0.875rem;
+    color: rgb(var(--color-foreground-rgb) / 0.65);
+  }
+
+  /* Judge.me adds 48px under the last review; the section spacing already separates it from the collage. */
+  .shopify-section[id$='__reviews_site_ea'] .jm-review-widget {
+    padding-bottom: 0;
+  }
+
+  /* Judge.me's light grey (review dates) is 4.2:1 on white; this grey is 6.6:1. Judge.me sets the colour as an
+     inline style on the widget and on every review, so only !important can replace it. */
+  .shopify-section[id$='__reviews_site_ea'] .jm-review-widget,
+  .shopify-section[id$='__reviews_site_ea'] .jm-review-item {
+    --jm-review-widget-lighter-text-color: #5c5c5c !important;
+  }
+
+  html:has(.ea-story) {
+    scroll-behavior: smooth;
+  }
+
+  .product-information product-price,
+  .product-information product-price .price {
+    font-family: var(--font-body--family);
+    font-weight: 500;
+  }
+
+  .product-information .shopify-block:has(> .ea-amazon) {
+    margin-block: 12px 4px;
+  }
+
+  .shopify-section[id$='__quotes_ea'] {
+    background: linear-gradient(180deg, #f7f8f8 0%, #e6eaea 100%);
+  }
+
+  .product-information .text-block:has(> h1),
+  .product-information .text-block > h1 {
+    font-size: 1.75rem;
+  }
+
+  .ea-quotes__heading,
+  .ea-story__title,
+  .shopify-section[id$='__pairs_with_ea'] .text-block:has(> h2),
+  .shopify-section[id$='__pairs_with_ea'] .text-block > h2,
+  .shopify-section[id$='__reviews_site_ea'] .text-block:has(> h2),
+  .shopify-section[id$='__reviews_site_ea'] .text-block > h2 {
+    font-size: 1.5rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-information .text-block:has(> h1),
+    .product-information .text-block > h1 {
+      font-size: 2.125rem;
+    }
+
+    .ea-quotes__heading,
+    .ea-story__title,
+    .shopify-section[id$='__pairs_with_ea'] .text-block:has(> h2),
+    .shopify-section[id$='__pairs_with_ea'] .text-block > h2,
+    .shopify-section[id$='__reviews_site_ea'] .text-block:has(> h2),
+    .shopify-section[id$='__reviews_site_ea'] .text-block > h2 {
+      font-size: 1.75rem;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-information .slideshow-controls__thumbnails-container {
+      width: 100%;
+    }
+
+    .product-information .slideshow-controls__thumbnails {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - 3 * var(--gap-xs, 8px)) / 4);
+      width: 100%;
+      margin-inline: 0;
+      padding-inline: 0;
+    }
+
+    .product-information .slideshow-controls__thumbnails .slideshow-control {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}

@@ -115,6 +115,12 @@
                     variant_image: featured_media,
                     mode: 'unscaled'
                   %}
+                  {%- comment -%} Eagle & Ash: colour name under each swatch photo {%- endcomment -%}
+                  <span class="ea-swatch-name" aria-hidden="true">{{ product_option_value | escape }}</span>
+                  {%- comment -%} A colour without an Amazon link is not on sale yet: label it. {%- endcomment -%}
+                  {%- if product_option_value.variant and product_option_value.variant.metafields.custom.amazon_url == blank -%}
+                    <span class="ea-swatch-soon">Coming soon</span>
+                  {%- endif -%}
                 {% else %}
                   {% if product_option_value.available == true %}
                     <span
@@ -293,5 +299,74 @@
   .variant-picker--right .variant-option {
     text-align: right;
     justify-content: right;
+  }
+  /* Eagle & Ash: colour name under each swatch photo. The selection outline moves from the
+     whole label to the photo, so the name stays outside the frame. */
+  .variant-option__button-label--has-swatch:has(input[type='radio']):has(.ea-swatch-name) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    outline: none;
+    overflow: visible;
+    background-color: transparent;
+  }
+
+  .variant-option__button-label--has-swatch:has(.ea-swatch-name):hover {
+    outline: none;
+    background-color: transparent;
+  }
+
+  .variant-option__button-label--has-swatch:has(.ea-swatch-name):hover .swatch {
+    outline: var(--focus-outline-width) solid rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  /* Selected colour: thick navy frame with a small white gap, as on Amazon. */
+  .variant-option__button-label--has-swatch:has(.ea-swatch-name):has(:checked) .swatch {
+    outline: 2px solid #001e26;
+    outline-offset: 2px;
+  }
+
+  .variant-option__button-label--has-swatch:has(.ea-swatch-name):has(:focus-visible) .swatch {
+    outline: var(--focus-outline-width) solid var(--color-foreground);
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  /* Name already shows under each photo: keep only the word "Color" above them. */
+  .variant-option--swatches:has(.ea-swatch-name) .variant-option__swatch-value {
+    display: none;
+  }
+
+  .ea-swatch-name {
+    max-width: calc(var(--variant-picker-swatch-width, 64px) + 16px);
+    color: var(--color-foreground);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  /* Swatches line up at the top, also when one has the extra "Coming soon" line. */
+  .variant-option--swatches .variant-option__button-label--has-swatch {
+    align-self: flex-start;
+  }
+
+  .ea-swatch-soon {
+    margin-block-start: -4px;
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    /* Darker orange for small text: brand orange #fd5000 is only 3.3:1 on white. */
+    color: #b83a00;
+    white-space: nowrap;
+  }
+
+  .variant-option__button-label--has-swatch:has(.ea-swatch-soon) .swatch {
+    opacity: 0.85;
+  }
+
+  .variant-option__button-label--has-swatch:has(:checked) .ea-swatch-name {
+    font-weight: 600;
   }
 {% endstylesheet %}

@@ -43,8 +43,10 @@ class EmailSignupKlaviyo extends HTMLElement {
 
     const hasEmail = typeof email === 'string' && email.trim().length > 0;
     const hasInterest = typeof interestType === 'string' && interestType.length > 0;
+    // Eagle & Ash, Oct 2026: the choice is required only where the form shows it (the footer hides it).
+    const asksInterest = Boolean(this.#form.querySelector('[name="interest_type"]'));
 
-    if (!hasEmail || !hasInterest) {
+    if (!hasEmail || (asksInterest && !hasInterest)) {
       this.#showError(this.dataset.fieldsRequired);
       return;
     }
@@ -77,9 +79,7 @@ class EmailSignupKlaviyo extends HTMLElement {
                     type: 'profile',
                     attributes: {
                       email: email.trim(),
-                      properties: {
-                        'Interest Type': interestType,
-                      },
+                      properties: hasInterest ? { 'Interest Type': interestType } : {},
                       subscriptions: {
                         email: {
                           marketing: {

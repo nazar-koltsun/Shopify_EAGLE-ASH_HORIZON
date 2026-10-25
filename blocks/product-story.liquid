@@ -1,0 +1,237 @@
+{%- doc -%}
+  "Why it's different": one title plus numbered rows (01, 02, 03) with alternating image and text.
+  The title is set in the block (default "Why it's different"); optionally a product's own
+  custom.story_title replaces it. Rows come from custom.story_rows
+  (list of "Story row" metaobjects: image, video, symbol, heading, text). A row with a video shows
+  the video instead of the image: muted, looping, playing only while visible, with a pause button
+  (assets/ea-product.js). Visitors who ask for reduced motion get the paused first frame.
+  Renders nothing when there are no rows.
+{%- enddoc -%}
+
+{% liquid
+  assign product = closest.product
+  assign rows = product.metafields.custom.story_rows.value
+  assign story_title = block.settings.title
+  if block.settings.use_product_title and product.metafields.custom.story_title.value != blank
+    assign story_title = product.metafields.custom.story_title.value
+  endif
+%}
+
+{%- if rows != blank -%}
+  <div class="ea-story">
+    {%- if story_title != blank -%}
+      <h2 class="ea-story__title">
+        {%- render 'ea-accent-text', text: story_title -%}
+        {%- if block.settings.title_accent != blank and story_title == block.settings.title %} <span class="ea-accent">{{ block.settings.title_accent | escape }}</span>{% endif -%}
+      </h2>
+    {%- endif -%}
+
+    {%- for row in rows limit: 6 -%}
+      {%- assign image = row.image.value -%}
+      {%- assign video = row.video.value -%}
+      <div class="ea-story__row{% cycle '', ' ea-story__row--reverse' %}" id="ea-story-{{ forloop.index }}">
+        <div class="ea-story__media">
+          {%- if video != blank -%}
+            <div class="ea-story__video" data-ea-video>
+              {{
+                video
+                | video_tag:
+                  muted: true,
+                  loop: true,
+                  playsinline: true,
+                  controls: false,
+                  preload: 'metadata',
+                  image_size: '1600x'
+              }}
+              <button type="button" class="ea-story__video-toggle" data-ea-video-toggle aria-pressed="false" aria-label="Pause video">
+                <span class="ea-story__video-icon ea-story__video-icon--pause" aria-hidden="true"></span>
+              </button>
+            </div>
+          {%- elsif image != blank -%}
+            {{
+              image
+              | image_url: width: 1600
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(min-width: 750px) 50vw, 100vw',
+                widths: '600, 900, 1200, 1600',
+                alt: row.heading.value
+            }}
+          {%- endif -%}
+        </div>
+        <div class="ea-story__text">
+          <h3 class="ea-story__heading">
+            <span class="ea-story__number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            {%- if block.settings.show_icons and row.symbol.value != blank -%}
+              {%- render 'ea-icon', name: row.symbol.value, class: 'ea-story__icon' -%}
+            {%- endif -%}
+            <span class="ea-story__heading-text">{{ row.heading.value | escape }}</span>
+          </h3>
+          {%- if row.text.value != blank -%}
+            <p class="ea-story__body">{{ row.text.value | escape | newline_to_br }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+{%- elsif request.design_mode -%}
+  <p class="ea-story--missing">Story is empty. Fill the product metafields "Story title" and "Story rows".</p>
+{%- endif -%}
+
+{% stylesheet %}
+  .ea-story {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    width: 100%;
+  }
+
+  .shopify-block:has(> .ea-story) {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Section heading size, same as "What golfers say" (set in snippets/ea-product-styles.liquid):
+     24px on phones, 28px on computers. The product name is bigger. */
+  .ea-story__title {
+    margin: 0;
+    text-align: center;
+  }
+
+  .ea-story__row {
+    scroll-margin-top: 140px;
+    display: grid;
+    gap: 24px;
+    align-items: center;
+  }
+
+  /* Every story image gets the same landscape shape, cropped to fit, so rows line up on every product. */
+  .ea-story__media img,
+  .ea-story__media video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .ea-story__video {
+    position: relative;
+  }
+
+  .ea-story__video-toggle {
+    position: absolute;
+    inset-inline-end: 12px;
+    inset-block-end: 12px;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(0 30 38 / 0.7);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .ea-story__video-icon--pause {
+    width: 12px;
+    height: 14px;
+    border-inline: 4px solid currentcolor;
+  }
+
+  .ea-story__video-icon--play {
+    width: 0;
+    height: 0;
+    margin-inline-start: 3px;
+    border-block: 8px solid transparent;
+    border-inline-start: 13px solid currentcolor;
+  }
+
+  .ea-story__heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 12px;
+  }
+
+  .ea-story__icon {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    color: #001e26;
+  }
+
+  .ea-story__number {
+    font-size: 1.6em;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-primary-button-background, #fd5000);
+  }
+
+  .ea-story__body {
+    margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ea-story__row {
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+    }
+
+    /* Odd rows: text left, image right (as in the mockup); even rows: image left. */
+    .ea-story__row:not(.ea-story__row--reverse) .ea-story__media {
+      order: 2;
+    }
+  }
+
+  .ea-story--missing {
+    padding: 8px;
+    border: 1px dashed currentcolor;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product story",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the product metafields \"Story title\" (custom.story_title) and \"Story rows\" (custom.story_rows). Hidden when there are no rows."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Why it's",
+      "info": "Put stars around the word(s) shown in orange."
+    },
+    {
+      "type": "text",
+      "id": "title_accent",
+      "label": "Title: orange part at the end",
+      "default": "different."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icons",
+      "label": "Show line icons next to the numbers",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_title",
+      "label": "Use the product's own story title when it has one",
+      "info": "Product metafield \"Story title\" (custom.story_title). Off: every product shows the title above.",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product story"
+    }
+  ]
+}
+{% endschema %}

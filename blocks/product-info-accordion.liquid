@@ -1,0 +1,190 @@
+{%- doc -%}
+  Fold-out sections fed by product metafields (Features, Material, Care, Size & what's included, FAQ ...).
+  Each row names a metafield key such as custom.features, or several as "Label=custom.key, Label=custom.key". A row whose metafield is empty falls back to
+  its fixed text; a row with neither is not rendered — so a product never shows an empty heading.
+  Uses the theme's own accordion markup and styles (accordion-custom, .details).
+{%- enddoc -%}
+
+{% liquid
+  assign product = closest.product
+  assign rows_html = ''
+%}
+
+{%- capture rows_html -%}
+  {%- for i in (1..6) -%}
+    {%- liquid
+      assign heading_key = 'heading_' | append: i
+      assign source_key = 'metafield_' | append: i
+      assign fixed_key = 'fixed_text_' | append: i
+      assign open_key = 'open_' | append: i
+
+      assign heading = block.settings[heading_key]
+      assign source = block.settings[source_key] | strip
+      assign entries = source | split: ','
+    -%}
+
+    {%- capture content -%}
+      {%- for entry in entries -%}
+        {%- liquid
+          assign entry = entry | strip
+          assign label = ''
+          assign ref = entry
+          if entry contains '='
+            assign label = entry | split: '=' | first | strip
+            assign ref = entry | split: '=' | last | strip
+          endif
+          assign ref_parts = ref | split: '.'
+          assign namespace = ref_parts | first
+          assign key = ref_parts | last
+          assign field = product.metafields[namespace][key]
+        -%}
+        {%- if field != blank and field.value != blank -%}
+          {%- if label == blank and field.type == 'rich_text_field' -%}
+            {{ field | metafield_tag }}
+          {%- else -%}
+            <p>
+              {%- if label != blank -%}<strong>{{ label | escape }}:</strong> {% endif -%}
+              {%- if field.type == 'rich_text_field' -%}
+                {{ field | metafield_text }}
+              {%- elsif field.type contains 'list.' -%}
+                {{ field.value | join: ', ' | escape }}
+              {%- else -%}
+                {{ field.value | escape | newline_to_br }}
+              {%- endif -%}
+            </p>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- liquid
+      if content == blank
+        assign content = block.settings[fixed_key]
+      endif
+    -%}
+
+    {%- if heading != blank and content != blank -%}
+      <accordion-custom
+        {% if block.settings[open_key] %}
+          open-by-default-on-desktop
+          open-by-default-on-mobile
+        {% endif %}
+      >
+        <details class="details" {% if block.settings[open_key] %}open{% endif %}>
+          <summary class="details__header">
+            {{ heading }}
+            <span class="svg-wrapper icon-caret icon-animated">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+            <span class="svg-wrapper icon-plus">
+              {{- 'icon-plus.svg' | inline_asset_content -}}
+            </span>
+          </summary>
+          <div class="details-content rte">
+            {{ content }}
+          </div>
+        </details>
+      </accordion-custom>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if rows_html != blank -%}
+  <div class="accordion accordion--{{ block.settings.icon }} accordion--dividers ea-info-accordion">
+    {{ rows_html }}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  /* Copies of the accordion block's own rules, so this block looks right even on pages
+     where no theme accordion block is rendered. */
+  .ea-info-accordion {
+    width: 100%;
+  }
+
+  .ea-info-accordion accordion-custom .details {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .ea-info-accordion accordion-custom:last-child .details {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .ea-info-accordion .details-content {
+    padding-block-end: var(--padding-sm);
+  }
+
+  .ea-info-accordion.accordion--caret .icon-plus,
+  .ea-info-accordion.accordion--plus .icon-caret {
+    display: none;
+  }
+
+  .ea-info-accordion .details__header {
+    min-height: var(--minimum-touch-target);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.8125rem;
+  }
+
+  .ea-info-accordion .details-content > :first-child {
+    margin-block-start: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product info fold-outs",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Each row shows a product metafield (key, e.g. custom.features). Several fields: Label=key, comma-separated. Empty → fixed text. Neither → row hidden."
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "caret", "label": "Caret" },
+        { "value": "plus", "label": "Plus" }
+      ],
+      "default": "plus"
+    },
+    { "type": "header", "content": "Row 1" },
+    { "type": "text", "id": "heading_1", "label": "Heading", "default": "Features" },
+    { "type": "text", "id": "metafield_1", "label": "Metafield key", "default": "custom.features" },
+    { "type": "richtext", "id": "fixed_text_1", "label": "Fixed text (used when the metafield is empty)" },
+    { "type": "checkbox", "id": "open_1", "label": "Open by default", "default": true },
+    { "type": "header", "content": "Row 2" },
+    { "type": "text", "id": "heading_2", "label": "Heading", "default": "Material" },
+    { "type": "text", "id": "metafield_2", "label": "Metafield key", "default": "custom.materials" },
+    { "type": "richtext", "id": "fixed_text_2", "label": "Fixed text (used when the metafield is empty)" },
+    { "type": "checkbox", "id": "open_2", "label": "Open by default", "default": false },
+    { "type": "header", "content": "Row 3" },
+    { "type": "text", "id": "heading_3", "label": "Heading", "default": "Size & what's included" },
+    { "type": "text", "id": "metafield_3", "label": "Metafield key", "default": "Product size=custom.dimensions, Product weight=custom.weight, Comes with=custom.pack_contents, Gift box=custom.gift_box_size" },
+    { "type": "richtext", "id": "fixed_text_3", "label": "Fixed text (used when the metafield is empty)" },
+    { "type": "checkbox", "id": "open_3", "label": "Open by default", "default": false },
+    { "type": "header", "content": "Row 4" },
+    { "type": "text", "id": "heading_4", "label": "Heading", "default": "Shipping & returns" },
+    { "type": "text", "id": "metafield_4", "label": "Metafield key" },
+    { "type": "richtext", "id": "fixed_text_4", "label": "Fixed text (used when the metafield is empty)" },
+    { "type": "checkbox", "id": "open_4", "label": "Open by default", "default": false },
+    { "type": "header", "content": "Row 5" },
+    { "type": "text", "id": "heading_5", "label": "Heading", "default": "Product FAQ" },
+    { "type": "text", "id": "metafield_5", "label": "Metafield key", "default": "custom.faq" },
+    { "type": "richtext", "id": "fixed_text_5", "label": "Fixed text (used when the metafield is empty)" },
+    { "type": "checkbox", "id": "open_5", "label": "Open by default", "default": false },
+    { "type": "header", "content": "Row 6" },
+    { "type": "text", "id": "heading_6", "label": "Heading" },
+    { "type": "text", "id": "metafield_6", "label": "Metafield key" },
+    { "type": "richtext", "id": "fixed_text_6", "label": "Fixed text (used when the metafield is empty)" },
+    { "type": "checkbox", "id": "open_6", "label": "Open by default", "default": false }
+  ],
+  "presets": [
+    {
+      "name": "Product info fold-outs"
+    }
+  ]
+}
+{% endschema %}

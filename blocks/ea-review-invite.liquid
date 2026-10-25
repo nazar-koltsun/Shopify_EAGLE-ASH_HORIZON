@@ -1,0 +1,124 @@
+{%- doc -%}
+  Friendly invitation to write a review (with a photo) on this site, shown above the Judge.me review box.
+  The button opens Judge.me's own review form (assets/ea-product.js clicks Judge.me's "Write a review"
+  button). While there are no reviews, Judge.me's own "Be the first to write a review" box is hidden,
+  because this card replaces it.
+{%- enddoc -%}
+
+<div class="ea-review-invite">
+  <span class="ea-review-invite__icon">{%- render 'ea-icon', name: 'camera' -%}</span>
+  {%- if block.settings.title != blank -%}<p class="ea-review-invite__title">{%- render 'ea-accent-text', text: block.settings.title -%}</p>{%- endif -%}
+  {%- if block.settings.text != blank -%}<p class="ea-review-invite__text">{{ block.settings.text | escape }}</p>{%- endif -%}
+  <button type="button" class="button ea-review-invite__button" data-ea-open-review>{{ block.settings.button_label | escape }}</button>
+  {%- if block.settings.small_print != blank -%}<p class="ea-review-invite__small">{{ block.settings.small_print | escape }}</p>{%- endif -%}
+</div>
+
+{% stylesheet %}
+  .shopify-block:has(> .ea-review-invite) {
+    width: 100%;
+  }
+
+  .ea-review-invite {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 560px;
+    margin-inline: auto;
+    padding: 32px 24px;
+    border: 1px solid #e3e7e7;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #f7f8f8 0%, #eef1f1 100%);
+    text-align: center;
+  }
+
+  .ea-review-invite__icon .ea-icon {
+    width: 32px;
+    height: 32px;
+    color: #fd5000;
+  }
+
+  .ea-review-invite__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 1.375rem;
+  }
+
+  .ea-review-invite__text {
+    margin: 0;
+    max-width: 44ch;
+  }
+
+  .ea-review-invite__button {
+    margin-block-start: 6px;
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    --button-color: #fff;
+    --button-background-color: #001e26;
+    --button-border-color: #001e26;
+  }
+
+  .ea-review-invite__button:hover {
+    --button-color: #fff;
+    --button-background-color: #fd5000;
+    --button-border-color: #fd5000;
+  }
+
+  .ea-review-invite__small {
+    margin: 0;
+    font-size: 0.8125rem;
+    opacity: 0.7;
+  }
+
+  /* This card replaces Judge.me's own empty box and its second "Write a review" button
+     (the card's button opens the same Judge.me form). */
+  .shopify-section:has(.ea-review-invite) .jm-no-reviews-state,
+  .shopify-section:has(.ea-review-invite) .jm-review-widget-minimal-header__button-and-filters .jm-button--primary {
+    display: none !important;
+  }
+
+  /* Judge.me review form (a window on top of the page, outside this section):
+     - no YouTube link field: photos and videos are uploaded directly;
+     - no second "rate your experience of shopping with us" question after the review: buyers shop on
+       Amazon, not with us, so it confuses (it is Judge.me's store review);
+     - brand colours instead of Judge.me's green. */
+  .jdgm-write-review-modal__form-group--share-media > .jdgm-write-review-modal__field-group:not(.jdgm-write-review-modal__field-group--media-upload),
+  .jdgm-write-review-modal__form--thank-you-separator,
+  .jdgm-write-review-modal__form--thank-you-separator ~ * {
+    display: none !important;
+  }
+
+  .jdgm-write-review-modal .jdgm-write-review-modal__nav-btn-next,
+  .jdgm-write-review-modal .jdgm-write-review-modal__nav-btn-close,
+  .jdgm-write-review-modal .jdgm-write-review-modal__btn--repeat-write-another {
+    background-color: #001e26 !important;
+    border-color: #001e26 !important;
+    color: #fff !important;
+  }
+
+  .jdgm-write-review-modal .jdgm-write-review-modal__nav-btn-next:hover,
+  .jdgm-write-review-modal .jdgm-write-review-modal__nav-btn-close:hover {
+    background-color: #fd5000 !important;
+    border-color: #fd5000 !important;
+  }
+
+  .jdgm-write-review-modal .jdgm-star {
+    color: #fd5000 !important;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Review invitation",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "info": "Stars around a word make it orange.", "default": "Golfed with it *yet?*" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Add a photo and a few honest words for other golfers. Two minutes. No handicap required." },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Write a review" },
+    { "type": "text", "id": "small_print", "label": "Small print", "default": "Photos welcome." }
+  ],
+  "presets": [{ "name": "Review invitation" }]
+}
+{% endschema %}

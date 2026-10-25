@@ -1,0 +1,182 @@
+{%- doc -%}
+  Eagle & Ash lifestyle collage ("Follow @eagleandash"), based on Nazar's Photos Grid (7 photos, tall one
+  in the middle). Each photo links to the product it shows (product picker), otherwise to its own link,
+  otherwise to Instagram. Phones: the tall photo first at full width, the others two per row.
+{%- enddoc -%}
+{%- liquid
+  assign ea_ig = section.settings.instagram_url
+-%}
+<div class="section section--page-width">
+<div class="ea-life">
+  <div class="ea-life__head">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="ea-life__title">{%- render 'ea-accent-text', text: section.settings.heading -%}</h2>
+    {%- endif -%}
+    {%- if section.settings.link_label != blank and ea_ig != blank -%}
+      <a class="ea-life__ig" href="{{ ea_ig }}" target="_blank" rel="noopener">{{ section.settings.link_label | escape }}</a>
+    {%- endif -%}
+  </div>
+  <div class="ea-life__grid">
+    {%- for i in (1..7) -%}
+      {%- liquid
+        assign k_img = 'image_' | append: i
+        assign k_prod = 'product_' | append: i
+        assign k_link = 'link_' | append: i
+        assign img = section.settings[k_img]
+        assign prod = section.settings[k_prod]
+        assign href = section.settings[k_link] | default: ea_ig
+        assign label = ''
+        if prod != blank
+          assign href = prod.url
+          assign label = prod.title
+        endif
+      -%}
+      {%- if img != blank -%}
+        <a class="ea-life__item ea-life__item--{{ i }}" href="{{ href }}"{% if prod == blank %} target="_blank" rel="noopener"{% endif %}>
+          {{ img | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1200', sizes: '(max-width: 749px) 50vw, 25vw', class: 'ea-life__image', alt: img.alt }}
+          {%- if label != blank -%}<span class="ea-life__label">{{ label | escape }}</span>{%- endif -%}
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+</div>
+
+{% stylesheet %}
+  .ea-life {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-block: 8px 48px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ea-life {
+      padding-block: 16px 72px;
+    }
+  }
+
+  .ea-life__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .ea-life__title {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .ea-life__title .ea-accent {
+    color: #fd5000;
+  }
+
+  .ea-life__ig {
+    font-size: 0.875rem;
+    color: inherit;
+    text-underline-offset: 3px;
+  }
+
+  .ea-life__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .ea-life__item {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: rgba(7, 39, 45, 0.06);
+  }
+
+  .ea-life__item--2 {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+
+  .ea-life__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .ea-life__item:hover .ea-life__image {
+    transform: scale(1.03);
+  }
+
+  .ea-life__label {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    padding: 8px 10px;
+    background: linear-gradient(0deg, rgb(0 30 38 / 0.7), transparent);
+    color: #fff;
+    font-size: 0.75rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ea-life__title {
+      font-size: 1.75rem;
+    }
+
+    .ea-life__grid {
+      grid-template-columns: 301fr 467fr 301fr 301fr;
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+
+    .ea-life__item {
+      aspect-ratio: 301 / 373;
+    }
+
+    .ea-life__item--1 { grid-column: 1; grid-row: 1; }
+    .ea-life__item--2 { grid-column: 2; grid-row: 1 / span 2; aspect-ratio: auto; order: 0; }
+    .ea-life__item--3 { grid-column: 3; grid-row: 1; }
+    .ea-life__item--4 { grid-column: 4; grid-row: 1; }
+    .ea-life__item--5 { grid-column: 1; grid-row: 2; }
+    .ea-life__item--6 { grid-column: 3; grid-row: 2; }
+    .ea-life__item--7 { grid-column: 4; grid-row: 2; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Lifestyle collage",
+  "class": "section-wrapper",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Stars around a word make it orange.", "default": "Follow *@eagleandash.*" },
+    { "type": "text", "id": "link_label", "label": "Link text", "default": "See more on Instagram →" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram link" },
+    { "type": "header", "content": "Photos", "info": "Each photo links to its product, else to its own link, else to Instagram." },
+    { "type": "image_picker", "id": "image_1", "label": "Photo 1 (top left)" },
+    { "type": "product", "id": "product_1", "label": "Photo 1: product shown" },
+    { "type": "url", "id": "link_1", "label": "Photo 1: other link" },
+    { "type": "image_picker", "id": "image_2", "label": "Photo 2 (tall, middle)" },
+    { "type": "product", "id": "product_2", "label": "Photo 2: product shown" },
+    { "type": "url", "id": "link_2", "label": "Photo 2: other link" },
+    { "type": "image_picker", "id": "image_3", "label": "Photo 3" },
+    { "type": "product", "id": "product_3", "label": "Photo 3: product shown" },
+    { "type": "url", "id": "link_3", "label": "Photo 3: other link" },
+    { "type": "image_picker", "id": "image_4", "label": "Photo 4 (top right)" },
+    { "type": "product", "id": "product_4", "label": "Photo 4: product shown" },
+    { "type": "url", "id": "link_4", "label": "Photo 4: other link" },
+    { "type": "image_picker", "id": "image_5", "label": "Photo 5 (bottom left)" },
+    { "type": "product", "id": "product_5", "label": "Photo 5: product shown" },
+    { "type": "url", "id": "link_5", "label": "Photo 5: other link" },
+    { "type": "image_picker", "id": "image_6", "label": "Photo 6" },
+    { "type": "product", "id": "product_6", "label": "Photo 6: product shown" },
+    { "type": "url", "id": "link_6", "label": "Photo 6: other link" },
+    { "type": "image_picker", "id": "image_7", "label": "Photo 7 (bottom right)" },
+    { "type": "product", "id": "product_7", "label": "Photo 7: product shown" },
+    { "type": "url", "id": "link_7", "label": "Photo 7: other link" }
+  ],
+  "presets": [{ "name": "Lifestyle collage" }]
+}
+{% endschema %}

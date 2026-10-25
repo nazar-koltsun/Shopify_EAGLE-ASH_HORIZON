@@ -18,7 +18,9 @@
     assign swatch_value = 'url(' | append: swatch_image_url | append: ')'
     assign extra_classes = extra_classes | append: ' swatch--variant-image'
   elsif swatch.image
-    assign swatch_image_url = swatch.image | image_url: width: 80
+    # Eagle & Ash: twice the swatch size, so close-up textures stay sharp on high-resolution screens
+    assign swatch_image_width = settings.variant_swatch_width | times: 2
+    assign swatch_image_url = swatch.image | image_url: width: swatch_image_width
     assign swatch_value = 'url(' | append: swatch_image_url | append: ')'
   elsif swatch.color
     assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'

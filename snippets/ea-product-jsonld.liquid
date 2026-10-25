@@ -1,0 +1,62 @@
+{%- doc -%}
+  Eagle & Ash product structured data (replaces Shopify's default in sections/product-information.liquid).
+  The website sells nothing itself: each colour's offer points to its Amazon.com listing (the Attribution
+  link in the variant field custom.amazon_url), so search engines and AI shopping assistants send buyers
+  to Amazon. Adds GTIN (the variant's Barcode field, the same EAN as on Amazon), SKU and colour.
+  Keeps the same @id as Shopify's version, so review data from Judge.me joins the same product.
+  The Amazon rating is deliberately NOT included: Google does not allow ratings from another website.
+  @param {object} product
+{%- enddoc -%}
+{%- liquid
+  assign ea_base = request.origin | append: product.url
+  assign ea_desc = product.metafields.global.description_tag.value | default: product.description | strip_html | strip_newlines | truncate: 500
+-%}
+{
+  "@context": "https://schema.org/",
+  "@type": "ProductGroup",
+  "@id": {{ product.url | append: '#product' | json }},
+  "name": {{ product.title | json }},
+  "url": {{ ea_base | json }},
+  "description": {{ ea_desc | json }},
+  "brand": { "@type": "Brand", "name": "Eagle & Ash" },
+  {%- if product.category %}"category": {{ product.category.name | json }},{% endif %}
+  {%- if product.featured_media %}"image": {{ product.featured_media | image_url: width: 1920 | prepend: 'https:' | json }},{% endif %}
+  "productGroupID": {{ product.id | json }},
+  {%- assign ea_color_option = product.options_by_name['Color'] | default: product.options_by_name['Colour'] -%}
+  {%- if ea_color_option %}"variesBy": ["https://schema.org/color"],{% endif %}
+  "hasVariant": [
+    {%- assign ea_first = true -%}
+    {%- for variant in product.variants -%}
+      {%- comment -%} Only colours that are on Amazon; coming-soon colours are left out. {%- endcomment -%}
+      {%- if variant.metafields.custom.amazon_url == blank and product.variants.size > 1 -%}{%- continue -%}{%- endif -%}
+      {%- unless ea_first %},{% endunless -%}
+      {%- assign ea_first = false -%}
+      {%- liquid
+        assign ea_offer_url = variant.metafields.custom.amazon_url.value | default: ea_base
+        assign ea_image = variant.featured_media | default: product.featured_media
+        if ea_color_option
+          assign ea_color_index = ea_color_option.position | minus: 1
+          assign ea_color = variant.options[ea_color_index]
+        endif
+      -%}
+      {
+        "@type": "Product",
+        "@id": {{ product.url | append: '?variant=' | append: variant.id | append: '#variant' | json }},
+        "name": {{ product.title | append: ' – ' | append: variant.title | json }},
+        {%- if variant.sku != blank %}"sku": {{ variant.sku | json }},{% endif %}
+        {%- if variant.barcode != blank %}"gtin": {{ variant.barcode | json }},{% endif %}
+        {%- if ea_color_option %}"color": {{ ea_color | json }},{% endif %}
+        {%- if ea_image %}"image": {{ ea_image | image_url: width: 1920 | prepend: 'https:' | json }},{% endif %}
+        "offers": {
+          "@type": "Offer",
+          "url": {{ ea_offer_url | json }},
+          "price": {{ variant.price | divided_by: 100.0 | json }},
+          "priceCurrency": {{ cart.currency.iso_code | json }},
+          "availability": "https://schema.org/InStock",
+          "itemCondition": "https://schema.org/NewCondition",
+          "description": "Available on Amazon.com: sold there and shipped by Amazon in the US."
+        }
+      }
+    {%- endfor -%}
+  ]
+}

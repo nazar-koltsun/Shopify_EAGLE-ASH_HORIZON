@@ -1,7 +1,8 @@
 
 
+{%- comment -%} Eagle & Ash: own structured data, offers point to Amazon.com (snippets/ea-product-jsonld.liquid) {%- endcomment -%}
 <script type="application/ld+json">
-  {{ closest.product | structured_data }}
+  {% render 'ea-product-jsonld', product: closest.product %}
 </script>
 
 {% capture media_gallery %}
