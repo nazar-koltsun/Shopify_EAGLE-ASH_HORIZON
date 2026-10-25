@@ -590,6 +590,19 @@
     /* preserves the inherited grid layout when this submenu wrapper is used */
     display: contents;
   }
+  /* Eagle & Ash, Oct 2026: white menu links on the navy menu bar (header.liquid sets the navy). */
+  .menu-list__link-title {
+    color: #fff;
+  }
+
+  .menu-list__link-title:hover::after {
+    background-color: #fff;
+  }
+
+  /* The page you are on: orange underline, like the orange accent lines in the Amazon listing images. */
+  .menu-list__link--active .menu-list__link-title::after {
+    background-color: #fd5000;
+  }
 {% endstylesheet %}
 
 {% schema %}

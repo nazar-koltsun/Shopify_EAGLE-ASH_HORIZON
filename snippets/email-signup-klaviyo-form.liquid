@@ -1,4 +1,6 @@
 {%- liquid
+  # Eagle & Ash, Oct 2026: show_interest: false hides the "Personal / Corporate gifting" choice (footer).
+  assign show_interest = show_interest | default: true, allow_false: true
   assign form_id = form_id | default: section.id
   assign custom_source = custom_source | default: 'Eagle & Ash'
   if label != blank
@@ -38,6 +40,7 @@
             required>
         </div>
 
+        {%- if show_interest -%}
         <fieldset class="email-signup-klaviyo__interest">
           <legend class="visually-hidden">What are you interested in?</legend>
           
@@ -60,6 +63,7 @@
             </label>
           </div>
         </fieldset>
+        {%- endif -%}
       </div>
 
       <button

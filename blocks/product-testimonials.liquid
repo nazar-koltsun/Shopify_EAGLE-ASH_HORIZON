@@ -1,0 +1,461 @@
+{%- doc -%}
+  2–3 hand-picked customer quotes. Reads product metafield custom.testimonials: a list of
+  "Testimonial" metaobjects (quote = multi-line text, name = single line text, vine = true/false).
+  Quotes are copied word for word; the source line (default "Amazon customer review") is set once in
+  the block. A quote marked Vine gets the Vine source line instead: the US FTC requires telling readers
+  that the reviewer received the product free. Below the quotes, a link to all reviews on Amazon uses
+  the selected variant's Amazon link. Arrow buttons appear only when the quotes do not fit on screen.
+  Renders nothing when the list is empty.
+{%- enddoc -%}
+
+{% liquid
+  assign product = closest.product
+  assign testimonials = product.metafields.custom.testimonials.value
+  assign amazon_url = product.selected_or_first_available_variant.metafields.custom.amazon_url.value
+  if amazon_url != blank
+    unless amazon_url contains '#'
+      assign amazon_url = amazon_url | append: '#customerReviews'
+    endunless
+  endif
+%}
+
+{%- if testimonials != blank -%}
+  <div class="ea-quotes ea-quotes--{{ block.settings.style }}">
+    {%- if block.settings.heading != blank or block.settings.heading_accent != blank -%}
+      <h2 class="ea-quotes__heading">
+        {%- render 'ea-accent-text', text: block.settings.heading -%}
+        {%- if block.settings.heading_accent != blank %} <span class="ea-accent">{{ block.settings.heading_accent | escape }}</span>{% endif -%}
+      </h2>
+    {%- endif -%}
+    <div class="ea-quotes__track">
+    <button type="button" class="ea-quotes__arrow ea-quotes__arrow--prev" data-ea-scroll="-1" aria-label="Previous quotes" hidden>‹</button>
+    <ul class="ea-quotes__list" data-ea-scroller tabindex="0">
+      {%- for testimonial in testimonials limit: block.settings.max_quotes -%}
+        <li class="ea-quotes__card{% if block.settings.style == 'cards' %} color-{{ block.settings.color_scheme }}{% endif %}">
+          {%- if block.settings.style == 'editorial' or block.settings.style == 'white_cards' -%}<span class="ea-quotes__mark" aria-hidden="true">“</span>{%- endif -%}
+          <blockquote class="ea-quotes__quote">{% if block.settings.style == 'cards' %}“{% endif %}{{ testimonial.quote.value | escape | newline_to_br }}{% if block.settings.style == 'cards' %}”{% endif %}</blockquote>
+          <p class="ea-quotes__source">
+            {%- if testimonial.name.value != blank -%}{{ testimonial.name.value | escape }} · {% endif -%}
+            {%- if testimonial.vine.value == true -%}
+              {{ block.settings.vine_label | escape }}
+            {%- else -%}
+              {{ block.settings.source_label | escape }}
+            {%- endif -%}
+          </p>
+        </li>
+      {%- endfor -%}
+    </ul>
+    <button type="button" class="ea-quotes__arrow ea-quotes__arrow--next" data-ea-scroll="1" aria-label="Next quotes" hidden>›</button>
+    </div>
+    {%- if block.settings.all_reviews_label != blank and amazon_url != blank -%}
+      {%- if block.settings.link_style == 'ribbon' -%}
+        {%- comment -%} Navy ribbon with the orange eagle block, as at the bottom of the Amazon listing images. {%- endcomment -%}
+        <a class="ea-ribbon" href="{{ amazon_url }}" target="_blank" rel="noopener">
+          <span class="ea-ribbon__mark">{%- render 'ea-eagle-mark' -%}</span>
+          <span class="ea-ribbon__text">{{ block.settings.all_reviews_label | escape }}</span>
+        </a>
+      {%- else -%}
+        <p class="ea-quotes__all">
+          <a href="{{ amazon_url }}" target="_blank" rel="noopener">{{ block.settings.all_reviews_label | escape }}</a>
+        </p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+{%- elsif request.design_mode -%}
+  <p class="ea-quotes--missing">No quotes yet. Pick entries in the product metafield "Testimonials".</p>
+{%- endif -%}
+
+{% stylesheet %}
+  .ea-quotes {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* The theme's generic section sizes blocks to their content; stretch this one to the full width,
+     so the card row scrolls inside itself instead of widening the page on phones. */
+  .shopify-block:has(> .ea-quotes) {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .ea-quotes__heading {
+    margin: 0;
+    text-align: center;
+  }
+
+  .ea-quotes__track {
+    position: relative;
+    min-width: 0;
+  }
+
+  .ea-quotes__arrow {
+    position: absolute;
+    inset-block-start: 50%;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0 0 4px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    transform: translateY(-50%);
+  }
+
+  .ea-quotes__arrow[hidden] {
+    display: none;
+  }
+
+  /* Phones: people swipe, and the next quote already shows at the edge. */
+  @media screen and (max-width: 749px) {
+    .ea-quotes__arrow {
+      display: none;
+    }
+  }
+
+  .ea-quotes__arrow--prev {
+    inset-inline-start: -8px;
+  }
+
+  .ea-quotes__arrow--next {
+    inset-inline-end: -8px;
+  }
+
+  .ea-quotes__all {
+    margin: 0;
+    text-align: center;
+    font-size: 0.875rem;
+  }
+
+  .ea-quotes__all a {
+    color: inherit;
+    text-underline-offset: 3px;
+  }
+
+  .ea-quotes__list {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 16px;
+    margin: 0;
+    padding: 0 0 8px;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+
+  .ea-quotes__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* How many quotes show at once: up to 599px wide one (the next one peeks in at the edge, swipe for it);
+     600-989px two (the third peeks in, or use the arrows); from 990px all three side by side. */
+  .ea-quotes__list {
+    grid-auto-columns: 85%;
+  }
+
+  @media screen and (min-width: 600px) {
+    .ea-quotes__list {
+      grid-auto-columns: 46%;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .ea-quotes__list {
+      grid-auto-columns: calc((100% - 2 * 16px) / 3);
+    }
+
+    .ea-quotes--editorial .ea-quotes__list {
+      grid-auto-columns: calc(100% / 3);
+    }
+  }
+
+  .ea-quotes__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    scroll-snap-align: start;
+  }
+
+  .ea-quotes__quote {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .ea-quotes__source {
+    margin: 0;
+    font-size: 0.8125rem;
+    opacity: 0.8;
+  }
+
+  /* Editorial style: no colour block, serif quote, brand-orange quotation mark, thin dividers. */
+  .ea-quotes--editorial .ea-quotes__list {
+    gap: 0;
+  }
+
+  .ea-quotes--editorial .ea-quotes__card {
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 8px 32px;
+    background: none;
+    text-align: start;
+    align-items: flex-start;
+  }
+
+  .ea-quotes--editorial .ea-quotes__card + .ea-quotes__card {
+    border-inline-start: 1px solid var(--color-border);
+  }
+
+  .ea-quotes__mark {
+    font-family: var(--font-heading--family);
+    font-size: 4rem;
+    line-height: 0.6;
+    height: 0.45em;
+    color: #fd5000;
+  }
+
+  .ea-quotes--editorial .ea-quotes__quote {
+    font-family: var(--font-heading--family);
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  .ea-quotes--editorial .ea-quotes__source {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* Judge.me review box (app block in the section "Reviews on this site", directly below these quotes):
+     theme fonts and brand colours instead of Judge.me's green and Roboto. The jm-... class names are
+     Judge.me's own; if Judge.me renames them, the box simply keeps its default look. */
+  .jm-text,
+  .jm-button {
+    font-family: var(--font-body--family) !important;
+  }
+
+  /* Judge.me sets its box to 1200px and centres it; full width lines it up with the heading above. */
+  .jdgm-widget.jdgm-review-widget {
+    max-width: none !important;
+    margin-inline: 0 !important;
+  }
+
+  /* The section has its own heading saying these reviews were written on this site,
+     so Judge.me's general "Customer Reviews" title is hidden. */
+  .jm-review-widget-minimal-header__title {
+    display: none !important;
+  }
+
+  .jm-button.jm-button--primary {
+    border-color: #001e26 !important;
+    border-radius: 0 !important;
+    background-color: #001e26 !important;
+    color: #fff !important;
+  }
+
+  .jm-button.jm-button--primary:hover {
+    border-color: #fd5000 !important;
+    background-color: #fd5000 !important;
+  }
+
+  .jm-star-rating__font-icon {
+    color: #fd5000 !important;
+  }
+
+  .jm-reviewer-avatar {
+    background-color: #dfe9eb !important;
+  }
+
+  /* Orange part of a two-colour heading ("What golfers say."), as in the Amazon listing images. */
+  .ea-accent {
+    color: #fd5000;
+  }
+
+  /* White cards: each quote its own card, thin border, orange quotation mark top left. */
+  .ea-quotes--white_cards .ea-quotes__card {
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 32px 28px 28px;
+    background: #fff;
+    border: 1px solid #e3e7e7;
+    border-radius: 4px;
+    color: var(--color-foreground);
+    text-align: start;
+  }
+
+  .ea-quotes--white_cards .ea-quotes__quote {
+    font-family: var(--font-heading--family);
+    font-size: 1.125rem;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .ea-quotes--white_cards .ea-quotes__source {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* Ribbon link: navy band, orange block with the navy eagle on the left, spaced capitals. */
+  .ea-ribbon {
+    display: flex;
+    align-items: stretch;
+    min-height: 52px;
+    margin-block-start: 8px;
+    background: var(--deepest-brand-blue, #07272d);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .ea-ribbon__mark {
+    display: grid;
+    flex: 0 0 120px;
+    place-items: center;
+    background: #fd5000;
+    color: var(--deepest-brand-blue, #07272d);
+  }
+
+  .ea-ribbon__mark svg {
+    width: 46px;
+    height: auto;
+  }
+
+  .ea-ribbon__text {
+    display: flex;
+    align-items: center;
+    padding-inline: 24px;
+    font-family: var(--font-body--family);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+  }
+
+  .ea-ribbon:hover .ea-ribbon__text {
+    color: #fd5000;
+  }
+
+  @media screen and (max-width: 599px) {
+    .ea-ribbon__mark {
+      flex-basis: 72px;
+    }
+
+    .ea-ribbon__mark svg {
+      width: 34px;
+    }
+
+    .ea-ribbon__text {
+      padding-inline: 16px;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  .ea-quotes--missing {
+    padding: 8px;
+    border: 1px dashed currentcolor;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product quotes",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the product metafield \"Testimonials\" (custom.testimonials). Copy quotes word for word. Hidden when empty."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What *golfers* say.",
+      "info": "Put stars around the word(s) shown in orange."
+    },
+    {
+      "type": "range",
+      "id": "max_quotes",
+      "label": "Most quotes shown",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading: orange part added at the end (optional)"
+    },
+    {
+      "type": "text",
+      "id": "source_label",
+      "label": "Source line under each quote",
+      "default": "Amazon customer review"
+    },
+    {
+      "type": "text",
+      "id": "vine_label",
+      "label": "Source line for Amazon Vine quotes",
+      "info": "Required by the FTC when the reviewer received the product free.",
+      "default": "Amazon Vine review · product received free"
+    },
+    {
+      "type": "text",
+      "id": "all_reviews_label",
+      "label": "Link to all reviews",
+      "default": "See all reviews on Amazon →"
+    },
+    {
+      "type": "select",
+      "id": "link_style",
+      "label": "Link look",
+      "options": [
+        { "value": "ribbon", "label": "Navy ribbon with the eagle" },
+        { "value": "text", "label": "Plain text link" }
+      ],
+      "default": "ribbon"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Look",
+      "options": [
+        { "value": "white_cards", "label": "White cards" },
+        { "value": "editorial", "label": "Editorial (serif quote, no background)" },
+        { "value": "cards", "label": "Colour cards" }
+      ],
+      "default": "editorial"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Card colour scheme (colour cards only)",
+      "default": "scheme-4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product quotes"
+    }
+  ]
+}
+{% endschema %}

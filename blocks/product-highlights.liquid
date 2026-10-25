@@ -1,0 +1,145 @@
+{%- doc -%}
+  Icon row under the buttons, e.g. "Full Grain Leather · Incl. 20 Bamboo Tees · Gift-Ready Packaging".
+  Reads product metafield custom.highlights: a list of "Product highlight" metaobjects
+  (fields: symbol = name of a built-in line icon from snippets/ea-icon.liquid, icon = image file,
+  label = single line text). The line icon wins when both are set. Entries are reusable across products.
+  Renders nothing when the list is empty.
+{%- enddoc -%}
+
+{% liquid
+  assign highlights = closest.product.metafields.custom.highlights.value
+  # Badge 1, 2, 3 link to "Why it's different" row 01, 02, 03 (same order), when that row exists.
+  assign story_rows = closest.product.metafields.custom.story_rows.value
+  assign story_count = 0
+  if block.settings.link_to_story and story_rows != blank
+    assign story_count = story_rows.size
+  endif
+%}
+
+{%- if highlights != blank -%}
+  <ul class="ea-highlights ea-highlights--{{ block.settings.icon_color }}" style="--ea-icon-size: {{ block.settings.icon_size }}px;">
+    {%- for highlight in highlights limit: 4 -%}
+      <li class="ea-highlights__item">
+        {%- if forloop.index <= story_count -%}<a class="ea-highlights__link" href="#ea-story-{{ forloop.index }}">{%- endif -%}
+        {%- assign symbol = highlight.symbol.value -%}
+        {%- assign icon = highlight.icon.value -%}
+        {%- if symbol != blank -%}
+          {%- render 'ea-icon', name: symbol, class: 'ea-highlights__icon' -%}
+        {%- elsif icon != blank -%}
+          {{
+            icon
+            | image_url: width: 160
+            | image_tag: class: 'ea-highlights__icon', alt: '', loading: 'lazy', width: block.settings.icon_size, height: block.settings.icon_size
+          }}
+        {%- endif -%}
+        <span class="ea-highlights__label">{{ highlight.label.value | escape }}</span>
+        {%- if forloop.index <= story_count -%}</a>{%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- elsif request.design_mode -%}
+  <p class="ea-highlights--missing">Icon row is empty. Pick entries in the product metafield "Highlights".</p>
+{%- endif -%}
+
+{% stylesheet %}
+  .ea-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+  }
+
+  .ea-highlights__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ea-highlights__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ea-highlights__link:hover .ea-highlights__label {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ea-highlights__icon {
+    width: var(--ea-icon-size);
+    height: var(--ea-icon-size);
+    object-fit: contain;
+  }
+
+  .ea-highlights--accent svg.ea-highlights__icon {
+    color: var(--color-primary-button-background, #fd5000);
+  }
+
+  .ea-highlights--navy svg.ea-highlights__icon {
+    color: #001e26;
+  }
+
+  .ea-highlights__label {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  .ea-highlights--missing {
+    margin: 0;
+    padding: 8px;
+    border: 1px dashed currentcolor;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product highlights",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the product metafield \"Highlights\" (custom.highlights), up to 4 icons with labels. Hidden when empty."
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 32,
+      "max": 96,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "checkbox",
+      "id": "link_to_story",
+      "label": "Badges link to the \"Why it's different\" rows (same order)",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "icon_color",
+      "label": "Line icon colour",
+      "options": [
+        { "value": "navy", "label": "Navy" },
+        { "value": "accent", "label": "Brand orange" },
+        { "value": "text", "label": "Text colour" }
+      ],
+      "default": "navy"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product highlights"
+    }
+  ]
+}
+{% endschema %}

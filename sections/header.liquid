@@ -969,6 +969,21 @@
   .header__column .localization-form__select {
     background-color: var(--header-bg-color);
   }
+  /* Eagle & Ash, Oct 2026 (Anu's request): navy menu bar with white menu text and a white logo.
+     There is no white logo file, so the orange logo image is shown white with a colour filter
+     (shape unchanged). The phone menu panel that slides open stays white with navy text. */
+  .header__row--top {
+    background-color: var(--deepest-brand-blue, #07272d);
+  }
+
+  .header__row--top .header-logo__image {
+    filter: brightness(0) invert(1);
+  }
+
+  /* Phone menu icon (three lines) in white while the menu is closed; the open menu panel is white. */
+  details:not([open]) > .header__icon--menu {
+    color: #fff;
+  }
 {% endstylesheet %}
 
 {% unless request.design_mode %}

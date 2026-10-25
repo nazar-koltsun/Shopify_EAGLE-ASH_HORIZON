@@ -1,0 +1,382 @@
+{%- doc -%}
+  "Shop on Amazon" button. The link comes from the selected variant's metafield custom.amazon_url
+  (an Amazon Attribution link, one per ASIN). When the shopper picks another colour, the link
+  follows: assets/ea-product.js copies the new markup from the theme's variant:update event.
+  The block renders nothing when the variant has no link, so a missing link never shows a dead button.
+{%- enddoc -%}
+
+{% liquid
+  assign product = closest.product
+  assign variant = product.selected_or_first_available_variant
+  assign amazon_url = variant.metafields.custom.amazon_url.value
+  assign label = block.settings.label | default: 'Shop on Amazon'
+%}
+
+<div
+  class="ea-amazon{% if block.settings.button_text_style == 'serif-uppercase' %} ea-amazon--serif{% elsif block.settings.button_text_style == 'sans-uppercase' %} ea-amazon--sans{% endif %}"
+  style="--ea-secondary-bg: {{ block.settings.secondary_bg }}; --ea-secondary-text: {{ block.settings.secondary_text }};"
+  data-ea-sync="amazon-{{ block.id }}"
+  {% if block.settings.sticky_on_mobile %}data-ea-sticky-source{% endif %}
+>
+  {%- if amazon_url != blank -%}
+    <a
+      class="button ea-amazon__button"
+      href="{{ amazon_url }}"
+      {% if block.settings.open_in_new_tab %}
+        target="_blank" rel="noopener"
+      {% endif %}
+      data-ea-amazon-link
+    >
+      {{- label -}}
+    </a>
+    {%- if block.settings.note != blank -%}
+      <p class="ea-amazon__note">{{ block.settings.note }}</p>
+    {%- endif -%}
+  {%- else -%}
+    {%- comment -%} No Amazon link = this colour is not on sale yet. {%- endcomment -%}
+    <div class="ea-amazon__soon">
+      <p class="ea-amazon__soon-label">Coming soon</p>
+      <p class="ea-amazon__soon-text">{{ variant.metafields.custom.coming_soon_note.value | default: block.settings.coming_soon_text | escape }}</p>
+    </div>
+    {%- if request.design_mode -%}
+      <p class="ea-amazon__missing">Editor note: this variant has no Amazon link, so visitors see "Coming soon". Add the link in Variants → this variant → Metafields → Amazon link.</p>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if block.settings.secondary_label != blank and block.settings.secondary_link != blank -%}
+    <a class="button ea-amazon__secondary" href="{{ block.settings.secondary_link }}">
+      {{- block.settings.secondary_label -}}
+    </a>
+    {%- if block.settings.secondary_intro != blank -%}
+      <p class="ea-amazon__intro">{{ block.settings.secondary_intro | escape }}</p>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{%- if block.settings.sticky_on_mobile -%}
+  <div class="ea-amazon-sticky{% if block.settings.button_text_style == 'sans-uppercase' %} ea-amazon-sticky--sans{% endif %}{% if block.settings.sticky_on_desktop %} ea-amazon-sticky--desktop{% endif %} color-{{ settings.popover_color_scheme }}" data-ea-sticky data-ea-has-link="{% if amazon_url != blank %}true{% else %}false{% endif %}" hidden>
+    <span class="ea-amazon-sticky__inner">
+    <span class="ea-amazon-sticky__title">{{ product.title | escape }}</span>
+    <span data-ea-sync="amazon-sticky-{{ block.id }}">
+      {%- if amazon_url != blank -%}
+      <a
+        class="button ea-amazon-sticky__button"
+        href="{{ amazon_url }}"
+        {% if block.settings.open_in_new_tab %}
+          target="_blank" rel="noopener"
+        {% endif %}
+      >
+        {{- label -}}
+      </a>
+      {%- endif -%}
+    </span>
+    </span>
+  </div>
+{%- endif -%}
+
+{%- assign ea_heading_bold = settings.type_heading_font | font_modify: 'weight', 'bold' -%}
+{%- assign ea_body_medium = settings.type_body_font | font_modify: 'weight', '500' -%}
+{% style %}
+  {%- if ea_heading_bold %}{{ ea_heading_bold | font_face: font_display: 'swap' }}{% endif -%}
+  {%- if ea_body_medium %}{{ ea_body_medium | font_face: font_display: 'swap' }}{% endif -%}
+{% endstyle %}
+
+<script src="{{ 'ea-product.js' | asset_url }}" type="module" fetchpriority="low"></script>
+{%- render 'ea-product-styles' -%}
+
+{% stylesheet %}
+  .ea-amazon {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs, 6px);
+    width: 100%;
+  }
+
+  .ea-amazon__button {
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  /* Second button: quieter than the Amazon button, a thin line in the text colour around it. */
+  .ea-amazon__secondary {
+    width: 100%;
+    margin-block-start: 6px;
+    text-align: center;
+    font-weight: 700;
+    --button-color: var(--ea-secondary-text);
+    --button-background-color: var(--ea-secondary-bg);
+    --button-border-color: var(--ea-secondary-text);
+    box-shadow: inset 0 0 0 1px var(--ea-secondary-text);
+  }
+
+  /* Mouse over the bulk button: light blue background, orange text (Anu liked this, 22 Oct 2026). */
+  .ea-amazon .ea-amazon__secondary.button:hover {
+    --button-color: #fd5000;
+    --button-background-color: #dfe9eb;
+    --button-border-color: var(--ea-secondary-text);
+    color: #fd5000;
+  }
+
+  /* Sans style (Oct 2026): Roboto capitals with wide letter spacing, as in the Amazon listing images.
+     Amazon button medium weight, second button regular. */
+  .ea-amazon--sans .button,
+  .ea-amazon-sticky--sans .button {
+    font-family: var(--font-body--family);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ea-amazon--sans .ea-amazon__secondary {
+    font-weight: 400;
+  }
+
+  /* Accessibility (WCAG AA, 23 Oct 2026): white on our orange is 3.3:1, which is enough only for "large" text,
+     meaning 19px bold or bigger. Applies to the Amazon button and the bottom bar button, not to the bulk button. */
+  .ea-amazon--sans .ea-amazon__button,
+  .ea-amazon-sticky--sans .ea-amazon-sticky__button {
+    font-size: 1.1875rem;
+    font-weight: 700;
+  }
+
+  /* Mockup style: serif capitals on both buttons */
+  .ea-amazon--serif .button {
+    font-family: var(--font-heading--family);
+    font-size: 1.125rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .ea-amazon__intro {
+    margin: 0;
+    font-size: var(--font-size--xs, 0.8125rem);
+    color: rgb(var(--color-foreground-rgb) / 0.7);
+    text-align: center;
+  }
+
+  .ea-amazon__note + .ea-amazon__secondary {
+    margin-block-start: 14px;
+  }
+
+  /* Mouse over the Amazon button: text turns navy (the theme default turned it orange, invisible on orange). */
+  .ea-amazon .ea-amazon__button.button:hover,
+  .ea-amazon-sticky .ea-amazon-sticky__button.button:hover {
+    --button-color: #001e26;
+    color: #001e26;
+  }
+
+  .ea-amazon__note {
+    margin: 0;
+    font-size: var(--font-size--xs, 0.8125rem);
+    opacity: 0.75;
+    text-align: center;
+  }
+
+  .ea-amazon__soon {
+    padding: 14px 16px;
+    border: 1px dashed rgb(var(--color-foreground-rgb) / 0.35);
+    text-align: center;
+  }
+
+  .ea-amazon__soon-label {
+    margin: 0 0 4px;
+    font-family: var(--font-body--family);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    /* Darker orange for small text: brand orange #fd5000 is only 3.3:1 on white. */
+    color: #b83a00;
+  }
+
+  .ea-amazon__soon-text {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .ea-amazon__missing {
+    margin: 0;
+    padding: 12px;
+    border: 1px dashed currentcolor;
+    font-size: 0.875rem;
+  }
+
+  .ea-amazon-sticky {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background-color: var(--color-background);
+    border-block-start: 1px solid var(--color-border);
+    box-shadow: 0 -4px 12px rgb(0 0 0 / 0.08);
+  }
+
+  .ea-amazon-sticky[hidden] {
+    display: none;
+  }
+
+  .ea-amazon-sticky__title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 0.875rem;
+  }
+
+  .ea-amazon-sticky__inner {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  /* Phones: extra navy space at the end of the footer, so the bottom bar never covers the
+     company address (the last lines of the page). Only on pages that have the bar. */
+  @media screen and (max-width: 749px) {
+    body:has([data-ea-sticky]) .custom-footer {
+      padding-bottom: calc(96px + env(safe-area-inset-bottom));
+    }
+  }
+
+  /* Computers: the same bar, slimmer, content centred to the page width ("Phones and computers"
+     setting). Without that setting the bar stays a phone feature. */
+  @media screen and (min-width: 750px) {
+    .ea-amazon-sticky:not(.ea-amazon-sticky--desktop) {
+      display: none;
+    }
+
+    .ea-amazon-sticky--desktop {
+      padding-block: 10px;
+    }
+
+    .ea-amazon-sticky--desktop .ea-amazon-sticky__inner {
+      max-width: var(--page-width, 1400px);
+      margin-inline: auto;
+      padding-inline: var(--page-margin, 40px);
+    }
+
+    .ea-amazon-sticky--desktop .ea-amazon-sticky__title {
+      font-family: var(--font-heading--family);
+      font-size: 1.125rem;
+    }
+
+    .ea-amazon-sticky--desktop .button {
+      min-width: 280px;
+    }
+
+    body:has(.ea-amazon-sticky--desktop) .custom-footer {
+      padding-bottom: 96px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Amazon button",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "The link comes from each variant's metafield \"Amazon link\" (custom.amazon_url). Paste one Amazon Attribution link per colour."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button label",
+      "default": "Shop on Amazon"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Small text under the button",
+      "default": "Ships in the US via Amazon. Opens Amazon.com."
+    },
+    {
+      "type": "select",
+      "id": "button_text_style",
+      "label": "Button text",
+      "options": [
+        { "value": "sans-uppercase", "label": "Roboto capitals, wide spacing" },
+        { "value": "serif-uppercase", "label": "Serif capitals (as in the mockup)" },
+        { "value": "theme", "label": "Theme default" }
+      ],
+      "default": "serif-uppercase"
+    },
+    {
+      "type": "header",
+      "content": "Second button (wholesale)"
+    },
+    {
+      "type": "text",
+      "id": "coming_soon_text",
+      "label": "Text for a colour without an Amazon link",
+      "info": "A colour's own \"Coming soon note\" field wins.",
+      "default": "This colour is coming soon to Amazon."
+    },
+    {
+      "type": "text",
+      "id": "secondary_intro",
+      "label": "Small grey line below it",
+      "default": "Ordering 10 or more for a team, tournament or corporate event?"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Label",
+      "default": "Bulk orders →"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "secondary_bg",
+      "label": "Background",
+      "default": "#dfe9eb"
+    },
+    {
+      "type": "color",
+      "id": "secondary_text",
+      "label": "Text",
+      "default": "#001e26"
+    },
+    {
+      "type": "header",
+      "content": "Behaviour"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "Open Amazon in a new tab",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_on_mobile",
+      "label": "Phones: bottom bar with the button",
+      "info": "Appears whenever the main button is not on screen.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_on_desktop",
+      "label": "Computers: the same bottom bar",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Amazon button"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,10 @@
+{%- doc -%}
+  Prints a heading text; words between two stars are shown in orange.
+  Example: "What *golfers* say." -> What <span class="ea-accent">golfers</span> say.
+  @param {string} text - the heading text
+{%- enddoc -%}
+{%- assign ea_parts = text | escape | split: '*' -%}
+{%- for ea_part in ea_parts -%}
+  {%- assign ea_odd = forloop.index0 | modulo: 2 -%}
+  {%- if ea_odd == 1 -%}<span class="ea-accent">{{ ea_part }}</span>{%- else -%}{{ ea_part }}{%- endif -%}
+{%- endfor -%}

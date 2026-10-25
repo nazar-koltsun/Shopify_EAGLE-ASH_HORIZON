@@ -17,8 +17,10 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "Eagle & Ash is available on Amazon.com",
-            "link": ""
+            "text": "Available on Amazon.com",
+            "link": "",
+            "offer_text": "15% off any 2 products on Amazon · code EAGLEASH15 · ends Nov 30",
+            "offer_until": "2026-11-30"
           },
           "blocks": {}
         }

@@ -1,7 +1,19 @@
 
 
 {%- assign block_settings = block.settings -%}
-{%- assign plain_text = block_settings.text | strip_newlines | strip_html | strip -%}
+{%- liquid
+  # Eagle & Ash, Oct 2026: optional offer text with an end date. Until that date (store time zone)
+  # the offer text replaces the normal text; afterwards the normal text comes back by itself.
+  assign ea_text = block_settings.text
+  if block_settings.offer_text != blank and block_settings.offer_until != blank
+    assign ea_today = 'now' | date: '%Y%m%d' | plus: 0
+    assign ea_until = block_settings.offer_until | remove: '-' | plus: 0
+    if ea_today <= ea_until
+      assign ea_text = block_settings.offer_text
+    endif
+  endif
+-%}
+{%- assign plain_text = ea_text | strip_newlines | strip_html | strip -%}
 {%- assign block_index = section.blocks | find_index: 'id', block.id -%}
 
 {%- unless plain_text == '' -%}
@@ -12,7 +24,7 @@
     aria-hidden="{% if block_index == 0 %}false{% else %}true{% endif %}"
   >
     <p class="announcement-bar__text">
-      {{ block.settings.text }}
+      {{ ea_text }}
     </p>
 
     {% if block_settings.link != blank %}
@@ -21,7 +33,7 @@
         href="{{ block_settings.link }}"
       >
         <span class="visually-hidden">
-          {{ block_settings.text | strip_html }}
+          {{ ea_text | strip_html }}
         </span>
       </a>
     {% endif %}
@@ -36,6 +48,17 @@
   "name": "t:names.announcement",
   "tag": null,
   "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "offer_text",
+      "label": "Offer text (optional, replaces the text until the end date)"
+    },
+    {
+      "type": "text",
+      "id": "offer_until",
+      "label": "Offer end date (YYYY-MM-DD)",
+      "info": "From the next day the normal text below shows again."
+    },
     {
       "type": "inline_richtext",
       "id": "text",

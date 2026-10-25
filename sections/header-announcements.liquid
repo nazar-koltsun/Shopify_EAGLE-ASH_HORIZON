@@ -137,6 +137,25 @@
     position: absolute;
     inset: 0;
   }
+  /* Eagle & Ash, Oct 2026 (Anu's request): light blue banner, orange text in the body font (Roboto).
+     First version had orange text (2.7:1 contrast); replaced below. */
+  .announcement-bar,
+  .shopify-section:has(> .announcement-bar) .section-background,
+  .shopify-section:has(.announcement-bar) > .section-background {
+    background-color: #dfe9eb;
+  }
+
+  /* 22 Oct 2026 (Anu chose option A): navy text on the light blue (12.7:1 contrast) and a thin orange
+     line along the bottom, so orange stays an accent. */
+  .announcement-bar__text,
+  .announcement-bar__text * {
+    color: #001e26;
+    font-family: var(--font-body--family);
+  }
+
+  .announcement-bar {
+    border-bottom: 2px solid #fd5000;
+  }
 {% endstylesheet %}
 
 {% schema %}

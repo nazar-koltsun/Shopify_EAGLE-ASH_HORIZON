@@ -1,0 +1,54 @@
+{%- doc -%}
+  Link to the product's sister versions, e.g. Zip ↔ Flex, or the other bath bomb scents. Reads the product
+  field custom.other_styles (list of products) and the optional lead-in custom.other_styles_text
+  (e.g. "Prefer one-hand access?"). The link text is the part of each title after the last "–", without
+  brackets ("Leather Golf Tee Pouch – Flex" → "Flex"). Hidden when the list is empty.
+{%- enddoc -%}
+{%- liquid
+  assign ea_others = closest.product.metafields.custom.other_styles.value
+  assign ea_lead = closest.product.metafields.custom.other_styles_text.value | default: block.settings.label
+-%}
+{%- if ea_others != blank -%}
+  <p class="ea-other-styles">
+    <span class="ea-other-styles__lead">{{ ea_lead | escape }}</span>
+    {%- for other in ea_others -%}
+      {%- liquid
+        assign ea_name = other.title
+        if other.title contains '–'
+          assign ea_name = other.title | split: '–' | last
+        endif
+        assign ea_name = ea_name | split: '(' | first | strip
+      -%}
+      {% if forloop.first %} {% else %} · {% endif %}<a href="{{ other.url }}">{{ block.settings.link_prefix | escape }}{{ ea_name | escape }} →</a>
+    {%- endfor -%}
+  </p>
+{%- endif -%}
+
+{% stylesheet %}
+  .ea-other-styles {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .ea-other-styles a {
+    color: inherit;
+    font-weight: 500;
+    text-underline-offset: 3px;
+  }
+
+  .ea-other-styles a:hover {
+    color: #fd5000;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Other versions link",
+  "settings": [
+    { "type": "paragraph", "content": "Shows the product fields \"Other versions\" (custom.other_styles) and \"Other versions: lead-in\" (custom.other_styles_text)." },
+    { "type": "text", "id": "label", "label": "Lead-in when the product has none", "default": "Also available:" },
+    { "type": "text", "id": "link_prefix", "label": "Text before each name", "default": "See the " }
+  ],
+  "presets": [{ "name": "Other versions link" }]
+}
+{% endschema %}
