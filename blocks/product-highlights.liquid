@@ -44,7 +44,8 @@
 {% stylesheet %}
   .ea-highlights {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    /* 72px: four badges still fit in one row at phone width (390px screen) */
+    grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
     gap: 16px;
     margin: 0;
     padding: 0;
