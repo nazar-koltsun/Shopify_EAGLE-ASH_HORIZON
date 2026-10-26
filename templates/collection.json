@@ -202,30 +202,10 @@
               },
               "blocks": {}
             },
-            "scent_swatches_ea": {
+            "swatch_row_ea": {
               "type": "custom-liquid",
               "settings": {
-                "custom_liquid": "{%- render 'ea-card-scent-swatches', product: closest.product -%}"
-              },
-              "blocks": {}
-            },
-            "card_note_ea": {
-              "type": "custom-liquid",
-              "settings": {
-                "custom_liquid": "{%- assign ea_note = closest.product.metafields.custom.card_note.value -%}{%- if ea_note != blank -%}<p style=\"display: flex; align-items: flex-end; min-height: 26px; margin: 6px 0 0; font-size: 0.8125rem; font-weight: 600; line-height: 1;\">{{ ea_note | escape }}</p>{%- endif -%}"
-              },
-              "blocks": {}
-            },
-            "swatches_ea": {
-              "type": "swatches",
-              "settings": {
-                "product_swatches_alignment": "flex-start",
-                "product_swatches_alignment_mobile": "flex-start",
-                "hide_padding": false,
-                "product_swatches_padding_top": 6,
-                "product_swatches_padding_bottom": 0,
-                "product_swatches_padding_left": 0,
-                "product_swatches_padding_right": 0
+                "custom_liquid": "{%- render 'ea-card-swatch-row', product: closest.product -%}"
               },
               "blocks": {}
             }
@@ -234,9 +214,7 @@
             "card-gallery",
             "product_title_4nY4eT",
             "price_EzJzMm",
-            "swatches_ea",
-            "scent_swatches_ea",
-            "card_note_ea"
+            "swatch_row_ea"
           ]
         }
       },

@@ -1,0 +1,136 @@
+{%- doc -%}
+  Eagle & Ash, Oct 2026: the swatch row under every product card (Shop page and "Complete the set"), the same look
+  for all products. Drawn without Horizon's overflow measuring, which sometimes showed "+5" instead of the colours.
+  - Sister pages shown as one card (the bath bomb scents): custom.style_swatch + custom.other_styles (all scents in a
+    fixed order, the card's own one included). Each swatch opens that scent's page.
+  - Otherwise the values of the first option: the variant's custom.swatch_image, else the value's own swatch (colour
+    entries). Each swatch opens the product page with that variant selected. A variant without an Amazon link is
+    "coming soon" and shown pale.
+  The card's own scent or variant is framed. After the swatches: custom.card_note, or "N scents" for sister pages.
+  Renders nothing for a product without swatches.
+
+  @param {object} product - The card's product.
+{%- enddoc -%}
+{%- liquid
+  assign ea_own = product.metafields.custom.style_swatch.value
+  assign ea_sisters = product.metafields.custom.other_styles.value
+  assign ea_note = product.metafields.custom.card_note.value
+  assign ea_current = product.selected_or_first_available_variant.id
+
+  capture ea_items
+    if ea_own != blank and ea_sisters != blank
+      for item in ea_sisters
+        assign ea_img = item.metafields.custom.style_swatch.value
+        assign ea_name = item.title
+        if item.title contains '–'
+          assign ea_name = item.title | split: '–' | last
+        endif
+        assign ea_name = ea_name | split: '(' | first | strip
+        assign ea_class = 'ea-swatch-row__link'
+        assign ea_is_current = false
+        if item.id == product.id
+          assign ea_class = ea_class | append: ' ea-swatch-row__link--current'
+          assign ea_is_current = true
+        endif
+        render 'ea-card-swatch-row-item', url: item.url, title: ea_name, image: ea_img, class: ea_class, current: ea_is_current
+      endfor
+      if ea_note == blank
+        assign ea_note = ea_sisters.size | append: ' scents'
+      endif
+    elsif product.has_only_default_variant == false
+      for value in product.options_with_values.first.values
+        assign ea_variant = value.variant
+        if ea_variant == blank
+          continue
+        endif
+        assign ea_img = ea_variant.metafields.custom.swatch_image.value
+        if ea_img == blank
+          assign ea_img = value.swatch.image
+        endif
+        if ea_img == blank and value.swatch.color == blank
+          continue
+        endif
+        assign ea_title = value.name
+        assign ea_class = 'ea-swatch-row__link'
+        if ea_variant.metafields.custom.amazon_url.value == blank
+          assign ea_title = value.name | append: ': coming soon'
+          assign ea_class = ea_class | append: ' ea-swatch-row__link--soon'
+        endif
+        assign ea_is_current = false
+        if ea_variant.id == ea_current
+          assign ea_class = ea_class | append: ' ea-swatch-row__link--current'
+          assign ea_is_current = true
+        endif
+        render 'ea-card-swatch-row-item', url: ea_variant.url, title: ea_title, image: ea_img, color: value.swatch.color, class: ea_class, current: ea_is_current
+      endfor
+    endif
+  endcapture
+-%}
+{%- if ea_items != blank -%}
+  <div class="ea-swatch-row">
+    <ul class="ea-swatch-row__list" role="list">
+      {{- ea_items -}}
+    </ul>
+    {%- if ea_note != blank -%}
+      <p class="ea-swatch-row__note">{{ ea_note | escape }}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  /* 15px: the distance from the price that the colour swatches had */
+  .ea-swatch-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px 12px;
+    margin: 15px 0 0;
+  }
+
+  .ea-swatch-row__list {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Above the card's own full-card link, so each swatch can be clicked on its own. */
+  .ea-swatch-row__link {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    /* thin edge, so swatches drawn on a transparent background still read as a square */
+    box-shadow: inset 0 0 0 1px rgb(0 30 38 / 0.18);
+  }
+
+  .ea-swatch-row__link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ea-swatch-row__link--soon {
+    opacity: 0.45;
+  }
+
+  .ea-swatch-row__link:hover,
+  .ea-swatch-row__link--current {
+    outline: 2px solid #001e26;
+    outline-offset: 2px;
+  }
+
+  /* same look as the earlier "3 styles" line */
+  .ea-swatch-row__note {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+{% endstylesheet %}

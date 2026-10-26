@@ -698,23 +698,10 @@
               },
               "blocks": {}
             },
-            "swatches_pairs_ea": {
-              "type": "swatches",
-              "settings": {
-                "product_swatches_alignment": "flex-start",
-                "product_swatches_alignment_mobile": "flex-start",
-                "hide_padding": false,
-                "product_swatches_padding_top": 6,
-                "product_swatches_padding_bottom": 0,
-                "product_swatches_padding_left": 0,
-                "product_swatches_padding_right": 0
-              },
-              "blocks": {}
-            },
-            "card_note_pairs_ea": {
+            "swatch_row_pairs_ea": {
               "type": "custom-liquid",
               "settings": {
-                "custom_liquid": "{%- assign ea_note = closest.product.metafields.custom.card_note.value -%}{%- if ea_note != blank -%}<p style=\"display: flex; align-items: flex-end; min-height: 26px; margin: 6px 0 0; font-size: 0.8125rem; font-weight: 600; line-height: 1;\">{{ ea_note | escape }}</p>{%- endif -%}"
+                "custom_liquid": "{%- render 'ea-card-swatch-row', product: closest.product -%}"
               },
               "blocks": {}
             }
@@ -723,8 +710,7 @@
             "product_card_gallery_DNizbJ",
             "product_title_M7MJkb",
             "price_gLWgA6",
-            "swatches_pairs_ea",
-            "card_note_pairs_ea"
+            "swatch_row_pairs_ea"
           ]
         }
       },
