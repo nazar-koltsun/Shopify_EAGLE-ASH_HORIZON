@@ -29,7 +29,11 @@
     {%- for row in rows limit: 6 -%}
       {%- assign image = row.image.value -%}
       {%- assign video = row.video.value -%}
-      <div class="ea-story__row{% cycle '', ' ea-story__row--reverse' %}" id="ea-story-{{ forloop.index }}">
+      {%- comment -%} Eagle & Ash: a row without image or video is a full-width text row (no empty half). {%- endcomment -%}
+      {%- assign ea_has_media = false -%}
+      {%- if video != blank or image != blank -%}{%- assign ea_has_media = true -%}{%- endif -%}
+      <div class="ea-story__row{% cycle '', ' ea-story__row--reverse' %}{% unless ea_has_media %} ea-story__row--text-only{% endunless %}" id="ea-story-{{ forloop.index }}">
+        {%- if ea_has_media -%}
         <div class="ea-story__media">
           {%- if video != blank -%}
             <div class="ea-story__video" data-ea-video>
@@ -59,6 +63,7 @@
             }}
           {%- endif -%}
         </div>
+        {%- endif -%}
         <div class="ea-story__text">
           <h3 class="ea-story__heading">
             <span class="ea-story__number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
@@ -184,6 +189,17 @@
     /* Odd rows: text left, image right (as in the mockup); even rows: image left. */
     .ea-story__row:not(.ea-story__row--reverse) .ea-story__media {
       order: 2;
+    }
+  }
+
+  .ea-story__row--text-only {
+    max-width: 760px;
+    margin-inline: auto;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ea-story__row.ea-story__row--text-only {
+      grid-template-columns: 1fr;
     }
   }
 
