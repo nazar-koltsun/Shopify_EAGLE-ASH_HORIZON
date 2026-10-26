@@ -11,6 +11,7 @@
   assign ea_list = product.metafields.custom.other_styles.value
 -%}
 {%- if ea_own != blank and ea_list != blank -%}
+  <div class="ea-card-scents-row">
   <ul class="ea-card-scents" role="list">
     {%- for item in ea_list -%}
       {%- liquid
@@ -36,16 +37,33 @@
       </li>
     {%- endfor -%}
   </ul>
+  <p class="ea-card-scents__count">{{ ea_list.size }} scents</p>
+  </div>
 {%- endif -%}
 
 {% stylesheet %}
+  /* same distance from the price as the colour swatches on other cards */
+  .ea-card-scents-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin: 15px 0 0;
+  }
+
   .ea-card-scents {
     display: flex;
     gap: 8px;
-    /* same distance from the price as the colour swatches on other cards */
-    margin: 15px 0 0;
+    margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  /* same look as the "3 styles" line on other cards (card_note_ea in templates/collection.json) */
+  .ea-card-scents__count {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1;
   }
 
   /* Above the card's own full-card link, so each swatch can be clicked on its own. */
