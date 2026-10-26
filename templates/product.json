@@ -714,7 +714,7 @@
             "card_note_pairs_ea": {
               "type": "custom-liquid",
               "settings": {
-                "custom_liquid": "{%- assign ea_note = closest.product.metafields.custom.card_note.value -%}{%- if ea_note != blank -%}<p style=\"margin: 6px 0 0; font-size: 0.8125rem; color: rgb(var(--color-foreground-rgb) / 0.75);\">{{ ea_note | escape }}</p>{%- endif -%}"
+                "custom_liquid": "{%- assign ea_note = closest.product.metafields.custom.card_note.value -%}{%- if ea_note != blank -%}<p style=\"display: flex; align-items: flex-end; min-height: 26px; margin: 6px 0 0; font-size: 0.8125rem; font-weight: 600; line-height: 1;\">{{ ea_note | escape }}</p>{%- endif -%}"
               },
               "blocks": {}
             }
