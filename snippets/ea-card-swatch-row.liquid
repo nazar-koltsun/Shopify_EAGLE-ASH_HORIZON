@@ -67,7 +67,7 @@
   endcapture
 -%}
 {%- if ea_items != blank -%}
-  <div class="ea-swatch-row">
+  <div class="ea-swatch-row{% if product.options.first == 'Length' %} ea-swatch-row--length{% endif %}">
     <ul class="ea-swatch-row__list" role="list">
       {{- ea_items -}}
     </ul>
@@ -114,6 +114,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  /* The tee length swatches (3 1/4" etc.) use about half of their square; enlarge them so the text can be read at 26px. */
+  .ea-swatch-row--length .ea-swatch-row__link img {
+    transform: scale(1.7);
   }
 
   .ea-swatch-row__link--soon {
