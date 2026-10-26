@@ -202,6 +202,13 @@
               },
               "blocks": {}
             },
+            "scent_swatches_ea": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{%- render 'ea-card-scent-swatches', product: closest.product -%}"
+              },
+              "blocks": {}
+            },
             "card_note_ea": {
               "type": "custom-liquid",
               "settings": {
@@ -228,6 +235,7 @@
             "product_title_4nY4eT",
             "price_EzJzMm",
             "swatches_ea",
+            "scent_swatches_ea",
             "card_note_ea"
           ]
         }

@@ -1,0 +1,73 @@
+{%- doc -%}
+  Eagle & Ash, Oct 2026: small scent swatches under a product card (Shop page), for products that are sister
+  pages shown as one card (the bath bomb scents). Reads custom.style_swatch and custom.other_styles (all scents
+  in a fixed order, the card's own one included). Each swatch opens that scent's page; the card's own scent is
+  framed. Renders nothing for other products.
+
+  @param {object} product - The card's product.
+{%- enddoc -%}
+{%- liquid
+  assign ea_own = product.metafields.custom.style_swatch.value
+  assign ea_list = product.metafields.custom.other_styles.value
+-%}
+{%- if ea_own != blank and ea_list != blank -%}
+  <ul class="ea-card-scents" role="list">
+    {%- for item in ea_list -%}
+      {%- liquid
+        assign ea_img = item.metafields.custom.style_swatch.value
+        assign ea_name = item.title
+        if item.title contains '–'
+          assign ea_name = item.title | split: '–' | last
+        endif
+        assign ea_name = ea_name | split: '(' | first | strip
+      -%}
+      <li>
+        <a
+          href="{{ item.url }}"
+          class="ea-card-scents__link{% if item.id == product.id %} ea-card-scents__link--current{% endif %}"
+          title="{{ ea_name | escape }}"
+          aria-label="{{ ea_name | escape }}"
+          {% if item.id == product.id %}aria-current="true"{% endif %}
+        >
+          {%- if ea_img != blank -%}
+            {{ ea_img | image_url: width: 80 | image_tag: alt: '', width: 26, height: 26, loading: 'lazy' }}
+          {%- endif -%}
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}
+
+{% stylesheet %}
+  .ea-card-scents {
+    display: flex;
+    gap: 8px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Above the card's own full-card link, so each swatch can be clicked on its own. */
+  .ea-card-scents__link {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .ea-card-scents__link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ea-card-scents__link:hover,
+  .ea-card-scents__link--current {
+    outline: 2px solid #001e26;
+    outline-offset: 2px;
+  }
+{% endstylesheet %}
