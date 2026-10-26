@@ -85,8 +85,9 @@
     align-items: flex-end;
     gap: 8px 12px;
     margin: 15px 0 0;
-    /* room for the frame of the selected swatch (2px + 2px gap), which the card would otherwise cut off */
-    padding-bottom: 4px;
+    /* room for the frame of the selected swatch (2px + 2px gap), which the Shop card would otherwise cut off
+       on the left and at the bottom; the frame's left edge then lines up with the product name */
+    padding: 0 0 4px 4px;
   }
 
   .ea-swatch-row__list {
