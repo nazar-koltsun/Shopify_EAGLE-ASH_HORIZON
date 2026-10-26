@@ -202,6 +202,13 @@
               },
               "blocks": {}
             },
+            "card_note_ea": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{%- assign ea_note = closest.product.metafields.custom.card_note.value -%}{%- if ea_note != blank -%}<p style=\"margin: 6px 0 0; font-size: 0.8125rem; color: rgb(var(--color-foreground-rgb) / 0.75);\">{{ ea_note | escape }}</p>{%- endif -%}"
+              },
+              "blocks": {}
+            },
             "swatches_ea": {
               "type": "swatches",
               "settings": {
@@ -220,7 +227,8 @@
             "card-gallery",
             "product_title_4nY4eT",
             "price_EzJzMm",
-            "swatches_ea"
+            "swatches_ea",
+            "card_note_ea"
           ]
         }
       },

@@ -38,6 +38,18 @@
           assign swatch_count = product_option.values | map: 'swatch' | compact | size
           assign variant_style = block_settings.variant_style
 
+          # Eagle & Ash, Oct 2026: an option without colour swatches (length, style) shows image swatches when
+          # every value's variant has its own swatch image (variant field custom.swatch_image).
+          if swatch_count == 0 and product_option.values.size > 1
+            assign swatch_count = product_option.values.size
+            for ea_v in product_option.values
+              if ea_v.variant == blank or ea_v.variant.metafields.custom.swatch_image == blank
+                assign swatch_count = 0
+                break
+              endif
+            endfor
+          endif
+
           if swatch_count > 0 and block_settings.show_swatches
             if block_settings.variant_style == 'dropdown'
               assign variant_style = 'swatch_dropdown'
@@ -113,10 +125,20 @@
                   {% render 'swatch',
                     swatch: product_option_value.swatch,
                     variant_image: featured_media,
-                    mode: 'unscaled'
+                    mode: 'unscaled',
+                    ea_image: product_option_value.variant.metafields.custom.swatch_image.value
                   %}
-                  {%- comment -%} Eagle & Ash: colour name under each swatch photo {%- endcomment -%}
-                  <span class="ea-swatch-name" aria-hidden="true">{{ product_option_value | escape }}</span>
+                  {%- comment -%}
+                    Eagle & Ash: name under each swatch. A name with brackets shows only the bracket part
+                    ('3 1/4" (83 mm)' -> '83 mm', the inches are in the swatch image); the full name stays in aria-label.
+                  {%- endcomment -%}
+                  {%- liquid
+                    assign ea_label = product_option_value.name
+                    if ea_label contains '(' and ea_label contains ')'
+                      assign ea_label = ea_label | split: '(' | last | split: ')' | first | strip
+                    endif
+                  -%}
+                  <span class="ea-swatch-name" aria-hidden="true">{{ ea_label | escape }}</span>
                   {%- comment -%} A colour without an Amazon link is not on sale yet: label it. {%- endcomment -%}
                   {%- if product_option_value.variant and product_option_value.variant.metafields.custom.amazon_url == blank -%}
                     <span class="ea-swatch-soon">Coming soon</span>

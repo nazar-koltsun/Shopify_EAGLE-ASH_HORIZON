@@ -99,22 +99,60 @@
     endif
   endif
 
-  # Eagle & Ash, Oct 2026: colour-specific photos. A photo whose file name contains "-color-<colour>"
-  # (for example tee-pouch-zip-04-sized-color-blue.jpg) shows only while that colour is selected.
-  # Photos without such a name always show. Works with the Color (or Colour) option.
-  assign ea_other_color_tokens = ''
+  # Eagle & Ash, Oct 2026: option-specific photos. A photo whose file name contains "-<option>-<value>"
+  # (tee-pouch-zip-04-size-color-blue.jpg, bamboo-golf-tees-01-main-length-2-3-4-70-mm.jpg) shows only while that
+  # value is selected. One photo can name several values of the same option, separated by "_"
+  # (…-length-2-3-4-70-mm_-length-3-1-4-83-mm.jpg). Photos without such a name always show. Works with every
+  # option; "Colour" counts as "color".
+  assign ea_rules = ''
   for ea_option in selected_product.options_with_values
-    assign ea_option_name = ea_option.name | downcase
-    if ea_option_name == 'color' or ea_option_name == 'colour'
-      for ea_value in ea_option.values
-        if ea_value.name != ea_option.selected_value
-          assign ea_value_handle = ea_value.name | handleize
-          assign ea_other_color_tokens = ea_other_color_tokens | append: '-color-' | append: ea_value_handle | append: ','
-        endif
-      endfor
+    assign ea_opt = ea_option.name | handleize
+    if ea_opt == 'colour'
+      assign ea_opt = 'color'
+    endif
+    assign ea_sel = ''
+    assign ea_oth = ''
+    for ea_value in ea_option.values
+      assign ea_value_handle = ea_value.name | handleize
+      assign ea_token = '-' | append: ea_opt | append: '-' | append: ea_value_handle
+      if ea_value.name == ea_option.selected_value
+        assign ea_sel = ea_token
+      else
+        assign ea_oth = ea_oth | append: ea_token | append: '~'
+      endif
+    endfor
+    if ea_oth != ''
+      assign ea_rules = ea_rules | append: ea_sel | append: '|' | append: ea_oth | append: '^'
     endif
   endfor
-  assign ea_other_color_tokens = ea_other_color_tokens | split: ','
+  assign ea_rules = ea_rules | split: '^'
+
+  # Hidden = names a value of an option, but not the selected one.
+  assign ea_hidden_ids = ','
+  for media in selected_product.media
+    assign ea_media_name = media.preview_image.src | split: '?' | first | split: '/' | last | downcase
+    for ea_rule in ea_rules
+      assign ea_parts = ea_rule | split: '|'
+      assign ea_others_list = ea_parts[1] | split: '~'
+      assign ea_names_other = false
+      for ea_t in ea_others_list
+        assign ea_t_dot = ea_t | append: '.'
+        assign ea_t_us = ea_t | append: '_'
+        if ea_media_name contains ea_t_dot or ea_media_name contains ea_t_us
+          assign ea_names_other = true
+          break
+        endif
+      endfor
+      if ea_names_other
+        assign ea_s_dot = ea_parts[0] | append: '.'
+        assign ea_s_us = ea_parts[0] | append: '_'
+        unless ea_parts[0] != blank and ea_media_name contains ea_s_dot or ea_parts[0] != blank and ea_media_name contains ea_s_us
+          assign ea_hidden_ids = ea_hidden_ids | append: media.id | append: ','
+          break
+        endunless
+      endif
+    endfor
+  endfor
 
   assign sorted_media = '' | split: ','
   if selected_variant_media
@@ -125,20 +163,9 @@
         continue
       endif
 
-      if ea_other_color_tokens.size > 0
-        assign ea_media_name = media.preview_image.src | split: '?' | first | split: '/' | last | downcase
-        assign ea_hide_media = false
-        for ea_token in ea_other_color_tokens
-          assign ea_token_dot = ea_token | append: '.'
-          assign ea_token_underscore = ea_token | append: '_'
-          if ea_media_name contains ea_token_dot or ea_media_name contains ea_token_underscore
-            assign ea_hide_media = true
-            break
-          endif
-        endfor
-        if ea_hide_media
-          continue
-        endif
+      assign ea_id_key = ',' | append: media.id | append: ','
+      if ea_hidden_ids contains ea_id_key
+        continue
       endif
 
       if media.id != selected_variant_media.id
@@ -149,17 +176,10 @@
   else
     # Eagle & Ash: a colour without its own photo (e.g. coming soon) shows only the shared photos.
     for media in selected_product.media
+      assign ea_id_key = ',' | append: media.id | append: ','
       assign ea_hide_media = false
-      if ea_other_color_tokens.size > 0
-        assign ea_media_name = media.preview_image.src | split: '?' | first | split: '/' | last | downcase
-        for ea_token in ea_other_color_tokens
-          assign ea_token_dot = ea_token | append: '.'
-          assign ea_token_underscore = ea_token | append: '_'
-          if ea_media_name contains ea_token_dot or ea_media_name contains ea_token_underscore
-            assign ea_hide_media = true
-            break
-          endif
-        endfor
+      if ea_hidden_ids contains ea_id_key
+        assign ea_hide_media = true
       endif
       unless ea_hide_media
         assign found_media = selected_product.media | where: 'id', media.id

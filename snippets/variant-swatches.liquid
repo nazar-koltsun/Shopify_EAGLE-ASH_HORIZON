@@ -55,6 +55,11 @@
     }
   }
 
+  /* Eagle & Ash: coming-soon colour on product cards */
+  .variant-option__swatch--ea-soon {
+    opacity: 0.45;
+  }
+
   .hidden-swatches__count:hover {
     color: var(--color-foreground-rgb);
   }
@@ -127,20 +132,32 @@
                   assign featured_media = product_option_value.variant.product.featured_media
                 endif
               endif
+
+              # Eagle & Ash, Oct 2026: a colour without an Amazon link is not on sale yet ("coming soon").
+              # On product cards it shows pale, says so in its label, and does not swap the card photo.
+              assign ea_soon = false
+              if product_option_value.variant and product_option_value.variant.metafields.custom.amazon_url == blank
+                assign ea_soon = true
+                assign featured_media = nil
+              endif
             %}
 
-            <li class="variant-option__swatch">
+            <li class="variant-option__swatch{% if ea_soon %} variant-option__swatch--ea-soon{% endif %}">
               <label
                 data-media-id="{{ featured_media.id }}"
                 class="variant-option__button-label variant-option__button-label--has-swatch"
-                on:pointerenter="product-card/previewVariant/{{ featured_media.id }}"
-                on:pointerleave="product-card/resetVariant"
+                {% if ea_soon %}
+                  title="{{ product_option_value.name | escape }}: coming soon"
+                {% else %}
+                  on:pointerenter="product-card/previewVariant/{{ featured_media.id }}"
+                  on:pointerleave="product-card/resetVariant"
+                {% endif %}
               >
                 <input
                   type="radio"
                   name="{{ product_option.name | escape }}-{{ product_resource.id }}-swatch"
                   value="{{ product_option_value | escape }}"
-                  aria-label="{{ product_option_value.name }}"
+                  aria-label="{{ product_option_value.name }}{% if ea_soon %}, coming soon{% endif %}"
                   data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
                   data-option-media-id="{{ featured_media.id }}"
                   data-option-value-id="{{ product_option_value.id }}"

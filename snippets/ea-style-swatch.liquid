@@ -1,0 +1,29 @@
+{%- doc -%}
+  One swatch in the sister-product row of blocks/ea-other-styles.liquid: the product's swatch image (product field
+  custom.style_swatch) with its short name under it. The current product is framed and not a link.
+
+  @param {object} item - The product to show.
+  @param {boolean} current - True for the product whose page this is.
+{%- enddoc -%}
+{%- liquid
+  assign ea_name = item.title
+  if item.title contains '–'
+    assign ea_name = item.title | split: '–' | last
+  endif
+  assign ea_name = ea_name | split: '(' | first | strip
+  assign ea_img = item.metafields.custom.style_swatch.value
+-%}
+<li>
+  {%- if current -%}
+    <span class="ea-style-swatch ea-style-swatch--current" aria-current="true">
+  {%- else -%}
+    <a class="ea-style-swatch" href="{{ item.url }}">
+  {%- endif -%}
+  {%- if ea_img != blank -%}
+    {{ ea_img | image_url: width: 160 | image_tag: class: 'ea-style-swatch__img', alt: '', width: 60, height: 60, loading: 'lazy' }}
+  {%- else -%}
+    <span class="ea-style-swatch__img" style="background: #dfe9eb;"></span>
+  {%- endif -%}
+  <span class="ea-style-swatch__name">{{ ea_name | escape }}</span>
+  {%- if current -%}</span>{%- else -%}</a>{%- endif -%}
+</li>

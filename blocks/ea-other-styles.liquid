@@ -7,21 +7,56 @@
 {%- liquid
   assign ea_others = closest.product.metafields.custom.other_styles.value
   assign ea_lead = closest.product.metafields.custom.other_styles_text.value | default: block.settings.label
+  assign ea_own_swatch = closest.product.metafields.custom.style_swatch.value
 -%}
 {%- if ea_others != blank -%}
-  <p class="ea-other-styles">
-    <span class="ea-other-styles__lead">{{ ea_lead | escape }}</span>
-    {%- for other in ea_others -%}
-      {%- liquid
-        assign ea_name = other.title
-        if other.title contains '–'
-          assign ea_name = other.title | split: '–' | last
+  {%- if ea_own_swatch != blank -%}
+    {%- comment -%}
+      Eagle & Ash, Oct 2026: sister products shown as swatches (the bath bomb scents). Each product has its own page;
+      the swatch row makes them look and work like variations. List order = the "Other versions" field; the current
+      product is framed (added at the start if the field does not contain it). Name = title part after the last "–".
+    {%- endcomment -%}
+    {%- liquid
+      assign ea_has_self = false
+      for other in ea_others
+        if other.id == closest.product.id
+          assign ea_has_self = true
         endif
-        assign ea_name = ea_name | split: '(' | first | strip
-      -%}
-      {% if forloop.first %} {% else %} · {% endif %}<a href="{{ other.url }}">{{ block.settings.link_prefix | escape }}{{ ea_name | escape }} →</a>
-    {%- endfor -%}
-  </p>
+      endfor
+    -%}
+    <div class="ea-style-swatches">
+      <p class="ea-style-swatches__label">{{ block.settings.swatch_label | escape }}</p>
+      <ul class="ea-style-swatches__list" role="list">
+        {%- unless ea_has_self -%}
+          {%- render 'ea-style-swatch', item: closest.product, current: true -%}
+        {%- endunless -%}
+        {%- for other in ea_others -%}
+          {%- if other.id == closest.product.id -%}
+            {%- render 'ea-style-swatch', item: other, current: true -%}
+          {%- else -%}
+            {%- render 'ea-style-swatch', item: other, current: false -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- else -%}
+    <p class="ea-other-styles">
+      <span class="ea-other-styles__lead">{{ ea_lead | escape }}</span>
+      {%- assign ea_first = true -%}
+      {%- for other in ea_others -%}
+        {%- if other.id == closest.product.id -%}{%- continue -%}{%- endif -%}
+        {%- liquid
+          assign ea_name = other.title
+          if other.title contains '–'
+            assign ea_name = other.title | split: '–' | last
+          endif
+          assign ea_name = ea_name | split: '(' | first | strip
+        -%}
+        {% if ea_first %} {% else %} · {% endif %}<a href="{{ other.url }}">{{ block.settings.link_prefix | escape }}{{ ea_name | escape }} →</a>
+        {%- assign ea_first = false -%}
+      {%- endfor -%}
+    </p>
+  {%- endif -%}
 {%- endif -%}
 
 {% stylesheet %}
@@ -39,6 +74,59 @@
   .ea-other-styles a:hover {
     color: #fd5000;
   }
+
+  /* Swatch row for sister products (bath bomb scents): same size and frame as the colour swatches. */
+  .ea-style-swatches__label {
+    margin: 0 0 8px;
+    font-size: 0.875rem;
+  }
+
+  .ea-style-swatches__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ea-style-swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+
+  .ea-style-swatch__img {
+    display: block;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  a.ea-style-swatch:hover .ea-style-swatch__img {
+    outline: var(--focus-outline-width) solid rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  .ea-style-swatch--current .ea-style-swatch__img {
+    outline: 2px solid #001e26;
+    outline-offset: 2px;
+  }
+
+  .ea-style-swatch__name {
+    max-width: 76px;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .ea-style-swatch--current .ea-style-swatch__name {
+    font-weight: 600;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -47,7 +135,8 @@
   "settings": [
     { "type": "paragraph", "content": "Shows the product fields \"Other versions\" (custom.other_styles) and \"Other versions: lead-in\" (custom.other_styles_text)." },
     { "type": "text", "id": "label", "label": "Lead-in when the product has none", "default": "Also available:" },
-    { "type": "text", "id": "link_prefix", "label": "Text before each name", "default": "See the " }
+    { "type": "text", "id": "link_prefix", "label": "Text before each name", "default": "See the " },
+    { "type": "text", "id": "swatch_label", "label": "Label above the swatches (when the product has a swatch image)", "default": "Scent" }
   ],
   "presets": [{ "name": "Other versions link" }]
 }

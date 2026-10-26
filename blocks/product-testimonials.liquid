@@ -63,9 +63,16 @@
   </div>
 {%- elsif request.design_mode -%}
   <p class="ea-quotes--missing">No quotes yet. Pick entries in the product metafield "Testimonials".</p>
+{%- else -%}
+  {%- comment -%} Eagle & Ash: no quotes yet -> hide the whole section (its grey band would stay empty). {%- endcomment -%}
+  <span class="ea-quotes-none" hidden></span>
 {%- endif -%}
 
 {% stylesheet %}
+  .shopify-section:has(.ea-quotes-none) {
+    display: none;
+  }
+
   .ea-quotes {
     display: flex;
     flex-direction: column;
