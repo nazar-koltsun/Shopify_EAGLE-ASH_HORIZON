@@ -3,14 +3,45 @@
   The button opens Judge.me's own review form (assets/ea-product.js clicks Judge.me's "Write a review"
   button). While there are no reviews, Judge.me's own "Be the first to write a review" box is hidden,
   because this card replaces it.
+  A product can replace the title, text and button with its own fields custom.review_invite_title / _text / _button
+  (trophy and Duo: "Engraved it? Share your story.", Anu 27 Oct 2026). custom.review_invite_amazon adds a neutral line
+  "Or review it on Amazon" with one link per variant, because each style is its own Amazon listing. Amazon rules: never
+  ask for a positive review, offer nothing in return, ask every visitor.
 {%- enddoc -%}
+
+{%- liquid
+  assign ea_product = closest.product | default: product
+  assign ea_title = ea_product.metafields.custom.review_invite_title.value | default: block.settings.title
+  assign ea_text = ea_product.metafields.custom.review_invite_text.value | default: block.settings.text
+  assign ea_button = ea_product.metafields.custom.review_invite_button.value | default: block.settings.button_label
+-%}
 
 <div class="ea-review-invite">
   <span class="ea-review-invite__icon">{%- render 'ea-icon', name: 'camera' -%}</span>
-  {%- if block.settings.title != blank -%}<p class="ea-review-invite__title">{%- render 'ea-accent-text', text: block.settings.title -%}</p>{%- endif -%}
-  {%- if block.settings.text != blank -%}<p class="ea-review-invite__text">{{ block.settings.text | escape }}</p>{%- endif -%}
-  <button type="button" class="button ea-review-invite__button" data-ea-open-review>{{ block.settings.button_label | escape }}</button>
+  {%- if ea_title != blank -%}<p class="ea-review-invite__title">{%- render 'ea-accent-text', text: ea_title -%}</p>{%- endif -%}
+  {%- if ea_text != blank -%}<p class="ea-review-invite__text">{{ ea_text | escape | newline_to_br }}</p>{%- endif -%}
+  <button type="button" class="button ea-review-invite__button" data-ea-open-review>{{ ea_button | escape }}</button>
   {%- if block.settings.small_print != blank -%}<p class="ea-review-invite__small">{{ block.settings.small_print | escape }}</p>{%- endif -%}
+  {%- if ea_product.metafields.custom.review_invite_amazon.value == true -%}
+    {%- capture ea_links -%}
+      {%- for variant in ea_product.variants -%}
+        {%- assign ea_url = variant.metafields.custom.amazon_url.value -%}
+        {%- if ea_url contains '/dp/' -%}
+          {%- assign ea_asin = ea_url | split: '/dp/' | last | slice: 0, 10 -%}
+          <a href="https://www.amazon.com/review/create-review?asin={{ ea_asin }}" target="_blank" rel="noopener">
+            {%- if ea_product.has_only_default_variant -%}review it on Amazon →{%- else -%}{{ variant.title | escape }}{%- endif -%}
+          </a>|
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- assign ea_links = ea_links | split: '|' -%}
+    {%- if ea_links.size > 0 -%}
+      <p class="ea-review-invite__amazon">
+        {%- if ea_product.has_only_default_variant -%}Or {{ ea_links | join: '' }}
+        {%- else -%}Or review it on Amazon: {{ ea_links | join: ' · ' }}{%- endif -%}
+      </p>
+    {%- endif -%}
+  {%- endif -%}
 </div>
 
 {% stylesheet %}
@@ -71,6 +102,15 @@
     margin: 0;
     font-size: 0.8125rem;
     opacity: 0.7;
+  }
+
+  .ea-review-invite__amazon {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .ea-review-invite__amazon a {
+    color: #b83a00;
   }
 
   /* This card replaces Judge.me's own empty box and its second "Write a review" button
