@@ -8,7 +8,7 @@
     selected. A variant without an Amazon link is
     "coming soon" and shown pale.
   The card's own scent or variant is framed. After the swatches: custom.card_note, or "N scents" for sister pages.
-  Renders nothing for a product without swatches.
+  A product without swatches shows only its card_note (Duo Pack: "Wood Top + Stone Top"), or nothing.
 
   @param {object} product - The card's product.
 {%- enddoc -%}
@@ -76,11 +76,13 @@
     endif
   endcapture
 -%}
-{%- if ea_items != blank -%}
+{%- if ea_items != blank or ea_note != blank -%}
   <div class="ea-swatch-row">
-    <ul class="ea-swatch-row__list" role="list">
-      {{- ea_items -}}
-    </ul>
+    {%- if ea_items != blank -%}
+      <ul class="ea-swatch-row__list" role="list">
+        {{- ea_items -}}
+      </ul>
+    {%- endif -%}
     {%- if ea_note != blank -%}
       <p class="ea-swatch-row__note">{{ ea_note | escape }}</p>
     {%- endif -%}
@@ -160,8 +162,11 @@
     outline-offset: 2px;
   }
 
-  /* same look as the earlier "3 styles" line */
+  /* same look as the earlier "3 styles" line; 26px tall, so a note without swatches (Duo Pack) sits on the same line */
   .ea-swatch-row__note {
+    display: flex;
+    align-items: flex-end;
+    min-height: 26px;
     margin: 0;
     font-size: 0.8125rem;
     font-weight: 600;
