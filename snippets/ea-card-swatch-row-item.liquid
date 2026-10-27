@@ -5,6 +5,7 @@
   @param {string} title - Name for the tooltip and screen readers (e.g. "Wood Top", "Pink: coming soon").
   @param {object} [image] - Swatch image.
   @param {string} [color] - Swatch colour, used when there is no image.
+  @param {string} [text] - Short text shown in the swatch instead of an image (tee lengths).
   @param {string} class - CSS classes of the link.
   @param {boolean} current - The card shows this one.
 {%- enddoc -%}
@@ -21,7 +22,9 @@
       style="background: {{ color }};"
     {% endif %}
   >
-    {%- if image != blank -%}
+    {%- if text != blank -%}
+      <span class="ea-swatch-row__text" aria-hidden="true">{{ text | escape }}</span>
+    {%- elsif image != blank -%}
       {{ image | image_url: width: 160 | image_tag: alt: '', width: 26, height: 26, loading: 'lazy' }}
     {%- endif -%}
   </a>

@@ -4,7 +4,8 @@
   - Sister pages shown as one card (the bath bomb scents): custom.style_swatch + custom.other_styles (all scents in a
     fixed order, the card's own one included). Each swatch opens that scent's page.
   - Otherwise the values of the first option: the variant's custom.swatch_image, else the value's own swatch (colour
-    entries). Each swatch opens the product page with that variant selected. A variant without an Amazon link is
+    entries); for the option "Length" (tees) the length as text. Each swatch opens the product page with that variant
+    selected. A variant without an Amazon link is
     "coming soon" and shown pale.
   The card's own scent or variant is framed. After the swatches: custom.card_note, or "N scents" for sister pages.
   Renders nothing for a product without swatches.
@@ -38,16 +39,25 @@
         assign ea_note = ea_sisters.size | append: ' scents'
       endif
     elsif product.has_only_default_variant == false
+      assign ea_length = false
+      if product.options.first == 'Length'
+        assign ea_length = true
+      endif
       for value in product.options_with_values.first.values
         assign ea_variant = value.variant
         if ea_variant == blank
           continue
         endif
+        assign ea_text = blank
         assign ea_img = ea_variant.metafields.custom.swatch_image.value
         if ea_img == blank
           assign ea_img = value.swatch.image
         endif
-        if ea_img == blank and value.swatch.color == blank
+        if ea_length
+          # Tee lengths as text, e.g. 3 1/4" (83 mm) -> 3¼″: the swatch pictures are blurry at 26px.
+          assign ea_text = value.name | split: ' (' | first | replace: ' 1/4', '¼' | replace: ' 3/4', '¾' | replace: ' 1/2', '½' | replace: '"', '″'
+          assign ea_img = blank
+        elsif ea_img == blank and value.swatch.color == blank
           continue
         endif
         assign ea_title = value.name
@@ -61,13 +71,13 @@
           assign ea_class = ea_class | append: ' ea-swatch-row__link--current'
           assign ea_is_current = true
         endif
-        render 'ea-card-swatch-row-item', url: ea_variant.url, title: ea_title, image: ea_img, color: value.swatch.color, class: ea_class, current: ea_is_current
+        render 'ea-card-swatch-row-item', url: ea_variant.url, title: ea_title, image: ea_img, color: value.swatch.color, text: ea_text, class: ea_class, current: ea_is_current
       endfor
     endif
   endcapture
 -%}
 {%- if ea_items != blank -%}
-  <div class="ea-swatch-row{% if product.options.first == 'Length' %} ea-swatch-row--length{% endif %}">
+  <div class="ea-swatch-row">
     <ul class="ea-swatch-row__list" role="list">
       {{- ea_items -}}
     </ul>
@@ -127,9 +137,17 @@
     object-fit: cover;
   }
 
-  /* The tee length swatches (3 1/4" etc.) use about half of their square; enlarge them so the text can be read at 26px. */
-  .ea-swatch-row--length .ea-swatch-row__link img {
-    transform: scale(1.7);
+  .ea-swatch-row__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #001e26;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
   }
 
   .ea-swatch-row__link--soon {
