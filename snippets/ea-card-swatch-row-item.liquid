@@ -1,31 +1,61 @@
 {%- doc -%}
   One swatch in snippets/ea-card-swatch-row.liquid.
 
-  @param {string} url - Page the swatch opens.
+  @param {string} url - Page the swatch opens (as a button: the address the card's links get).
   @param {string} title - Name for the tooltip and screen readers (e.g. "Wood Top", "Pink: coming soon").
   @param {object} [image] - Swatch image.
   @param {string} [color] - Swatch colour, used when there is no image.
   @param {string} [text] - Short text shown in the swatch instead of an image (tee lengths).
   @param {string} class - CSS classes of the link.
   @param {boolean} current - The card shows this one.
+  @param {boolean} [pick] - Draw a button that shows the variant's photo on the card instead of a link.
+  @param {number} [media_id] - With pick: id of the variant's photo in the card gallery.
+  @param {number} [price] - With pick: the variant's price, shown on the card.
+  @param {boolean} [soon] - With pick: the variant is "coming soon"; its click shows a "Coming soon" panel on the card.
+  @param {string} [name] - With soon: the option value shown on that panel (e.g. "Pink").
 {%- enddoc -%}
+{%- capture ea_inside -%}
+  {%- if text != blank -%}
+    <span class="ea-swatch-row__text" aria-hidden="true">{{ text | escape }}</span>
+  {%- elsif image != blank -%}
+    {{ image | image_url: width: 160 | image_tag: alt: '', width: 26, height: 26, loading: 'lazy' }}
+  {%- endif -%}
+{%- endcapture -%}
 <li>
-  <a
-    href="{{ url }}"
-    class="{{ class }}"
-    title="{{ title | escape }}"
-    aria-label="{{ title | escape }}"
-    {% if current %}
-      aria-current="true"
-    {% endif %}
-    {% if image == blank and color != blank %}
-      style="background: {{ color }};"
-    {% endif %}
-  >
-    {%- if text != blank -%}
-      <span class="ea-swatch-row__text" aria-hidden="true">{{ text | escape }}</span>
-    {%- elsif image != blank -%}
-      {{ image | image_url: width: 160 | image_tag: alt: '', width: 26, height: 26, loading: 'lazy' }}
-    {%- endif -%}
-  </a>
+  {%- if pick -%}
+    <button
+      type="button"
+      class="{{ class }} ea-swatch-row__pick"
+      title="{{ title | escape }}"
+      aria-label="{{ title | escape }}"
+      aria-pressed="{{ current }}"
+      data-media-id="{{ media_id }}"
+      data-url="{{ url }}"
+      data-price="{{ price | money }}"
+      {% if soon %}
+        data-soon="{{ name | escape }}"
+        data-color="{{ color }}"
+      {% endif %}
+      {% if image == blank and color != blank %}
+        style="background: {{ color }};"
+      {% endif %}
+    >
+      {{- ea_inside -}}
+    </button>
+  {%- else -%}
+    <a
+      href="{{ url }}"
+      class="{{ class }}"
+      title="{{ title | escape }}"
+      aria-label="{{ title | escape }}"
+      {% if current %}
+        aria-current="true"
+      {% endif %}
+      {% if image == blank and color != blank %}
+        style="background: {{ color }};"
+      {% endif %}
+    >
+      {{- ea_inside -}}
+    </a>
+  {%- endif -%}
 </li>

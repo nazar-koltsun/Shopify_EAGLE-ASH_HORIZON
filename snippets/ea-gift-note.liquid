@@ -1,0 +1,51 @@
+{%- doc -%}
+  Eagle & Ash, 27 Oct 2026: the gift answer under "Why it's different" (Anu: the FAQ answer "Is it a good gift for a
+  golfer?" deserves a place there; the heading is the line "Golf gifts that beat another dozen balls" from the Shop
+  page drafts). Text = product metafield custom.gift_note; nothing is shown when it is empty.
+
+  @param {object} product - The product.
+  @param {string} title - Heading; words between two stars are shown in orange.
+{%- enddoc -%}
+{%- assign ea_text = product.metafields.custom.gift_note.value -%}
+{%- if ea_text != blank -%}
+  <div class="ea-gift-note">
+    <h2 class="ea-gift-note__title">{%- render 'ea-accent-text', text: title -%}</h2>
+    <p class="ea-gift-note__text">{{ ea_text | escape | newline_to_br }}</p>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  /* The custom-liquid block's wrapper would otherwise shrink to the text width in the column layout. */
+  div:has(> .ea-gift-note) {
+    width: 100%;
+  }
+
+  /* Same light grey as the top of the "What golfers say" section. */
+  .ea-gift-note {
+    max-width: 760px;
+    margin: 56px auto 0;
+    padding: 36px 24px;
+    border-radius: 4px;
+    background: #f7f8f8;
+    text-align: center;
+  }
+
+  .ea-gift-note__title {
+    margin: 0 0 12px;
+    font-size: 1.5rem;
+  }
+
+  .ea-gift-note__text {
+    margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ea-gift-note {
+      padding: 48px 64px;
+    }
+
+    .ea-gift-note__title {
+      font-size: 1.75rem;
+    }
+  }
+{% endstylesheet %}

@@ -402,10 +402,18 @@
             "title_accent": "different."
           },
           "blocks": {}
+        },
+        "gift_note_ea": {
+          "type": "custom-liquid",
+          "settings": {
+            "custom_liquid": "{%- render 'ea-gift-note', product: closest.product, title: 'A better gift than another *dozen balls.*' -%}"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "story_block_ea"
+        "story_block_ea",
+        "gift_note_ea"
       ],
       "settings": {
         "content_direction": "column",
