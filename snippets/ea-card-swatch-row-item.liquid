@@ -25,8 +25,13 @@
 {%- endcapture -%}
 <li>
   {%- if pick -%}
-    <button
-      type="button"
+    {%- comment -%} A sister page (bath bomb scent) is drawn as a real link to that page, so search engines follow it to
+      every scent page; a plain click still only changes the card (script in ea-card-swatch-row; Anu, 28 Oct 2026). {%- endcomment -%}
+    {%- if card_image != blank -%}
+      <a href="{{ url }}" role="button"
+    {%- else -%}
+      <button type="button"
+    {%- endif %}
       class="{{ class }} ea-swatch-row__pick"
       title="{{ title | escape }}"
       aria-label="{{ title | escape }}"
@@ -49,7 +54,7 @@
       {% endif %}
     >
       {{- ea_inside -}}
-    </button>
+    {%- if card_image != blank -%}</a>{%- else -%}</button>{%- endif -%}
   {%- else -%}
     <a
       href="{{ url }}"

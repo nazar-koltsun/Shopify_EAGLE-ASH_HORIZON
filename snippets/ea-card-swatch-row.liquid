@@ -233,6 +233,12 @@
     const pick = event.target instanceof Element ? event.target.closest('.ea-swatch-row__pick') : null;
     const card = pick?.closest('product-card');
     if (!pick || !card) return;
+    // A scent swatch is a link to its page (for search engines): a plain click stays on the card,
+    // Ctrl/Cmd-click, Shift-click or the middle button still open the page.
+    if (pick.tagName === 'A') {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      event.preventDefault();
+    }
 
     const { mediaId, url, price, soon, color, imageSrc, imageSrcset, imageAlt, cardTitle } = pick.dataset;
     const slideshow = card.querySelector('slideshow-component');
@@ -304,6 +310,14 @@
       true
     );
   }
+
+  // The scent links carry role="button": the Space key works on them as on a button.
+  document.addEventListener('keydown', (event) => {
+    const pick = event.target instanceof Element ? event.target.closest('a.ea-swatch-row__pick') : null;
+    if (!pick || event.key !== ' ') return;
+    event.preventDefault();
+    pick.click();
+  });
 
   // Start loading a swatch's photo when the pointer reaches the swatch, so it is there by the click.
   document.addEventListener('pointerover', (event) => {
