@@ -229,7 +229,9 @@
 {% javascript %}
   // A swatch button (.ea-swatch-row__pick) shows its variant's photo on the card, the same way Horizon's
   // #updateVariantImages does, and points the card's price and links to that variant.
-  document.addEventListener('click', (event) => {
+  // Listens on the window in the capture phase, before Horizon's product card, which would otherwise write the card's
+  // position into the address for a click on a link inside the card.
+  window.addEventListener('click', (event) => {
     const pick = event.target instanceof Element ? event.target.closest('.ea-swatch-row__pick') : null;
     const card = pick?.closest('product-card');
     if (!pick || !card) return;
@@ -238,6 +240,7 @@
     if (pick.tagName === 'A') {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
       event.preventDefault();
+      event.stopPropagation();
     }
 
     const { mediaId, url, price, soon, color, imageSrc, imageSrcset, imageAlt, cardTitle } = pick.dataset;
@@ -293,7 +296,7 @@
       other.setAttribute('aria-pressed', String(other === pick));
     }
     card.setAttribute('data-ea-picked', '');
-  });
+  }, true);
 
   // Horizon shows the card's next photo while the mouse is over it. Its next photo belongs to the first colour or
   // length, so after a swatch click the card keeps the chosen photo instead. Horizon listens on the document
