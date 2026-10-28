@@ -2,7 +2,8 @@
   Eagle & Ash, Oct 2026: the swatch row under every product card (Shop page and "Complete the set"), the same look
   for all products. Drawn without Horizon's overflow measuring, which sometimes showed "+5" instead of the colours.
   - Sister pages shown as one card (the bath bomb scents): custom.style_swatch + custom.other_styles (all scents in a
-    fixed order, the card's own one included). Each swatch opens that scent's page.
+    fixed order, the card's own one included). Each swatch shows that scent's main photo, name and price on the card
+    and points the card's links to its page (Anu, 28 Oct 2026: a swatch should not open another page).
   - Otherwise the values of the first option: the variant's custom.swatch_image, else the value's own swatch (colour
     entries); for the option "Length" (tees) the length as text. A swatch whose variant has its own photo is a button:
     it shows that photo on the card and sets the card's price and links to that variant (Anu, 27 Oct 2026); the
@@ -35,7 +36,7 @@
           assign ea_class = ea_class | append: ' ea-swatch-row__link--current'
           assign ea_is_current = true
         endif
-        render 'ea-card-swatch-row-item', url: item.url, title: ea_name, image: ea_img, class: ea_class, current: ea_is_current
+        render 'ea-card-swatch-row-item', url: item.url, title: ea_name, image: ea_img, class: ea_class, current: ea_is_current, pick: true, price: item.price, card_image: item.featured_image, card_title: item.title
       endfor
       if ea_note == blank
         assign ea_note = ea_sisters.size | append: ' scents'
@@ -233,7 +234,7 @@
     const card = pick?.closest('product-card');
     if (!pick || !card) return;
 
-    const { mediaId, url, price, soon, color } = pick.dataset;
+    const { mediaId, url, price, soon, color, imageSrc, imageSrcset, imageAlt, cardTitle } = pick.dataset;
     const slideshow = card.querySelector('slideshow-component');
     if (slideshow && mediaId) {
       for (const slide of slideshow.querySelectorAll('slideshow-slide[variant-image]')) {
@@ -241,6 +242,22 @@
       }
       slideshow.select({ id: mediaId }, undefined, { animate: false });
     }
+
+    // A sister page (bath bomb scent) is another product: its main photo takes the place of the card's first photo,
+    // and its name the card's title.
+    if (imageSrc) {
+      const first = card.querySelector('slideshow-slide');
+      const image = first?.querySelector('img') ?? card.querySelector('.card-gallery img');
+      if (image) {
+        image.srcset = imageSrcset || '';
+        image.src = imageSrc;
+        image.alt = imageAlt || '';
+      }
+      const firstId = first?.getAttribute('slide-id');
+      if (slideshow && firstId) slideshow.select({ id: firstId }, undefined, { animate: false });
+    }
+    const titleElement = card.querySelector('[ref="productTitleLink"] p');
+    if (titleElement && cardTitle) titleElement.textContent = cardTitle;
 
     // A "coming soon" colour has no photo yet: a panel in its swatch colour covers the card photo instead.
     card.querySelector('.ea-card-soon')?.remove();

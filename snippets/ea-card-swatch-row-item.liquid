@@ -13,6 +13,8 @@
   @param {number} [price] - With pick: the variant's price, shown on the card.
   @param {boolean} [soon] - With pick: the variant is "coming soon"; its click shows a "Coming soon" panel on the card.
   @param {string} [name] - With soon: the option value shown on that panel (e.g. "Pink").
+  @param {object} [card_image] - With pick, for a sister page (bath bomb scent): its main photo, shown on the card.
+  @param {string} [card_title] - With card_image: its product name, shown as the card title.
 {%- enddoc -%}
 {%- capture ea_inside -%}
   {%- if text != blank -%}
@@ -32,6 +34,12 @@
       data-media-id="{{ media_id }}"
       data-url="{{ url }}"
       data-price="{{ price | money }}"
+      {% if card_image != blank %}
+        data-image-src="{{ card_image | image_url: width: 800 }}"
+        data-image-srcset="{{ card_image | image_url: width: 400 }} 400w, {{ card_image | image_url: width: 800 }} 800w, {{ card_image | image_url: width: 1200 }} 1200w"
+        data-image-alt="{{ card_image.alt | escape }}"
+        data-card-title="{{ card_title | escape }}"
+      {% endif %}
       {% if soon %}
         data-soon="{{ name | escape }}"
         data-color="{{ color }}"
