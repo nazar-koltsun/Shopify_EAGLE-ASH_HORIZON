@@ -5,13 +5,14 @@
     fixed order, the card's own one included). Each swatch shows that scent's main photo, name and price on the card
     and points the card's links to its page (Anu, 28 Oct 2026: a swatch should not open another page).
   - Otherwise the values of the first option: the variant's custom.swatch_image, else the value's own swatch (colour
-    entries); for the option "Length" (tees) the length as text. A swatch whose variant has its own photo is a button:
+    entries); for the option "Length" (tees) the length as text, without the inch mark (Anu, 29 Oct 2026). A swatch whose variant has its own photo is a button:
     it shows that photo on the card and sets the card's price and links to that variant (Anu, 27 Oct 2026); the
     photos are already in the card, hidden. A variant without its own photo opens the product page with that variant
     selected. A variant without an Amazon link is "coming soon" and shown pale; it is a button too, and its click
     covers the card photo with a panel in the swatch colour that says "Coming soon" (Anu, 27 Oct 2026).
   The card's own scent or variant is framed. After the swatches: custom.card_note, or "N scents" for sister pages.
-  A product without swatches shows only its card_note (Duo Pack: "Wood Top + Stone Top"), or nothing.
+  A product without options shows its variant's custom.swatch_image as one framed swatch that is not a button (Duo Pack:
+  wood and stone, Anu 29 Oct 2026), then its card_note, or nothing.
 
   @param {object} product - The card's product.
 {%- enddoc -%}
@@ -57,8 +58,8 @@
           assign ea_img = value.swatch.image
         endif
         if ea_length
-          # Tee lengths as text, e.g. 3 1/4" (83 mm) -> 3¼″: the swatch pictures are blurry at 26px.
-          assign ea_text = value.name | split: ' (' | first | replace: ' 1/4', '¼' | replace: ' 3/4', '¾' | replace: ' 1/2', '½' | replace: '"', '″'
+          # Tee lengths as text, e.g. 3 1/4" (83 mm) -> 3¼: the swatch pictures are blurry at 26px.
+          assign ea_text = value.name | split: ' (' | first | replace: ' 1/4', '¼' | replace: ' 3/4', '¾' | replace: ' 1/2', '½' | remove: '"'
           assign ea_img = blank
         elsif ea_img == blank and value.swatch.color == blank
           continue
@@ -82,6 +83,12 @@
         endif
         render 'ea-card-swatch-row-item', url: ea_variant.url, title: ea_title, image: ea_img, color: value.swatch.color, text: ea_text, class: ea_class, current: ea_is_current, pick: ea_pick, media_id: ea_variant.featured_media.id, price: ea_variant.price, soon: ea_soon, name: value.name
       endfor
+    else
+      assign ea_img = product.selected_or_first_available_variant.metafields.custom.swatch_image.value
+      if ea_img != blank
+        assign ea_title = product.title | split: '(' | last | remove: ')' | replace: ' & ', ' + '
+        render 'ea-card-swatch-row-item', title: ea_title, image: ea_img, class: 'ea-swatch-row__link ea-swatch-row__link--current', only: true
+      endif
     endif
   endcapture
 -%}
@@ -162,7 +169,9 @@
     width: 100%;
     height: 100%;
     color: #001e26;
-    font-size: 10px;
+    /* the number alone, in the heading font like Anu's swatch pictures on the product page (29 Oct 2026) */
+    font-family: var(--font-heading--family);
+    font-size: 13px;
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.02em;
@@ -170,6 +179,10 @@
 
   .ea-swatch-row__link--soon {
     opacity: 0.45;
+  }
+
+  span.ea-swatch-row__link {
+    pointer-events: none;
   }
 
   .ea-swatch-row__link:hover,

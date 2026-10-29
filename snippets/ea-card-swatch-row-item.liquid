@@ -15,6 +15,7 @@
   @param {string} [name] - With soon: the option value shown on that panel (e.g. "Pink").
   @param {object} [card_image] - With pick, for a sister page (bath bomb scent): its main photo, shown on the card.
   @param {string} [card_title] - With card_image: its product name, shown as the card title.
+  @param {boolean} [only] - The product's only style (Duo Pack): drawn as a framed square that is not a link or button.
 {%- enddoc -%}
 {%- capture ea_inside -%}
   {%- if text != blank -%}
@@ -24,7 +25,11 @@
   {%- endif -%}
 {%- endcapture -%}
 <li>
-  {%- if pick -%}
+  {%- if only -%}
+    <span class="{{ class }}" title="{{ title | escape }}" role="img" aria-label="{{ title | escape }}">
+      {{- ea_inside -}}
+    </span>
+  {%- elsif pick -%}
     {%- comment -%} A sister page (bath bomb scent) is drawn as a real link to that page, so search engines follow it to
       every scent page; a plain click still only changes the card (script in ea-card-swatch-row; Anu, 28 Oct 2026). {%- endcomment -%}
     {%- if card_image != blank -%}
