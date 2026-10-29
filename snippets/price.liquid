@@ -6,6 +6,12 @@
   @param {boolean} [show_unit_price] - Whether to show the unit price
   @param {boolean} [show_sale_price_first] - Whether to show the sale price first
 {%- enddoc -%}
+{%- comment -%} Eagle & Ash (30 Oct 2026, Anu: OK): a coming-soon product (product field custom.coming_soon, e.g. Mulligan Pills)
+  has no price yet, because it is not on Amazon yet: its badge text ("Coming soon · Nov 2026") instead of $0.00, everywhere
+  a price is shown (cards, search, product page). {%- endcomment -%}
+{%- if product_resource.metafields.custom.coming_soon.value != blank -%}
+  <span class="ea-price-soon">{{ product_resource.metafields.custom.coming_soon.value | escape }}</span>
+{%- else -%}
 
 {%- liquid
   assign show_unit_price = show_unit_price | default: false
@@ -123,4 +129,5 @@
 </div>
 {%- if has_volume_pricing -%}
   <small ref="volumePricingNote" class="volume-pricing-note">{{ 'content.volume_pricing_available' | t }}</small>
+{%- endif -%}
 {%- endif -%}
