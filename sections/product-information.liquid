@@ -1,9 +1,12 @@
 
 
-{%- comment -%} Eagle & Ash: own structured data, offers point to Amazon.com (snippets/ea-product-jsonld.liquid) {%- endcomment -%}
+{%- comment -%} Eagle & Ash: own structured data, offers point to Amazon.com (snippets/ea-product-jsonld.liquid).
+  Not on coming-soon products (custom.coming_soon set, e.g. Mulligan Pills): they have no price and no Amazon listing yet. {%- endcomment -%}
+{%- if closest.product.metafields.custom.coming_soon.value == blank -%}
 <script type="application/ld+json">
   {% render 'ea-product-jsonld', product: closest.product %}
 </script>
+{%- endif -%}
 
 {% capture media_gallery %}
   {%- content_for 'block',
