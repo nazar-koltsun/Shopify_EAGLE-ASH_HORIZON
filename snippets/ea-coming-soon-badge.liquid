@@ -1,0 +1,21 @@
+{%- doc -%}
+  Eagle & Ash, 29 Oct 2026: the badge on a coming-soon product page (template product.coming-soon), from the product field
+  custom.coming_soon (e.g. "Coming soon · Nov 2026"); "Coming soon" when the field is empty.
+
+  @param {object} product - The product.
+{%- enddoc -%}
+<p class="ea-coming-soon-badge">{{ product.metafields.custom.coming_soon.value | default: 'Coming soon' | escape }}</p>
+
+{% stylesheet %}
+  .ea-coming-soon-badge {
+    align-self: flex-start;
+    margin: 4px 0 0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: #001e26;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+{% endstylesheet %}

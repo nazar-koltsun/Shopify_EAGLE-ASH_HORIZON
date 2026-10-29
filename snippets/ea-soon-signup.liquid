@@ -1,0 +1,147 @@
+{%- doc -%}
+  Eagle & Ash, 29 Oct 2026: the email sign-up for gifts that are coming soon (Klaviyo), with id="ea-notify" so the
+  coming-soon tiles can link to it. Used in the homepage tab "Coming soon" (sections/ea-pairs-with) and on the Shop page
+  (sections/ea-notify-signup).
+
+  @param {string} text - Line above the form.
+  @param {string} company - Klaviyo company id.
+  @param {string} list - Klaviyo list id.
+  @param {string} source - Where the sign-up came from, saved in Klaviyo.
+  @param {string} [privacy] - Privacy notice under the form (rich text).
+  @param {string} [heading] - Title above the line.
+  @param {boolean} [start] - Left-aligned, without the top margin (in the product details column).
+  @param {boolean} [band] - On a full-width band in Blue Spectrum Dark #115E67, white text (after the coming-soon gifts;
+    Anu, 29 Oct 2026: "on the second darkest brand blue background").
+{%- enddoc -%}
+{%- liquid
+  # the line breaks after the first comma (Anu: one row, or the line change after the comma)
+  assign ea_first = text | split: ', ' | first
+  assign ea_rest = text | remove_first: ea_first | remove_first: ', '
+-%}
+{%- if band -%}<div class="ea-soon-band">{%- endif -%}
+<div class="ea-soon-signup{% if start %} ea-soon-signup--start{% endif %}" id="ea-notify">
+  {%- if heading != blank -%}
+    <h2 class="ea-soon-signup__heading">{{ heading | escape }}</h2>
+  {%- endif -%}
+  <p class="ea-soon-signup__text">
+    {%- if ea_rest != blank -%}{{ ea_first | escape }},<br>{{ ea_rest | escape }}{%- else -%}{{ text | escape }}{%- endif -%}
+  </p>
+  {%- render 'email-signup-klaviyo-form',
+    klaviyo_company_id: company,
+    klaviyo_list_id: list,
+    label: 'SIGN UP',
+    show_interest: false,
+    form_id: 'soon-signup',
+    custom_source: source,
+    privacy_notice: privacy
+  -%}
+</div>
+{%- if band -%}</div>{%- endif -%}
+
+{% stylesheet %}
+  /* Email sign-up under the coming-soon gifts (Anu, 28 Oct 2026); same Klaviyo list as the homepage sign-up */
+  .ea-soon-signup {
+    max-width: 560px;
+    margin: 36px auto 0;
+    padding-inline: 16px;
+    text-align: center;
+    scroll-margin-top: 120px;
+  }
+
+  .ea-soon-band {
+    margin-block-start: 40px;
+    padding: 48px 16px 40px;
+    background: #115e67;
+    color: #fff;
+
+    @media screen and (max-width: 749px) {
+      padding: 36px 16px 32px;
+    }
+  }
+
+  .ea-soon-band .ea-soon-signup {
+    margin-block-start: 0;
+  }
+
+  .ea-soon-band .ea-soon-signup__heading,
+  .ea-soon-band .ea-soon-signup__text,
+  .ea-soon-band .ea-soon-signup .email-signup-klaviyo__privacy,
+  .ea-soon-band .ea-soon-signup .email-signup-klaviyo__privacy a {
+    color: #fff;
+  }
+
+  .ea-soon-band .ea-soon-signup .email-signup-klaviyo__privacy a {
+    text-decoration: underline;
+  }
+
+  .ea-soon-band input[type='email'] {
+    border-color: #fff;
+    color: #07272d;
+  }
+
+  .ea-soon-signup--start {
+    max-width: 520px;
+    margin: 0;
+    padding-inline: 0;
+    text-align: start;
+  }
+
+  /* the Klaviyo form has 40 px side padding; in the product column the field lines up with the text above */
+  .ea-soon-signup--start .email-signup-klaviyo__form {
+    padding-inline: 0;
+  }
+
+  .ea-soon-signup__heading {
+    margin: 0 0 8px;
+    font-size: 28px;
+    line-height: 1.3;
+
+    @media screen and (max-width: 990px) {
+      font-size: 24px;
+    }
+  }
+
+  .ea-soon-signup__text {
+    margin: 0 0 16px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .ea-soon-signup .email-signup-klaviyo__form-wrap {
+    display: flex;
+    gap: 8px;
+  }
+
+  .ea-soon-signup input[type='email'] {
+    flex: 1;
+    min-width: 0;
+    min-height: 48px;
+    padding: 0 14px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.45);
+    border-radius: 4px;
+    background: #fff;
+    font-size: 16px;
+  }
+
+  .ea-soon-signup button[type='submit'] {
+    min-height: 48px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 4px;
+    background: #fd5000;
+    color: #fff;
+    font-size: 1.1875rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .ea-soon-signup .email-signup-klaviyo__privacy {
+    margin-top: 12px;
+    font-size: 13px;
+    text-align: start;
+  }
+
+  .ea-soon-signup .email-signup-klaviyo__privacy a {
+    color: #b83a00;
+  }
+{% endstylesheet %}
