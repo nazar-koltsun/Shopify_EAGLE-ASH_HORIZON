@@ -137,7 +137,7 @@
                 "soon_badge_ea": {
                   "type": "custom-liquid",
                   "settings": {
-                    "custom_liquid": "{%- render 'ea-coming-soon-badge', product: closest.product -%}<style>@media screen and (min-width: 750px) { .product-information .slideshow-controls__thumbnails { grid-auto-columns: calc((100% - 5 * var(--gap-xs, 8px)) / 6); } .product-information .slideshow-controls__thumbnails-container { scrollbar-width: thin; } }</style>"
+                    "custom_liquid": "{%- render 'ea-coming-soon-badge', product: closest.product -%}{%- assign ea_n = closest.product.media.size | at_least: 4 | at_most: 8 -%}<style>@media screen and (min-width: 750px) { .product-information .slideshow-controls__thumbnails { grid-auto-columns: calc((100% - {{ ea_n | minus: 1 }} * var(--gap-xs, 8px)) / {{ ea_n }}); } .product-information .slideshow-controls__thumbnails-container { scrollbar-width: thin; } }</style>"
                   },
                   "blocks": {}
                 }
