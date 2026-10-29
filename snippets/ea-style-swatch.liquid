@@ -4,6 +4,9 @@
 
   @param {object} item - The product to show.
   @param {boolean} current - True for the product whose page this is.
+  @param {string} [url] - Link instead of the product's page (e.g. a variant of it).
+  @param {string} [name] - Name instead of the short product title (e.g. "Wood Top").
+  @param {object} [image] - Swatch picture instead of custom.style_swatch.
 {%- enddoc -%}
 {%- liquid
   assign ea_name = item.title
@@ -11,13 +14,23 @@
     assign ea_name = item.title | split: '–' | last
   endif
   assign ea_name = ea_name | split: '(' | first | strip
+  if name != blank
+    assign ea_name = name
+  endif
   assign ea_img = item.metafields.custom.style_swatch.value
+  if image != blank
+    assign ea_img = image
+  endif
+  assign ea_url = item.url
+  if url != blank
+    assign ea_url = url
+  endif
 -%}
 <li>
   {%- if current -%}
     <span class="ea-style-swatch ea-style-swatch--current" aria-current="true">
   {%- else -%}
-    <a class="ea-style-swatch" href="{{ item.url }}">
+    <a class="ea-style-swatch" href="{{ ea_url }}">
   {%- endif -%}
   {%- if ea_img != blank -%}
     {{ ea_img | image_url: width: 160 | image_tag: class: 'ea-style-swatch__img', alt: '', width: 60, height: 60, loading: 'lazy' }}

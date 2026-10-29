@@ -9,7 +9,72 @@
   assign ea_lead = closest.product.metafields.custom.other_styles_text.value | default: block.settings.label
   assign ea_own_swatch = closest.product.metafields.custom.style_swatch.value
 -%}
-{%- if ea_others != blank -%}
+{%- liquid
+  # Eagle & Ash, 30 Oct 2026 (Anu: "add the duo pack in the variation list, and also the two single ones for the duo ...
+  # just like bath bombs"): when the product or one of its other versions has a Style-row swatch (custom.style_row_swatch,
+  # e.g. the Duo Pack), one row shows every style of the family: first each variant of the products with several styles
+  # (Wood Top, Stone Top: links to that variant), then the single products (Duo Pack). The current one is framed.
+  # On a page whose product has several styles this row replaces the theme's own variant picker.
+  assign ea_row = false
+  if ea_others != blank
+    if closest.product.metafields.custom.style_row_swatch.value != blank
+      assign ea_row = true
+    endif
+    for other in ea_others
+      if other.metafields.custom.style_row_swatch.value != blank
+        assign ea_row = true
+      endif
+    endfor
+  endif
+  assign ea_row_label = 'Style'
+  if closest.product.variants.size > 1
+    assign ea_row_label = closest.product.options.first
+  else
+    for other in ea_others
+      if other.variants.size > 1
+        assign ea_row_label = other.options.first
+        break
+      endif
+    endfor
+  endif
+  assign ea_selected = closest.product.selected_or_first_available_variant.id
+-%}
+{%- if ea_row -%}
+  <div class="ea-style-swatches ea-style-swatches--row">
+    <p class="ea-style-swatches__label">{{ ea_row_label | escape }}</p>
+    <ul class="ea-style-swatches__list" role="list">
+      {%- if closest.product.variants.size > 1 -%}
+        {%- for v in closest.product.variants -%}
+          {%- liquid
+            assign ea_is = false
+            if v.id == ea_selected
+              assign ea_is = true
+            endif
+          -%}
+          {%- render 'ea-style-swatch', item: closest.product, current: ea_is, url: v.url, name: v.title, image: v.metafields.custom.swatch_image.value -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- for other in ea_others -%}
+        {%- if other.id == closest.product.id or other.variants.size < 2 -%}{%- continue -%}{%- endif -%}
+        {%- for v in other.variants -%}
+          {%- render 'ea-style-swatch', item: other, current: false, url: v.url, name: v.title, image: v.metafields.custom.swatch_image.value -%}
+        {%- endfor -%}
+      {%- endfor -%}
+      {%- if closest.product.variants.size < 2 -%}
+        {%- render 'ea-style-swatch', item: closest.product, current: true, image: closest.product.metafields.custom.style_row_swatch.value -%}
+      {%- endif -%}
+      {%- for other in ea_others -%}
+        {%- if other.id == closest.product.id or other.variants.size > 1 -%}{%- continue -%}{%- endif -%}
+        {%- render 'ea-style-swatch', item: other, current: false, image: other.metafields.custom.style_row_swatch.value -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+  {%- if closest.product.variants.size > 1 -%}
+    <style>
+      .product-details:has(.ea-style-swatches--row) variant-picker { display: none; }
+    </style>
+  {%- endif -%}
+{%- elsif ea_others != blank -%}
   {%- if ea_own_swatch != blank -%}
     {%- comment -%}
       Eagle & Ash, Oct 2026: sister products shown as swatches (the bath bomb scents). Each product has its own page;
