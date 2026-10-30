@@ -122,8 +122,9 @@
     color: inherit;
   }
 
-  /* Anu, 30 Oct 2026: the "Email" text in the field in Roboto (it showed in Lora) */
-  email-signup-klaviyo input[type='email'] {
+  /* Anu, 30 Oct 2026: the "Email" text in the field in Roboto (it showed in Lora: blocks/email-signup-klaviyo sets Lora
+     with two classes, so this rule needs the element name as well) */
+  email-signup-klaviyo .email-signup-klaviyo__form .email-signup-klaviyo__input {
     font-family: var(--font-body--family);
   }
 

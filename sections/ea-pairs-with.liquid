@@ -412,8 +412,9 @@
       if (pick && !pick.classList.contains('ea-swatch-row__link--current')) pick.click();
     }
   };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', eaStartVariants);
-  else eaStartVariants();
+  // after the whole page has loaded: the swatch script and Horizon's card must be ready, or the click does nothing
+  if (document.readyState === 'complete') eaStartVariants();
+  else window.addEventListener('load', eaStartVariants);
 
   // Tabs above the product cards: a click or the arrow keys show that tab's panel and hide the others.
   const eaSelectTab = (tab) => {
