@@ -12,8 +12,8 @@
     "hero": {
       "type": "ea-about-hero",
       "settings": {
-        "video": "shopify://files/videos/about-hero-trophy-making.mp4",
-        "poster": "shopify://shop_images/about-hero-trophy-making-poster.jpg",
+        "video": "shopify://files/videos/about-hero-trophy-making-hd.mp4",
+        "poster": "shopify://shop_images/about-hero-trophy-making-poster-hd.jpg",
         "video_label": "Our ball display being made in the workshop in Tartu",
         "title": "Craftsmanship you can *see.*",
         "lead": "Small, specialized workshops make our gifts in small batches,\nfrom materials like solid American ash and full-grain leather from a certified tannery.",
