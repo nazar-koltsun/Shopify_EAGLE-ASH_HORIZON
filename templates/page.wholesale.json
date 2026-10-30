@@ -42,6 +42,7 @@
         },
         "feature_4": {
           "type": "feature",
+          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/Bespoke.png",
             "title": "Golf Clubs"
