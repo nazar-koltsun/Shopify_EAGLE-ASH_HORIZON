@@ -344,6 +344,17 @@
     outline-offset: 4px;
   }
 
+  /* One photo per card in this row: the main photo, or the photo of the colour or length picked with a swatch (those
+     are the variant images). Anu, 30 Oct 2026: on her iPhone the tees, Zip, Flex and bath bomb cards showed their
+     second photo; with no second photo in the card, the card cannot slide to it. */
+  .ea-pairs-with--tiles .card-gallery slideshow-slide:not([variant-image]):not(:first-child) {
+    display: none;
+  }
+
+  .ea-pairs-with--tiles .card-gallery slideshow-arrows {
+    display: none;
+  }
+
   /* Coming soon: the same tiles as on the Shop page (snippets/ea-soon-card), in the same sliding row as the products,
      framed like the product photos */
   .ea-pairs-with--tiles .ea-soon-card__frame {
