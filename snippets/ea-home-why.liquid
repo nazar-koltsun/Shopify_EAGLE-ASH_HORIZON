@@ -166,9 +166,18 @@
       margin-block-end: 52px;
     }
 
+    /* the three texts start on one line even when a title takes two lines (30 Oct 2026: "Thoughtful down to the
+       packaging" wraps): each point shares the list's two rows (title, text) */
     .ea-home-why__list {
       grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
+      grid-template-rows: auto auto;
+      gap: 0 40px;
+    }
+
+    .ea-home-why__item {
+      display: grid;
+      grid-row: span 2;
+      grid-template-rows: subgrid;
     }
   }
 {% endstylesheet %}

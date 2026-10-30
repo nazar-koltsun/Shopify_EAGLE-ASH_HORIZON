@@ -392,7 +392,10 @@
   }
 
   .custom-footer__slogan {
-    margin: 14px 0 0;
+    margin: -18px 0 0; /* 14 px under the logo: the brand block has a 32 px gap */
+    @media (max-width: 1200px) {
+      margin-block-start: 6px; /* gap 8 px there */
+    }
     font-family: 'Lora', serif;
     font-size: 17px;
     line-height: 1.4;
