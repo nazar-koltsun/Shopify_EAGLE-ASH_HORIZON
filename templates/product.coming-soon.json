@@ -188,7 +188,7 @@
             "soon_signup_ea": {
               "type": "custom-liquid",
               "settings": {
-                "custom_liquid": "{%- assign ea_source = closest.product.title | prepend: 'Coming soon page: ' -%}{%- render 'ea-soon-signup', start: true, text: 'Be the first to know when it launches, with a launch price for subscribers.', company: 'RMHHKa', list: 'Rcmc4K', source: ea_source, privacy: '<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>' -%}"
+                "custom_liquid": "{%- assign ea_source = closest.product.title | prepend: 'Coming soon page: ' -%}{%- render 'ea-soon-signup', start: true, text: 'Be the first to know when it launches.', company: 'RMHHKa', list: 'Rcmc4K', source: ea_source, privacy: '<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>' -%}"
               },
               "blocks": {}
             }

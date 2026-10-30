@@ -6,16 +6,27 @@
   (Zip, Flex) and "Handmade in Estonia" (trophy, Duo), sheet "Product page content" row 8.
 
   @param {string} title - Heading; words between two stars are shown in orange.
-  @param {string} [eyebrow] - Small label under the heading ("FAQ", Anu and Yvelin, 30 Oct 2026).
+  31 Oct 2026 (Anu): questions on Christmas delivery, sending to the person (Amazon gift message and gift wrapping are
+  enabled for our products, Anu) and whom to contact; outside the US: "contact us, and we will see what we can do".
+
+  @param {string} [eyebrow] - Small label above the heading ("FAQ"; under it on 30 Oct, above it since 31 Oct 2026).
   @param {string} bulk_url - Link to the bulk order form.
   @param {string} signup_url - Link to the email sign-up on the same page.
 {%- enddoc -%}
 <div class="ea-home-faq">
-  <h2 class="ea-home-faq__title">{%- render 'ea-accent-text', text: title -%}</h2>
   {%- if eyebrow != blank -%}<p class="ea-home-faq__eyebrow">{{ eyebrow | escape }}</p>{%- endif -%}
+  <h2 class="ea-home-faq__title">{%- render 'ea-accent-text', text: title -%}</h2>
   <details class="ea-home-faq__item" open>
     <summary>How do I buy these cool gifts?</summary>
     <p>On Amazon.com. Choose a gift here and press “Shop on Amazon”. Our stock is in Amazon's US warehouses, so Amazon ships your order with Prime delivery and handles any return.</p>
+  </details>
+  <details class="ea-home-faq__item">
+    <summary>Will it arrive before Christmas?</summary>
+    <p>Our stock is in Amazon's US warehouses. Amazon shows the delivery date before you pay.</p>
+  </details>
+  <details class="ea-home-faq__item">
+    <summary>Can I send it straight to the person?</summary>
+    <p>Yes. Enter their address at Amazon checkout. Our gifts can have a gift message and gift wrapping from Amazon: choose them in the gift options before you pay.</p>
   </details>
   <details class="ea-home-faq__item">
     <summary>Oh no, it's out of stock on Amazon! When will it be back?</summary>
@@ -23,7 +34,7 @@
   </details>
   <details class="ea-home-faq__item">
     <summary>I'm not in the US. Can I still get one?</summary>
-    <p>Our gifts are sold on Amazon.com, so they ship within the US. Companies and golf clubs in the EU can order 10 or more through <a href="{{ bulk_url }}">Bulk orders</a>. The bath bombs are available in the US only.</p>
+    <p>Our gifts are sold on Amazon.com, so they ship within the US. Companies and golf clubs in the EU can order 10 or more through <a href="{{ bulk_url }}">Bulk orders</a>. The bath bombs are available in the US only. Somewhere else, or just one gift? Write to us at <a href="mailto:hello@eagleandash.com">hello@eagleandash.com</a>, and we will see what we can do!</p>
   </details>
   <details class="ea-home-faq__item">
     <summary>Can I order 50 for the club tournament?</summary>
@@ -32,6 +43,10 @@
   <details class="ea-home-faq__item">
     <summary>Can I add a name and the date of that hole-in-one?</summary>
     <p>The hole-in-one ball display has a blank circle on its underside, so any local engraver can add a name or a date. We do not engrave ourselves.</p>
+  </details>
+  <details class="ea-home-faq__item">
+    <summary>Who do I contact if something is wrong?</summary>
+    <p>Order questions: Amazon customer service. Anything else: <a href="mailto:hello@eagleandash.com">hello@eagleandash.com</a>.</p>
   </details>
 </div>
 
@@ -43,9 +58,9 @@
   }
 
   /* one heading size for all homepage sections, as "Who are you buying for?" (Anu, 28 Oct 2026) */
-  /* under the heading, in Blue Spectrum Dark (Anu, 30 Oct 2026); the heading keeps its 20 px bottom margin */
+  /* in Blue Spectrum Dark (Anu, 30 Oct 2026); above the heading since 31 Oct 2026, as a small label over a title */
   .ea-home-faq__eyebrow {
-    margin: -14px 0 22px;
+    margin: 0 0 6px;
     text-align: center;
     font-size: 14px;
     font-weight: 700;

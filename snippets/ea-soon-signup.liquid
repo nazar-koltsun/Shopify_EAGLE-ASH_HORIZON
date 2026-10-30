@@ -14,9 +14,15 @@
     Anu, 29 Oct 2026: "on the second darkest brand blue background").
 {%- enddoc -%}
 {%- liquid
-  # the line breaks after the first comma (Anu: one row, or the line change after the comma)
-  assign ea_first = text | split: ', ' | first
-  assign ea_rest = text | remove_first: ea_first | remove_first: ', '
+  # the line breaks after the first comma (Anu: one row, or the line change after the comma); a text of two sentences
+  # breaks after the first sentence instead (31 Oct 2026)
+  assign ea_sep = ', '
+  if text contains '. '
+    assign ea_sep = '. '
+  endif
+  assign ea_first = text | split: ea_sep | first
+  assign ea_rest = text | remove_first: ea_first | remove_first: ea_sep
+  assign ea_mark = ea_sep | strip
 -%}
 {%- if band -%}<div class="ea-soon-band">{%- endif -%}
 <div class="ea-soon-signup{% if start %} ea-soon-signup--start{% endif %}" id="ea-notify">
@@ -24,7 +30,7 @@
     <h2 class="ea-soon-signup__heading">{{ heading | escape }}</h2>
   {%- endif -%}
   <p class="ea-soon-signup__text">
-    {%- if ea_rest != blank -%}{{ ea_first | escape }},<br>{{ ea_rest | escape }}{%- else -%}{{ text | escape }}{%- endif -%}
+    {%- if ea_rest != blank -%}{{ ea_first | escape }}{{ ea_mark }}<br>{{ ea_rest | escape }}{%- else -%}{{ text | escape }}{%- endif -%}
   </p>
   {%- render 'email-signup-klaviyo-form',
     klaviyo_company_id: company,
@@ -88,6 +94,11 @@
   }
 
   /* the Klaviyo form has 40 px side padding; in the product column the field lines up with the text above */
+  /* on a coming-soon product page the line is bold (Anu, 31 Oct 2026) */
+  .ea-soon-signup--start .ea-soon-signup__text {
+    font-weight: 700;
+  }
+
   .ea-soon-signup--start .email-signup-klaviyo__form {
     padding-inline: 0;
   }

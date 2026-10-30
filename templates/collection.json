@@ -276,7 +276,7 @@
     "notify": {
       "type": "ea-notify-signup",
       "settings": {
-        "text": "Be the first to discover new Eagle & Ash gifts, with a launch price and occasional Amazon offers for subscribers.",
+        "text": "Be the first to hear about new Eagle & Ash gifts. We also share the occasional Amazon deal.",
         "klaviyo_company": "RMHHKa",
         "klaviyo_list": "Rcmc4K",
         "source": "Shop page: coming soon",
@@ -336,7 +336,7 @@
     "section",
     "trust_strip",
     "main",
-    "notify",
-    "seo_text"
+    "seo_text",
+    "notify"
   ]
 }
