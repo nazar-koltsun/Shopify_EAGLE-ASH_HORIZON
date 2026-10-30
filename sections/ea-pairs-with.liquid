@@ -95,8 +95,20 @@
 
   {% capture list_items %}
     {% for product in section.settings.products limit: max_items %}
+      {%- liquid
+        # "handle: variant name" pairs, comma separated: that card opens on that variant (Anu, 30 Oct 2026: trophy on Stone Top)
+        assign ea_start = ''
+        assign ea_pairs = section.settings.main_start_variants | split: ','
+        for ea_pair in ea_pairs
+          assign ea_handle = ea_pair | split: ':' | first | strip
+          if ea_handle == product.handle
+            assign ea_start = ea_pair | split: ':' | last | strip
+          endif
+        endfor
+      -%}
       <div
         class="resource-list__item"
+        {% if ea_start != blank %}data-ea-start-variant="{{ ea_start | escape }}"{% endif %}
       >
         {% # theme-check-disable UniqueStaticBlockId %}
           {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product %}
@@ -377,6 +389,13 @@
     }
   }
 
+  /* Anu, 30 Oct 2026: the Coming soon tab showed an empty space. Horizon draws a slide only after it has marked it
+     visible; a slide in a tab that was closed while the page loaded can stay unmarked, so it stays blank. Six or
+     fewer cards per tab: drawing them all costs nothing. */
+  .ea-tabs__panel slideshow-slide {
+    content-visibility: visible;
+  }
+
   /* no "2 styles" / "3 scents" / "3 lengths" next to the swatches here (Anu, 28 Oct 2026); the Shop page keeps them */
   .ea-pairs-with--tiles .ea-swatch-row__note {
     display: none;
@@ -384,6 +403,18 @@
 {% endstylesheet %}
 
 {% javascript %}
+  // A card with data-ea-start-variant opens on that variant: its swatch is clicked once, which shows the variant's
+  // photo, price and links (snippets/ea-card-swatch-row).
+  const eaStartVariants = () => {
+    for (const item of document.querySelectorAll('[data-ea-start-variant]')) {
+      const name = item.dataset.eaStartVariant;
+      const pick = [...item.querySelectorAll('.ea-swatch-row__pick')].find((el) => el.getAttribute('title') === name);
+      if (pick && !pick.classList.contains('ea-swatch-row__link--current')) pick.click();
+    }
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', eaStartVariants);
+  else eaStartVariants();
+
   // Tabs above the product cards: a click or the arrow keys show that tab's panel and hide the others.
   const eaSelectTab = (tab) => {
     const list = tab.closest('.ea-tabs');
@@ -676,6 +707,12 @@
       "label": "Name of the tab for the products above",
       "default": "Bestsellers",
       "visible_if": "{{ section.settings.tabs }}"
+    },
+    {
+      "type": "text",
+      "id": "main_start_variants",
+      "label": "Second tab: cards that open on a variant",
+      "info": "handle: variant name, separated by commas, e.g. hole-in-one-golf-ball-display: Stone Top"
     },
     {
       "type": "text",
