@@ -18,4 +18,9 @@
     font-weight: 600;
     line-height: 1.3;
   }
+
+  /* Horizon sets margin-block-start: 0 on a paragraph that comes first in its box, and the badge is one */
+  p.ea-coming-soon-badge:first-child {
+    margin-block-start: 12px;
+  }
 {% endstylesheet %}
