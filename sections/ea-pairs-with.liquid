@@ -217,6 +217,10 @@
     }
 
     /* the script below sets the top padding to the middle of the photos */
+    .ea-pairs-with--tiles slideshow-component.resource-list__carousel > slideshow-container > slideshow-arrows[hidden] {
+      display: none;
+    }
+
     .ea-pairs-with--tiles slideshow-component.resource-list__carousel > slideshow-container > slideshow-arrows {
       align-items: flex-start;
       padding-inline: calc(var(--page-margin) - 22px);
@@ -379,6 +383,9 @@
     for (const row of document.querySelectorAll('.ea-pairs-with--tiles slideshow-component.resource-list__carousel')) {
       const arrows = row.querySelector(':scope > slideshow-container > slideshow-arrows');
       const photo = row.querySelector('.card-gallery, .ea-soon-card__frame');
+      // no arrows when every card already fits (Horizon draws them anyway; Anu, 30 Oct 2026: 3 coming-soon tiles)
+      const slides = row.querySelector(':scope > slideshow-container > slideshow-slides');
+      if (arrows && slides && slides.clientWidth) arrows.hidden = slides.scrollWidth <= slides.clientWidth + 2;
       if (!arrows || !photo || !photo.offsetHeight) continue;
       arrows.style.paddingBlockStart = '0px';
       const top = photo.getBoundingClientRect().top - arrows.getBoundingClientRect().top + photo.offsetHeight / 2 - 22;
