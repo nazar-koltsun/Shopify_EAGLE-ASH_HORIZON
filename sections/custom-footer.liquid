@@ -55,10 +55,6 @@
           alt="{{ footer_logo.alt | default: section.settings.logo_alt | default: shop.name | escape }}"
           loading="lazy">
       {% endif %}
-      {%- comment -%} Anu, 30 Oct 2026: the slogan with the logo; it is nowhere else on the site {%- endcomment -%}
-      {% if section.settings.slogan != blank %}
-        <p class="custom-footer__slogan">{{ section.settings.slogan | escape }}</p>
-      {% endif %}
 
       <div class="custom-footer__meta" aria-label="{{ section.settings.bottom_meta_label | escape }}">
         {% if section.settings.meta_part_one != blank %}
@@ -388,26 +384,9 @@
     display: block;
     width: 100%;
     height: auto;
-    max-width: 160px;
+    max-width: 240px; /* the logo file with the slogan (Anu, 30 Oct 2026): wide enough to read the slogan line */
   }
 
-  .custom-footer .custom-footer__brand .custom-footer__slogan {
-    margin: -18px 0 0; /* 14 px under the logo: the brand block has a 32 px gap; another footer rule sets p margins to 0 */
-    @media (max-width: 1200px) {
-      margin-block-start: 6px; /* gap 8 px there */
-    }
-    font-family: 'Lora', serif;
-    font-size: 17px;
-    line-height: 1.4;
-    text-align: center;
-    color: #fff;
-  }
-
-  /* A page that already has a sign-up band just above the footer (homepage, Shop page) shows no second sign-up in
-     the footer (Anu, 30 Oct 2026). Pages without a band keep the footer sign-up. */
-  body:has(.ea-home-signup, .ea-soon-band) .custom-footer__newsletter {
-    display: none;
-  }
 
   .custom-footer__meta {
     display: flex;
@@ -628,7 +607,6 @@
       justify-self: center;
     }
 
-    .custom-footer__slogan { order: 1; grid-column: 1 / -1; justify-self: center; margin-block-start: -8px; }
     .custom-footer__newsletter { order: 2; grid-column: 1 / -1; }
     .custom-footer__follow { order: 3; grid-column: 1 / -1; }
     .custom-footer__menus { order: 4; grid-column: 1 / -1; }
@@ -747,13 +725,7 @@
         "type": "image_picker",
         "id": "logo_image",
         "label": "Logo image"
-      },
-    {
-      "type": "text",
-      "id": "slogan",
-      "label": "Slogan under the logo",
-      "default": "Born from fire, made to fly."
-    }, {
+      }, {
         "type": "text",
         "id": "logo_alt",
         "label": "Logo alt text",

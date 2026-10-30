@@ -16,10 +16,10 @@
           "type": "text",
           "settings": {
             "text": "<h1>Golf gifts they won't<br>see <em>coming.</em></h1>",
-            "type_preset": "h1",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
+            "type_preset": "h1",
             "padding-block-end": 0
           }
         },
@@ -27,10 +27,10 @@
           "type": "text",
           "settings": {
             "text": "<p>Original designs, thoughtful details, and a little personality. Made for golfers who have everything.</p>",
-            "type_preset": "rte",
             "width": "fit-content",
             "max_width": "none",
             "alignment": "left",
+            "type_preset": "rte",
             "padding-block-end": 0
           }
         },
@@ -39,10 +39,10 @@
           "settings": {
             "content_direction": "row",
             "vertical_on_mobile": true,
-            "gap": 16,
-            "width": "fit-content",
             "horizontal_alignment": "flex-start",
-            "horizontal_alignment_flex_direction_column": "flex-start"
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "gap": 16,
+            "width": "fit-content"
           },
           "blocks": {
             "b1": {
@@ -97,7 +97,7 @@
     "hero_phone_style": {
       "type": "custom-liquid",
       "settings": {
-        "custom_liquid": "<style>@media screen and (max-width: 749px) { [id$='__hero_a'] .hero, [id$='__hero_a'] .hero__container { min-height: 0; } [id$='__hero_a'] .hero__container { padding-block-start: 0 !important; } [id$='__hero_a'] .hero__media-grid { position: relative; aspect-ratio: 4 / 3; } [id$='__hero_a'] .hero__media-grid .overlay { display: none; } [id$='__hero_a'] .hero__content-wrapper { padding-block-start: 20px; } } [id$='__hero_a'] .button { font-size: 1.1875rem; font-weight: 700; } [id$='__hero_a'] h1 { translate: -0.03em 0; } [id$='__hero_a'] .group-block { margin-block-start: 20px; } @media screen and (min-width: 750px) { [id$='__hero_a'] .group-block { margin-block-start: 32px; } } @media screen and (min-width: 750px) { [id$='__hero_a'] .hero { min-height: clamp(440px, 37vw, 90vh); } [id$='__hero_a'] .hero__media-grid img { object-position: 50% 55%; } [id$='__hero_a'] .hero__content-wrapper { grid-column: 1 / -1; width: 100%; max-width: 1920px; margin-inline: auto; padding-inline: var(--page-margin); box-sizing: border-box; } } [id$='__hero_a'] h1 { color: #07272d; } /* Anu, 30 Oct 2026 (Yvelin): 'Who are you buying for?' did not look like a link; now an outlined button next to the orange one */ [id$='__hero_a'] .group-block a.link { display: inline-flex; align-items: center; min-height: 52px; padding: 0 22px; border: 2px solid #07272d; border-radius: 4px; background: rgb(255 255 255 / 0.75); color: #07272d; font-size: 1.1875rem; font-weight: 700; text-decoration: none; } [id$='__hero_a'] .group-block a.link:hover { background: #fff; } @media screen and (max-width: 749px) { [id$='__hero_a'] .group-block a.link { min-height: 48px; font-size: 1.0625rem; } }</style>",
+        "custom_liquid": "<style>@media screen and (max-width: 749px) { [id$='__hero_a'] .hero, [id$='__hero_a'] .hero__container { min-height: 0; } [id$='__hero_a'] .hero__container { padding-block-start: 0 !important; } [id$='__hero_a'] .hero__media-grid { position: relative; aspect-ratio: 4 / 3; } [id$='__hero_a'] .hero__media-grid .overlay { display: none; } [id$='__hero_a'] .hero__content-wrapper { padding-block-start: 20px; } } [id$='__hero_a'] .button { font-size: 1.1875rem; font-weight: 700; } [id$='__hero_a'] h1 { translate: -0.03em 0; } [id$='__hero_a'] .group-block { margin-block-start: 20px; } @media screen and (min-width: 750px) { [id$='__hero_a'] .group-block { margin-block-start: 32px; } } @media screen and (min-width: 750px) { [id$='__hero_a'] .hero { min-height: clamp(440px, 37vw, 90vh); } [id$='__hero_a'] .hero__media-grid img { object-position: 50% 55%; } [id$='__hero_a'] .hero__content-wrapper { grid-column: 1 / -1; width: 100%; max-width: 1920px; margin-inline: auto; padding-inline: var(--page-margin); box-sizing: border-box; } } [id$='__hero_a'] h1 { color: #07272d; } /* Anu, 30 Oct 2026: 'Who are you buying for?' as the second button of the product pages (thin line, white, regular weight; blocks/amazon-button .ea-amazon__secondary), in the same letter case as the orange button next to it */ [id$='__hero_a'] .group-block a.link { display: inline-flex; align-items: center; min-height: 52px; padding: 0 22px; border: 0; border-radius: 4px; box-shadow: inset 0 0 0 1px #07272d; background: #fff; color: #07272d; font-family: var(--font-body--family); font-size: 1.0625rem; font-weight: 400; text-decoration: none; } [id$='__hero_a'] .group-block a.link:hover { background: #dfe9eb; color: #b83a00; } @media screen and (max-width: 749px) { [id$='__hero_a'] .group-block a.link { min-height: 48px; } }</style>",
         "section_width": "full-width",
         "padding-block-start": 0,
         "padding-block-end": 0
@@ -148,7 +148,6 @@
     },
     "products_ea": {
       "type": "ea-pairs-with",
-      "name": "Product cards",
       "blocks": {
         "static-header": {
           "type": "_product-list-content",
@@ -329,13 +328,18 @@
           }
         }
       },
+      "block_order": [
+        "see_all",
+        "offer_ribbon"
+      ],
+      "name": "Product cards",
       "settings": {
         "products": [
-          "bamboo-golf-tees",
+          "hole-in-one-golf-ball-display",
           "leather-golf-tee-pouch-zip",
           "leather-golf-tee-pouch-flex",
           "bath-bombs-for-women-golfers-chamomile",
-          "golf-ball-holder-duo-pack"
+          "bamboo-golf-tees"
         ],
         "layout_type": "carousel",
         "carousel_on_mobile": false,
@@ -347,35 +351,31 @@
         "rows_gap": 24,
         "icons_style": "arrow",
         "icons_shape": "circle",
+        "card_look": "tiles",
+        "tabs": true,
+        "tab_main_label": "Our picks",
+        "tab_all_label": "All",
+        "all_products": [
+          "golf-ball-holder-duo-pack",
+          "leather-golf-tee-pouch-zip",
+          "leather-golf-tee-pouch-flex",
+          "bath-bombs-for-women-golfers-chamomile",
+          "hole-in-one-golf-ball-display",
+          "bamboo-golf-tees"
+        ],
+        "tab_soon_label": "Coming soon",
+        "soon_signup_heading": "Good gifts are worth hearing about.",
+        "soon_signup_text": "Be the first to discover new Eagle & Ash gifts, with a launch price and occasional Amazon offers for subscribers.",
+        "soon_klaviyo_company": "RMHHKa",
+        "soon_klaviyo_list": "Rcmc4K",
+        "soon_privacy": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
         "section_width": "full-width",
         "horizontal_alignment": "center",
         "gap": 28,
         "color_scheme": "scheme-1",
         "padding-block-start": 72,
-        "padding-block-end": 48,
-        "card_look": "tiles",
-        "tabs": true,
-        "tab_all_label": "All",
-        "tab_main_label": "Our picks",
-        "tab_soon_label": "Coming soon",
-        "all_products": [
-          "hole-in-one-golf-ball-display",
-          "leather-golf-tee-pouch-zip",
-          "leather-golf-tee-pouch-flex",
-          "bath-bombs-for-women-golfers-chamomile",
-          "golf-ball-holder-duo-pack",
-          "bamboo-golf-tees"
-        ],
-        "soon_signup_text": "Be the first to discover new Eagle & Ash gifts, with a launch price for subscribers and occasional Amazon offers.",
-        "soon_klaviyo_company": "RMHHKa",
-        "soon_klaviyo_list": "Rcmc4K",
-        "soon_privacy": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
-        "soon_signup_heading": "Good gifts are worth hearing about."
-      },
-      "block_order": [
-        "see_all",
-        "offer_ribbon"
-      ]
+        "padding-block-end": 48
+      }
     },
     "anchor_gift_types": {
       "type": "custom-liquid",
@@ -466,11 +466,11 @@
         "heading_alignment": "center",
         "color_style": "blue",
         "back_color": "dark_blue",
-        "title_position": "top",
         "review_look": "bubble",
+        "title_position": "top",
         "subheading": "Can't decide? Turn a card over to see their gifts.",
-        "footnote": "We're a new, small brand. 150+ Amazon ratings so far, and we read every one!",
-        "flip_hint": "See their gifts"
+        "flip_hint": "See their gifts",
+        "footnote": "We're a new, small brand. 150+ Amazon ratings so far, and we read every one!"
       }
     },
     "why_ea": {

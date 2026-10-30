@@ -6,13 +6,13 @@
   (Zip, Flex) and "Handmade in Estonia" (trophy, Duo), sheet "Product page content" row 8.
 
   @param {string} title - Heading; words between two stars are shown in orange.
-  @param {string} [eyebrow] - Small label above the heading ("FAQ", Anu and Yvelin, 30 Oct 2026).
+  @param {string} [eyebrow] - Small label under the heading ("FAQ", Anu and Yvelin, 30 Oct 2026).
   @param {string} bulk_url - Link to the bulk order form.
   @param {string} signup_url - Link to the email sign-up on the same page.
 {%- enddoc -%}
 <div class="ea-home-faq">
-  {%- if eyebrow != blank -%}<p class="ea-home-faq__eyebrow">{{ eyebrow | escape }}</p>{%- endif -%}
   <h2 class="ea-home-faq__title">{%- render 'ea-accent-text', text: title -%}</h2>
+  {%- if eyebrow != blank -%}<p class="ea-home-faq__eyebrow">{{ eyebrow | escape }}</p>{%- endif -%}
   <details class="ea-home-faq__item" open>
     <summary>How do I buy these cool gifts?</summary>
     <p>On Amazon.com. Choose a gift here and press “Shop on Amazon”. Our stock is in Amazon's US warehouses, so Amazon ships your order with Prime delivery and handles any return.</p>
@@ -43,14 +43,14 @@
   }
 
   /* one heading size for all homepage sections, as "Who are you buying for?" (Anu, 28 Oct 2026) */
-  /* small orange text uses #b83a00 (4.5:1 on white) */
+  /* under the heading, in Blue Spectrum Dark (Anu, 30 Oct 2026); the heading keeps its 20 px bottom margin */
   .ea-home-faq__eyebrow {
-    margin: 0 0 6px;
+    margin: -14px 0 22px;
     text-align: center;
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.14em;
-    color: #b83a00;
+    color: #115e67;
   }
 
   .ea-home-faq__title {
