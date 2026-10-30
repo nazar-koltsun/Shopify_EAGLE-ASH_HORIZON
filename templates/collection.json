@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "section": {
       "type": "section",
@@ -19,7 +20,7 @@
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "h2",
+            "type_preset": "h1",
             "font": "var(--font-primary--family)",
             "font_size": "",
             "line_height": "normal",
@@ -41,7 +42,7 @@
           "type": "text",
           "name": "Description",
           "settings": {
-            "text": "{{ closest.collection.description }}",
+            "text": "<p>Our own designs, made in small batches. Choose a gift here, then buy it on Amazon.com.</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -81,20 +82,21 @@
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "scheme-1",
-        "background_media": "none",
+        "color_scheme": "scheme-6",
+        "background_media": "image",
         "video_position": "cover",
         "background_image_position": "cover",
         "border": "none",
         "border_width": 1,
         "border_opacity": 100,
         "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "toggle_overlay": true,
+        "overlay_color": "#001e26b3",
+        "overlay_style": "gradient",
+        "gradient_direction": "to right",
+        "padding-block-start": 72,
+        "padding-block-end": 72,
+        "background_image": "shopify://shop_images/shop-banner-draft-gpt.jpg"
       }
     },
     "main": {
@@ -104,7 +106,7 @@
           "type": "filters",
           "static": true,
           "settings": {
-            "enable_filtering": true,
+            "enable_filtering": false,
             "filter_style": "horizontal",
             "filter_width": "centered",
             "text_label_case": "default",
@@ -230,12 +232,66 @@
         "padding-inline-end": 0,
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
-        "padding-block-end": 32
+        "padding-block-end": 48,
+        "show_soon": true,
+        "soon_heading": "Coming soon"
+      }
+    },
+    "seo_text": {
+      "type": "section",
+      "blocks": {
+        "text_seo": {
+          "type": "text",
+          "settings": {
+            "text": "{{ closest.collection.description }}",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "left",
+            "type_preset": "rte"
+          }
+        }
+      },
+      "block_order": [
+        "text_seo"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "gap": 12,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 48
+      }
+    },
+    "banner_phone_style": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<style>@media screen and (max-width: 749px) { [id$='__section'] .overlay { background: rgb(0 30 38 / 0.62) !important; } }</style>",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "notify": {
+      "type": "ea-notify-signup",
+      "settings": {
+        "text": "Be the first to know when they launch, with a launch price for subscribers.",
+        "klaviyo_company": "RMHHKa",
+        "klaviyo_list": "Rcmc4K",
+        "source": "Shop page: coming soon",
+        "privacy": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     }
   },
   "order": [
+    "banner_phone_style",
     "section",
-    "main"
+    "main",
+    "notify",
+    "seo_text"
   ]
 }

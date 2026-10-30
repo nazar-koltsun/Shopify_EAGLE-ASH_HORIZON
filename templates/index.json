@@ -9,146 +9,517 @@
  */
 {
   "sections": {
-    "promo_section": {
-      "type": "promo-section",
+    "hero_a": {
+      "type": "hero",
+      "blocks": {
+        "h": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>Golf gifts they don't<br>already <em>have.</em></h1>",
+            "type_preset": "h1",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "padding-block-end": 0
+          }
+        },
+        "p": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Our own designs, made in small batches.</p>",
+            "type_preset": "rte",
+            "width": "fit-content",
+            "max_width": "none",
+            "alignment": "left",
+            "padding-block-end": 0
+          }
+        },
+        "g": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "gap": 16,
+            "width": "fit-content",
+            "horizontal_alignment": "flex-start",
+            "horizontal_alignment_flex_direction_column": "flex-start"
+          },
+          "blocks": {
+            "b1": {
+              "type": "button",
+              "settings": {
+                "label": "Shop golf gifts",
+                "link": "shopify://collections/all",
+                "style_class": "button"
+              }
+            },
+            "b2": {
+              "type": "button",
+              "settings": {
+                "label": "Who are you buying for? →",
+                "link": "#gift-types",
+                "style_class": "link"
+              }
+            }
+          },
+          "block_order": [
+            "b1",
+            "b2"
+          ]
+        }
+      },
+      "block_order": [
+        "h",
+        "p",
+        "g"
+      ],
       "settings": {
-        "background_image": "shopify://shop_images/promo-bg.webp",
-        "heading": "Meaningful Golf Gifts, Designed to Be Remembered",
-        "description": "<p>Thoughtfully crafted with exceptional materials and timeless design.</p>",
-        "link_label": "Discover Our Story",
-        "link_url": "shopify://pages/our-story"
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/hero-draft-gift-moment-2400.jpg",
+        "custom_mobile_media": true,
+        "media_type_1_mobile": "image",
+        "image_1_mobile": "shopify://shop_images/hero-draft-gift-moment-2400-phone-4x3.jpg",
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "medium",
+        "color_scheme": "scheme-1",
+        "toggle_overlay": true,
+        "overlay_color": "#ffffffb3",
+        "overlay_style": "gradient",
+        "gradient_direction": "to right",
+        "padding-block-start": 40,
+        "padding-block-end": 40
       }
     },
-    "features_section": {
+    "hero_phone_style": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<style>@media screen and (max-width: 749px) { [id$='__hero_a'] .hero, [id$='__hero_a'] .hero__container { min-height: 0; } [id$='__hero_a'] .hero__container { padding-block-start: 0 !important; } [id$='__hero_a'] .hero__media-grid { position: relative; aspect-ratio: 4 / 3; } [id$='__hero_a'] .hero__media-grid .overlay { display: none; } [id$='__hero_a'] .hero__content-wrapper { padding-block-start: 20px; } } [id$='__hero_a'] .button { font-size: 1.1875rem; font-weight: 700; } [id$='__hero_a'] h1 { translate: -0.03em 0; } [id$='__hero_a'] .group-block { margin-block-start: 20px; } @media screen and (min-width: 750px) { [id$='__hero_a'] .group-block { margin-block-start: 32px; } } @media screen and (min-width: 750px) { [id$='__hero_a'] .hero { min-height: clamp(440px, 37vw, 90vh); } [id$='__hero_a'] .hero__media-grid img { object-position: 50% 55%; } [id$='__hero_a'] .hero__content-wrapper { grid-column: 1 / -1; width: 100%; max-width: 1920px; margin-inline: auto; padding-inline: var(--page-margin); box-sizing: border-box; } } [id$='__hero_a'] h1 { color: #07272d; }</style>",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "features_section_blue": {
       "type": "features-section",
       "blocks": {
-        "feature_RPq7zH": {
+        "f1": {
           "type": "feature",
           "settings": {
-            "text": "Made in Europe"
+            "text": "Prime delivery & Amazon returns",
+            "icon": "shopify://shop_images/icon-delivery.png"
           }
         },
-        "feature_1": {
+        "f2": {
           "type": "feature",
           "settings": {
-            "text": "Timeless Design"
+            "text": "4.5–5 stars · 150+ ratings",
+            "icon": "shopify://shop_images/icon-star-rating.png"
           }
         },
-        "feature_2": {
+        "f3": {
           "type": "feature",
           "settings": {
-            "text": "Crafted with Purpose"
+            "text": "Gift-ready",
+            "icon": "shopify://shop_images/icon-gift-box.png"
           }
         },
-        "feature_3": {
+        "f4": {
           "type": "feature",
           "settings": {
-            "text": "Lasting Quality"
-          }
-        },
-        "feature_4": {
-          "type": "feature",
-          "settings": {
-            "text": "Made for Gifting"
+            "text": "Designed in Estonia",
+            "icon": "shopify://shop_images/icon-designed-nib.png"
           }
         }
       },
       "block_order": [
-        "feature_RPq7zH",
-        "feature_1",
-        "feature_2",
-        "feature_3",
-        "feature_4"
+        "f1",
+        "f2",
+        "f3",
+        "f4"
       ],
       "settings": {
-        "heading": "Product features"
+        "heading": "Why buy from Eagle & Ash",
+        "color_style": "teal"
       }
     },
-    "brand_story": {
-      "type": "brand-story",
+    "products_ea": {
+      "type": "ea-pairs-with",
+      "name": "Product cards",
+      "blocks": {
+        "static-header": {
+          "type": "_product-list-content",
+          "static": true,
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_pairs_heading": {
+              "type": "text",
+              "name": "t:names.header",
+              "settings": {
+                "text": "<h2>From tee to trophy.</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "h4",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_pairs_heading"
+          ]
+        },
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 8,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 8,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_DNizbJ": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_M7MJkb": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_gLWgA6": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "swatch_row_pairs_ea": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{%- render 'ea-card-swatch-row', product: closest.product -%}"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery_DNizbJ",
+            "product_title_M7MJkb",
+            "price_gLWgA6",
+            "swatch_row_pairs_ea"
+          ]
+        },
+        "offer_ribbon": {
+          "type": "ea-offer-ribbon",
+          "settings": {
+            "text": "Buy any 2 Eagle & Ash products, get 15% off",
+            "code": "EAGLEASH15",
+            "small_print": "Until Nov 30, 2026 · one use per customer.",
+            "show_until": "2026-11-30",
+            "look": "line"
+          }
+        },
+        "see_all": {
+          "type": "button",
+          "settings": {
+            "label": "Shop all golf gifts →",
+            "link": "shopify://collections/all",
+            "style_class": "link"
+          }
+        }
+      },
       "settings": {
-        "heading": "Designed with Purpose. Made to Be Remembered.",
-        "description_1": "<p>At Eagle & Ash, we believe the objects surrounding the game should carry as much meaning as the moments themselves. That's why we create premium golf gifts that combine thoughtful design, lasting quality and refined presentation in every detail.</p>",
-        "description_2": "<p>From everyday accessories to memorable awards and distinctive gifts, each piece is designed to be used, displayed and remembered. Inspired by the traditions of golf and crafted with purpose, our collection celebrates the game both on and beyond the course.</p>",
-        "image_small": "shopify://shop_images/brand-story-small.webp",
-        "image_big": "shopify://shop_images/brand-story-big.webp"
+        "products": [
+          "bamboo-golf-tees",
+          "leather-golf-tee-pouch-zip",
+          "leather-golf-tee-pouch-flex",
+          "bath-bombs-for-women-golfers-chamomile",
+          "golf-ball-holder-duo-pack"
+        ],
+        "layout_type": "carousel",
+        "carousel_on_mobile": false,
+        "max_products": 5,
+        "columns": 4,
+        "mobile_columns": "2",
+        "mobile_card_size": "44cqw",
+        "columns_gap": 32,
+        "rows_gap": 24,
+        "icons_style": "arrow",
+        "icons_shape": "circle",
+        "section_width": "full-width",
+        "horizontal_alignment": "center",
+        "gap": 28,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 72,
+        "padding-block-end": 48,
+        "card_look": "tiles",
+        "tabs": true,
+        "tab_all_label": "All",
+        "tab_main_label": "Bestsellers",
+        "tab_soon_label": "Coming soon",
+        "all_products": [
+          "leather-golf-tee-pouch-zip",
+          "leather-golf-tee-pouch-flex",
+          "bamboo-golf-tees",
+          "bath-bombs-for-women-golfers-chamomile",
+          "hole-in-one-golf-ball-display",
+          "golf-ball-holder-duo-pack"
+        ],
+        "soon_signup_text": "Be the first to know when they launch, with a launch price for subscribers.",
+        "soon_klaviyo_company": "RMHHKa",
+        "soon_klaviyo_list": "Rcmc4K",
+        "soon_privacy": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>"
+      },
+      "block_order": [
+        "see_all",
+        "offer_ribbon"
+      ]
+    },
+    "anchor_gift_types": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<span id=\"gift-types\"></span>",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "collection_cards": {
       "type": "collection-cards",
       "blocks": {
-        "card_1": {
+        "card_practical": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/carousel-award.webp",
-            "title": "Awards",
-            "back_title": "Handcrafted Awards That Carry Meaning",
-            "back_text": "More than trophies, these are lasting symbols of achievement. Each Eagle & Ash award is handcrafted in Estonia by a carefully selected artisan, bringing together timeless design, exceptional craftsmanship and premium materials. Available in a range of designs and sizes, with bespoke solutions for clubs, tournaments and corporate events.",
-            "back_action_title": "Start a Conversation",
-            "back_action_url": "shopify://pages/contact"
+            "image": "shopify://shop_images/card-practical-golfer-bag.jpg",
+            "title": "The practical golfer",
+            "back_title": "Gifts they will use every round",
+            "back_text": "A leather golf tee pouch that clips to the bag, and bamboo golf tees with height markers. For the golfer who says “don't buy me anything I won't use.”",
+            "back_action_title": "See the tee pouches",
+            "back_action_url": "shopify://products/leather-golf-tee-pouch-flex",
+            "quote": "tees-quote-1-short",
+            "back_products": [
+              "leather-golf-tee-pouch-flex",
+              "bamboo-golf-tees"
+            ]
           }
         },
-        "card_2": {
+        "card_meaning": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/carousel-recovery.webp",
-            "title": "Recovery",
-            "back_title": "Recovery, Reimagined",
-            "back_text": "Our signature golf ball bath bombs turn an unexpected idea into a memorable gift. Handmade, beautifully presented and available in chamomile, sandalwood and mint, they're designed to surprise, delight and leave a lasting impression. A thoughtful addition to tournaments, client gifting and premium retail collections.",
-            "back_action_title": "Start a Conversation",
-            "back_action_url": "shopify://pages/contact"
+            "image": "shopify://shop_images/card-keeper-study.jpg",
+            "title": "The keeper of good shots",
+            "back_title": "For the ball worth keeping",
+            "back_text": "A hole-in-one golf ball display in solid ash wood, handmade in Estonia. The ball from the ace, the eagle or the personal best finally leaves the drawer.",
+            "back_action_title": "See the ball display",
+            "back_action_url": "shopify://products/hole-in-one-golf-ball-display",
+            "quote": "trophy-quote-1",
+            "back_products": [
+              "hole-in-one-golf-ball-display",
+              "golf-ball-holder-duo-pack"
+            ]
           }
         },
-        "card_3": {
+        "card_fun": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/carousel-tees.webp",
-            "title": "Essentials",
-            "back_title": "Everyday Essentials, Thoughtfully Made",
-            "back_text": "Crafted from bamboo and designed for everyday play, our golf tees combine clean design with practical performance. High and low height markings make them easy to use, while multiple pack sizes offer flexibility for retail, gifting and event use. Even the smallest details deserve thoughtful design.",
-            "back_action_title": "Start a Conversation",
-            "back_action_url": "shopify://pages/contact"
+            "image": "shopify://shop_images/card-everything-three-friends-v2.jpg",
+            "title": "The golfer who has everything, | including a sense of humor",
+            "back_title": "Golf balls they'll want in the water",
+            "back_text": "Golf ball bath bombs in chamomile, sandalwood or mountain mint, four in a gift box. Made in Latvia, 97.7% natural origin.",
+            "back_action_title": "See the bath bombs",
+            "back_action_url": "shopify://products/bath-bombs-for-women-golfers-chamomile",
+            "quote": "chamomile-quote-3",
+            "back_products": [
+              "bath-bombs-for-women-golfers-chamomile",
+              "bath-bombs-for-men-sandalwood"
+            ]
           }
         },
-        "card_5": {
+        "card_business": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/carousel-leather.webp",
-            "title": "Leather",
-            "back_title": "Crafted to Stay with You",
-            "back_text": "Made from premium leather and designed with everyday practicality in mind, our tee pouches combine function with timeless craftsmanship. Easy to attach during play and refined enough to be gifted, they are products golfers will use, keep and remember. A distinctive addition to any premium golf offering.",
-            "back_action_title": "Start a Conversation",
-            "back_action_url": "shopify://pages/contact"
+            "image": "shopify://shop_images/contact-split.webp",
+            "title": "Clubs, tournaments & teams",
+            "back_title": "Golf tournament gifts from 10 pieces",
+            "back_text": "Prizes, goodie bags and client gifts for companies, golf clubs and events. We reply within one business day.",
+            "back_action_title": "Ask for a bulk quote",
+            "back_action_url": "shopify://pages/wholesale",
+            "quote": "pouch-quote-charity-auction",
+            "back_products": [
+              "leather-golf-tee-pouch-zip",
+              "hole-in-one-golf-ball-display",
+              "golf-tournament-gift-bath-bombs-mint"
+            ]
           }
         }
       },
       "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_5"
+        "card_practical",
+        "card_fun",
+        "card_meaning",
+        "card_business"
       ],
       "settings": {
-        "heading": "Crafted for Every Golfing Moment"
+        "heading": "Who are you buying for?",
+        "heading_alignment": "center",
+        "color_style": "blue",
+        "back_color": "dark_blue",
+        "title_position": "top",
+        "review_look": "bubble",
+        "subheading": "Can't decide? Turn a card over to see their gifts.",
+        "footnote": "We're a new, small brand. 150+ Amazon ratings so far, and we read every one!"
       }
     },
-    "contact_split": {
-      "type": "contact-split",
+    "why_ea": {
+      "type": "custom-liquid",
       "settings": {
-        "title": "Let's Create Something Worth Remembering",
-        "show_origin_badge": false,
-        "description": "<p>Whether you're recognising achievement, thanking clients or creating memorable event gifts, we're here to help.</p><p>Rather than mass-produced alternatives, we collaborate with carefully selected makers and trusted workshops to deliver exceptional craftsmanship, thoughtful presentation and products made to leave a lasting impression.<br/>Every project is approached with care, flexibility and attention to detail — because meaningful gifts deserve more than a one-size-fits-all solution.</p><p>Whether you already have a clear vision or are looking for inspiration, we'd love to hear your ideas and explore what's possible together.</p>",
-        "cta_label": "Let's Start a Conversation",
-        "cta_link": "shopify://pages/contact",
-        "image": "shopify://shop_images/contact-split.webp"
+        "custom_liquid": "{%- render 'ea-home-why', title: \"Why our gifts are *different.*\", link_label: 'Read our story →', link_url: '/pages/our-story' -%}",
+        "color_scheme": "scheme-1",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "anchor_signup": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<span id=\"signup\"></span>",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "signup_ea": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{%- render 'ea-home-signup', title: 'New gifts and Amazon deals, *first.*', text: 'New gifts are on the way. Leave your email and we tell you when they launch, and when one of our gifts has a deal on Amazon.', klaviyo_company_id: 'RMHHKa', klaviyo_list_id: 'Rcmc4K', privacy_notice: '<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>' -%}",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "faq_ea": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{%- render 'ea-home-faq', title: 'Good to *know.*', bulk_url: '/pages/wholesale', signup_url: '#signup' -%}",
+        "color_scheme": "scheme-1",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     }
   },
   "order": [
-    "promo_section",
-    "features_section",
-    "brand_story",
+    "hero_a",
+    "hero_phone_style",
+    "features_section_blue",
+    "products_ea",
+    "anchor_gift_types",
     "collection_cards",
-    "contact_split"
+    "why_ea",
+    "anchor_signup",
+    "signup_ea",
+    "faq_ea"
   ]
 }
