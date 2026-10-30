@@ -284,7 +284,8 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0,
-        "heading": "Good gifts are worth hearing about."
+        "heading": "Good gifts are worth hearing about.",
+        "band_style": "light"
       }
     },
     "trust_strip": {

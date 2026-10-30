@@ -17,11 +17,18 @@
   # Anu, 30 Oct 2026: on the About page (template page.our-story) the slogan stands large, with her sentence, in the place
   # of the footer sign-up (that page has its own sign-up band), and the logo is the store logo without the slogan
   assign ea_about_footer = false
-  if template.name == 'page' and template.suffix == 'our-story' and section.settings.about_motto_heading != blank
+  if template.name == 'page' and template.suffix == 'our-story'
     assign ea_about_footer = true
-    if settings.logo != blank
-      assign footer_logo = settings.logo
-    endif
+  endif
+  # Anu, 30 Oct 2026: the Shop page too, as it ends with its own sign-up band right above the footer
+  if template.name == 'collection'
+    assign ea_about_footer = true
+  endif
+  if section.settings.about_motto_heading == blank
+    assign ea_about_footer = false
+  endif
+  if ea_about_footer and settings.logo != blank
+    assign footer_logo = settings.logo
   endif
 %}
 

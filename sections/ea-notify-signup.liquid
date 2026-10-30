@@ -14,7 +14,7 @@
 -%}
 {%- if ea_any and section.settings.klaviyo_list != blank -%}
   <div
-    class="ea-notify-signup__wrap spacing-style"
+    class="ea-notify-signup__wrap{% if section.settings.band_style == 'light' %} ea-notify-signup__wrap--light{% endif %} spacing-style"
     style="{% render 'spacing-style', settings: section.settings %}"
   >
     {%- render 'ea-soon-signup',
@@ -34,6 +34,26 @@
   .ea-notify-signup__wrap .ea-soon-band {
     margin-block-start: 0;
   }
+
+  /* light blue, as the gift-idea band of the About page: the last band above the dark footer (Anu, 30 Oct 2026) */
+  .ea-notify-signup__wrap--light .ea-soon-band {
+    background: #d5ebee;
+    color: #07272d;
+  }
+
+  .ea-notify-signup__wrap--light .ea-soon-band .ea-soon-signup__heading { color: #07272d; }
+
+  .ea-notify-signup__wrap--light .ea-soon-band .ea-soon-signup__text,
+  .ea-notify-signup__wrap--light .ea-soon-band .ea-soon-signup .email-signup-klaviyo__privacy,
+  .ea-notify-signup__wrap--light .ea-soon-band .ea-soon-signup .email-signup-klaviyo__privacy a,
+  .ea-notify-signup__wrap--light .ea-soon-band .ea-soon-signup .email-signup-klaviyo__message-text {
+    color: #16282d;
+  }
+
+  .ea-notify-signup__wrap--light .ea-soon-band .ea-soon-signup .email-signup-klaviyo__input {
+    border: 1px solid #9fbfc5;
+    background: #fff;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -47,6 +67,7 @@
     { "type": "text", "id": "klaviyo_list", "label": "Klaviyo list id" },
     { "type": "text", "id": "source", "label": "Sign-up source (saved in Klaviyo)", "default": "Shop page: coming soon" },
     { "type": "richtext", "id": "privacy", "label": "Privacy notice" },
+    { "type": "select", "id": "band_style", "label": "Band colour", "options": [ { "value": "teal", "label": "Teal (Blue Spectrum Dark)" }, { "value": "light", "label": "Light blue" } ], "default": "teal" },
     { "type": "color_scheme", "id": "color_scheme", "label": "t:settings.color_scheme", "default": "scheme-1" },
     { "type": "range", "id": "padding-block-start", "label": "t:settings.top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
     { "type": "range", "id": "padding-block-end", "label": "t:settings.bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 56 }
