@@ -9,18 +9,27 @@
 {% liquid
   assign highlights = closest.product.metafields.custom.highlights.value
   # Badge 1, 2, 3 link to "Why it's different" row 01, 02, 03 (same order), when that row exists.
+  # Product field custom.highlight_rows (text, e.g. "1, 1, 2") sets the row per badge instead: bath bombs, 31 Oct 2026,
+  # where rows 01 "97.7% natural origin" and 02 "Made in the EU" became one row.
   assign story_rows = closest.product.metafields.custom.story_rows.value
   assign story_count = 0
   if block.settings.link_to_story and story_rows != blank
     assign story_count = story_rows.size
   endif
+  assign row_map = closest.product.metafields.custom.highlight_rows.value | default: '' | remove: ' ' | split: ','
 %}
 
 {%- if highlights != blank -%}
   <ul class="ea-highlights ea-highlights--{{ block.settings.icon_color }}" style="--ea-icon-size: {{ block.settings.icon_size }}px;">
     {%- for highlight in highlights limit: 4 -%}
       <li class="ea-highlights__item">
-        {%- if forloop.index <= story_count -%}<a class="ea-highlights__link" href="#ea-story-{{ forloop.index }}">{%- endif -%}
+        {%- liquid
+          assign row = forloop.index
+          if row_map[forloop.index0] != blank
+            assign row = row_map[forloop.index0] | plus: 0
+          endif
+        -%}
+        {%- if row <= story_count -%}<a class="ea-highlights__link" href="#ea-story-{{ row }}">{%- endif -%}
         {%- assign symbol = highlight.symbol.value -%}
         {%- assign icon = highlight.icon.value -%}
         {%- if symbol != blank -%}
@@ -33,7 +42,7 @@
           }}
         {%- endif -%}
         <span class="ea-highlights__label">{{ highlight.label.value | escape }}</span>
-        {%- if forloop.index <= story_count -%}</a>{%- endif -%}
+        {%- if row <= story_count -%}</a>{%- endif -%}
       </li>
     {%- endfor -%}
   </ul>
