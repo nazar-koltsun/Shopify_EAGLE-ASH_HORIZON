@@ -1,0 +1,82 @@
+{%- doc -%}
+  Eagle & Ash About page (canvas round 15): the dark teal strip with three proofs (white icon, short title, one line),
+  after the makers block. Anu, 30 Oct 2026: the strip text a little smaller than on the canvas (titles 27 px, was 34).
+{%- enddoc -%}
+<div class="ea-about-proofs">
+  <ul class="ea-about-proofs__list" role="list">
+    {%- for block in section.blocks -%}
+      <li {{ block.shopify_attributes }}>
+        {%- if block.settings.icon != blank -%}
+          {{ block.settings.icon | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', width: 48, height: 48 }}
+        {%- endif -%}
+        <p class="ea-about-proofs__title">{{ block.settings.title | escape }}</p>
+        <p class="ea-about-proofs__text">{{ block.settings.text | escape }}</p>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+{% stylesheet %}
+  .ea-about-proofs {
+    background: #115e67;
+    color: #fff;
+  }
+
+  .ea-about-proofs__list {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 16px;
+    list-style: none;
+    display: grid;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .ea-about-proofs img {
+    display: block;
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 12px;
+  }
+
+  .ea-about-proofs__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 1.15;
+    color: #fff;
+  }
+
+  .ea-about-proofs__text {
+    margin: 8px 0 0;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #e3eff1;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ea-about-proofs__list { grid-template-columns: repeat(3, 1fr); gap: 48px; padding: 44px 40px; }
+    .ea-about-proofs img { width: 52px; height: 52px; margin-bottom: 14px; }
+    .ea-about-proofs__title { font-size: 21px; } /* below the 30 px titles, as the other small headings */
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "E&A About: proof strip",
+  "tag": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "proof",
+      "name": "Proof",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "White icon" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "text", "label": "Line" }
+      ]
+    }
+  ]
+}
+{% endschema %}

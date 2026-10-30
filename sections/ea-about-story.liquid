@@ -1,0 +1,129 @@
+{%- doc -%}
+  Eagle & Ash About page (canvas round 15): "Our story." in rows like the product pages' "Why it's different" (photo and
+  text side by side, the side changes every row, numbers 01-03 in orange). A row without a photo shows its text alone
+  (row 01 waits for the founders' photo). A thank-you line can close the section.
+{%- enddoc -%}
+<div class="ea-about-story">
+  <h2 class="ea-about-section-title">{%- render 'ea-accent-text', text: section.settings.title -%}</h2>
+  {%- for block in section.blocks -%}
+    {%- assign ea_has_image = false -%}
+    {%- if block.settings.image != blank -%}{%- assign ea_has_image = true -%}{%- endif -%}
+    <div class="ea-about-story__row{% cycle ' ea-about-story__row--text-first', '' %}{% unless ea_has_image %} ea-about-story__row--text-only{% endunless %}" {{ block.shopify_attributes }}>
+      {%- if ea_has_image -%}
+        <div class="ea-about-story__media">
+          {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 560px, 100vw', widths: '600, 900, 1200, 1400', alt: block.settings.image.alt }}
+        </div>
+      {%- endif -%}
+      <div class="ea-about-story__text">
+        <h3 class="ea-story__heading ea-about-story__heading">
+          <span class="ea-story__number" aria-hidden="true">0{{ forloop.index }}</span>
+          <span class="ea-story__heading-text">{{ block.settings.heading | escape }}</span>
+        </h3>
+        <div class="ea-about-story__body">{{ block.settings.text }}</div>
+        {%- if block.settings.signature != blank -%}<p class="ea-about-story__sign">{{ block.settings.signature | escape }}</p>{%- endif -%}
+        {%- if block.settings.small != blank -%}<p class="ea-about-story__small">{{ block.settings.small | escape }}</p>{%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+  {%- if section.settings.thanks != blank -%}<p class="ea-about-story__thanks">{{ section.settings.thanks | escape }}</p>{%- endif -%}
+</div>
+
+{% stylesheet %}
+  .ea-about-story {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 56px 16px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .ea-about-story .ea-about-section-title { margin-bottom: 0; }
+
+  .ea-about-story__row { display: grid; gap: 20px; align-items: center; }
+
+  .ea-about-story__media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .ea-about-story__heading.ea-story__heading {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 0 16px;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    color: #07272d;
+  }
+
+  /* numbered titles as on the homepage "Why it's different" (Anu, 30 Oct 2026: they looked too small) */
+  .ea-about-story__heading .ea-story__number { font-size: 28.8px; line-height: 1; }
+  .ea-about-story__heading .ea-story__heading-text { font-size: 21px; line-height: 1.3; }
+
+  .ea-about-story__body { font-size: 16px; line-height: 1.65; color: #16282d; }
+  .ea-about-story__body p { margin: 0 0 12px; }
+  .ea-about-story__body p:last-child { margin-bottom: 0; }
+
+  .ea-about-story__sign {
+    margin: 16px 0 0;
+    font-family: var(--font-heading--family);
+    font-style: italic;
+    font-size: 26px;
+    color: #07272d;
+  }
+
+  .ea-about-story__small {
+    margin: 12px 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #4a5e63;
+  }
+
+  .ea-about-story__row--text-only { max-width: 760px; margin-inline: auto; }
+
+  .ea-about-story__thanks {
+    max-width: 760px;
+    margin: 8px auto 0;
+    text-align: center;
+    font-family: var(--font-heading--family);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.5;
+    color: #07272d;
+  }
+
+  @media screen and (min-width: 990px) {
+    .ea-about-story { padding: 80px 40px 72px; gap: 56px; }
+    .ea-about-story__row:not(.ea-about-story__row--text-only) { grid-template-columns: 1fr 1fr; gap: 64px; }
+    .ea-about-story__row--text-first .ea-about-story__media { order: 2; }
+    .ea-about-story__thanks { font-size: 20px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "E&A About: story rows",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "info": "Words between two stars are orange.", "default": "Our *story.*" },
+    { "type": "textarea", "id": "thanks", "label": "Thank-you line under the rows" }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Story row",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo (optional)" },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "richtext", "id": "text", "label": "Text" },
+        { "type": "text", "id": "signature", "label": "Signature (optional)" },
+        { "type": "text", "id": "small", "label": "Small line, e.g. a photo credit (optional)" }
+      ]
+    }
+  ]
+}
+{% endschema %}

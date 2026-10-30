@@ -1,0 +1,207 @@
+{%- doc -%}
+  Eagle & Ash About page (Anu, 30 Oct 2026, canvas round 15): a muted, looping film of the ball display being made, then
+  the page title, a lead sentence and a short paragraph. A pause button is required for a moving image that plays for
+  more than 5 seconds (WCAG 2.2.2); with "reduce motion" switched on in the visitor's system the film does not start.
+  Also prints the page's structured data (AboutPage + Organization: name, founding year, country, company, e-mail).
+{%- enddoc -%}
+{%- liquid
+  assign ea_video = section.settings.video
+  assign ea_src = ''
+  assign ea_best = 0
+  if ea_video != blank
+    for ea_source in ea_video.sources
+      if ea_source.mime_type == 'video/mp4' and ea_source.height <= 1080 and ea_source.height > ea_best
+        assign ea_src = ea_source.url
+        assign ea_best = ea_source.height
+      endif
+    endfor
+  endif
+-%}
+<div class="ea-about-hero">
+  {%- if ea_src != '' -%}
+    <ea-about-film class="ea-about-hero__film">
+      <video
+        class="ea-about-hero__media"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        {% if section.settings.poster != blank %}poster="{{ section.settings.poster | image_url: width: 1920 }}"{% endif %}
+        aria-label="{{ section.settings.video_label | escape }}"
+      >
+        <source src="{{ ea_src }}" type="video/mp4">
+      </video>
+      <button type="button" class="ea-about-hero__toggle" aria-pressed="false" aria-label="Pause the film">
+        <span class="ea-about-hero__pause" aria-hidden="true"></span>
+      </button>
+    </ea-about-film>
+  {%- elsif section.settings.poster != blank -%}
+    {{ section.settings.poster | image_url: width: 1920 | image_tag: class: 'ea-about-hero__media', loading: 'eager', alt: section.settings.video_label }}
+  {%- endif -%}
+</div>
+<div class="ea-about-intro">
+  <h1 class="ea-about-intro__title">{%- render 'ea-accent-text', text: section.settings.title -%}</h1>
+  {%- if section.settings.lead != blank -%}<p class="ea-about-intro__lead">{{ section.settings.lead | escape | newline_to_br }}</p>{%- endif -%}
+  {%- if section.settings.body != blank -%}<div class="ea-about-intro__body">{{ section.settings.body }}</div>{%- endif -%}
+</div>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "url": {{ canonical_url | json }},
+    "name": {{ page.title | default: 'About Eagle & Ash' | json }},
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "Eagle & Ash",
+      "legalName": "VERTOHOUSE OÜ",
+      "url": {{ shop.url | json }},
+      {%- if settings.logo != blank %}"logo": {{ settings.logo | image_url: width: 600 | prepend: 'https:' | json }},{% endif %}
+      "foundingDate": "2025",
+      "foundingLocation": { "@type": "Place", "name": "Estonia" },
+      "email": "hello@eagleandash.com",
+      "description": {{ section.settings.lead | strip_newlines | json }}
+    }
+  }
+</script>
+
+{% javascript %}
+  if (!customElements.get('ea-about-film')) {
+    customElements.define('ea-about-film', class extends HTMLElement {
+      connectedCallback() {
+        const video = this.querySelector('video');
+        const button = this.querySelector('button');
+        if (!video || !button) return;
+        const show = (paused) => {
+          button.setAttribute('aria-pressed', paused ? 'true' : 'false');
+          button.setAttribute('aria-label', paused ? 'Play the film' : 'Pause the film');
+          button.classList.toggle('is-paused', paused);
+        };
+        button.addEventListener('click', () => {
+          if (video.paused) { video.play(); show(false); } else { video.pause(); show(true); }
+        });
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { show(true); return; }
+        const start = video.play();
+        if (start && start.catch) start.catch(() => show(true));
+      }
+    });
+  }
+{% endjavascript %}
+
+{% stylesheet %}
+  .ea-about-hero {
+    position: relative;
+    height: clamp(260px, 42vw, 600px);
+    background: #2b2118;
+    overflow: hidden;
+  }
+
+  .ea-about-hero__film { display: block; height: 100%; }
+
+  .ea-about-hero__media {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ea-about-hero__toggle {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(0 30 38 / 0.7);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+  }
+
+  .ea-about-hero__pause {
+    width: 14px;
+    height: 16px;
+    border-inline: 5px solid #fff;
+    box-sizing: border-box;
+  }
+
+  .ea-about-hero__toggle.is-paused .ea-about-hero__pause {
+    width: 0;
+    height: 0;
+    border-block: 8px solid transparent;
+    border-inline-start: 13px solid #fff;
+    border-inline-end: 0;
+    margin-inline-start: 4px;
+  }
+
+  .ea-about-intro {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 48px 16px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  /* the same size as every other title on the page (Anu, 30 Oct 2026) */
+  .ea-about-intro__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    color: #07272d;
+  }
+
+  .ea-about-intro__lead {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 19px;
+    line-height: 1.45;
+    color: #07272d;
+  }
+
+  .ea-about-intro__body {
+    max-width: 640px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #16282d;
+  }
+
+  .ea-about-intro__body p { margin: 0; }
+
+  @media screen and (min-width: 990px) {
+    .ea-about-intro .ea-about-intro__title { font-size: 28px; }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .ea-about-intro .ea-about-intro__title { font-size: 30px; }
+  }
+
+  @media screen and (min-width: 750px) {
+    .ea-about-hero__toggle { right: 24px; bottom: 24px; }
+    .ea-about-intro { padding: 64px 40px 56px; gap: 18px; }
+    .ea-about-intro__title { font-size: 24px; }
+    .ea-about-intro__lead { font-size: 21px; }
+    .ea-about-intro__body { font-size: 17px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "E&A About: film and title",
+  "tag": "section",
+  "settings": [
+    { "type": "video", "id": "video", "label": "Film (muted, loops)" },
+    { "type": "image_picker", "id": "poster", "label": "Still picture (shown while the film loads, or instead of it)" },
+    { "type": "text", "id": "video_label", "label": "What the film shows (for screen readers)", "default": "Our ball display being made in the workshop in Tartu" },
+    { "type": "text", "id": "title", "label": "Page title", "info": "Words between two stars are orange.", "default": "Craftsmanship you can *see.*" },
+    { "type": "textarea", "id": "lead", "label": "Lead sentence" },
+    { "type": "richtext", "id": "body", "label": "Paragraph" }
+  ]
+}
+{% endschema %}

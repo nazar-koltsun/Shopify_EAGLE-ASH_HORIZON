@@ -1,0 +1,103 @@
+{%- doc -%}
+  Eagle & Ash About page (canvas round 15): "What to expect." on light grey, three items with an icon, then one button to
+  the gifts. Anu, 30 Oct 2026: the product row "Shop the gifts" is left out of the About page; this button keeps a way
+  to the gifts at the end of the page.
+{%- enddoc -%}
+<div class="ea-about-expect">
+  <h2 class="ea-about-section-title">{%- render 'ea-accent-text', text: section.settings.title -%}</h2>
+  <ul class="ea-about-expect__list" role="list">
+    {%- for block in section.blocks -%}
+      <li {{ block.shopify_attributes }}>
+        {%- if block.settings.icon != blank -%}
+          {{ block.settings.icon | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', width: 44, height: 44 }}
+        {%- endif -%}
+        <h3>{{ block.settings.title | escape }}</h3>
+        <p>{{ block.settings.text | escape }}</p>
+      </li>
+    {%- endfor -%}
+  </ul>
+  {%- if section.settings.button_label != blank and section.settings.button_url != blank -%}
+    <p class="ea-about-expect__button-wrap"><a class="button ea-about-expect__button" href="{{ section.settings.button_url }}">{{ section.settings.button_label | escape }}</a></p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .ea-about-expect {
+    background: #f5f4f2;
+    padding: 48px 16px 52px;
+    text-align: center;
+  }
+
+  .ea-about-expect__list {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 28px;
+  }
+
+  .ea-about-expect img { display: block; width: 44px; height: 44px; margin: 0 auto 12px; }
+
+  .ea-about-expect h3 {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 21px;
+    color: #07272d;
+  }
+
+  .ea-about-expect li p {
+    max-width: 316px;
+    margin: 8px auto 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #16282d;
+  }
+
+  .ea-about-expect__button-wrap { margin: 36px 0 0; }
+
+  /* the orange button of the homepage hero ("Shop golf gifts") */
+  .ea-about-expect__button.button {
+    display: inline-block;
+    padding: 16px 28px;
+    border-radius: 4px;
+    background: #fd5000;
+    color: #fff;
+    font-family: var(--font-body--family);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+
+  .ea-about-expect__button.button:hover { background: #b83a00; color: #fff; }
+
+  @media screen and (min-width: 750px) {
+    .ea-about-expect { padding: 56px 40px 60px; }
+    .ea-about-expect__list { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "E&A About: what to expect",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "info": "Words between two stars are orange.", "default": "What to *expect.*" },
+    { "type": "text", "id": "button_label", "label": "Button text", "default": "Shop golf gifts" },
+    { "type": "url", "id": "button_url", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    }
+  ]
+}
+{% endschema %}

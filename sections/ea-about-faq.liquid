@@ -1,0 +1,52 @@
+{%- doc -%}
+  Eagle & Ash About page (canvas round 15): "Questions, answered." with the small "FAQ" label above the title (as on the
+  homepage since 30 Oct 2026). Only the first answer is open. Question blocks; Anu, 30 Oct 2026: in a logical order
+  (who we are, how the gifts are made, how buying works).
+{%- enddoc -%}
+<div class="ea-about-faq">
+  {%- if section.settings.eyebrow != blank -%}<p class="ea-home-faq__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+  <h2 class="ea-about-section-title">{%- render 'ea-accent-text', text: section.settings.title -%}</h2>
+  {%- for block in section.blocks -%}
+    <details class="ea-home-faq__item" {% if forloop.first %}open{% endif %} {{ block.shopify_attributes }}>
+      <summary>{{ block.settings.question | escape }}</summary>
+      <div class="ea-about-faq__answer">{{ block.settings.answer }}</div>
+    </details>
+  {%- endfor -%}
+</div>
+
+{% stylesheet %}
+  .ea-about-faq {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 16px 64px;
+  }
+
+  .ea-about-faq .ea-about-section-title { margin-bottom: 20px; }
+
+  .ea-about-faq__answer p { margin: 0 0 16px; }
+
+  @media screen and (min-width: 990px) {
+    .ea-about-faq { padding: 72px 16px 72px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "E&A About: questions",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label above the title", "default": "FAQ" },
+    { "type": "text", "id": "title", "label": "Title", "info": "Words between two stars are orange.", "default": "Questions, *answered.*" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ]
+}
+{% endschema %}

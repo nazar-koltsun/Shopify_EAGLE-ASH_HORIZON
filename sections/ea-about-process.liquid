@@ -1,0 +1,180 @@
+{%- doc -%}
+  Eagle & Ash About page (canvas round 15): "Our process: from idea to gift box." Steps on one dotted line; the first and
+  the last step name in brand orange (20 px bold, so #fd5000 on white passes as large text), the last dot is the eagle.
+  A step may end with a link ("For shops: bulk orders →"). Phones: the steps run down a line on the left.
+{%- enddoc -%}
+<div class="ea-about-process">
+  <h2 class="ea-about-process__title">{%- render 'ea-accent-text', text: section.settings.title -%}</h2>
+  <ol class="ea-about-process__track" role="list" style="--ea-steps: {{ section.blocks.size }};">
+    {%- for block in section.blocks -%}
+      <li class="ea-about-process__step" {{ block.shopify_attributes }}>
+        <span class="ea-about-process__marker{% if forloop.last %} ea-about-process__marker--eagle{% endif %}" aria-hidden="true">
+          {%- if forloop.last -%}{%- render 'ea-eagle-mark' -%}{%- endif -%}
+        </span>
+        <p class="ea-about-process__label">{{ block.settings.label | escape }}</p>
+        <p class="ea-about-process__caption">{{ block.settings.caption | escape }}</p>
+        {%- if block.settings.link_label != blank and block.settings.link_url != blank -%}
+          <a class="ea-about-process__link" href="{{ block.settings.link_url }}">{{ block.settings.link_label | escape }}</a>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ol>
+</div>
+
+{% stylesheet %}
+  .ea-about-process {
+    max-width: 1312px;
+    margin: 0 auto;
+    padding: 40px 16px 48px;
+  }
+
+  .ea-about-process__title,
+  .ea-about-section-title {
+    margin: 0 0 32px;
+    text-align: center;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    color: #07272d;
+  }
+
+  .ea-about-process__track {
+    position: relative;
+    margin: 0;
+    padding: 0 0 0 36px;
+    list-style: none;
+    display: grid;
+    gap: 22px;
+  }
+
+  /* phones: the line runs down on the left */
+  .ea-about-process__track::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 12px;
+    width: 2px;
+    background: #115e67;
+  }
+
+  .ea-about-process__step { position: relative; }
+
+  .ea-about-process__marker {
+    position: absolute;
+    left: -36px;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    border: 3px solid #115e67;
+    border-radius: 50%;
+    background: #fff;
+    box-sizing: border-box;
+  }
+
+  .ea-about-process__marker--eagle {
+    left: -42px;
+    width: 30px;
+    height: 12px;
+    border: 0;
+    border-radius: 0;
+    color: #fd5000;
+    background: #fff;
+  }
+
+  .ea-about-process__marker--eagle svg { display: block; width: 30px; height: 11px; }
+
+  .ea-about-process__label {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 1.25;
+    color: #07272d;
+  }
+
+  .ea-about-process__step:first-child .ea-about-process__label,
+  .ea-about-process__step:last-child .ea-about-process__label {
+    color: #fd5000;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .ea-about-process__caption {
+    margin: 4px 0 0;
+    font-size: 15px;
+    line-height: 1.45;
+    color: #16282d;
+  }
+
+  .ea-about-process__link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #b83a00;
+  }
+
+  /* Anu, 30 Oct 2026: every title on the About page the same size, as the homepage section titles: 30 px on wide
+     screens, 28 px up to 1200 px, 24 px on tablets and phones. Titles are in sentence case and end with a full stop
+     (or a question mark); the smaller numbered and column headings have no full stop. */
+  @media screen and (min-width: 990px) {
+    .ea-about-process { padding: 56px 64px 56px; }
+
+    .ea-about-process__title,
+    .ea-about-section-title { font-size: 28px; margin-bottom: 44px; }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .ea-about-process__title,
+    .ea-about-section-title { font-size: 30px; }
+  }
+
+  @media screen and (min-width: 990px) {
+
+    .ea-about-process__track {
+      padding: 36px 0 0;
+      grid-template-columns: repeat(var(--ea-steps, 6), minmax(0, 1fr));
+      grid-auto-flow: column;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .ea-about-process__track::before {
+      left: calc(100% / 12);
+      right: calc(100% / 12);
+      top: 7px;
+      bottom: auto;
+      width: auto;
+      height: 2px;
+    }
+
+    .ea-about-process__marker { left: calc(50% - 8px); top: -36px; }
+    .ea-about-process__marker--eagle { left: calc(50% - 15px); top: -34px; }
+    .ea-about-process__caption { font-size: 14px; }
+    .ea-about-process__link { font-size: 14px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "E&A About: process line",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "info": "Words between two stars are orange.", "default": "Our process: from idea to *gift box.*" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Step name" },
+        { "type": "textarea", "id": "caption", "label": "Short text" },
+        { "type": "text", "id": "link_label", "label": "Link text (optional)" },
+        { "type": "url", "id": "link_url", "label": "Link" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -9,76 +9,362 @@
  */
 {
   "sections": {
-    "page_banner": {
-      "type": "page-banner",
+    "hero": {
+      "type": "ea-about-hero",
       "settings": {
-        "title": "Why We Exist",
-        "background_image": "shopify://shop_images/our-story-banner.webp"
+        "video": "shopify://files/videos/about-hero-trophy-making.mp4",
+        "poster": "shopify://shop_images/about-hero-trophy-making-poster.jpg",
+        "video_label": "Our ball display being made in the workshop in Tartu",
+        "title": "Craftsmanship you can *see.*",
+        "lead": "Small, specialized workshops make our gifts in small batches,\nfrom materials like solid American ash and full-grain leather from a certified tannery.",
+        "body": "<p>Eagle &amp; Ash is a small Estonian brand of golf gifts, founded in 2025. Every gift has a detail designed only for Eagle &amp; Ash, so it is unlikely to be one they already have. You buy on Amazon.com, with Prime delivery and Amazon returns.</p>"
       }
     },
-    "story_values_TRrng8": {
-      "type": "story-values",
+    "process": {
+      "type": "ea-about-process",
+      "settings": {
+        "title": "Our process: from idea to *gift box.*"
+      },
       "blocks": {
-        "item_AG64UF": {
-          "type": "item",
+        "process_1": {
+          "type": "step",
           "settings": {
-            "title": "Forged by Experience.",
-            "description": "<p>The best things are rarely created overnight. </p><p>They're shaped through challenges, setbacks, quiet persistence and countless small decisions. We believe the objects we keep should carry that same sense of meaning.</p>"
+            "label": "Born from fire",
+            "caption": "It starts with a gift we could not find."
           }
         },
-        "item_njt733": {
-          "type": "item",
+        "process_2": {
+          "type": "step",
           "settings": {
-            "title": "Crafted with Intention.",
-            "description": "<p>At Eagle & Ash, every piece begins with intention. </p><p>From premium materials to thoughtful craftsmanship, every detail is considered—creating gifts and keepsakes people are proud to give and even prouder to keep.</p>"
+            "label": "Better, or more fun",
+            "caption": "Golf is both serious and fun, and so are our gifts. We like cool or useful things, and make them even better."
           }
         },
-        "item_Txk4eE": {
-          "type": "item",
+        "process_3": {
+          "type": "step",
           "settings": {
-            "title": "Made to Last.",
-            "description": "<p>Fire doesn't only destroy. </p><p>It transforms. </p><p>It's where experience becomes wisdom, confidence is earned, and new beginnings take shape. </p><p>That belief lives in everything we create.</p>"
+            "label": "Sample, fix, repeat",
+            "caption": "We find the right maker, then get to the final product over a lot of iterations, coffee and black tea. Often in their workshop!"
+          }
+        },
+        "process_4": {
+          "type": "step",
+          "settings": {
+            "label": "The gift box",
+            "caption": "Weeks of packaging rounds, for the ten seconds you spend opening it."
+          }
+        },
+        "process_5": {
+          "type": "step",
+          "settings": {
+            "label": "Checked and on its way",
+            "caption": "We check the trophies ourselves, and our makers check the rest. Then on to Prime delivery, or to shops in bulk.",
+            "link_label": "For shops: bulk orders →",
+            "link_url": "shopify://pages/wholesale"
+          }
+        },
+        "process_6": {
+          "type": "step",
+          "settings": {
+            "label": "Made to fly",
+            "caption": "It ends with a smile, or a genuine surprise, on the recipient's face."
           }
         }
       },
       "block_order": [
-        "item_AG64UF",
-        "item_njt733",
-        "item_Txk4eE"
-      ],
-      "name": "Story Values",
-      "settings": {
-        "title": "Born from fire.\nMade to fly.",
-        "image": "shopify://shop_images/born-from-fire.webp"
-      }
+        "process_1",
+        "process_2",
+        "process_3",
+        "process_4",
+        "process_5",
+        "process_6"
+      ]
     },
-    "contact_split_AAgKnq": {
-      "type": "contact-split",
-      "name": "Contact Split",
+    "makers": {
+      "type": "ea-about-makers",
       "settings": {
-        "title": "Explore What’s Possible",
-        "description": "<p>Whether you're looking for meaningful gifts, bespoke awards or partnerships for your club or business, we'd love to create something together.<br/>Explore our collection, discover what's possible, or start a conversation.</p>",
-        "cta_label": "View Collections & Partnerships",
-        "cta_link": "shopify://pages/wholesale",
-        "image": "shopify://shop_images/explore.webp"
-      }
+        "title": "Inside the workshops.",
+        "who_title": "Who makes *what.*",
+        "credit": "",
+        "note": "We choose each maker for its craft, not its country."
+      },
+      "blocks": {
+        "makers_1": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/about-workshop-stone-sanding-tartu.jpg",
+            "heading": "Specialized small-item makers",
+            "caption": "The stone top is sanded by hand · Tartu, Estonia"
+          }
+        },
+        "makers_2": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/about-workshop-leather-batch-istanbul.jpg",
+            "heading": "Natural materials, finished by hand",
+            "caption": "Full-grain leather, a batch at the workshop · Istanbul, Turkey"
+          }
+        },
+        "makers_3": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/about-workshop-ash-oiling-tartu.jpg",
+            "heading": "Signature designs & attention to detail",
+            "caption": "Solid ash wood, oiled and assembled · Tartu, Estonia"
+          }
+        },
+        "makers_4": {
+          "type": "maker",
+          "settings": {
+            "name": "Ball display trophy",
+            "text": "Our design, made by hand from solid American ash and engineered stone.",
+            "place": "Tartu, Estonia"
+          }
+        },
+        "makers_5": {
+          "type": "maker",
+          "settings": {
+            "name": "Leather tee pouches",
+            "text": "Our design, in full-grain leather from an LWG Gold tannery, finished by hand.",
+            "place": "Istanbul, Turkey"
+          }
+        },
+        "makers_6": {
+          "type": "maker",
+          "settings": {
+            "name": "Golf ball bath bombs",
+            "text": "Pressed in our own golf-ball mould, dimples included, with a special formula for the small size.",
+            "place": "Riga, Latvia"
+          }
+        },
+        "makers_7": {
+          "type": "maker",
+          "settings": {
+            "name": "Bamboo golf tees",
+            "text": "Our own height markers, for the same tee height on every hole.",
+            "place": "China, where the bamboo grows"
+          }
+        }
+      },
+      "block_order": [
+        "makers_1",
+        "makers_2",
+        "makers_3",
+        "makers_4",
+        "makers_5",
+        "makers_6",
+        "makers_7"
+      ]
     },
-    "main": {
-      "type": "main-page",
-      "disabled": true,
+    "proofs": {
+      "type": "ea-about-proofs",
+      "settings": {},
+      "blocks": {
+        "proofs_1": {
+          "type": "proof",
+          "settings": {
+            "icon": "shopify://shop_images/about-icon-leather-white.png",
+            "title": "LWG Gold",
+            "text": "certified tannery for our pouch leather"
+          }
+        },
+        "proofs_2": {
+          "type": "proof",
+          "settings": {
+            "icon": "shopify://shop_images/about-icon-handmade-white.png",
+            "title": "Specialist makers",
+            "text": "small workshops we work with closely"
+          }
+        },
+        "proofs_3": {
+          "type": "proof",
+          "settings": {
+            "icon": "shopify://shop_images/about-icon-small-batches-white.png",
+            "title": "Small batches",
+            "text": "each gift with a detail of our own"
+          }
+        }
+      },
+      "block_order": [
+        "proofs_1",
+        "proofs_2",
+        "proofs_3"
+      ]
+    },
+    "story": {
+      "type": "ea-about-story",
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "color_scheme": "",
-        "padding-block-start": 40,
-        "padding-block-end": 80
+        "title": "Our *story.*",
+        "thanks": ""
+      },
+      "blocks": {
+        "story_1": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/about-founders-yvelin-anu-light.jpg",
+            "heading": "A short note from us",
+            "text": "<p>For more than ten years, we helped other companies develop and source products, and sell them online. But life is full of surprises, and in 2025 we started our own brand, to bring high-quality gifts to the market. We know how hard it is to find a gift for someone who already has everything, and how hard it is to bring a high-quality product to life. So, naturally, we picked golf: a game we play badly, for people who already own everything. With such enthusiasm, what could go wrong?</p>",
+            "signature": "Anu & Yvelin"
+          }
+        },
+        "story_2": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/about-eagle-on-ash-landing.jpg",
+            "heading": "Why Eagle & Ash",
+            "text": "<p>An eagle is two under par on one hole: rare, and worth remembering. Ash is a symbol of strength: in old Norse stories, the tree that holds up the world is an ash. Its pale wood has a beautiful grain, and it is not easy to craft. We chose it because it is strong, different and beautiful, and it grows along the fairways of many old golf courses. And we found makers with the talent to bring it to life.</p>"
+          }
+        },
+        "story_3": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/about-ball-display-on-shelf.jpg",
+            "heading": "A drawer full of golf balls",
+            "text": "<p>Ask a golfer where the ball from their best round is. Often the answer is: in a drawer, with all the others. That ball deserves better. So one of our first gifts was a display of ash wood and stone that holds one ball and lets you spin it. A simple idea. Our first choice was lava stone: born from fire. Manufacturing corrected us, and we tested dozens of stone and composite materials before we found one that works in real production. The rest followed just as naturally: leather tee pouches, bamboo tees with height markers, and bath bombs that look like golf balls. And finally, we had a gift series of our own (and now a website!), for the golfer who already has everything.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "story_1",
+        "story_2",
+        "story_3"
+      ]
+    },
+    "faq": {
+      "type": "ea-about-faq",
+      "settings": {
+        "eyebrow": "FAQ",
+        "title": "Questions, *answered.*"
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "question",
+          "settings": {
+            "question": "Who is behind Eagle & Ash?",
+            "answer": "<p>Anu and Yvelin, two founders in Estonia. For more than ten years we developed and sourced products for other companies; in 2025 we started our own brand. Our company, VERTOHOUSE OÜ, is registered in Tallinn, Estonia.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "question",
+          "settings": {
+            "question": "Do you play golf?",
+            "answer": "<p>Yes, badly. Our golf swings are not checked by anyone, and it shows.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "question",
+          "settings": {
+            "question": "Where are your products made?",
+            "answer": "<p>Every gift is designed in Estonia. The ball display trophy is made in Tartu, Estonia, the leather tee pouches in Istanbul, Turkey, the golf ball bath bombs in Riga, Latvia, and the bamboo tees in China. Our gift boxes are designed by a packaging designer in the US.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "question",
+          "settings": {
+            "question": "Have you been to the workshops?",
+            "answer": "<p>Yes. We visit our workshops, and we stay in close contact with them through the whole production process.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "question",
+          "settings": {
+            "question": "Do you engrave?",
+            "answer": "<p>Not ourselves. The hole-in-one ball display has a blank circle on its underside, so any local engraver can add a name or a date.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "question",
+          "settings": {
+            "question": "Can I order on this website?",
+            "answer": "<p>No. This website shows our gifts, and you buy them on Amazon.com. Our stock is in Amazon's US warehouses, so Amazon ships your order with Prime delivery and handles any return. Companies and golf clubs can order 10 or more through Bulk orders.</p>"
+          }
+        },
+        "faq_7": {
+          "type": "question",
+          "settings": {
+            "question": "How do I know it's really you on Amazon?",
+            "answer": "<p>Every “Shop on Amazon” button on this website opens our own product page on Amazon, where the brand link under the title leads to the Eagle &amp; Ash store.</p>"
+          }
+        },
+        "faq_8": {
+          "type": "question",
+          "settings": {
+            "question": "Do you sell in bulk?",
+            "answer": "<p>Yes, to companies, golf clubs and events, from 10 pieces. In the US, bulk orders ship through Amazon; in the EU, from Tallinn. The bath bombs are available in the US only. Send the form on <a href=\"/pages/wholesale\">Bulk orders</a>; we reply within one business day.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8"
+      ]
+    },
+    "expect": {
+      "type": "ea-about-expect",
+      "settings": {
+        "title": "What to *expect.*",
+        "button_label": "Shop golf gifts",
+        "button_url": "shopify://collections/all"
+      },
+      "blocks": {
+        "expect_1": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/about-icon-designed-nib.png",
+            "title": "Something unique in every gift",
+            "text": "Each gift is either our own design from the start, or a familiar golf item we made better, or more fun."
+          }
+        },
+        "expect_2": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/about-icon-gift-box.png",
+            "title": "A real gift box",
+            "text": "Most of our gifts come in their own box, not plastic wrap with a sticker. Open the parcel, and the gift is ready to hand over. You can take all the credit."
+          }
+        },
+        "expect_3": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/about-icon-review-star.png",
+            "title": "Real reviews",
+            "text": "150+ Amazon ratings so far: we are small, but growing. Each product page shows its Amazon rating, and Amazon Vine reviews are labelled."
+          }
+        }
+      },
+      "block_order": [
+        "expect_1",
+        "expect_2",
+        "expect_3"
+      ]
+    },
+    "idea": {
+      "type": "ea-about-idea",
+      "settings": {
+        "heading": "Have a gift idea we should make?",
+        "line": "Tell us. Our enthusiasm has no handicap.",
+        "link_label": "Send us your idea →",
+        "link_url": "shopify://pages/contact",
+        "signup_line": "Or sign up, and be the first to hear about new Eagle & Ash gifts and the occasional Amazon deal.",
+        "privacy": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
+        "small_print": "The small print on ideas: thank you for every one! Sending us an idea is a friendly gesture, not an agreement. Ideas are not confidential, and we may already be working on something similar. We do not pay for ideas. If one becomes a gift, we may thank you by name, but we cannot promise it."
       }
     }
   },
   "order": [
-    "page_banner",
-    "story_values_TRrng8",
-    "contact_split_AAgKnq",
-    "main"
+    "hero",
+    "process",
+    "makers",
+    "proofs",
+    "story",
+    "faq",
+    "expect",
+    "idea"
   ]
 }

@@ -13,6 +13,16 @@
   if footer_logo == blank and settings.logo != blank
     assign footer_logo = settings.logo
   endif
+
+  # Anu, 30 Oct 2026: on the About page (template page.our-story) the slogan stands large, with her sentence, in the place
+  # of the footer sign-up (that page has its own sign-up band), and the logo is the store logo without the slogan
+  assign ea_about_footer = false
+  if template.name == 'page' and template.suffix == 'our-story' and section.settings.about_motto_heading != blank
+    assign ea_about_footer = true
+    if settings.logo != blank
+      assign footer_logo = settings.logo
+    endif
+  endif
 %}
 
 <div
@@ -22,6 +32,12 @@
 <div class="custom-footer">
   <div class="custom-footer__main">
     <div class="custom-footer__newsletter">
+      {%- if ea_about_footer -%}
+        <p class="custom-footer__motto">{%- render 'ea-accent-text', text: section.settings.about_motto_heading -%}</p>
+        {%- if section.settings.about_motto_text != blank -%}
+          <p class="custom-footer__motto-text">{{ section.settings.about_motto_text | escape }}</p>
+        {%- endif -%}
+      {%- else -%}
       {% if section.settings.newsletter_heading != blank %}
         <h2 class="custom-footer__newsletter-heading">{{ section.settings.newsletter_heading }}</h2>
       {% endif %}
@@ -43,6 +59,7 @@
           , show_interest: false
         %}
       </div>
+      {%- endif -%}
     </div>
 
     <div class="custom-footer__brand">
@@ -186,6 +203,34 @@
 {% endif %}
 
 {% stylesheet %}
+  /* About page only: the slogan large, the sentence in Roboto (Anu, 30 Oct 2026) */
+  .custom-footer .custom-footer__newsletter .custom-footer__motto {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 1.15;
+    color: #fff;
+
+    @media screen and (min-width: 990px) {
+      font-size: 36px;
+    }
+  }
+
+  .custom-footer__motto .ea-accent {
+    display: block;
+    color: #fd5000;
+  }
+
+  .custom-footer .custom-footer__newsletter .custom-footer__motto-text {
+    max-width: 320px;
+    margin: 14px 0 0;
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    line-height: 1.55;
+    color: #e3eef0;
+  }
+
   .custom-footer-section {
     background-color: #ffffff;
 
@@ -805,6 +850,23 @@
         "id": "follow_label",
         "label": "Label above the social icons",
         "default": "Follow us"
+      },
+      {
+        "type": "header",
+        "content": "About page (template our-story)"
+      },
+      {
+        "type": "text",
+        "id": "about_motto_heading",
+        "label": "Slogan in place of the sign-up",
+        "info": "Words between two stars are orange. Empty: the About page shows the sign-up.",
+        "default": "Born from fire, *made to fly.*"
+      },
+      {
+        "type": "textarea",
+        "id": "about_motto_text",
+        "label": "Sentence under the slogan",
+        "default": "Our motto is our real-life experience: anything worth building comes with challenges. Seeing it take off makes every one of them worth it."
       }
     ],
     "blocks": [
