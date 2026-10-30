@@ -621,7 +621,8 @@
           "selected_variant_hover_border_color": "#1a1a1a"
         }
       }
-    }
+    },
+    "ea_soon_2_image": "shopify://shop_images/soon-zip-pink.jpg"
   },
   "presets": {
     "Horizon": {
