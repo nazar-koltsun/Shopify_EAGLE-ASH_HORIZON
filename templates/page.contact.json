@@ -56,7 +56,7 @@
         "phone": "",
         "form_title": "Start a Conversation",
         "submit_label": "SEND",
-        "privacy_notice": "<p>We use the details you provide only to respond to your enquiry. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>"
+        "privacy_notice": "<p>We use the details you provide only to respond to your enquiry. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p><p>Sending us a gift idea? Thank you! The small print: sending an idea is a friendly gesture, not an agreement. Ideas are not confidential, and we may already be working on something similar. We do not pay for ideas. If one becomes a gift, we may thank you by name, but we cannot promise it.</p>"
       }
     },
     "meet_the_founders": {
