@@ -38,6 +38,26 @@
       <p class="ea-amazon__soon-label">Coming soon</p>
       <p class="ea-amazon__soon-text">{{ variant.metafields.custom.coming_soon_note.value | default: block.settings.coming_soon_text | escape }}</p>
     </div>
+    {%- comment -%}
+      Anu, 31 Oct 2026: a colour that is coming soon (Pink) gets the email sign-up of the coming-soon pages under the box;
+      Klaviyo saves where it came from, e.g. "Coming soon colour: Leather Golf Tee Pouch – Zip, Pink".
+    {%- endcomment -%}
+    {%- if block.settings.soon_signup and block.settings.klaviyo_company != blank and block.settings.klaviyo_list != blank -%}
+      {%- liquid
+        assign ea_soon_source = product.title | append: ', ' | append: variant.title | prepend: 'Coming soon colour: '
+        assign ea_soon_line = 'Be the first to know when ' | append: variant.title | append: ' launches.'
+      -%}
+      <div class="ea-amazon__soon-signup">
+        {%- render 'ea-soon-signup',
+          start: true,
+          text: ea_soon_line,
+          company: block.settings.klaviyo_company,
+          list: block.settings.klaviyo_list,
+          source: ea_soon_source,
+          privacy: block.settings.soon_privacy
+        -%}
+      </div>
+    {%- endif -%}
     {%- if request.design_mode -%}
       <p class="ea-amazon__missing">Editor note: this variant has no Amazon link, so visitors see "Coming soon". Add the link in Variants → this variant → Metafields → Amazon link.</p>
     {%- endif -%}
@@ -85,6 +105,10 @@
 {%- render 'ea-product-styles' -%}
 
 {% stylesheet %}
+  .ea-amazon__soon-signup {
+    margin-block-start: 20px;
+  }
+
   .ea-amazon {
     display: flex;
     flex-direction: column;
@@ -319,6 +343,30 @@
       "label": "Text for a colour without an Amazon link",
       "info": "A colour's own \"Coming soon note\" field wins.",
       "default": "This colour is coming soon to Amazon."
+    },
+    {
+      "type": "checkbox",
+      "id": "soon_signup",
+      "label": "Email sign-up under a coming-soon colour",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_company",
+      "label": "Klaviyo company id",
+      "default": "RMHHKa"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_list",
+      "label": "Klaviyo list id",
+      "default": "Rcmc4K"
+    },
+    {
+      "type": "richtext",
+      "id": "soon_privacy",
+      "label": "Privacy line under the sign-up",
+      "default": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>"
     },
     {
       "type": "text",

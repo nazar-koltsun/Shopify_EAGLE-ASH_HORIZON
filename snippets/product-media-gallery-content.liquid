@@ -127,6 +127,25 @@
   endfor
   assign ea_rules = ea_rules | split: '^'
 
+  # Eagle & Ash, 30 Oct 2026 (Anu): while a colour that is not on Amazon yet is selected (no custom.amazon_url, e.g. Pink),
+  # its own photo is shown a little pale with "Coming soon" over it, as on the product cards. Ends by itself once the
+  # colour has its Amazon link.
+  assign ea_soon_tokens = ''
+  assign ea_soon_name = ''
+  assign ea_cur_variant = selected_product.selected_or_first_available_variant
+  if selected_product.variants.size > 1 and ea_cur_variant.metafields.custom.amazon_url == blank
+    for ea_option in selected_product.options_with_values
+      assign ea_opt = ea_option.name | handleize
+      if ea_opt == 'colour'
+        assign ea_opt = 'color'
+      endif
+      assign ea_val = ea_option.selected_value | handleize
+      assign ea_soon_tokens = ea_soon_tokens | append: '-' | append: ea_opt | append: '-' | append: ea_val | append: '~'
+    endfor
+    assign ea_soon_name = ea_cur_variant.title
+  endif
+  assign ea_soon_tokens = ea_soon_tokens | split: '~'
+
   # Hidden = names a value of an option, but not the selected one.
   assign ea_hidden_ids = ','
   for media in selected_product.media
@@ -428,6 +447,17 @@
   >
     {% capture slides %}
       {% for media in sorted_media %}
+        {%- liquid
+          assign ea_is_soon = false
+          assign ea_media_name = media.preview_image.src | split: '?' | first | split: '/' | last | downcase
+          for ea_t in ea_soon_tokens
+            assign ea_t_dot = ea_t | append: '.'
+            assign ea_t_us = ea_t | append: '_'
+            if ea_media_name contains ea_t_dot or ea_media_name contains ea_t_us
+              assign ea_is_soon = true
+            endif
+          endfor
+        -%}
         {% capture children %}
           {%- liquid
               if needs_both_sizes and forloop.first
@@ -444,6 +474,9 @@
           {% else %}
             {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first -%}
           {% endif %}
+          {%- if ea_is_soon -%}
+            <span class="ea-media-soon"><span class="ea-media-soon__name">{{ ea_soon_name | escape }}</span><strong class="ea-media-soon__text">Coming soon</strong></span>
+          {%- endif -%}
         {% endcapture %}
         {% capture class %}
           {{ product_media_container_class }} product-media-container--{{ media.media_type }}{% if block_settings.zoom %} product-media-container--zoomable{% endif %}{% if forloop.index0 == lowest_aspect_ratio_index and block_settings.aspect_ratio == 'adapt' %} product-media-container--tallest{% endif %}
@@ -711,6 +744,31 @@
 {% endif %}
 
 {% stylesheet %}
+  /* Eagle & Ash: a coming-soon colour's photo, pale, with "Coming soon" over it (as .ea-card-soon--photo on the cards) */
+  .ea-media-soon {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: rgb(255 255 255 / 0.38);
+    color: #001e26;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ea-media-soon__name { font-size: 1.125rem; }
+
+  .ea-media-soon__text {
+    font-family: var(--font-heading--family);
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
   .dialog-zoomed-gallery__dialog {
     background-color: var(--color-background);
   }
