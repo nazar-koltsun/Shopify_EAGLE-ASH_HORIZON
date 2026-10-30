@@ -97,7 +97,7 @@
     "hero_phone_style": {
       "type": "custom-liquid",
       "settings": {
-        "custom_liquid": "<style>@media screen and (max-width: 749px) { [id$='__hero_a'] .hero, [id$='__hero_a'] .hero__container { min-height: 0; } [id$='__hero_a'] .hero__container { padding-block-start: 0 !important; } [id$='__hero_a'] .hero__media-grid { position: relative; aspect-ratio: 4 / 3; } [id$='__hero_a'] .hero__media-grid .overlay { display: none; } [id$='__hero_a'] .hero__content-wrapper { padding-block-start: 20px; } } [id$='__hero_a'] .button { font-size: 1.1875rem; font-weight: 700; } [id$='__hero_a'] h1 { translate: -0.03em 0; } [id$='__hero_a'] .group-block { margin-block-start: 20px; } @media screen and (min-width: 750px) { [id$='__hero_a'] .group-block { margin-block-start: 32px; } } @media screen and (min-width: 750px) { [id$='__hero_a'] .hero { min-height: clamp(440px, 37vw, 90vh); } [id$='__hero_a'] .hero__media-grid img { object-position: 50% 55%; } [id$='__hero_a'] .hero__content-wrapper { grid-column: 1 / -1; width: 100%; max-width: 1920px; margin-inline: auto; padding-inline: var(--page-margin); box-sizing: border-box; } } [id$='__hero_a'] h1 { color: #07272d; } /* Anu, 30 Oct 2026: 'Who are you buying for?' as the second button of the product pages (thin line, white, regular weight; blocks/amazon-button .ea-amazon__secondary), in the same letter case as the orange button next to it */ [id$='__hero_a'] .group-block a.link { display: inline-flex; align-items: center; min-height: 52px; padding: 0 22px; border: 0; border-radius: 4px; box-shadow: inset 0 0 0 1px #07272d; background: #fff; color: #07272d; font-family: var(--font-body--family); font-size: 1.0625rem; font-weight: 400; text-decoration: none; } [id$='__hero_a'] .group-block a.link:hover { background: #dfe9eb; color: #b83a00; } @media screen and (max-width: 749px) { [id$='__hero_a'] .group-block a.link { min-height: 48px; } }</style>",
+        "custom_liquid": "<style>@media screen and (max-width: 749px) { [id$='__hero_a'] .hero, [id$='__hero_a'] .hero__container { min-height: 0; } [id$='__hero_a'] .hero__container { padding-block-start: 0 !important; } [id$='__hero_a'] .hero__media-grid { position: relative; aspect-ratio: 4 / 3; } [id$='__hero_a'] .hero__media-grid .overlay { display: none; } [id$='__hero_a'] .hero__content-wrapper { padding-block-start: 20px; } } [id$='__hero_a'] .button { font-size: 1.1875rem; font-weight: 700; } [id$='__hero_a'] h1 { translate: -0.03em 0; } [id$='__hero_a'] .group-block { margin-block-start: 20px; } @media screen and (min-width: 750px) { [id$='__hero_a'] .group-block { margin-block-start: 32px; } } @media screen and (min-width: 750px) { [id$='__hero_a'] .hero { min-height: clamp(440px, 37vw, 90vh); } [id$='__hero_a'] .hero__media-grid img { object-position: 50% 55%; } [id$='__hero_a'] .hero__content-wrapper { grid-column: 1 / -1; width: 100%; max-width: 1920px; margin-inline: auto; padding-inline: var(--page-margin); box-sizing: border-box; } } [id$='__hero_a'] h1 { color: #07272d; } /* Anu, 30 Oct 2026: 'Who are you buying for?' as the second button of the product pages (thin line, white, regular weight; blocks/amazon-button .ea-amazon__secondary), in the same letter case as the orange button next to it; Anu, 31 Oct 2026: as tall as the orange button, 58.6 px = 16 px padding above and below its 26.6 px text line */ [id$='__hero_a'] .group-block a.link { display: inline-flex; align-items: center; min-height: 58.6px; padding: 0 22px; border: 0; border-radius: 4px; box-shadow: inset 0 0 0 1px #07272d; background: #fff; color: #07272d; font-family: var(--font-body--family); font-size: 1.0625rem; font-weight: 400; text-decoration: none; } [id$='__hero_a'] .group-block a.link:hover { background: #dfe9eb; color: #b83a00; }</style>",
         "section_width": "full-width",
         "padding-block-start": 0,
         "padding-block-end": 0
@@ -333,8 +333,8 @@
         "products": [
           "hole-in-one-golf-ball-display",
           "leather-golf-tee-pouch-zip",
+          "bath-bombs-for-men-sandalwood",
           "leather-golf-tee-pouch-flex",
-          "bath-bombs-for-women-golfers-chamomile",
           "bamboo-golf-tees"
         ],
         "layout_type": "carousel",
@@ -371,7 +371,7 @@
         "soon_klaviyo_list": "Rcmc4K",
         "soon_privacy": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
         "soon_signup_heading": "Good gifts are worth hearing about.",
-        "main_start_variants": "hole-in-one-golf-ball-display: Stone Top"
+        "main_start_variants": "hole-in-one-golf-ball-display: Stone Top, leather-golf-tee-pouch-flex: Green"
       },
       "block_order": [
         "see_all",
