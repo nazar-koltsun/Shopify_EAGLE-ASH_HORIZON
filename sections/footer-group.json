@@ -50,7 +50,7 @@
         "klaviyo_company_id": "RMHHKa",
         "klaviyo_list_id": "Rcmc4K",
         "klaviyo_submit_label": "SEND",
-        "privacy_notice": "<p>Yes, email me news and launch updates. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
+        "privacy_notice": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
         "logo_alt": "Eagle & Ash",
         "primary_menu": "footer",
         "primary_menu_label": "Footer links column one",
@@ -63,7 +63,8 @@
         "meta_part_three": "<p>Registry code 17325717 · VAT EE102902789 Betooni tn 14a, Lasnamäe linnaosa, 13816 Tallinn, Estonia <a href=\"mailto:hello@eagleandash.com\" title=\"mailto:hello@eagleandash.com\">hello@eagleandash.com</a></p>",
         "bottom_meta_label": "Company metadata",
         "contact_email": "hello@eagleandash.com",
-        "social_label": "Social media links"
+        "social_label": "Social media links",
+        "slogan": "Born from fire, made to fly."
       }
     }
   },

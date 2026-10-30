@@ -42,7 +42,7 @@
           "type": "text",
           "name": "Description",
           "settings": {
-            "text": "<p>Our own designs, made in small batches. Choose a gift here, then buy it on Amazon.com.</p>",
+            "text": "<p>Not another sleeve of golf balls. Choose a gift here, then buy it on Amazon.com.</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -276,20 +276,65 @@
     "notify": {
       "type": "ea-notify-signup",
       "settings": {
-        "text": "Be the first to know when they launch, with a launch price for subscribers.",
+        "text": "Be the first to discover new Eagle & Ash gifts, with a launch price for subscribers and occasional Amazon offers.",
         "klaviyo_company": "RMHHKa",
         "klaviyo_list": "Rcmc4K",
         "source": "Shop page: coming soon",
         "privacy": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-end": 0,
+        "heading": "Good gifts are worth hearing about."
+      }
+    },
+    "trust_strip": {
+      "type": "features-section",
+      "blocks": {
+        "f1": {
+          "type": "feature",
+          "settings": {
+            "text": "Prime delivery & | Amazon returns",
+            "icon": "shopify://shop_images/icon-delivery.png"
+          }
+        },
+        "f2": {
+          "type": "feature",
+          "settings": {
+            "text": "4.5–5 stars · 150+ ratings",
+            "icon": "shopify://shop_images/icon-star-rating.png"
+          }
+        },
+        "f3": {
+          "type": "feature",
+          "settings": {
+            "text": "Gift-ready",
+            "icon": "shopify://shop_images/icon-gift-box.png"
+          }
+        },
+        "f4": {
+          "type": "feature",
+          "settings": {
+            "text": "Designed in EU",
+            "icon": "shopify://shop_images/icon-designed-nib.png"
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "settings": {
+        "heading": "Why buy from Eagle & Ash",
+        "color_style": "teal"
       }
     }
   },
   "order": [
     "banner_phone_style",
     "section",
+    "trust_strip",
     "main",
     "notify",
     "seo_text"

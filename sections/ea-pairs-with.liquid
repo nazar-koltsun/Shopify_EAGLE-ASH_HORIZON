@@ -68,14 +68,21 @@
       endfor
     endcapture
   -%}
+  {%- liquid
+    # Anu, 30 Oct 2026 (Yvelin's feedback): the tab "All" is open when the page loads
+    assign ea_open_all = false
+    if ea_tabs and section.settings.all_products != blank
+      assign ea_open_all = true
+    endif
+  -%}
   {%- if ea_tabs -%}
     <div class="ea-tabs" role="tablist" aria-label="Gifts">
       {%- if section.settings.all_products != blank -%}
-        <button type="button" role="tab" class="ea-tabs__tab" id="{{ section.id }}-tab-all" aria-controls="{{ section.id }}-panel-all" aria-selected="false" tabindex="-1">
+        <button type="button" role="tab" class="ea-tabs__tab" id="{{ section.id }}-tab-all" aria-controls="{{ section.id }}-panel-all" aria-selected="{{ ea_open_all }}" tabindex="{% if ea_open_all %}0{% else %}-1{% endif %}">
           {{- section.settings.tab_all_label | escape -}}
         </button>
       {%- endif -%}
-      <button type="button" role="tab" class="ea-tabs__tab" id="{{ section.id }}-tab-main" aria-controls="{{ section.id }}-panel-main" aria-selected="true" tabindex="0">
+      <button type="button" role="tab" class="ea-tabs__tab" id="{{ section.id }}-tab-main" aria-controls="{{ section.id }}-panel-main" aria-selected="{% if ea_open_all %}false{% else %}true{% endif %}" tabindex="{% if ea_open_all %}-1{% else %}0{% endif %}">
         {{- section.settings.tab_main_label | escape -}}
       </button>
       {%- if ea_soon_any -%}
@@ -121,7 +128,7 @@
       {% endfor %}
     {% endcapture %}
     {%- assign ea_all_array = ea_all_items | strip | split: '<!--@list/split-->' -%}
-    <div role="tabpanel" class="ea-tabs__panel" id="{{ section.id }}-panel-all" aria-labelledby="{{ section.id }}-tab-all" hidden>
+    <div role="tabpanel" class="ea-tabs__panel" id="{{ section.id }}-panel-all" aria-labelledby="{{ section.id }}-tab-all"{% unless ea_open_all %} hidden{% endunless %}>
       {% render 'resource-list',
         list_items: ea_all_items,
         list_items_array: ea_all_array,
@@ -134,7 +141,7 @@
     </div>
   {%- endif -%}
 
-  {%- if ea_tabs -%}<div role="tabpanel" class="ea-tabs__panel" id="{{ section.id }}-panel-main" aria-labelledby="{{ section.id }}-tab-main">{%- endif -%}
+  {%- if ea_tabs -%}<div role="tabpanel" class="ea-tabs__panel" id="{{ section.id }}-panel-main" aria-labelledby="{{ section.id }}-tab-main"{% if ea_open_all %} hidden{% endif %}>{%- endif -%}
   {% render 'resource-list',
     list_items: list_items,
     list_items_array: list_items_array,
@@ -160,6 +167,7 @@
       {%- if section.settings.soon_signup_text != blank and section.settings.soon_klaviyo_list != blank -%}
         {%- render 'ea-soon-signup',
           band: true,
+          heading: section.settings.soon_signup_heading,
           text: section.settings.soon_signup_text,
           company: section.settings.soon_klaviyo_company,
           list: section.settings.soon_klaviyo_list,
@@ -689,6 +697,11 @@
       "label": "Name of the coming-soon tab",
       "default": "Coming soon",
       "visible_if": "{{ section.settings.tabs }}"
+    },
+    {
+      "type": "text",
+      "id": "soon_signup_heading",
+      "label": "Coming soon: title above the sign-up line"
     },
     {
       "type": "text",
