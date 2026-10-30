@@ -12,7 +12,7 @@
     "page_banner": {
       "type": "page-banner",
       "settings": {
-        "title": "Premium Golf Gifts and Accessories",
+        "title": "Corporate Golf Gifts & Bulk Orders",
         "background_image": "shopify://shop_images/wholesale-head-bg.webp"
       }
     },
@@ -44,7 +44,7 @@
           "type": "feature",
           "settings": {
             "icon": "shopify://shop_images/Bespoke.png",
-            "title": "Bespoke Options"
+            "title": "Golf Clubs"
           }
         }
       },
@@ -55,8 +55,8 @@
         "feature_4"
       ],
       "settings": {
-        "title": "Looking for Something More Personal?",
-        "description_top": "<p>Some of our products can be customised to suit tournaments, clubs, corporate events and special occasions. <br/>From handcrafted trophies to tailored gifting solutions, we'd be delighted to explore what's possible.<br/><br/>Tell us what you're looking for, and we'll help you find the right solution. </p>",
+        "title": "Ordering 10 or More?",
+        "description_top": "<p>Ordering for a tournament, a golf club or your clients? Tell us the occasion, the products, the number of pieces (from 10) and the date you need them. We reply within one business day.<br/><br/>For companies, golf clubs and event organisers · US orders ship through Amazon, EU orders ship from Tallinn · bath bombs: US only.</p>",
         "description_bottom": "<p>If you'd like to learn more about the standards behind every Eagle & Ash product, explore <a href=\"/pages/our-promise\" title=\"Our Promise\"><strong>Our Promise</strong></a><strong> </strong>before getting in touch.</p>",
         "privacy_notice": "<p>We use the details you provide only to respond to your enquiry. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>"
       }
@@ -64,8 +64,8 @@
     "text": {
       "type": "text",
       "settings": {
-        "text": "<p>Thoughtfully crafted golf gifts for partners who value exceptional quality, meaningful design and lasting impressions. From retail and tournaments to corporate gifting and bespoke projects, our collection is designed to help you create moments your customers, clients and guests will remember.</p>",
-        "show_origin_badge": true
+        "text": "<p>Thoughtfully crafted golf gifts for partners who value exceptional quality, meaningful design and lasting impressions. From tournaments to client and team gifts, our collection is designed to help you create moments your customers, clients and guests will remember.</p>",
+        "show_origin_badge": false
       }
     },
     "collection_cards_aRbCQw": {
@@ -77,7 +77,7 @@
             "image": "shopify://shop_images/carousel-award.webp",
             "title": "Awards",
             "back_title": "Handcrafted Awards That Carry Meaning",
-            "back_text": "More than trophies, these are lasting symbols of achievement. Each Eagle & Ash award is handcrafted in Estonia by a carefully selected artisan, bringing together timeless design, exceptional craftsmanship and premium materials. Available in a range of designs and sizes, with bespoke solutions for clubs, tournaments and corporate events.",
+            "back_text": "More than a trophy: a small stand that keeps the ball from a great round. Each one is handmade from solid ash wood and engineered stone in a small studio in Tartu, Estonia. Wood Top, Stone Top or a Duo Pack, each in a gift box. The underside has room for an engraving by your local engraver.",
             "back_action_title": "Start a Conversation",
             "back_action_url": "shopify://pages/contact"
           }
@@ -86,9 +86,9 @@
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/carousel-recovery.webp",
-            "title": "Recovery",
-            "back_title": "Recovery, Reimagined",
-            "back_text": "Our signature golf ball bath bombs turn an unexpected idea into a memorable gift. Handmade, beautifully presented and available in chamomile, sandalwood and mint, they're designed to surprise, delight and leave a lasting impression. A thoughtful addition to tournaments, client gifting and premium retail collections.",
+            "title": "Bath Bombs",
+            "back_title": "A Golf Ball for the Bath",
+            "back_text": "Our golf ball bath bombs turn an unexpected idea into a memorable gift. Four in a gift box, in chamomile, sandalwood or mountain mint, made in Latvia. A fun prize for tournaments and client gifts in the US (bath bombs ship to US addresses only).",
             "back_action_title": "Start a Conversation",
             "back_action_url": "shopify://pages/contact"
           }
@@ -99,7 +99,7 @@
             "image": "shopify://shop_images/carousel-tees.webp",
             "title": "Essentials",
             "back_title": "Everyday Essentials, Thoughtfully Made",
-            "back_text": "Crafted from bamboo and designed for everyday play, our golf tees combine clean design with practical performance. High and low height markings make them easy to use, while multiple pack sizes offer flexibility for retail, gifting and event use. Even the smallest details deserve thoughtful design.",
+            "back_text": "Bamboo golf tees with printed height markers, in three lengths (3¼″, 2¾″ and 1½″), 50 per pack. Made in China. A small, useful extra for every player's gift bag.",
             "back_action_title": "Start a Conversation",
             "back_action_url": "shopify://pages/contact"
           }
