@@ -48,7 +48,8 @@
     if section.settings.card_look == 'tiles' and section.settings.tabs
       assign ea_tabs = true
     endif
-    # the coming-soon gifts come from Theme settings > Eagle & Ash: coming soon (the same tiles as on the Shop page)
+    # the coming-soon gifts come from Theme settings > Eagle & Ash: coming soon (the same tiles as on the Shop page);
+    # only the gifts that have a photo, as on the Shop page (Anu, 30 Oct 2026: the Zip Pink tile showed empty)
     assign ea_soon_any = false
     capture ea_soon_items
       for i in (1..6)
@@ -57,7 +58,7 @@
         assign ea_image = k | append: '_image'
         assign ea_badge = k | append: '_badge'
         assign ea_link = k | append: '_link'
-        if settings[ea_name] != blank
+        if settings[ea_name] != blank and settings[ea_image] != blank
           if ea_soon_any
             echo '<!--@list/split-->'
           endif

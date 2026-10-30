@@ -109,7 +109,7 @@
         "f1": {
           "type": "feature",
           "settings": {
-            "text": "Prime delivery & Amazon returns",
+            "text": "Prime delivery & | Amazon returns",
             "icon": "shopify://shop_images/icon-delivery.png"
           }
         },
@@ -130,7 +130,7 @@
         "f4": {
           "type": "feature",
           "settings": {
-            "text": "Designed in Estonia",
+            "text": "Designed in EU",
             "icon": "shopify://shop_images/icon-designed-nib.png"
           }
         }
