@@ -1,0 +1,99 @@
+{%- doc -%}
+  Eagle & Ash homepage (draft, 27 Oct 2026): email sign-up for new gifts and Amazon deals. Uses the same Klaviyo form
+  and list as the footer (snippets/email-signup-klaviyo-form.liquid); the source field tells the two apart.
+
+  @param {string} title - Heading; words between two stars are shown in orange.
+  @param {string} text - Line under the heading.
+  @param {string} klaviyo_company_id - As in the footer section settings.
+  @param {string} klaviyo_list_id - As in the footer section settings.
+  @param {string} privacy_notice - HTML under the field (consent line with the Privacy Policy link).
+{%- enddoc -%}
+<div class="ea-home-signup">
+  <div class="ea-home-signup__inner">
+    <h2 class="ea-home-signup__title">{%- render 'ea-accent-text', text: title -%}</h2>
+    <p class="ea-home-signup__text">{{ text | escape }}</p>
+    <div class="ea-home-signup__form">
+      {%- render 'email-signup-klaviyo-form',
+        klaviyo_company_id: klaviyo_company_id,
+        klaviyo_list_id: klaviyo_list_id,
+        label: 'SIGN UP',
+        show_interest: false,
+        form_id: 'home-signup',
+        custom_source: 'Homepage: new gifts and Amazon deals',
+        privacy_notice: privacy_notice
+      -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .ea-home-signup {
+    padding: 56px 16px;
+    background: #001e26;
+    color: #fff;
+  }
+
+  .ea-home-signup__inner {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* one heading size for all homepage sections, as "Who are you buying for?" (Anu, 28 Oct 2026) */
+  .ea-home-signup__title {
+    margin: 0 0 20px; /* was 12 px (Anu, 28 Oct 2026: too close to the sentence) */
+    color: #fff;
+    font-size: 30px;
+    line-height: 1.3;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 28px;
+    }
+
+    @media screen and (max-width: 990px) {
+      font-size: 24px;
+    }
+  }
+
+  .ea-home-signup__text {
+    margin: 0 0 24px;
+  }
+
+  .ea-home-signup__form .email-signup-klaviyo__form-wrap {
+    display: flex;
+    gap: 8px;
+  }
+
+  .ea-home-signup__form .email-signup-klaviyo__input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    background: #fff;
+    color: #001e26;
+  }
+
+  .ea-home-signup__form .email-signup__fields {
+    flex: 1;
+  }
+
+  .ea-home-signup__form .email-signup-klaviyo__button {
+    min-height: 48px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 4px;
+    background: #fd5000;
+    color: #fff;
+    font-size: 1.1875rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .ea-home-signup__form .email-signup-klaviyo__privacy,
+  .ea-home-signup__form .email-signup-klaviyo__privacy a,
+  .ea-home-signup__form .email-signup-klaviyo__message-text {
+    color: #fff;
+    text-align: left;
+  }
+{% endstylesheet %}

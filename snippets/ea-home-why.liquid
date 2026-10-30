@@ -1,0 +1,171 @@
+{%- doc -%}
+  Eagle & Ash homepage (draft, 27 Oct 2026): "Why it's different" in three short points and a link to the About page.
+  Facts: brand story facts given by Anu on 23 Oct 2026 (own design detail, small batches, makers in Istanbul, Riga and
+  Tartu visited, own gift box; heading not "not plastic wrap": bath bombs are sealed in wrap, tees come in a resealable bag) and the facts sheet "1_Product facts & badges".
+  Numbers 01-03 use the heading and number style of the product pages ("Why it's different", blocks/product-story).
+
+  @param {string} title - Heading; words between two stars are shown in orange.
+  @param {string} link_label - Text of the link under the points.
+  @param {string} link_url - Where the link goes.
+{%- enddoc -%}
+<div class="ea-home-why-band">
+{%- render 'ea-eagle-mark', class: 'ea-home-why__eagle' -%}
+<div class="ea-home-why">
+  <h2 class="ea-home-why__title">{%- render 'ea-accent-text', text: title -%}</h2>
+  <ol class="ea-home-why__list" role="list">
+    <li class="ea-home-why__item">
+      <h3 class="ea-story__heading ea-home-why__heading">
+        <span class="ea-story__number" aria-hidden="true">01</span>
+        <span class="ea-story__heading-text">Our own designs</span>
+      </h3>
+      <p>Every gift has a detail designed only for Eagle &amp; Ash, and each one is made in small batches.</p>
+    </li>
+    <li class="ea-home-why__item">
+      <h3 class="ea-story__heading ea-home-why__heading">
+        <span class="ea-story__number" aria-hidden="true">02</span>
+        <span class="ea-story__heading-text">Makers we have met</span>
+      </h3>
+      <p>The leather pouches come from a small workshop in Istanbul, the bath bombs from Riga and the ball display from a woodworking studio in Tartu, Estonia. We visited each one. The leather comes from a tannery rated Gold by the Leather Working Group.</p>
+    </li>
+    <li class="ea-home-why__item">
+      <h3 class="ea-story__heading ea-home-why__heading">
+        <span class="ea-story__number" aria-hidden="true">03</span>
+        <span class="ea-story__heading-text">A gift box, ready to give</span>
+      </h3>
+      <p>We dislike gifts that arrive in plastic with a sticker. So most of our gifts come in their own box, ready to give.</p>
+    </li>
+  </ol>
+  {%- if link_label != blank -%}
+    <p class="ea-home-why__link"><a href="{{ link_url }}">{{ link_label | escape }}</a></p>
+  {%- endif -%}
+</div>
+</div>
+
+{% stylesheet %}
+  /* The eagle mark large and pale behind the points, off centre and cut off by the edges, as in the A+ images
+     (Anu, 28 Oct 2026). #edf6f8 keeps the orange numbers and heading word at 3:1 contrast where it passes behind them. */
+  .ea-home-why-band {
+    position: relative;
+    overflow-x: clip; /* cut off at the screen sides; upwards it may reach into the section above */
+    overflow-y: visible;
+  }
+
+  /* The section above (the buyer-type cards) keeps its cards and texts in front of the eagle's wings */
+  .section-collection-cards:has(+ .shopify-section .ea-home-why-band) .collection-cards > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Anu, 28 Oct 2026: as in the A+ images, the whole middle of the mark shows (the point at the bottom edge, the dip
+     between the wings near the top) and the wings run out of the section; the point sits right of centre.
+     Anu, 29 Oct 2026 (round 21): the curve between the wings (above the head) touches the bottom edge of the blue section
+     above at every screen width, as at about 1100 px where she liked it. So the mark's size follows this band's height:
+     in the mark's drawing the dip is 7.668 of 14.9545 units from the top, so a height of 14.9545 / 7.2865 x the band
+     puts the dip on the band's top edge and the point on its bottom edge. The point is at 49.37 % of the mark's width. */
+  .ea-home-why__eagle {
+    position: absolute;
+    left: 65%;
+    bottom: 0;
+    height: calc(100% * 14.9545 / 7.2865);
+    width: auto;
+    max-width: none; /* the theme keeps images and SVGs inside the screen width; this one is meant to be cut off */
+    aspect-ratio: 42.4542 / 14.9545;
+    translate: -49.37% 0;
+    color: #edf6f8;
+    pointer-events: none;
+  }
+
+  /* phones: the band is tall (the points stacked), so the mark keeps a fixed size; its dip still touches the blue
+     section: 1200 px wide = 422.7 px high, the dip 216.7 px below its top */
+  @media screen and (max-width: 749px) {
+    .ea-home-why__eagle {
+      left: 60%;
+      top: -217px;
+      bottom: auto;
+      width: 1200px;
+      height: auto;
+    }
+  }
+
+  .ea-home-why {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 56px 16px;
+  }
+
+  /* one heading size for all homepage sections, as "Who are you buying for?" (Anu, 28 Oct 2026) */
+  .ea-home-why__title {
+    margin: 0 0 36px;
+    text-align: center;
+    font-size: 30px;
+    line-height: 1.3;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 28px;
+    }
+
+    @media screen and (max-width: 990px) {
+      font-size: 24px;
+    }
+  }
+
+  .ea-home-why__list {
+    display: grid;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+
+  .ea-home-why__item p {
+    margin: 0;
+  }
+
+  /* number and subtitle on one text line (same baseline; centring lifted the subtitle about 3 px), subtitle a clear
+     step above the 16 px text (was 18 px); the number keeps the product-page size (Anu, 28 Oct 2026) */
+  .ea-home-why__heading.ea-story__heading {
+    align-items: baseline;
+    margin-block-end: 16px;
+  }
+
+  .ea-home-why__item p {
+    line-height: 1.6;
+  }
+
+  .ea-home-why__heading .ea-story__number {
+    font-size: 28.8px;
+  }
+
+  .ea-home-why__heading .ea-story__heading-text {
+    font-size: 21px;
+  }
+
+  .ea-home-why__link {
+    margin: 28px 0 0;
+    text-align: center;
+  }
+
+  .ea-home-why__link a {
+    color: #b83a00;
+    font-weight: 600;
+  }
+
+  @media screen and (min-width: 750px) {
+    /* round 21 (Anu: the heading is still a little too close to the section above): 96 px above it (was 72) */
+    .ea-home-why {
+      padding: 96px 16px 72px;
+    }
+
+    /* more room under the heading (Anu, 28 Oct 2026: it felt crowded) */
+    .ea-home-why__title {
+      margin-block-end: 52px;
+    }
+
+    .ea-home-why__list {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+  }
+{% endstylesheet %}

@@ -13,6 +13,7 @@
   @param {number} [price] - With pick: the variant's price, shown on the card.
   @param {boolean} [soon] - With pick: the variant is "coming soon"; its click shows a "Coming soon" panel on the card.
   @param {string} [name] - With soon: the option value shown on that panel (e.g. "Pink").
+  @param {object} [soon_image] - With soon: a photo of that colour (variant field custom.soon_image), shown pale under the panel text.
   @param {object} [card_image] - With pick, for a sister page (bath bomb scent): its main photo, shown on the card.
   @param {string} [card_title] - With card_image: its product name, shown as the card title.
   @param {boolean} [only] - The product's only style (Duo Pack): drawn as a framed square that is not a link or button.
@@ -52,6 +53,7 @@
       {% endif %}
       {% if soon %}
         data-soon="{{ name | escape }}"
+        {% if soon_image != blank %}data-soon-image="{{ soon_image | image_url: width: 800 }}"{% endif %}
         data-color="{{ color }}"
       {% endif %}
       {% if image == blank and color != blank %}

@@ -1,0 +1,103 @@
+{%- doc -%}
+  Eagle & Ash, 29 Oct 2026 (Anu: "coming soon products here with slight filter on them, link leading to sign up to be
+  first to be notified ... and a badge"): one "coming soon" gift from the theme settings (Theme settings > Eagle & Ash:
+  coming soon), on the Shop page after the products and in the homepage tab "Coming soon". The whole tile links to the
+  email sign-up on the same page (#ea-notify), or to the gift's own coming-soon page when it has one. Without a photo, a light panel with the badge only.
+
+  @param {string} name - Gift name.
+  @param {object} [image] - Photo (4:5 like the product photos).
+  @param {string} [badge] - Text on the photo, e.g. "Coming soon · Nov 2026".
+  @param {string} [url] - The gift's own coming-soon page; empty: the sign-up on the same page.
+  @param {string} [tag] - 'div' inside a sliding row (homepage tab); default 'li' (Shop page grid).
+{%- enddoc -%}
+{%- assign ea_tag = tag | default: 'li' -%}
+<{{ ea_tag }} class="ea-soon-card">
+  <a class="ea-soon-card__link" href="{{ url | default: '#ea-notify' }}">
+    <span class="ea-soon-card__frame">
+      {%- if image != blank -%}
+        {{
+          image
+          | image_url: width: 1000
+          | image_tag: class: 'ea-soon-card__image', alt: '', loading: 'lazy', widths: '400, 600, 800, 1000', sizes: '(min-width: 750px) 25vw, 50vw'
+        }}
+      {%- endif -%}
+      {%- if badge != blank -%}
+        <span class="ea-soon-card__badge">{{ badge | escape }}</span>
+      {%- endif -%}
+    </span>
+    <span class="ea-soon-card__name">{{ name | escape }}</span>
+    <span class="ea-soon-card__cta">Get notified →</span>
+  </a>
+</{{ ea_tag }}>
+
+{% stylesheet %}
+  .ea-soon-card {
+    list-style: none;
+  }
+
+  .ea-soon-card__link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+
+  .ea-soon-card__frame {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #f5f4f2; /* the same light background as the photos (round 21, Anu: one background colour for all) */
+  }
+
+  /* the "slight filter": the photo a little paler than the products that can be bought */
+  .ea-soon-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.72;
+  }
+
+  .ea-soon-card__badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 5px 9px;
+    border-radius: 4px;
+    background: #001e26;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+
+    /* one line on the narrow phone tiles */
+    @media screen and (max-width: 749px) {
+      top: 8px;
+      left: 8px;
+      padding: 4px 7px;
+      font-size: 11.5px;
+    }
+  }
+
+  .ea-soon-card__name {
+    padding-block-start: 4px;
+    font-size: 1rem;
+  }
+
+  .ea-soon-card__cta {
+    color: #b83a00;
+    font-weight: 600;
+  }
+
+  .ea-soon-card__link:hover .ea-soon-card__cta,
+  .ea-soon-card__link:focus-visible .ea-soon-card__cta {
+    text-decoration: underline;
+  }
+
+  /* the zoomed-out grid view of the Shop page shows products only */
+  .product-grid[product-grid-view='zoom-out'] .ea-soon-card {
+    display: none;
+  }
+{% endstylesheet %}

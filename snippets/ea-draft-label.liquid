@@ -1,0 +1,33 @@
+{%- doc -%}
+  DRAFT ONLY (homepage draft in the work copy theme, 27 Oct 2026): a dashed label above a section that says which part
+  of the planned homepage it is and what to decide. Remove every label section before the homepage goes live.
+
+  @param {string} number - Position on the page, e.g. "2".
+  @param {string} title - Name of the part, e.g. "Trust strip".
+  @param {string} [note] - What it shows or what Anu decides.
+{%- enddoc -%}
+<div class="ea-draft-label">
+  <p>
+    <strong>DRAFT {{ number }} · {{ title }}</strong>
+    {%- if note != blank %} — {{ note }}{% endif -%}
+  </p>
+</div>
+
+{% stylesheet %}
+  .ea-draft-label {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 16px;
+  }
+
+  .ea-draft-label p {
+    margin: 0;
+    padding: 8px 12px;
+    border: 2px dashed #b83a00;
+    border-radius: 4px;
+    background: #fff4ee;
+    color: #001e26;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+{% endstylesheet %}

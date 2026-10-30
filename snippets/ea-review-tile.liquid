@@ -1,0 +1,122 @@
+{%- doc -%}
+  Eagle & Ash, 28 Oct 2026 (Anu: "one tile only for a review, and it should be the best we have"): one Amazon review
+  shown as a tile among the product cards of the Shop page, over a calm photo. On computers it stands in the right-hand
+  column over the first two rows; on phones it is one tile after the last product (Anu, 29 Oct 2026). Text from a testimonial entry
+  (Content > Metaobjects > ea_testimonial) by its handle; Vine reviews are labelled (US FTC).
+
+  @param {string} handle - Handle of the testimonial entry, e.g. zip-quote-3.
+  @param {object} [image] - Photo behind the review.
+  @param {string} [link_label] - Text of the link under the review.
+  @param {string} [link_url] - Where the link goes.
+{%- enddoc -%}
+{%- assign ea_quote = metaobjects.ea_testimonial[handle] -%}
+{%- if ea_quote != blank -%}
+  <li class="ea-review-tile">
+    <figure class="ea-review-tile__inner">
+      {%- if image != blank -%}
+        {{
+          image
+          | image_url: width: 1200
+          | image_tag: class: 'ea-review-tile__image', alt: '', loading: 'lazy', widths: '400, 600, 800, 1200', sizes: '(min-width: 750px) 25vw, 50vw'
+        }}
+      {%- endif -%}
+      <div class="ea-review-tile__body">
+        <span class="ea-review-tile__mark" aria-hidden="true">“</span>
+        <blockquote class="ea-review-tile__quote">{{ ea_quote.quote.value | escape }}</blockquote>
+        <figcaption class="ea-review-tile__source">
+          {%- if ea_quote.name.value != blank -%}{{ ea_quote.name.value | escape }} · {% endif -%}
+          {%- if ea_quote.vine.value == true -%}Amazon Vine review · product received free{%- else -%}Amazon customer review{%- endif -%}
+        </figcaption>
+        {%- if link_label != blank and link_url != blank -%}
+          <a class="ea-review-tile__link" href="{{ link_url }}">{{ link_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </figure>
+  </li>
+{%- endif -%}
+
+{% stylesheet %}
+  .ea-review-tile {
+    display: flex;
+    list-style: none;
+
+    @media screen and (min-width: 750px) {
+      grid-column: -2 / -1;
+      grid-row: 1 / span 2;
+    }
+  }
+
+  /* the zoomed-out grid view shows products only */
+  .product-grid[product-grid-view='zoom-out'] .ea-review-tile {
+    display: none;
+  }
+
+  .ea-review-tile__inner {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 100%;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f4f3f1;
+  }
+
+  .ea-review-tile__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 30% 75%;
+  }
+
+  /* a white veil behind the text keeps it readable on the light photo */
+  .ea-review-tile__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 28px 24px 56px;
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.95) 0%, rgb(255 255 255 / 0.92) 82%, rgb(255 255 255 / 0) 100%);
+    color: var(--deepest-brand-blue, #07272d);
+
+    @media screen and (max-width: 749px) {
+      gap: 8px;
+      padding: 18px 14px 40px;
+    }
+  }
+
+  .ea-review-tile__mark {
+    height: 0.45em;
+    font-family: 'Lora', serif;
+    font-size: 4rem;
+    line-height: 0.6;
+    color: #fd5000;
+  }
+
+  .ea-review-tile__quote {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-style: italic;
+    line-height: 1.45;
+
+    @media screen and (max-width: 749px) {
+      font-size: 16px;
+    }
+  }
+
+  .ea-review-tile__source {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .ea-review-tile__link {
+    color: #b83a00;
+    font-weight: 600;
+  }
+{% endstylesheet %}

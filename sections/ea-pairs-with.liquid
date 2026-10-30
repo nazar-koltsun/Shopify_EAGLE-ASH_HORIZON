@@ -5,6 +5,10 @@
   a hand-picked list. In the product template the list is connected to the product metafield
   custom.pairs_with (list of products), so every product chooses its own 2–3 matching products.
   The whole section is hidden when the list is empty. Based on sections/product-list.liquid (Horizon).
+  Card look "tiles" (homepage, Anu 27 Oct 2026: the row felt uneven): every photo in an equal thin frame with even
+  white space round the product, left-aligned text (like Bellroy), room for two title lines so the prices line up. The row width follows
+  the section width setting (homepage: full width, same size as the flip cards below; Anu 28 Oct 2026). A product's field custom.card_photo_scale shows its photo smaller inside the frame, where the photo makes a small
+  product look as big as the others (the trophy; Anu, 28 and 29 Oct 2026).
 {%- enddoc -%}
 
 {% liquid
@@ -28,6 +32,7 @@
     section-resource-list
     spacing-style
     gap-style
+    {% if section.settings.card_look == 'tiles' %}ea-pairs-with--tiles{% endif %}
   "
   style="
     {% render 'spacing-style', settings: section.settings %}
@@ -37,6 +42,48 @@
   <div class="section-resource-list__header">
     {%- content_for 'block', type: '_product-list-content', id: 'static-header' -%}
   </div>
+
+  {%- liquid
+    assign ea_tabs = false
+    if section.settings.card_look == 'tiles' and section.settings.tabs
+      assign ea_tabs = true
+    endif
+    # the coming-soon gifts come from Theme settings > Eagle & Ash: coming soon (the same tiles as on the Shop page)
+    assign ea_soon_any = false
+    capture ea_soon_items
+      for i in (1..6)
+        assign k = 'ea_soon_' | append: i
+        assign ea_name = k | append: '_name'
+        assign ea_image = k | append: '_image'
+        assign ea_badge = k | append: '_badge'
+        assign ea_link = k | append: '_link'
+        if settings[ea_name] != blank
+          if ea_soon_any
+            echo '<!--@list/split-->'
+          endif
+          render 'ea-soon-card', name: settings[ea_name], image: settings[ea_image], badge: settings[ea_badge], url: settings[ea_link], tag: 'div'
+          assign ea_soon_any = true
+        endif
+      endfor
+    endcapture
+  -%}
+  {%- if ea_tabs -%}
+    <div class="ea-tabs" role="tablist" aria-label="Gifts">
+      {%- if section.settings.all_products != blank -%}
+        <button type="button" role="tab" class="ea-tabs__tab" id="{{ section.id }}-tab-all" aria-controls="{{ section.id }}-panel-all" aria-selected="false" tabindex="-1">
+          {{- section.settings.tab_all_label | escape -}}
+        </button>
+      {%- endif -%}
+      <button type="button" role="tab" class="ea-tabs__tab" id="{{ section.id }}-tab-main" aria-controls="{{ section.id }}-panel-main" aria-selected="true" tabindex="0">
+        {{- section.settings.tab_main_label | escape -}}
+      </button>
+      {%- if ea_soon_any -%}
+        <button type="button" role="tab" class="ea-tabs__tab" id="{{ section.id }}-tab-soon" aria-controls="{{ section.id }}-panel-soon" aria-selected="false" tabindex="-1">
+          {{- section.settings.tab_soon_label | escape -}}
+        </button>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
 
   {% capture list_items %}
     {% for product in section.settings.products limit: max_items %}
@@ -59,6 +106,34 @@
     assign list_items_array = list_items | strip | split: '<!--@list/split-->'
   %}
 
+  {%- if ea_tabs and section.settings.all_products != blank -%}
+    {% capture ea_all_items %}
+      {% for product in section.settings.all_products %}
+        <div class="resource-list__item">
+          {% # theme-check-disable UniqueStaticBlockId %}
+            {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product %}
+          {% # theme-check-enable UniqueStaticBlockId %}
+        </div>
+        {% unless forloop.last %}
+          <!--@list/split-->
+        {% endunless %}
+      {% endfor %}
+    {% endcapture %}
+    {%- assign ea_all_array = ea_all_items | strip | split: '<!--@list/split-->' -%}
+    <div role="tabpanel" class="ea-tabs__panel" id="{{ section.id }}-panel-all" aria-labelledby="{{ section.id }}-tab-all" hidden>
+      {% render 'resource-list',
+        list_items: ea_all_items,
+        list_items_array: ea_all_array,
+        settings: section.settings,
+        slide_count: ea_all_array.size,
+        content_type: 'products',
+        carousel_ref: 'resourceListCarouselAll',
+        test_id: 'resource-list-grid-all'
+      %}
+    </div>
+  {%- endif -%}
+
+  {%- if ea_tabs -%}<div role="tabpanel" class="ea-tabs__panel" id="{{ section.id }}-panel-main" aria-labelledby="{{ section.id }}-tab-main">{%- endif -%}
   {% render 'resource-list',
     list_items: list_items,
     list_items_array: list_items_array,
@@ -67,6 +142,32 @@
     content_type: 'products',
     test_id: 'resource-list-grid'
   %}
+  {%- if ea_tabs -%}</div>{%- endif -%}
+
+  {%- if ea_tabs and ea_soon_any -%}
+    <div role="tabpanel" class="ea-tabs__panel" id="{{ section.id }}-panel-soon" aria-labelledby="{{ section.id }}-tab-soon" hidden>
+      {%- assign ea_soon_array = ea_soon_items | strip | split: '<!--@list/split-->' -%}
+      {% render 'resource-list',
+        list_items: ea_soon_items,
+        list_items_array: ea_soon_array,
+        settings: section.settings,
+        slide_count: ea_soon_array.size,
+        content_type: 'products',
+        carousel_ref: 'resourceListCarouselSoon',
+        test_id: 'resource-list-grid-soon'
+      %}
+      {%- if section.settings.soon_signup_text != blank and section.settings.soon_klaviyo_list != blank -%}
+        {%- render 'ea-soon-signup',
+          band: true,
+          text: section.settings.soon_signup_text,
+          company: section.settings.soon_klaviyo_company,
+          list: section.settings.soon_klaviyo_list,
+          source: 'Homepage: coming soon tab',
+          privacy: section.settings.soon_privacy
+        -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
 
   <div
     class="section-resource-list__content"
@@ -76,6 +177,267 @@
   </div>
 </div>
 {%- endif -%}
+
+{% stylesheet %}
+  /* text under the photos left-aligned, like Bellroy's cards (Anu, 28 Oct 2026; was centred) */
+  .ea-pairs-with--tiles .product-card__content {
+    text-align: start;
+  }
+
+  /* the row is full width on computers, so the first card starts at the screen edge: the text sits 12 px inside the card (phones have a 16 px side margin) */
+  @media screen and (min-width: 750px) {
+    .ea-pairs-with--tiles .product-card__content > :not(.card-gallery),
+    .ea-pairs-with--tiles .product-card__content > a.contents > * {
+      padding-inline: 12px;
+    }
+  }
+
+  /* same heading size as the other homepage sections (Anu, 28 Oct 2026) */
+  .ea-pairs-with--tiles .section-resource-list__header h2 {
+    font-size: 30px;
+    line-height: 1.3;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 28px;
+    }
+
+    @media screen and (max-width: 990px) {
+      font-size: 24px;
+    }
+  }
+
+  /* computers: the first card starts on the same line as the hero text (the page margin, 40 px; Anu, 29 Oct 2026), and the
+     arrows are dark blue circles with a white arrow, half over the edge of the outer cards, at the middle of the photos */
+  @media screen and (min-width: 750px) {
+    /* only the row itself, not the photo slider inside each card */
+    .ea-pairs-with--tiles slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+      padding-inline: var(--page-margin);
+      scroll-padding-inline: var(--page-margin);
+    }
+
+    /* the script below sets the top padding to the middle of the photos */
+    .ea-pairs-with--tiles slideshow-component.resource-list__carousel > slideshow-container > slideshow-arrows {
+      align-items: flex-start;
+      padding-inline: calc(var(--page-margin) - 22px);
+    }
+
+    .ea-pairs-with--tiles slideshow-component.resource-list__carousel > slideshow-container > slideshow-arrows .slideshow-control {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0;
+      border-radius: 50%;
+      background: #07272d;
+      color: #fff;
+      box-shadow: 0 2px 10px rgb(0 0 0 / 0.2);
+      opacity: 1;
+      animation: none;
+    }
+
+    .ea-pairs-with--tiles slideshow-component.resource-list__carousel > slideshow-container > slideshow-arrows .slideshow-control:hover {
+      background: #115e67;
+    }
+  }
+
+  /* the row stops growing at 1920 px, like the flip cards below (on wider windows both stay the same size) */
+  .ea-pairs-with--tiles .resource-list {
+    max-width: 1920px;
+    margin-inline: auto;
+  }
+
+  /* full width on computers (same size as the flip cards); on phones keep the usual side margin, in the sliding rows too */
+  @media screen and (max-width: 749px) {
+    .ea-pairs-with--tiles .resource-list--grid {
+      padding-inline: 16px;
+    }
+
+    .ea-pairs-with--tiles slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+      padding-inline: 16px;
+      scroll-padding-inline: 16px;
+    }
+  }
+
+  .ea-pairs-with--tiles .card-gallery {
+    align-self: stretch;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  /* the Amazon main photos fill 92-99 % of the frame; this gives every product the same white margin
+     (times the product's own custom.card_photo_scale, e.g. the trophy, set in snippets/ea-card-swatch-row) */
+  .ea-pairs-with--tiles .card-gallery img {
+    transform: scale(0.84) translateY(calc((1 - var(--ea-photo-scale, 1)) * 44%)) scale(var(--ea-photo-scale, 1));
+  }
+
+  .ea-pairs-with--tiles .product-card__content .text-block p {
+    min-height: 2lh;
+    text-align: start;
+  }
+
+  .ea-pairs-with--tiles product-price,
+  .ea-pairs-with--tiles product-price > div {
+    width: 100%;
+    justify-content: flex-start;
+    text-align: start;
+  }
+
+  /* larger prices in bold (Anu, 28 Oct 2026: the card preset gives 12 px; "the price is what you are looking for") */
+  .ea-pairs-with--tiles product-price .price {
+    font-family: var(--font-body--family);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  /* "See all" and the offer line as one block: more room above it, the two lines close together (Anu, 28 Oct 2026) */
+  .ea-pairs-with--tiles .section-resource-list__content {
+    row-gap: 8px;
+    padding-block-start: 20px;
+  }
+
+  .ea-pairs-with--tiles .ea-swatch-row {
+    justify-content: flex-start;
+  }
+
+  /* "See all golf gifts" in orange (small orange text = #b83a00 for contrast) */
+  .ea-pairs-with--tiles .section-resource-list__content a {
+    color: #b83a00;
+    font-weight: 600;
+  }
+
+  /* Tabs above the cards (homepage, Anu 28 Oct 2026, like Bellroy's "Bestsellers / New Releases"): All, the main list, Coming soon */
+  .ea-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+
+    @media screen and (max-width: 749px) {
+      gap: 24px;
+    }
+  }
+
+  .ea-tabs__tab {
+    padding: 8px 0;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: var(--deepest-brand-blue, #07272d);
+    font-family: var(--font-body--family);
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .ea-tabs__tab[aria-selected='true'] {
+    border-bottom-color: #b83a00;
+    color: #b83a00;
+  }
+
+  .ea-tabs__tab:focus-visible {
+    outline: 2px solid currentcolor;
+    outline-offset: 4px;
+  }
+
+  /* Coming soon: the same tiles as on the Shop page (snippets/ea-soon-card), in the same sliding row as the products,
+     framed like the product photos */
+  .ea-pairs-with--tiles .ea-soon-card__frame {
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 8px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ea-pairs-with--tiles .ea-soon-card__name,
+    .ea-pairs-with--tiles .ea-soon-card__cta {
+      padding-inline: 12px;
+    }
+  }
+
+  /* no "2 styles" / "3 scents" / "3 lengths" next to the swatches here (Anu, 28 Oct 2026); the Shop page keeps them */
+  .ea-pairs-with--tiles .ea-swatch-row__note {
+    display: none;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  // Tabs above the product cards: a click or the arrow keys show that tab's panel and hide the others.
+  const eaSelectTab = (tab) => {
+    const list = tab.closest('.ea-tabs');
+    for (const other of list.querySelectorAll('.ea-tabs__tab')) {
+      const on = other === tab;
+      other.setAttribute('aria-selected', String(on));
+      other.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(other.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !on;
+    }
+    eaPlaceRowArrows();
+  };
+
+  // The row arrows sit at the middle of the card photos (the photo height follows the card width).
+  const eaPlaceRowArrows = () => {
+    for (const row of document.querySelectorAll('.ea-pairs-with--tiles slideshow-component.resource-list__carousel')) {
+      const arrows = row.querySelector(':scope > slideshow-container > slideshow-arrows');
+      const photo = row.querySelector('.card-gallery, .ea-soon-card__frame');
+      if (!arrows || !photo || !photo.offsetHeight) continue;
+      arrows.style.paddingBlockStart = '0px';
+      const top = photo.getBoundingClientRect().top - arrows.getBoundingClientRect().top + photo.offsetHeight / 2 - 22;
+      arrows.style.paddingBlockStart = `${Math.max(0, Math.round(top))}px`;
+    }
+  };
+
+  // Horizon marks the slides out of view aria-hidden; their links and buttons leave the Tab order then.
+  const eaSyncHiddenSlides = () => {
+    for (const slides of document.querySelectorAll('.ea-pairs-with--tiles slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides')) {
+      if (slides.dataset.eaSync) continue;
+      slides.dataset.eaSync = '1';
+      const sync = (slide) => {
+        if (!(slide instanceof Element) || !slide.matches('slideshow-slide')) return;
+        const hidden = slide.getAttribute('aria-hidden') === 'true';
+        for (const el of slide.querySelectorAll('a, button, input, [tabindex]')) {
+          if (hidden) {
+            if (!el.hasAttribute('data-ea-tab')) el.setAttribute('data-ea-tab', el.getAttribute('tabindex') ?? '');
+            el.tabIndex = -1;
+          } else if (el.hasAttribute('data-ea-tab')) {
+            const old = el.getAttribute('data-ea-tab');
+            if (old === '') el.removeAttribute('tabindex');
+            else el.setAttribute('tabindex', old);
+            el.removeAttribute('data-ea-tab');
+          }
+        }
+      };
+      for (const slide of slides.children) sync(slide);
+      new MutationObserver((records) => records.forEach((record) => sync(record.target))).observe(slides, {
+        attributes: true,
+        attributeFilter: ['aria-hidden'],
+        subtree: true,
+      });
+    }
+  };
+
+  const eaRowsReady = () => {
+    eaPlaceRowArrows();
+    eaSyncHiddenSlides();
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', eaRowsReady);
+  else eaRowsReady();
+  window.addEventListener('load', eaPlaceRowArrows);
+  window.addEventListener('resize', eaPlaceRowArrows);
+
+  document.addEventListener('click', (event) => {
+    const tab = event.target instanceof Element ? event.target.closest('.ea-tabs__tab') : null;
+    if (tab) eaSelectTab(tab);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    const tab = event.target instanceof Element ? event.target.closest('.ea-tabs__tab') : null;
+    if (!tab || (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft')) return;
+    const tabs = [...tab.closest('.ea-tabs').querySelectorAll('.ea-tabs__tab')];
+    const next = tabs[(tabs.indexOf(tab) + (event.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+    event.preventDefault();
+    next.focus();
+    eaSelectTab(next);
+  });
+{% endjavascript %}
 
 {% schema %}
 {
@@ -262,6 +624,77 @@
       ],
       "default": "none",
       "visible_if": "{{ section.settings.icons_style != 'none' and section.settings.layout_type == 'carousel' or section.settings.carousel_on_mobile == true }}"
+    },
+    {
+      "type": "select",
+      "id": "card_look",
+      "label": "Card look",
+      "options": [
+        { "value": "standard", "label": "Standard (as on the Shop page)" },
+        { "value": "tiles", "label": "Framed photos, centred text, narrower row" }
+      ],
+      "default": "standard"
+    },
+    {
+      "type": "checkbox",
+      "id": "tabs",
+      "label": "Tabs above the cards",
+      "info": "All · the products above · Coming soon",
+      "default": false,
+      "visible_if": "{{ section.settings.card_look == 'tiles' }}"
+    },
+    {
+      "type": "text",
+      "id": "tab_main_label",
+      "label": "Name of the tab for the products above",
+      "default": "Bestsellers",
+      "visible_if": "{{ section.settings.tabs }}"
+    },
+    {
+      "type": "text",
+      "id": "tab_all_label",
+      "label": "Name of the tab with all products",
+      "default": "All",
+      "visible_if": "{{ section.settings.tabs }}"
+    },
+    {
+      "type": "product_list",
+      "id": "all_products",
+      "label": "Products in that tab",
+      "limit": 12,
+      "visible_if": "{{ section.settings.tabs }}"
+    },
+    {
+      "type": "text",
+      "id": "tab_soon_label",
+      "label": "Name of the coming-soon tab",
+      "default": "Coming soon",
+      "visible_if": "{{ section.settings.tabs }}"
+    },
+    {
+      "type": "text",
+      "id": "soon_signup_text",
+      "label": "Line above the email sign-up in the coming-soon tab",
+      "info": "Empty: no sign-up there.",
+      "visible_if": "{{ section.settings.tabs }}"
+    },
+    {
+      "type": "text",
+      "id": "soon_klaviyo_company",
+      "label": "Klaviyo company ID",
+      "visible_if": "{{ section.settings.tabs }}"
+    },
+    {
+      "type": "text",
+      "id": "soon_klaviyo_list",
+      "label": "Klaviyo list ID",
+      "visible_if": "{{ section.settings.tabs }}"
+    },
+    {
+      "type": "richtext",
+      "id": "soon_privacy",
+      "label": "Consent line under the sign-up",
+      "visible_if": "{{ section.settings.tabs }}"
     },
     {
       "type": "header",

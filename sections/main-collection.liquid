@@ -63,6 +63,46 @@
             {% # theme-check-enable %}
           </li>
         {% endfor %}
+        {%- comment -%}
+          Eagle & Ash, first page only: one review tile (28 Oct 2026), then the coming-soon gifts from the theme settings
+          (29 Oct 2026). The review tile comes after the products; on computers it is drawn in the right-hand column
+          over the first two rows (snippets/ea-review-tile), on phones it is the tile after the last product.
+        {%- endcomment -%}
+        {%- if paginate.current_page == 1 -%}
+          {%- if section.settings.review_tile != blank -%}
+            {%- render 'ea-review-tile',
+              handle: section.settings.review_tile,
+              image: section.settings.review_tile_image,
+              link_label: section.settings.review_tile_link_label,
+              link_url: section.settings.review_tile_link
+            -%}
+          {%- endif -%}
+          {%- if section.settings.show_soon -%}
+            {%- comment -%} a new row with a heading; only the gifts that have a photo (Anu, 29 Oct 2026) {%- endcomment -%}
+            {%- assign ea_soon_photos = false -%}
+            {%- for i in (1..6) -%}
+              {%- assign k = 'ea_soon_' | append: i -%}
+              {%- assign ea_name = k | append: '_name' -%}
+              {%- assign ea_image = k | append: '_image' -%}
+              {%- if settings[ea_name] != blank and settings[ea_image] != blank -%}{%- assign ea_soon_photos = true -%}{%- endif -%}
+            {%- endfor -%}
+            {%- if ea_soon_photos -%}
+              <li class="ea-soon-heading"><h2>{{ section.settings.soon_heading | default: 'Coming soon' | escape }}</h2></li>
+            {%- endif -%}
+            {%- for i in (1..6) -%}
+              {%- liquid
+                assign k = 'ea_soon_' | append: i
+                assign ea_name = k | append: '_name'
+                assign ea_image = k | append: '_image'
+                assign ea_badge = k | append: '_badge'
+                assign ea_link = k | append: '_link'
+              -%}
+              {%- if settings[ea_name] != blank and settings[ea_image] != blank -%}
+                {%- render 'ea-soon-card', name: settings[ea_name], image: settings[ea_image], badge: settings[ea_badge], url: settings[ea_link] -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endif -%}
       {% endcapture %}
 
       {% render 'product-grid',
@@ -77,6 +117,41 @@
 </results-list>
 
 {% stylesheet %}
+  /* Eagle & Ash, 29 Oct 2026: prices as on the homepage cards, larger and bold (Anu: "please match them") */
+  .product-grid product-price .price {
+    font-family: var(--font-body--family);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  /* four products in a row at most (Anu, 29 Oct 2026; Horizon fits as many as the card size allows) */
+  @media screen and (min-width: 990px) {
+    .product-grid.product-grid--grid:not([product-grid-view='zoom-out']) {
+      --product-grid-columns-desktop: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* the coming-soon gifts start a new row, under their own heading */
+  .ea-soon-heading {
+    grid-column: 1 / -1;
+    margin-block-start: 40px;
+    list-style: none;
+  }
+
+  .ea-soon-heading h2 {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.3;
+
+    @media screen and (max-width: 990px) {
+      font-size: 24px;
+    }
+  }
+
+  .product-grid[product-grid-view='zoom-out'] .ea-soon-heading {
+    display: none;
+  }
+
   .main-collection-grid {
     grid-column: var(--grid-column--mobile);
 
@@ -262,6 +337,44 @@
       "step": 1,
       "unit": "px",
       "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Review tile (Eagle & Ash)"
+    },
+    {
+      "type": "text",
+      "id": "review_tile",
+      "label": "Review",
+      "info": "Handle of a testimonial entry (Content > Metaobjects > ea_testimonial), e.g. zip-quote-3. Empty: no tile."
+    },
+    {
+      "type": "image_picker",
+      "id": "review_tile_image",
+      "label": "Photo behind the review"
+    },
+    {
+      "type": "text",
+      "id": "review_tile_link_label",
+      "label": "Link under the review"
+    },
+    {
+      "type": "url",
+      "id": "review_tile_link",
+      "label": "Link address"
+    },
+    {
+      "type": "text",
+      "id": "soon_heading",
+      "label": "Heading above the coming-soon gifts",
+      "default": "Coming soon"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_soon",
+      "label": "Show the coming-soon gifts after the products",
+      "info": "The gifts are set in Theme settings > Eagle & Ash: coming soon.",
+      "default": false
     }
   ],
   "presets": []

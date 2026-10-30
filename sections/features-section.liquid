@@ -1,8 +1,15 @@
 {%- liquid
   assign heading = section.settings.heading
+  assign has_icons = false
+  for block in section.blocks
+    if block.settings.icon != blank
+      assign has_icons = true
+    endif
+  endfor
 -%}
 
-<div class="features-section">
+{%- comment -%} Eagle & Ash, Oct 2026: optional icon per item (solid navy PNGs, shown white on the dark bar), a light and a light-blue version. {%- endcomment -%}
+<div class="features-section{% if section.settings.color_style == 'light' or section.settings.color_style == 'blue' %} features-section--light{% endif %}{% if section.settings.color_style == 'blue' %} features-section--blue{% endif %}{% if section.settings.color_style == 'teal' %} features-section--teal{% endif %}{% if has_icons %} features-section--icons{% endif %}">
   <div class="features-section__inner">
     {%- if heading != blank -%}
       <h2 class="visually-hidden">{{ heading }}</h2>
@@ -12,6 +19,9 @@
       <ul class="features-section__list" role="list">
         {%- for block in section.blocks -%}
           <li class="features-section__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              {{ block.settings.icon | image_url: width: 96 | image_tag: class: 'features-section__icon', alt: '', width: 34, height: 34, loading: 'lazy' }}
+            {%- endif -%}
             <span class="features-section__label">{{ block.settings.text }}</span>
           </li>
         {%- endfor -%}
@@ -84,6 +94,66 @@
     background-color: white;
     border-radius: 50%;
   }
+
+  /* Blue Spectrum Dark from the brand guidelines (PANTONE 5473 C), white text and icons (Anu, 29 Oct 2026) */
+  .features-section--teal {
+    background-color: #115e67;
+  }
+
+  .features-section--light {
+    border-block: 1px solid rgb(0 30 38 / 0.12);
+    background-color: #fff;
+  }
+
+  .features-section--blue {
+    border-block: 0;
+    background-color: var(--soaring-brand-blue);
+  }
+
+  .features-section--light .features-section__label {
+    color: var(--deepest-brand-blue);
+  }
+
+  .features-section--icons .features-section__item {
+    gap: 10px;
+  }
+
+  .features-section--icons .features-section__item::after {
+    display: none;
+  }
+
+  .features-section__icon {
+    flex: none;
+    /* 34 px (was 28; Anu, 29 Oct 2026: "make the icons slightly bigger") */
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+  }
+
+  /* the icons are navy; on the dark bar they are shown white */
+  .features-section:not(.features-section--light) .features-section__icon {
+    filter: brightness(0) invert(1);
+  }
+
+  /* phones: two columns, icon above the text */
+  @media screen and (max-width: 749px) {
+    .features-section--icons .features-section__list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 12px;
+    }
+
+    .features-section--icons .features-section__item {
+      flex-direction: column;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .features-section--icons .features-section__label {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -98,6 +168,18 @@
       "id": "heading",
       "label": "Heading (visually hidden)",
       "default": "Product features"
+    },
+    {
+      "type": "select",
+      "id": "color_style",
+      "label": "Colours",
+      "options": [
+        { "value": "dark", "label": "White on dark blue" },
+        { "value": "light", "label": "Dark blue on white" },
+        { "value": "blue", "label": "Dark blue on light blue" },
+        { "value": "teal", "label": "White on Blue Spectrum Dark (#115E67)" }
+      ],
+      "default": "dark"
     }
   ],
   "blocks": [
@@ -110,6 +192,12 @@
           "id": "text",
           "label": "Text",
           "default": "Feature"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon",
+          "info": "Optional. A solid navy icon (Drive: Website - Icons / Web-ready); on the dark bar it is shown white."
         }
       ]
     }

@@ -11,6 +11,8 @@
     selected. A variant without an Amazon link is "coming soon" and shown pale; it is a button too, and its click
     covers the card photo with a panel in the swatch colour that says "Coming soon" (Anu, 27 Oct 2026).
   The card's own scent or variant is framed. After the swatches: custom.card_note, or "N scents" for sister pages.
+  custom.card_photo_scale (percent) shows the card photo that much smaller, so a golf ball looks about as big as on the
+  bath bomb photos (trophy 42, Duo 54; Anu, 29 Oct 2026).
   A product without options shows its variant's custom.swatch_image as one framed swatch that is not a button (Duo Pack:
   wood and stone, Anu 29 Oct 2026), then its card_note, or nothing.
 
@@ -81,7 +83,7 @@
         if ea_variant.featured_media != blank or ea_soon
           assign ea_pick = true
         endif
-        render 'ea-card-swatch-row-item', url: ea_variant.url, title: ea_title, image: ea_img, color: value.swatch.color, text: ea_text, class: ea_class, current: ea_is_current, pick: ea_pick, media_id: ea_variant.featured_media.id, price: ea_variant.price, soon: ea_soon, name: value.name
+        render 'ea-card-swatch-row-item', url: ea_variant.url, title: ea_title, image: ea_img, color: value.swatch.color, text: ea_text, class: ea_class, current: ea_is_current, pick: ea_pick, media_id: ea_variant.featured_media.id, price: ea_variant.price, soon: ea_soon, name: value.name, soon_image: ea_variant.metafields.custom.soon_image.value
       endfor
     else
       assign ea_img = product.selected_or_first_available_variant.metafields.custom.swatch_image.value
@@ -92,6 +94,10 @@
     endif
   endcapture
 -%}
+{%- assign ea_scale = product.metafields.custom.card_photo_scale.value -%}
+{%- if ea_scale != blank -%}
+  <style>[data-product-id="{{ product.id }}"] { --ea-photo-scale: {{ ea_scale | divided_by: 100.0 }}; }</style>
+{%- endif -%}
 {%- if ea_items != blank or ea_note != blank -%}
   <div class="ea-swatch-row">
     {%- if ea_items != blank -%}
@@ -106,6 +112,12 @@
 {%- endif -%}
 
 {% stylesheet %}
+  /* custom.card_photo_scale: the card photo smaller (homepage tiles multiply it with their own margin). The product keeps
+     standing on the same line as on the full-size photos: the photos end about 44 % of their height below the middle. */
+  product-card .card-gallery img {
+    transform: translateY(calc((1 - var(--ea-photo-scale, 1)) * 44%)) scale(var(--ea-photo-scale, 1));
+  }
+
   /* 15px: the distance from the price that the colour swatches had */
   .ea-swatch-row {
     display: flex;
@@ -218,13 +230,31 @@
   }
 
   .ea-card-soon__name {
-    font-size: 1rem;
+    position: relative;
+    font-size: 1.125rem;
   }
 
+  /* larger, centred (Anu, 29 Oct 2026) */
   .ea-card-soon__text {
+    position: relative;
     font-family: var(--font-heading--family);
-    font-size: 1.5rem;
-    font-weight: 400;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .ea-card-soon--photo {
+    background-color: #fff;
+    background-position: center;
+    background-size: cover;
+  }
+
+  /* the photo a little pale, so the text reads on it */
+  .ea-card-soon--photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(255 255 255 / 0.38);
   }
 
   /* same look as the earlier "3 styles" line; 26px tall, so a note without swatches (Duo Pack) sits on the same line */
@@ -256,7 +286,7 @@
       event.stopPropagation();
     }
 
-    const { mediaId, url, price, soon, color, imageSrc, imageSrcset, imageAlt, cardTitle } = pick.dataset;
+    const { mediaId, url, price, soon, soonImage, color, imageSrc, imageSrcset, imageAlt, cardTitle } = pick.dataset;
     const slideshow = card.querySelector('slideshow-component');
     if (slideshow && mediaId) {
       for (const slide of slideshow.querySelectorAll('slideshow-slide[variant-image]')) {
@@ -287,7 +317,11 @@
     if (soon !== undefined && gallery) {
       const panel = document.createElement('div');
       panel.className = mediaId ? 'ea-card-soon ea-card-soon--badge' : 'ea-card-soon';
-      if (!mediaId && color) panel.style.background = color;
+      if (soonImage) {
+        // the real photo of the colour, pale, with "Coming soon" big in the middle (Anu, 29 Oct 2026)
+        panel.className = 'ea-card-soon ea-card-soon--photo';
+        panel.style.backgroundImage = `url("${soonImage}")`;
+      } else if (!mediaId && color) panel.style.background = color;
       const name = document.createElement('span');
       name.className = 'ea-card-soon__name';
       name.textContent = soon;

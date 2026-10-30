@@ -2284,5 +2284,182 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "Eagle & Ash: coming soon",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Gifts shown as \"coming soon\": on the Shop page after the products, and in the homepage tab \"Coming soon\". Each tile links to the email sign-up on the same page. A gift without a name is not shown."
+      },
+      {
+        "type": "header",
+        "content": "Gift 1"
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_1_name",
+        "label": "Name"
+      },
+      {
+        "type": "image_picker",
+        "id": "ea_soon_1_image",
+        "label": "Photo",
+        "info": "4:5, like the product photos. Without a photo: a light panel."
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_1_badge",
+        "label": "Badge on the photo",
+        "default": "Coming soon",
+        "info": "e.g. Coming soon · Nov 2026"
+      },
+      {
+        "type": "url",
+        "id": "ea_soon_1_link",
+        "label": "Link",
+        "info": "The gift's own coming-soon page (a product with the template coming-soon). Empty: the tile opens the sign-up on the same page."
+      },
+      {
+        "type": "header",
+        "content": "Gift 2"
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_2_name",
+        "label": "Name"
+      },
+      {
+        "type": "image_picker",
+        "id": "ea_soon_2_image",
+        "label": "Photo",
+        "info": "4:5, like the product photos. Without a photo: a light panel."
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_2_badge",
+        "label": "Badge on the photo",
+        "default": "Coming soon",
+        "info": "e.g. Coming soon · Nov 2026"
+      },
+      {
+        "type": "url",
+        "id": "ea_soon_2_link",
+        "label": "Link",
+        "info": "The gift's own coming-soon page (a product with the template coming-soon). Empty: the tile opens the sign-up on the same page."
+      },
+      {
+        "type": "header",
+        "content": "Gift 3"
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_3_name",
+        "label": "Name"
+      },
+      {
+        "type": "image_picker",
+        "id": "ea_soon_3_image",
+        "label": "Photo",
+        "info": "4:5, like the product photos. Without a photo: a light panel."
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_3_badge",
+        "label": "Badge on the photo",
+        "default": "Coming soon",
+        "info": "e.g. Coming soon · Nov 2026"
+      },
+      {
+        "type": "url",
+        "id": "ea_soon_3_link",
+        "label": "Link",
+        "info": "The gift's own coming-soon page (a product with the template coming-soon). Empty: the tile opens the sign-up on the same page."
+      },
+      {
+        "type": "header",
+        "content": "Gift 4"
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_4_name",
+        "label": "Name"
+      },
+      {
+        "type": "image_picker",
+        "id": "ea_soon_4_image",
+        "label": "Photo",
+        "info": "4:5, like the product photos. Without a photo: a light panel."
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_4_badge",
+        "label": "Badge on the photo",
+        "default": "Coming soon",
+        "info": "e.g. Coming soon · Nov 2026"
+      },
+      {
+        "type": "url",
+        "id": "ea_soon_4_link",
+        "label": "Link",
+        "info": "The gift's own coming-soon page (a product with the template coming-soon). Empty: the tile opens the sign-up on the same page."
+      },
+      {
+        "type": "header",
+        "content": "Gift 5"
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_5_name",
+        "label": "Name"
+      },
+      {
+        "type": "image_picker",
+        "id": "ea_soon_5_image",
+        "label": "Photo",
+        "info": "4:5, like the product photos. Without a photo: a light panel."
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_5_badge",
+        "label": "Badge on the photo",
+        "default": "Coming soon",
+        "info": "e.g. Coming soon · Nov 2026"
+      },
+      {
+        "type": "url",
+        "id": "ea_soon_5_link",
+        "label": "Link",
+        "info": "The gift's own coming-soon page (a product with the template coming-soon). Empty: the tile opens the sign-up on the same page."
+      },
+      {
+        "type": "header",
+        "content": "Gift 6"
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_6_name",
+        "label": "Name"
+      },
+      {
+        "type": "image_picker",
+        "id": "ea_soon_6_image",
+        "label": "Photo",
+        "info": "4:5, like the product photos. Without a photo: a light panel."
+      },
+      {
+        "type": "text",
+        "id": "ea_soon_6_badge",
+        "label": "Badge on the photo",
+        "default": "Coming soon",
+        "info": "e.g. Coming soon · Nov 2026"
+      },
+      {
+        "type": "url",
+        "id": "ea_soon_6_link",
+        "label": "Link",
+        "info": "The gift's own coming-soon page (a product with the template coming-soon). Empty: the tile opens the sign-up on the same page."
+      }
+    ]
   }
 ]

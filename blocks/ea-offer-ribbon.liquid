@@ -3,6 +3,8 @@
   spaced capitals, and one line of small print. Links to the product's Amazon page (Attribution link of
   the first colour). Hides itself after the end date (store time zone), so an expired code never shows.
   The ribbon look (.ea-ribbon…) is defined in blocks/product-testimonials.liquid.
+  Look "line" (homepage, Anu 27 Oct 2026: too many logos on the page): no band and no mark, only one centred
+  grey line "<offer>: enter the code <code> at Amazon checkout. <small print>".
 {%- enddoc -%}
 
 {% liquid
@@ -17,7 +19,13 @@
   assign amazon_url = closest.product.selected_or_first_available_variant.metafields.custom.amazon_url.value
 %}
 
-{%- if ea_show and block.settings.text != blank -%}
+{%- if ea_show and block.settings.text != blank and block.settings.look == 'line' -%}
+  <p class="ea-offer__line">
+    {{- block.settings.text | escape -}}
+    {%- if block.settings.code != blank %}: enter the code <strong>{{ block.settings.code | escape }}</strong> at Amazon checkout.{% else %}.{% endif -%}
+    {%- if block.settings.small_print != blank %} {{ block.settings.small_print | escape }}{% endif -%}
+  </p>
+{%- elsif ea_show and block.settings.text != blank -%}
   <div class="ea-offer">
     {%- if amazon_url != blank -%}<a class="ea-ribbon ea-offer__ribbon" href="{{ amazon_url }}" target="_blank" rel="noopener">{%- else -%}<div class="ea-ribbon ea-offer__ribbon">{%- endif -%}
       <span class="ea-ribbon__mark">{%- render 'ea-eagle-mark' -%}</span>
@@ -70,6 +78,23 @@
     font-weight: 700;
   }
 
+  .ea-offer__line {
+    width: 100%;
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    text-align: center;
+    color: rgb(var(--color-foreground-rgb) / 0.7);
+  }
+
+  .ea-offer__line strong {
+    color: rgb(var(--color-foreground-rgb));
+  }
+
+  .shopify-block:has(> .ea-offer__line) {
+    width: 100%;
+  }
+
   .ea-offer__small {
     margin: 0;
     font-size: 0.8125rem;
@@ -84,7 +109,16 @@
     { "type": "text", "id": "text", "label": "Offer", "default": "Buy any 2 Eagle & Ash products, get 15% off on Amazon.com" },
     { "type": "text", "id": "code", "label": "Code", "default": "EAGLEASH15" },
     { "type": "text", "id": "small_print", "label": "Small print", "default": "Enter the code at Amazon checkout. Until Nov 30, 2026 · one use per customer." },
-    { "type": "text", "id": "show_until", "label": "Show until (YYYY-MM-DD)", "info": "Hidden from the next day.", "default": "2026-11-30" }
+    { "type": "text", "id": "show_until", "label": "Show until (YYYY-MM-DD)", "info": "Hidden from the next day.", "default": "2026-11-30" },
+    {
+      "type": "select", "id": "look", "label": "Look",
+      "info": "One grey line: the offer, the code and the small print in one centred sentence, no ribbon.",
+      "options": [
+        { "value": "ribbon", "label": "Ribbon with the eagle mark" },
+        { "value": "line", "label": "One grey line, centred" }
+      ],
+      "default": "ribbon"
+    }
   ],
   "presets": [{ "name": "Offer ribbon" }]
 }

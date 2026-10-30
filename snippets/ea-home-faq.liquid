@@ -1,0 +1,76 @@
+{%- doc -%}
+  Eagle & Ash homepage (draft, 27 Oct 2026): five short questions about how buying works, in a lighter tone (Anu, round 3).
+  Answers use the same facts as the product page FAQ "Where can I buy it, and why only on Amazon?" and the project rules
+  (bulk orders: businesses only, from 10 pieces; bath bombs US only; engraving by a local engraver, the underside circle
+  is blank). Out of stock: small batches (brand story facts 23 Oct 2026); handmade = the badges "Handmade in Turkey"
+  (Zip, Flex) and "Handmade in Estonia" (trophy, Duo), sheet "Product page content" row 8.
+
+  @param {string} title - Heading; words between two stars are shown in orange.
+  @param {string} bulk_url - Link to the bulk order form.
+  @param {string} signup_url - Link to the email sign-up on the same page.
+{%- enddoc -%}
+<div class="ea-home-faq">
+  <h2 class="ea-home-faq__title">{%- render 'ea-accent-text', text: title -%}</h2>
+  <details class="ea-home-faq__item" open>
+    <summary>How do I buy these cool gifts?</summary>
+    <p>On Amazon.com. Choose a gift here and press “Shop on Amazon”. Our stock is in Amazon's US warehouses, so Amazon ships your order with Prime delivery and handles any return.</p>
+  </details>
+  <details class="ea-home-faq__item">
+    <summary>Oh no, it's out of stock on Amazon! When will it be back?</summary>
+    <p>Soon, we hope. We do our best to keep every gift in stock, but they are made in small batches, and the leather pouches and the ball displays are made by hand. So now and then one sells out before the next batch arrives. Leave your email in the <a href="{{ signup_url }}">sign-up above</a> and we will tell you when it is back.</p>
+  </details>
+  <details class="ea-home-faq__item">
+    <summary>I'm not in the US. Can I still get one?</summary>
+    <p>Our gifts are sold on Amazon.com, so they ship within the US. Companies and golf clubs in the EU can order 10 or more through <a href="{{ bulk_url }}">Bulk orders</a>. The bath bombs are available in the US only.</p>
+  </details>
+  <details class="ea-home-faq__item">
+    <summary>Can I order 50 for the club tournament?</summary>
+    <p>Yes, from 10 pieces, for companies, golf clubs and events. Send the form on <a href="{{ bulk_url }}">Bulk orders</a>; we reply within one business day.</p>
+  </details>
+  <details class="ea-home-faq__item">
+    <summary>Can I add a name and the date of that hole-in-one?</summary>
+    <p>The hole-in-one ball display has a blank circle on its underside, so any local engraver can add a name or a date. We do not engrave ourselves.</p>
+  </details>
+</div>
+
+{% stylesheet %}
+  .ea-home-faq {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 16px 72px;
+  }
+
+  /* one heading size for all homepage sections, as "Who are you buying for?" (Anu, 28 Oct 2026) */
+  .ea-home-faq__title {
+    margin: 0 0 20px;
+    text-align: center;
+    font-size: 30px;
+    line-height: 1.3;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 28px;
+    }
+
+    @media screen and (max-width: 990px) {
+      font-size: 24px;
+    }
+  }
+
+  .ea-home-faq__item {
+    border-bottom: 1px solid rgb(0 30 38 / 0.15);
+  }
+
+  .ea-home-faq__item summary {
+    padding: 16px 0;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .ea-home-faq__item p {
+    margin: 0 0 16px;
+  }
+
+  .ea-home-faq__item a {
+    color: #b83a00;
+  }
+{% endstylesheet %}

@@ -1,0 +1,56 @@
+{%- doc -%}
+  Eagle & Ash, 29 Oct 2026: email sign-up for the coming-soon gifts on the Shop page (the coming-soon tiles link here).
+  On a full-width band in Blue Spectrum Dark (Anu, 29 Oct 2026). Hidden when no coming-soon gift has a name in
+  Theme settings > Eagle & Ash: coming soon.
+{%- enddoc -%}
+{%- liquid
+  assign ea_any = false
+  for i in (1..6)
+    assign k = 'ea_soon_' | append: i | append: '_name'
+    if settings[k] != blank
+      assign ea_any = true
+    endif
+  endfor
+-%}
+{%- if ea_any and section.settings.klaviyo_list != blank -%}
+  <div
+    class="ea-notify-signup__wrap spacing-style"
+    style="{% render 'spacing-style', settings: section.settings %}"
+  >
+    {%- render 'ea-soon-signup',
+      band: true,
+      heading: section.settings.heading,
+      text: section.settings.text,
+      company: section.settings.klaviyo_company,
+      list: section.settings.klaviyo_list,
+      source: section.settings.source,
+      privacy: section.settings.privacy
+    -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  /* the band starts right after the coming-soon tiles */
+  .ea-notify-signup__wrap .ea-soon-band {
+    margin-block-start: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Coming soon: sign-up",
+  "class": "ea-notify-signup",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Title" },
+    { "type": "text", "id": "text", "label": "Line above the form", "default": "Be the first to know when they launch, with a launch price for subscribers." },
+    { "type": "text", "id": "klaviyo_company", "label": "Klaviyo company id" },
+    { "type": "text", "id": "klaviyo_list", "label": "Klaviyo list id" },
+    { "type": "text", "id": "source", "label": "Sign-up source (saved in Klaviyo)", "default": "Shop page: coming soon" },
+    { "type": "richtext", "id": "privacy", "label": "Privacy notice" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:settings.color_scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "t:settings.top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-end", "label": "t:settings.bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 56 }
+  ],
+  "presets": [{ "name": "Coming soon: sign-up" }]
+}
+{% endschema %}

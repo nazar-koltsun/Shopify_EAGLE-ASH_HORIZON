@@ -3,14 +3,19 @@
 -%}
 
 <div
-  class="collection-cards"
+  class="collection-cards{% if section.settings.color_style == 'light' or section.settings.color_style == 'blue' %} collection-cards--light{% endif %}{% if section.settings.color_style == 'blue' %} collection-cards--blue{% endif %}{% if section.settings.back_color == 'dark_blue' %} collection-cards--back-blue{% endif %}{% if section.settings.review_look == 'bubble' %} collection-cards--bubble{% endif %}{% if section.settings.title_position == 'top' %} collection-cards--title-top{% endif %}"
   style="--cc-back-image: url('{{ 'card-back-bg.webp' | asset_url }}');"
 >
   <div class="collection-cards__inner">
     {%- if heading != blank or section.blocks.size > 1 -%}
-      <div class="collection-cards__header">
+      <div class="collection-cards__header{% if section.settings.heading_alignment == 'center' %} collection-cards__header--center{% endif %}">
         {%- if heading != blank -%}
-          <h2 class="collection-cards__heading">{{ heading }}</h2>
+          <div class="collection-cards__titles">
+            <h2 class="collection-cards__heading">{{ heading }}</h2>
+            {%- if section.settings.subheading != blank -%}
+              <p class="collection-cards__subheading">{{ section.settings.subheading | escape }}</p>
+            {%- endif -%}
+          </div>
         {%- endif -%}
 
         {%- if section.blocks.size > 1 -%}
@@ -64,8 +69,7 @@
                   class="collection-cards__card"
                   data-flip-card
                   tabindex="0"
-                  aria-expanded="false"
-                  aria-label="{{ card_title | default: 'Collection card' | strip_html | escape }}. Activate to flip."
+                  aria-label="{{ card_title | replace: ' | ', ' ' | default: 'Collection card' | strip_html | escape }}. Activate to flip."
                 >
                   <div class="collection-cards__flipper">
                     <div class="collection-cards__face collection-cards__face--front">
@@ -93,14 +97,33 @@
 
                         </div>
                         {%- if card_title != blank -%}
-                          <span class="collection-cards__title">{{ card_title }}</span>
+                          {%- comment -%} Eagle & Ash: " | " in the title starts a new line {%- endcomment -%}
+                          {%- if section.settings.title_position == 'top' -%}
+                            <span class="collection-cards__title">{{ card_title | escape | replace: ' | ', ' ' }}</span>
+                          {%- else -%}
+                            <span class="collection-cards__title">{{ card_title | escape | replace: ' | ', '<br>' }}</span>
+                          {%- endif -%}
                         {%- endif -%}
                     </div>
 
-                    <div class="collection-cards__face collection-cards__face--back" aria-hidden="true">
+                    {%- comment -%} Eagle & Ash, Oct 2026: "inert" instead of aria-hidden, so the link on the back cannot get keyboard focus while the card shows its front (axe: aria-hidden-focus); aria-expanded removed from the card, a div without a role may not carry it (axe: aria-allowed-attr). {%- endcomment -%}
+                    <div class="collection-cards__face collection-cards__face--back" inert>
                       <div class="collection-cards__back-body">
                         {%- if back_title != blank -%}
                           <h3 class="collection-cards__back-title">{{ back_title }}</h3>
+                        {%- endif -%}
+
+                        {%- comment -%} Eagle & Ash, 29 Oct 2026 (Anu liked canvas option D): the gifts' photos on the back, each a link to its page {%- endcomment -%}
+                        {%- if block.settings.back_products != blank -%}
+                          <ul class="collection-cards__gifts" role="list">
+                            {%- for gift in block.settings.back_products -%}
+                              <li>
+                                <a href="{{ gift.url }}" data-flip-ignore>
+                                  {{- gift.featured_image | image_url: width: 300 | image_tag: alt: gift.title, loading: 'lazy', class: 'collection-cards__gift-image' -}}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
                         {%- endif -%}
 
                         {%- if back_text != blank -%}
@@ -118,19 +141,42 @@
                         {%- endif -%}
                       </div>
 
-                      <div class="collection-cards__back-features">
-                        <span class="collection-cards__back-feature">Wholesale</span>
-                        <span class="collection-cards__back-feature">Retail</span>
-                        <span class="collection-cards__back-feature">Bespoke</span>
-                      </div>
+                      {%- comment -%} Eagle & Ash, Oct 2026: the words under the card were fixed ("Wholesale Retail Bespoke"); now an optional setting, "·" between the words. {%- endcomment -%}
+                      {%- if block.settings.back_tags != blank -%}
+                        <div class="collection-cards__back-features">
+                          {%- assign back_tags = block.settings.back_tags | split: '·' -%}
+                          {%- for tag in back_tags -%}
+                            <span class="collection-cards__back-feature">{{ tag | strip | escape }}</span>
+                          {%- endfor -%}
+                        </div>
+                      {%- endif -%}
                     </div>
                   </div>
                 </div>
+
+                {%- comment -%} Eagle & Ash, Oct 2026: optional Amazon quote under the card (testimonial entry by its handle); Vine reviews are labelled (US FTC).
+                  Same look as the white review cards on the product pages: orange quotation mark, serif italic quote, source in small capitals (Anu, 28 Oct 2026). {%- endcomment -%}
+                {%- if block.settings.quote != blank -%}
+                  {%- assign ea_quote = metaobjects.ea_testimonial[block.settings.quote] -%}
+                  {%- if ea_quote != blank -%}
+                    <figure class="collection-cards__quote">
+                      <span class="collection-cards__quote-mark" aria-hidden="true">“</span>
+                      <blockquote class="collection-cards__quote-text">{{ ea_quote.quote.value | escape }}</blockquote>
+                      <figcaption class="collection-cards__quote-source">
+                        {%- if ea_quote.name.value != blank -%}{{ ea_quote.name.value | escape }} · {% endif -%}
+                        {%- if ea_quote.vine.value == true -%}Amazon Vine review · product received free{%- else -%}Amazon customer review{%- endif -%}
+                      </figcaption>
+                    </figure>
+                  {%- endif -%}
+                {%- endif -%}
               </div>
             {%- endfor -%}
           </div>
         </div>
       </div>
+    {%- endif -%}
+    {%- if section.settings.footnote != blank -%}
+      <p class="collection-cards__footnote">{{ section.settings.footnote | escape }}</p>
     {%- endif -%}
   </div>
 </div>
@@ -193,6 +239,18 @@
     embla.on('resize', updateNavButtons);
     updateNavButtons();
 
+    // Arrows at the middle of the photos (CSS reads --cc-arrow-top on the inner wrapper)
+    var inner = sectionEl && sectionEl.querySelector('.collection-cards__inner');
+    function placeNav() {
+      var media = root.querySelector('.collection-cards__media');
+      if (!inner || !media) return;
+      var m = media.getBoundingClientRect();
+      inner.style.setProperty('--cc-arrow-top', m.top - inner.getBoundingClientRect().top + m.height / 2 + 'px');
+    }
+    placeNav();
+    embla.on('resize', placeNav);
+    window.addEventListener('resize', placeNav);
+
     var startX = 0;
     var startY = 0;
     var dragged = false;
@@ -200,10 +258,8 @@
 
     function setFlipped(card, flipped) {
       card.classList.toggle('is-flipped', flipped);
-      card.setAttribute('aria-expanded', flipped ? 'true' : 'false');
-
       var back = card.querySelector('.collection-cards__face--back');
-      if (back) back.setAttribute('aria-hidden', flipped ? 'false' : 'true');
+      if (back) back.inert = !flipped;
     }
 
     function unflipOthers(exceptCard) {
@@ -257,6 +313,96 @@
 </script>
 
 {% stylesheet %}
+  /* Eagle & Ash, 29 Oct 2026 (Anu chose canvas option A, with the gifts' photos of option D on the back): the title on the
+     photo, top left, over a soft dark fade; turned over, the explanatory title stands in the same place and size */
+  .collection-cards--title-top .collection-cards__face--front {
+    gap: 0;
+  }
+
+  .collection-cards--title-top .collection-cards__media::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 52%;
+    background: linear-gradient(rgb(7 39 45 / 0.82), rgb(7 39 45 / 0.38) 55%, rgb(7 39 45 / 0));
+    pointer-events: none;
+  }
+
+  .collection-cards--title-top .collection-cards__title,
+  .collection-cards--title-top .collection-cards__back-title {
+    font-family: 'Lora', serif;
+    font-weight: 500;
+    font-size: 22px !important;
+    line-height: 1.3 !important;
+    text-align: start;
+    color: #fff !important;
+
+    @media screen and (max-width: 1099px) {
+      font-size: 20px !important;
+    }
+
+    @media screen and (max-width: 749px) {
+      font-size: 19px !important;
+    }
+  }
+
+  .collection-cards--title-top .collection-cards__title {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 1;
+    display: block;
+    min-height: 0;
+    margin: 0;
+    padding: 22px 24px 0;
+  }
+
+  .collection-cards--title-top .collection-cards__back-body {
+    padding: 22px 24px 24px;
+  }
+
+  .collection-cards--title-top .collection-cards__back-text {
+    margin-block: 14px 16px;
+    font-family: var(--font-body--family, 'Roboto', sans-serif);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.55;
+    color: rgb(255 255 255 / 0.9);
+
+    @media screen and (max-width: 1099px) {
+      font-size: 14px;
+    }
+  }
+
+  .collection-cards__gifts {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .collection-cards__gifts li {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 50%;
+  }
+
+  .collection-cards__gifts a {
+    display: block;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .collection-cards__gift-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
   .section-collection-cards {
     background-color: var(--deepest-brand-blue);
   }
@@ -268,10 +414,13 @@
     width: 100%;
     max-width: 1920px;
     margin-inline: auto;
-    padding-block-start: 29px;
+    /* 72 px above the heading, as the other homepage sections (Anu, 29 Oct 2026: crowded; was 29 px) */
+    padding-block-start: 72px;
     background-color: var(--deepest-brand-blue);
 
-    @media screen and (min-width: 1600px) {
+    /* four cards in a row, the same width as the product cards above (Anu, 29 Oct 2026; was from 1600 px); below 1100 px
+       the titles would need a third line, so three and a bit stay there */
+    @media screen and (min-width: 1100px) {
       --cc-per-view: 4;
     }
 
@@ -280,7 +429,7 @@
     }
 
     @media screen and (max-width: 749px) {
-      padding-block-start: 20px;
+      padding-block-start: 48px;
     }
 
     @media screen and (max-width: 580px) {
@@ -323,6 +472,170 @@
     }
   }
 
+  /* light and light-blue versions (homepage): 24 px on phones, like the other homepage headings (Anu, 28 Oct 2026) */
+  @media screen and (max-width: 749px) {
+    .collection-cards--light .collection-cards__heading {
+      font-size: 24px;
+    }
+  }
+
+  .collection-cards__header--center {
+    position: relative;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .collection-cards__header--center .collection-cards__nav {
+    position: absolute;
+    inset-inline-end: 10px;
+  }
+
+  /* Every column is as tall as the tallest one, so the white review cards end on one line. */
+  .collection-cards__item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .collection-cards__quote {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 14px;
+    margin: 36px 0 0;
+    padding: 32px 28px 28px;
+    border: 1px solid #e3e7e7;
+    border-radius: 4px;
+    background: #fff;
+    color: var(--deepest-brand-blue);
+    text-align: start;
+  }
+
+  .collection-cards__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .collection-cards__subheading,
+  .collection-cards__footnote {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: white;
+  }
+
+  /* closer to the review cards: the card row keeps 50 px below it for the flip, so the line moves up into that space */
+  .collection-cards__subheading {
+    margin-block-start: 6px;
+  }
+
+  /* room below the line before the next section (was 8 px) */
+  .collection-cards__footnote {
+    max-width: 640px;
+    margin: -22px auto 0;
+    padding: 0 16px 64px;
+    text-align: center;
+
+    @media screen and (max-width: 749px) {
+      padding-block-end: 40px;
+    }
+
+    @media screen and (max-width: 749px) {
+      margin-block-start: -6px; /* phones keep only 30 px below the cards */
+    }
+  }
+
+  /* Eagle & Ash, Oct 2026: light grey version (Anu: the dark section feels heavy). The card backs keep their own colours. */
+  .section-collection-cards:has(.collection-cards--light),
+  .collection-cards--light {
+    background-color: #f4f3f1;
+  }
+
+  .collection-cards--blue,
+  .section-collection-cards:has(.collection-cards--blue) {
+    background-color: var(--soaring-brand-blue);
+  }
+
+  /* Eagle & Ash, 28 Oct 2026 (Anu chose option B in Claude Design): the review sits close under its card with a small pointer,
+     and the columns are further apart on computers, so each review reads as part of its buyer type (was 36 px under, 14 px apart) */
+  .collection-cards--bubble {
+    @media screen and (min-width: 750px) {
+      --cc-gap: 32px;
+    }
+  }
+
+  .collection-cards--bubble .collection-cards__quote {
+    position: relative;
+    margin-block-start: 18px;
+    border-radius: 6px;
+  }
+
+  .collection-cards--bubble .collection-cards__quote::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    margin-left: -7px;
+    border-top: 1px solid #e3e7e7;
+    border-left: 1px solid #e3e7e7;
+    background: #fff;
+    transform: rotate(45deg);
+  }
+
+  /* Eagle & Ash, 28 Oct 2026: card backs in the brand dark blue instead of the brown texture (homepage draft; Wholesale keeps brown) */
+  .collection-cards--back-blue .collection-cards__back-body {
+    background-color: var(--deepest-brand-blue);
+    background-image: none;
+  }
+
+  .collection-cards--light .collection-cards__heading,
+  .collection-cards--light .collection-cards__title,
+  .collection-cards--light .collection-cards__subheading,
+  .collection-cards--light .collection-cards__footnote {
+    color: var(--deepest-brand-blue);
+  }
+
+  .collection-cards--light .collection-cards__nav-btn {
+    border-color: var(--deepest-brand-blue);
+    color: var(--deepest-brand-blue);
+  }
+
+  .collection-cards--light .collection-cards__nav-btn:hover {
+    background-color: rgb(7 39 45 / 0.08);
+  }
+
+  .collection-cards--light .collection-cards__media {
+    background-color: rgb(7 39 45 / 0.04);
+  }
+
+  .collection-cards__quote-mark {
+    height: 0.45em;
+    font-family: 'Lora', serif;
+    font-size: 4rem;
+    line-height: 0.6;
+    color: #fd5000;
+  }
+
+  .collection-cards__quote-text {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .collection-cards__quote-source {
+    margin-top: auto;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
   .collection-cards__nav {
     position: relative;
     z-index: 100;
@@ -340,6 +653,51 @@
 
   .collection-cards__nav.collection-cards__nav--hidden {
     display: none;
+  }
+
+  /* computers: cards start on the page-margin line (as the hero text and the product row), and the arrows are the same as
+     in the product row: dark blue circles, white arrow, at the middle of the photos, half over the outer cards' edges
+     (Anu, 29 Oct 2026). The script below sets --cc-arrow-top from the first photo. */
+  @media screen and (min-width: 750px) {
+    .collection-cards__embla {
+      padding-inline: var(--page-margin);
+    }
+
+    .collection-cards__inner {
+      position: relative;
+    }
+
+    .collection-cards__header--center {
+      position: static;
+    }
+
+    .collection-cards__header--center .collection-cards__nav {
+      position: absolute;
+      top: var(--cc-arrow-top, 50%);
+      inset-inline: 0;
+      z-index: 5;
+      justify-content: space-between;
+      margin: 0;
+      padding-inline: calc(var(--page-margin) - 22px);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .collection-cards .collection-cards__nav .collection-cards__nav-btn {
+      border: 0;
+      background: #07272d;
+      color: #fff;
+      box-shadow: 0 2px 10px rgb(0 0 0 / 0.2);
+      pointer-events: auto;
+    }
+
+    .collection-cards .collection-cards__nav .collection-cards__nav-btn:hover:not(:disabled) {
+      background: #115e67;
+    }
+
+    .collection-cards .collection-cards__nav .collection-cards__nav-btn:disabled {
+      visibility: hidden;
+    }
   }
 
   .collection-cards__nav-btn {
@@ -460,6 +818,7 @@
 
   .collection-cards__face--front {
     z-index: 1;
+    gap: 22px; /* a little more room above the card title (Anu, 28 Oct 2026) */
   }
 
   .collection-cards__face--back {
@@ -495,13 +854,35 @@
     transform: scale(1.04);
   }
 
+  /* Eagle & Ash, Oct 2026: centred, with room for two lines, so a long title does not make its photo shorter than the others */
   .collection-cards__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2lh;
     inset-inline-start: 14px;
     font-family: 'Lora', serif;
     font-weight: 400;
-    font-size: 24px;
+    /* 22 px (was 24): "The golfer who has everything," stays on one line with four cards in a row */
+    font-size: 22px;
     line-height: 29px;
+    text-align: center;
     color: white;
+
+    @media screen and (max-width: 1300px) {
+      font-size: 20px;
+    }
+
+    /* three cards and a bit in view with the page margin: the size follows the card width, so the longest line
+       ("The golfer who has everything,") still fits on one line */
+    @media screen and (min-width: 851px) and (max-width: 1099px) {
+      font-size: calc((100vw - 148px) / 46) !important;
+    }
+
+    /* four cards in view (from 1100 px): at most 22 px */
+    @media screen and (min-width: 1100px) {
+      font-size: min(22px, calc((min(100vw, 1920px) - 176px) / 58.4)) !important;
+    }
 
     @media screen and (max-width: 1200px) {
       font-size: 20px;
@@ -637,7 +1018,61 @@
       "id": "heading",
       "label": "Heading",
       "default": "Crafted for Every Golfing Moment"
-    }
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Centre" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "color_style",
+      "label": "Colours",
+      "options": [
+        { "value": "dark", "label": "White on dark blue" },
+        { "value": "light", "label": "Dark blue on light grey" },
+        { "value": "blue", "label": "Dark blue on light blue" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "back_color",
+      "label": "Back of the cards",
+      "options": [
+        { "value": "brown", "label": "Brown texture" },
+        { "value": "dark_blue", "label": "Brand dark blue" }
+      ],
+      "default": "brown"
+    },
+    {
+      "type": "select",
+      "id": "review_look",
+      "label": "Amazon review under the cards",
+      "options": [
+        { "value": "card", "label": "Separate white card" },
+        { "value": "bubble", "label": "Attached, with a pointer" }
+      ],
+      "default": "card"
+    },
+    {
+      "type": "select",
+      "id": "title_position",
+      "label": "Card title",
+      "options": [
+        { "value": "below", "label": "Under the photo" },
+        { "value": "top", "label": "On the photo, top left" }
+      ],
+      "default": "below",
+      "info": "On the photo, the back shows its title in the same place."
+    },
+    { "type": "text", "id": "subheading", "label": "Line under the heading" },
+    { "type": "text", "id": "footnote", "label": "Line at the end of the section" }
   ],
   "blocks": [
     {
@@ -653,6 +1088,7 @@
           "type": "inline_richtext",
           "id": "title",
           "label": "Title",
+          "info": "Type \" | \" (space, bar, space) where the title should start a new line.",
           "default": "Card title"
         },
         {
@@ -677,6 +1113,25 @@
           "type": "url",
           "id": "back_action_url",
           "label": "Back action URL"
+        },
+        {
+          "type": "text",
+          "id": "back_tags",
+          "label": "Words under the card",
+          "info": "Optional. Separate the words with ·"
+        },
+        {
+          "type": "text",
+          "id": "quote",
+          "label": "Amazon quote under the card",
+          "info": "Optional. The handle of a testimonial entry (Content > Metaobjects > ea_testimonial), e.g. zip-quote-1"
+        },
+        {
+          "type": "product_list",
+          "id": "back_products",
+          "label": "Gifts shown on the back",
+          "info": "Optional. Their photos, each a link to its page.",
+          "limit": 3
         }
       ]
     }
