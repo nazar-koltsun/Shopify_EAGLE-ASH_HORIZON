@@ -20,7 +20,8 @@
             "text": "Available on Amazon.com",
             "link": "",
             "offer_text": "15% off any 2 products on Amazon · code EAGLEASH15 · ends Nov 30",
-            "offer_until": "2026-11-30"
+            "offer_until": "2026-11-30",
+            "offer_text_phone": "15% off any 2 · code EAGLEASH15 · ends Nov 30"
           },
           "blocks": {}
         }
@@ -41,10 +42,13 @@
           "static": true,
           "settings": {
             "hide_logo_on_home_page": false,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
+            "padding-block-start": 9,
+            "padding-block-end": 9,
             "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-inline-end": 0,
+            "ea_logo_image": "shopify://shop_images/eagle-ash-logo-header-trimmed.png",
+            "ea_logo_height": 46,
+            "ea_logo_height_mobile": 37
           },
           "blocks": {}
         },

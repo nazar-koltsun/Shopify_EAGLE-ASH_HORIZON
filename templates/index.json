@@ -399,7 +399,7 @@
             "back_text": "A leather golf tee pouch that clips to the bag, and bamboo golf tees with height markers. For the golfer who says “don't buy me anything I won't use.”",
             "back_action_title": "See the tee pouches",
             "back_action_url": "shopify://products/leather-golf-tee-pouch-flex",
-            "quote": "tees-quote-1-short",
+            "quote": "home-practical-quote",
             "back_products": [
               "leather-golf-tee-pouch-flex",
               "bamboo-golf-tees"
@@ -415,7 +415,7 @@
             "back_text": "A hole-in-one golf ball display in solid ash wood, handmade in Estonia. The ball from the ace, the eagle or the personal best finally leaves the drawer.",
             "back_action_title": "See the ball display",
             "back_action_url": "shopify://products/hole-in-one-golf-ball-display",
-            "quote": "trophy-quote-1",
+            "quote": "home-keeper-quote",
             "back_products": [
               "hole-in-one-golf-ball-display",
               "golf-ball-holder-duo-pack"
@@ -431,27 +431,10 @@
             "back_text": "Golf ball bath bombs in chamomile, sandalwood or mountain mint, four in a gift box. Made in Latvia, 97.7% natural origin.",
             "back_action_title": "See the bath bombs",
             "back_action_url": "shopify://products/bath-bombs-for-women-golfers-chamomile",
-            "quote": "chamomile-quote-3",
+            "quote": "home-fun-quote",
             "back_products": [
               "bath-bombs-for-women-golfers-chamomile",
               "bath-bombs-for-men-sandalwood"
-            ]
-          }
-        },
-        "card_business": {
-          "type": "card",
-          "settings": {
-            "image": "shopify://shop_images/contact-split.webp",
-            "title": "Clubs, tournaments & teams",
-            "back_title": "Golf tournament gifts from 10 pieces",
-            "back_text": "Prizes, goodie bags and client gifts for companies, golf clubs and events. We reply within one business day.",
-            "back_action_title": "Ask for a bulk quote",
-            "back_action_url": "shopify://pages/wholesale",
-            "quote": "pouch-quote-charity-auction",
-            "back_products": [
-              "leather-golf-tee-pouch-zip",
-              "hole-in-one-golf-ball-display",
-              "golf-tournament-gift-bath-bombs-mint"
             ]
           }
         }
@@ -459,8 +442,7 @@
       "block_order": [
         "card_practical",
         "card_fun",
-        "card_meaning",
-        "card_business"
+        "card_meaning"
       ],
       "settings": {
         "heading": "Who are you buying for?",
@@ -471,7 +453,11 @@
         "review_look": "bubble",
         "subheading": "Can't decide? Turn a card over to see their gifts.",
         "footnote": "We're a new, small brand. 150+ Amazon ratings so far, and we read every one!",
-        "flip_hint": "See their gifts"
+        "flip_hint": "See their gifts",
+        "three_columns": true,
+        "more_intro": "Buying 10 or more for a club, a tournament or a company?",
+        "more_label": "Ask us about bulk orders →",
+        "more_url": "shopify://pages/wholesale"
       }
     },
     "why_ea": {
