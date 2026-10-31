@@ -10,6 +10,7 @@
     assign ea_until = block_settings.offer_until | remove: '-' | plus: 0
     if ea_today <= ea_until
       assign ea_text = block_settings.offer_text
+      assign ea_phone_text = block_settings.offer_text_phone
     endif
   endif
 -%}
@@ -24,7 +25,12 @@
     aria-hidden="{% if block_index == 0 %}false{% else %}true{% endif %}"
   >
     <p class="announcement-bar__text">
-      {{ ea_text }}
+      {%- if ea_phone_text != blank -%}
+        <span class="announcement-bar__text-wide">{{ ea_text }}</span>
+        <span class="announcement-bar__text-phone">{{ ea_phone_text }}</span>
+      {%- else -%}
+        {{ ea_text }}
+      {%- endif -%}
     </p>
 
     {% if block_settings.link != blank %}
@@ -41,6 +47,13 @@
 {%- endunless -%}
 
 {% stylesheet %}
+  /* Eagle & Ash, 1 Nov 2026: shorter offer text on phones, so the banner stays one line */
+  .announcement-bar__text-phone { display: none; }
+
+  @media screen and (max-width: 749px) {
+    .announcement-bar__text-wide { display: none; }
+    .announcement-bar__text-phone { display: inline; }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -52,6 +65,12 @@
       "type": "inline_richtext",
       "id": "offer_text",
       "label": "Offer text (optional, replaces the text until the end date)"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "offer_text_phone",
+      "label": "Offer text on phones (optional, shorter)",
+      "info": "Shown instead of the offer text on screens below 750 px, so the banner stays one line."
     },
     {
       "type": "text",

@@ -4,6 +4,19 @@
   assign block_settings = block.settings
   assign use_inverse_logo = false
 
+  # Eagle & Ash, 1 Nov 2026: optional own image + heights for the menu-strip logo (a copy of the logo without the empty
+  # transparent margin, so the strip can be lower while the logo keeps its size). Empty = the theme logo as before.
+  assign ea_logo = settings.logo
+  assign ea_logo_height = settings.logo_height
+  assign ea_logo_height_mobile = settings.logo_height_mobile
+  assign ea_tablet_style = ''
+  if block_settings.ea_logo_image != blank
+    assign ea_logo = block_settings.ea_logo_image
+    assign ea_logo_height = block_settings.ea_logo_height
+    assign ea_logo_height_mobile = block_settings.ea_logo_height_mobile
+    assign ea_tablet_style = ' --ea-logo-tablet-height: ' | append: ea_logo_height_mobile | append: 'px;'
+  endif
+
   if section.settings.enable_transparent_header_home and template.name == 'index' and section.settings.home_color_scheme == 'inverse'
     assign use_inverse_logo = true
   elsif section.settings.enable_transparent_header_product and template.name == 'product' and section.settings.product_color_scheme == 'inverse'
@@ -41,11 +54,11 @@
   {{ block.shopify_attributes }}
 >
   {% liquid
-    assign logo_width = settings.logo_height | times: settings.logo.aspect_ratio | ceil
-    assign logo_width_mobile = settings.logo_height_mobile | times: settings.logo.aspect_ratio | ceil
+    assign logo_width = ea_logo_height | times: ea_logo.aspect_ratio | ceil
+    assign logo_width_mobile = ea_logo_height_mobile | times: ea_logo.aspect_ratio | ceil
     assign inverse_logo_width = settings.logo_height | times: inverse_logo.aspect_ratio | ceil
     assign inverse_logo_width_mobile = settings.logo_height_mobile | times: inverse_logo.aspect_ratio | ceil
-    assign logo_style = '--header-logo-image-width: ' | append: logo_width | append: 'px;' | append: '--header-logo-image-width-mobile: ' | append: logo_width_mobile | append: 'px; --header-logo-image-height: ' | append: settings.logo_height | append: 'px; --header-logo-image-height-mobile: ' | append: settings.logo_height_mobile | append: 'px;'
+    assign logo_style = '--header-logo-image-width: ' | append: logo_width | append: 'px;' | append: '--header-logo-image-width-mobile: ' | append: logo_width_mobile | append: 'px; --header-logo-image-height: ' | append: ea_logo_height | append: 'px; --header-logo-image-height-mobile: ' | append: ea_logo_height_mobile | append: 'px;' | append: ea_tablet_style
     assign inverse_logo_style = '--header-logo-image-width: ' | append: inverse_logo_width | append: 'px;' | append: '--header-logo-image-width-mobile: ' | append: inverse_logo_width_mobile | append: 'px; --header-logo-image-height: ' | append: settings.logo_height | append: 'px; --header-logo-image-height-mobile: ' | append: settings.logo_height_mobile | append: 'px;'
   %}
 
@@ -54,9 +67,9 @@
     data-testid="header-logo"
   >
     {% render 'image',
-      image: settings.logo,
+      image: ea_logo,
       class: 'header-logo__image',
-      height: settings.logo_height,
+      height: ea_logo_height,
       text_fallback: shop.name,
       style: logo_style
     %}
@@ -132,7 +145,7 @@
     }
 
     @media screen and (max-width: 1024px) {
-      height: 70px;
+      height: var(--ea-logo-tablet-height, 70px);
       width: 100%;
     }
   }
@@ -152,6 +165,36 @@
   "tag": null,
   "class": "header-logo",
   "settings": [
+    {
+      "type": "header",
+      "content": "Eagle & Ash: menu-strip logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "ea_logo_image",
+      "label": "Own logo image (optional)",
+      "info": "A copy of the logo without empty margins. Empty = the theme logo."
+    },
+    {
+      "type": "range",
+      "id": "ea_logo_height",
+      "label": "Own logo height, computers",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 46
+    },
+    {
+      "type": "range",
+      "id": "ea_logo_height_mobile",
+      "label": "Own logo height, up to 1024 px wide",
+      "min": 16,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 37
+    },
     {
       "type": "paragraph",
       "content": "t:content.edit_logo_in_theme_settings"

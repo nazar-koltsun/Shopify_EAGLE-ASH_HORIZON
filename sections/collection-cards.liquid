@@ -3,7 +3,7 @@
 -%}
 
 <div
-  class="collection-cards{% if section.settings.color_style == 'light' or section.settings.color_style == 'blue' %} collection-cards--light{% endif %}{% if section.settings.color_style == 'blue' %} collection-cards--blue{% endif %}{% if section.settings.back_color == 'dark_blue' %} collection-cards--back-blue{% endif %}{% if section.settings.review_look == 'bubble' %} collection-cards--bubble{% endif %}{% if section.settings.title_position == 'top' %} collection-cards--title-top{% endif %}"
+  class="collection-cards{% if section.settings.color_style == 'light' or section.settings.color_style == 'blue' %} collection-cards--light{% endif %}{% if section.settings.color_style == 'blue' %} collection-cards--blue{% endif %}{% if section.settings.back_color == 'dark_blue' %} collection-cards--back-blue{% endif %}{% if section.settings.review_look == 'bubble' %} collection-cards--bubble{% endif %}{% if section.settings.title_position == 'top' %} collection-cards--title-top{% endif %}{% if section.settings.three_columns %} collection-cards--three{% endif %}"
   style="--cc-back-image: url('{{ 'card-back-bg.webp' | asset_url }}');"
 >
   <div class="collection-cards__inner">
@@ -178,6 +178,13 @@
           </div>
         </div>
       </div>
+    {%- endif -%}
+    {%- comment -%} Eagle & Ash, 1 Nov 2026: optional line with a link under the cards (homepage: bulk orders, Anu) {%- endcomment -%}
+    {%- if section.settings.more_label != blank and section.settings.more_url != blank -%}
+      <p class="collection-cards__more">
+        {%- if section.settings.more_intro != blank -%}{{ section.settings.more_intro | escape }} {% endif -%}
+        <a href="{{ section.settings.more_url }}">{{ section.settings.more_label | escape }}</a>
+      </p>
     {%- endif -%}
     {%- if section.settings.footnote != blank -%}
       <p class="collection-cards__footnote">{{ section.settings.footnote | escape }}</p>
@@ -1031,6 +1038,39 @@
       transition: none;
     }
   }
+  /* Eagle & Ash, 1 Nov 2026: three cards fill the row on computers (homepage without the bulk-order card) */
+  .collection-cards.collection-cards--three {
+    @media screen and (min-width: 851px) {
+      --cc-per-view: 3;
+    }
+  }
+
+  /* line with a link under the cards, above the footnote */
+  .collection-cards__more {
+    max-width: 720px;
+    margin: -22px auto 10px;
+    padding: 0 16px;
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 749px) {
+      margin-block-start: -6px;
+    }
+  }
+
+  .collection-cards__more a {
+    font-weight: 600;
+    color: var(--deepest-brand-blue);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+
+  .collection-cards__more + .collection-cards__footnote {
+    margin-block-start: 0;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -1104,7 +1144,11 @@
       "id": "flip_hint",
       "label": "Hint on each card that it turns over"
     },
-    { "type": "text", "id": "footnote", "label": "Line at the end of the section" }
+    { "type": "text", "id": "footnote", "label": "Line at the end of the section" },
+    { "type": "checkbox", "id": "three_columns", "label": "Three cards fill the row on computers", "default": false },
+    { "type": "text", "id": "more_intro", "label": "Line under the cards: text before the link" },
+    { "type": "text", "id": "more_label", "label": "Line under the cards: link text" },
+    { "type": "url", "id": "more_url", "label": "Line under the cards: link" }
   ],
   "blocks": [
     {
