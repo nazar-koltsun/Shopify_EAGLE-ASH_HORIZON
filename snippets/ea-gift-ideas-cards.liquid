@@ -22,7 +22,7 @@
         <a href="{{ ea_c.url }}" class="ea-gift-ideas__link">
           {%- if ea_img -%}
             <span class="ea-gift-ideas__media">
-              {{ ea_img | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300, 450, 600, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: ea_c.title }}
+              {{ ea_img | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300, 450, 600, 900', sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 100vw', alt: ea_c.title }}
             </span>
           {%- endif -%}
           <span class="ea-gift-ideas__title">{{ ea_c.title | escape }}</span>
@@ -54,10 +54,15 @@
     }
   }
 
+  /* one card per row on phones, two on tablets, four on computers: the cards show wide scene photos (1 Nov 2026) */
   .ea-gift-ideas__grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 32px 16px;
+
+    @media screen and (min-width: 600px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
     margin: 0;
     padding: 0;
     list-style: none;
@@ -77,9 +82,10 @@
     text-decoration: none;
   }
 
+  /* 3:2 like the collection banner photos (Anu's GPT scenes are 1536 x 1024); products stand right of centre */
   .ea-gift-ideas__media {
     display: block;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 2;
     overflow: hidden;
     background: #f4f6f6;
   }
@@ -88,6 +94,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 62% 55%;
     transition: transform 0.4s ease;
   }
 
