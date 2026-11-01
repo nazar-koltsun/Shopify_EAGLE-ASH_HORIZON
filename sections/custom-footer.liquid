@@ -261,7 +261,9 @@
     max-width: 1920px;
     margin-inline: auto;
     padding-top: 35px;
-    padding-bottom: 10px;
+    /* 40px (was 10px): the social icons under "Follow us" sat at the very end of the page and were covered by bottom
+       bars (Shopify admin bar, phone browser bars). Anu, 1 Nov 2026. */
+    padding-bottom: 40px;
     padding-inline: 40px;
 
     @media (max-width: 749px) {
