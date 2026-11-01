@@ -5,11 +5,13 @@
   asset_url filter resolves to the hashed Shopify CDN path. Liquid does not run
   inside base.css, which is why the relative/asset_url paths there did not work.
 {% endcomment %}
-{{ 'Lora-Regular.woff2' | asset_url | preload_tag: as: 'font' }}
-{{ 'Lora-SemiBold.woff2' | asset_url | preload_tag: as: 'font' }}
+{%- comment -%}
+  Preload only the fonts the first screen uses (measured 2 Nov 2026 at 412 px on home, Shop, a product page, About:
+  headings Lora 500, homepage body text Assistant 400). Before: Lora 400/600 and Roboto 200/300 were preloaded but not
+  used there, and competed with the hero photo on slow phones (PageSpeed). The other fonts still load when a page uses them.
+{%- endcomment -%}
+{{ 'Lora-Medium.woff2' | asset_url | preload_tag: as: 'font' }}
 {{ 'Assistant-Regular.woff2' | asset_url | preload_tag: as: 'font' }}
-{{ 'Roboto-ExtraLight.woff2' | asset_url | preload_tag: as: 'font' }}
-{{ 'Roboto-Light.woff2' | asset_url | preload_tag: as: 'font' }}
 {% style %}
   @font-face {
     font-family: 'Lora';
