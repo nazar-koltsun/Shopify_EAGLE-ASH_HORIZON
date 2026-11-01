@@ -1,71 +1,20 @@
 {% comment %}
-  Self-hosted custom fonts.
+  Fonts: Lora (headings) and Roboto (text) only, both from Shopify's font library (the theme's font settings).
 
-  @font-face must live in a .liquid file (not a static .css asset) so that the
-  asset_url filter resolves to the hashed Shopify CDN path. Liquid does not run
-  inside base.css, which is why the relative/asset_url paths there did not work.
+  2 Nov 2026 (Anu: "let's stick to two fonts and make the page faster"): the self-hosted copies of Lora 400/500/600/700,
+  Roboto 200/300 and Assistant 400 were removed. Lora 500 and 700 existed twice (library + own file, both downloaded:
+  the preloaded Lora-Medium was never used, the library's face came later and won), Roboto 200/300 were not used, and
+  Assistant was a third family (menu, phone menu, policy pages; these now use the body font, Roboto).
+
+  The first-screen fonts (Roboto 400, Lora 500) are preloaded by snippets/fonts.liquid; bold and italic come from
+  snippets/theme-styles-variables. Here only the two other Lora weights our sections use (400: links, quotes, About text;
+  600: About process steps), also from the library. A browser downloads a weight only on a page that uses it.
 {% endcomment %}
-{%- comment -%}
-  Preload only the fonts the first screen uses (measured 2 Nov 2026 at 412 px on home, Shop, a product page, About:
-  headings Lora 500, homepage body text Assistant 400). Before: Lora 400/600 and Roboto 200/300 were preloaded but not
-  used there, and competed with the hero photo on slow phones (PageSpeed). The other fonts still load when a page uses them.
-{%- endcomment -%}
-{{ 'Lora-Medium.woff2' | asset_url | preload_tag: as: 'font' }}
-{{ 'Assistant-Regular.woff2' | asset_url | preload_tag: as: 'font' }}
+{%- liquid
+  assign ea_lora_400 = settings.type_heading_font | font_modify: 'weight', '400'
+  assign ea_lora_600 = settings.type_heading_font | font_modify: 'weight', '600'
+-%}
 {% style %}
-  @font-face {
-    font-family: 'Lora';
-    src: url('{{ "Lora-Regular.woff2" | asset_url }}') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Assistant';
-    src: url('{{ "Assistant-Regular.woff2" | asset_url }}') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Roboto';
-    src: url('{{ "Roboto-ExtraLight.woff2" | asset_url }}') format('woff2');
-    font-weight: 200;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Roboto';
-    src: url('{{ "Roboto-Light.woff2" | asset_url }}') format('woff2');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Lora';
-    src: url('{{ "Lora-Medium.woff2" | asset_url }}') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Lora';
-    src: url('{{ "Lora-SemiBold.woff2" | asset_url }}') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Lora';
-    src: url('{{ "Lora-Bold.woff2" | asset_url }}') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
+  {%- if ea_lora_400 -%}{{ ea_lora_400 | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if ea_lora_600 -%}{{ ea_lora_600 | font_face: font_display: 'swap' }}{%- endif -%}
 {% endstyle %}
