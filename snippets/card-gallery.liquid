@@ -134,9 +134,13 @@
             continue
           endif
 
+          # Eagle & Ash, 1 Nov 2026: on the homepage the product row is never in the first screen (hero + strip above it),
+          # so its photos load lazily; they competed with the hero photo (PageSpeed mobile LCP 7.8 s). Other pages unchanged.
           if forloop.first and section.index == null or section.index < 5
-            assign loading = 'eager'
-            assign sizes = image_sizes
+            unless template.name == 'index'
+              assign loading = 'eager'
+              assign sizes = image_sizes
+            endunless
           endif
 
           assign class = 'product-media-container media-fit product-media-container--[media_type]' | replace: '[media_type]', media.media_type
