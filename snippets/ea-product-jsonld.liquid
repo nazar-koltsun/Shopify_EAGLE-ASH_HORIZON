@@ -42,7 +42,13 @@
       {
         "@type": "Product",
         "@id": {{ product.url | append: '?variant=' | append: variant.id | append: '#variant' | json }},
+        {%- comment -%} Single-version products (bath bombs, Duo Pack) carry the plain product name, not "… – Default Title". {%- endcomment -%}
+        {%- if product.has_only_default_variant %}
+        "name": {{ product.title | json }},
+        {%- else %}
         "name": {{ product.title | append: ' – ' | append: variant.title | json }},
+        {%- endif %}
+        "description": {{ ea_desc | json }},
         {%- if variant.sku != blank %}"sku": {{ variant.sku | json }},{% endif %}
         {%- if variant.barcode != blank %}"gtin": {{ variant.barcode | json }},{% endif %}
         {%- if ea_color_option %}"color": {{ ea_color | json }},{% endif %}
