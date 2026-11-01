@@ -118,6 +118,15 @@
     transform: translateY(calc((1 - var(--ea-photo-scale, 1)) * 44%)) scale(var(--ea-photo-scale, 1));
   }
 
+  /* Shop page and every other collection page (and search results), computers and tablets: the Amazon main photos
+     fill 92-99 % of the frame, so neighbouring products almost touched; at 86 % every photo gets white space around it,
+     like the homepage tiles (84 %). Phones keep full size (2 small cards in a row). Anu, 1 Nov 2026. */
+  @media screen and (min-width: 750px) {
+    .main-collection-grid product-card .card-gallery img {
+      transform: scale(0.86) translateY(calc((1 - var(--ea-photo-scale, 1)) * 44%)) scale(var(--ea-photo-scale, 1));
+    }
+  }
+
   /* 15px: the distance from the price that the colour swatches had */
   .ea-swatch-row {
     display: flex;
