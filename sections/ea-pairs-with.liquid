@@ -14,6 +14,13 @@
 {% liquid
   assign max_items = section.settings.max_products
   assign item_count = section.settings.products | size
+  # Eagle & Ash, 1 Nov 2026: fewer products than columns -> the row is centred, cards keep their normal width
+  assign ea_shown = item_count
+  if ea_shown > max_items
+    assign ea_shown = max_items
+  endif
+  assign ea_columns = section.settings.columns | plus: 0
+  assign ea_mobile_columns = section.settings.mobile_columns | plus: 0
 %}
 
 {%- if item_count == 0 -%}
@@ -22,7 +29,7 @@
   {%- endif -%}
 {%- else -%}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background color-{{ section.settings.color_scheme }}{% if section.settings.band_style == 'light' %} ea-pairs-with-bg--light{% endif %}"></div>
 <div
   data-testid="product-list"
   class="
@@ -33,10 +40,14 @@
     spacing-style
     gap-style
     {% if section.settings.card_look == 'tiles' %}ea-pairs-with--tiles{% endif %}
+    {% if section.settings.band_style == 'light' %}ea-pairs-with--light{% endif %}
+    {% if section.settings.layout_type == 'grid' and ea_shown < ea_columns %}ea-pairs-with--few{% endif %}
+    {% if section.settings.layout_type == 'grid' and ea_shown < ea_mobile_columns %}ea-pairs-with--few-mobile{% endif %}
   "
   style="
     {% render 'spacing-style', settings: section.settings %}
     {% render 'gap-style', value: section.settings.gap %}
+    --ea-shown: {{ ea_shown }}; --ea-columns: {{ ea_columns }}; --ea-mobile-columns: {{ ea_mobile_columns }};
   "
 >
   <div class="section-resource-list__header">
@@ -200,6 +211,47 @@
 {%- endif -%}
 
 {% stylesheet %}
+  /* Light-blue band (Anu, 1 Nov 2026: product pages had five white sections in a row; the blue marks where
+     "other gifts" begins). Same blue as the homepage buyer cards and the About page workshops. */
+  /* on the full-width section box: Horizon keeps .section transparent, and its .section-background layer
+     (z-index -2) sits behind the white page here, so the colour would not show there */
+  .shopify-section:has(> .ea-pairs-with-bg--light) {
+    background-color: var(--soaring-brand-blue);
+  }
+
+  /* the orange heading word in a darker orange on the blue (#fd5000 2.7:1 -> #e04800 3.3:1, large text needs 3:1;
+     same orange as on the About page's light-blue block; one class more than snippets/ea-product-styles) */
+  .shopify-section:has(> .ea-pairs-with-bg--light) .ea-pairs-with--light h2 em {
+    color: #e04800;
+  }
+
+  .ea-pairs-with--light .card-gallery {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  /* Fewer products than columns: the cards keep the width they have in a full row, and the row is centred
+     (the Zip page showed one card on the left and an empty three quarters; Anu, 1 Nov 2026) */
+  @media screen and (min-width: 750px) {
+    .ea-pairs-with--few .resource-list--grid {
+      grid-template-columns: repeat(
+        var(--ea-shown),
+        calc((100% - (var(--ea-columns) - 1) * var(--resource-list-column-gap)) / var(--ea-columns))
+      );
+      justify-content: center;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ea-pairs-with--few-mobile .resource-list--grid {
+      grid-template-columns: repeat(
+        var(--ea-shown),
+        calc((100% - (var(--ea-mobile-columns) - 1) * var(--resource-list-column-gap)) / var(--ea-mobile-columns))
+      );
+      justify-content: center;
+    }
+  }
+
   /* text under the photos left-aligned, like Bellroy's cards (Anu, 28 Oct 2026; was centred) */
   .ea-pairs-with--tiles .product-card__content {
     text-align: start;
@@ -693,6 +745,16 @@
         { "value": "tiles", "label": "Framed photos, centred text, narrower row" }
       ],
       "default": "standard"
+    },
+    {
+      "type": "select",
+      "id": "band_style",
+      "label": "Background",
+      "options": [
+        { "value": "none", "label": "Colour scheme" },
+        { "value": "light", "label": "Light blue band" }
+      ],
+      "default": "none"
     },
     {
       "type": "checkbox",
