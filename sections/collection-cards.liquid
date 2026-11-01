@@ -123,7 +123,8 @@
                             {%- for gift in block.settings.back_products -%}
                               <li>
                                 <a href="{{ gift.url }}" data-flip-ignore>
-                                  {{- gift.featured_image | image_url: width: 300 | image_tag: alt: gift.title, loading: 'lazy', class: 'collection-cards__gift-image' -}}
+                                  {%- comment -%} 2 Nov 2026 (PageSpeed: the fixed 300 px file was larger than needed): shown at 121-143 px on phones, 119-268 px on computers {%- endcomment -%}
+                                  {{- gift.featured_image | image_url: width: 550 | image_tag: alt: gift.title, loading: 'lazy', class: 'collection-cards__gift-image', widths: '150, 200, 250, 300, 400, 550', sizes: '(max-width: 749px) 37vw, (max-width: 1099px) 16vw, 14vw' -}}
                                 </a>
                               </li>
                             {%- endfor -%}
