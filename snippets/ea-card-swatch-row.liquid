@@ -10,7 +10,7 @@
     photos are already in the card, hidden. A variant without its own photo opens the product page with that variant
     selected. A variant without an Amazon link is "coming soon" and shown pale; it is a button too, and its click
     covers the card photo with a panel in the swatch colour that says "Coming soon" (Anu, 27 Oct 2026).
-  The card's own scent or variant is framed. After the swatches: custom.card_note, or "N scents" for sister pages.
+  The card's own scent or variant is framed. (Until 1 Nov 2026 a note followed: custom.card_note or "N scents".)
   custom.card_photo_scale (percent) shows the card photo that much smaller, so a golf ball looks about as big as on the
   bath bomb photos (trophy 42, Duo 54; Anu, 29 Oct 2026).
   A product without options shows its variant's custom.swatch_image as one framed swatch that is not a button (Duo Pack:
@@ -41,9 +41,6 @@
         endif
         render 'ea-card-swatch-row-item', url: item.url, title: ea_name, image: ea_img, class: ea_class, current: ea_is_current, pick: true, price: item.price, card_image: item.featured_image, card_title: item.title
       endfor
-      if ea_note == blank
-        assign ea_note = ea_sisters.size | append: ' scents'
-      endif
     elsif product.has_only_default_variant == false
       assign ea_length = false
       if product.options.first == 'Length'
@@ -98,16 +95,15 @@
 {%- if ea_scale != blank -%}
   <style>[data-product-id="{{ product.id }}"] { --ea-photo-scale: {{ ea_scale | divided_by: 100.0 }}; }</style>
 {%- endif -%}
-{%- if ea_items != blank or ea_note != blank -%}
+{%- comment -%}
+  1 Nov 2026 (Anu: the card looked busy): no "2 styles" / "3 scents" / "3 lengths" note after the swatches any more;
+  the swatches show the choice themselves. custom.card_note stays in the data but is not shown on cards.
+{%- endcomment -%}
+{%- if ea_items != blank -%}
   <div class="ea-swatch-row">
-    {%- if ea_items != blank -%}
-      <ul class="ea-swatch-row__list" role="list">
-        {{- ea_items -}}
-      </ul>
-    {%- endif -%}
-    {%- if ea_note != blank -%}
-      <p class="ea-swatch-row__note">{{ ea_note | escape }}</p>
-    {%- endif -%}
+    <ul class="ea-swatch-row__list" role="list">
+      {{- ea_items -}}
+    </ul>
   </div>
 {%- endif -%}
 
