@@ -498,10 +498,12 @@
     gap: 6px 24px;
   }
 
+  /* gap 0 + 5 px padding on each link: every link is a 25 px tall tap target (Google's touch-target check, WCAG 2.5.8:
+     at least 24 px). Before 1 Nov 2026: 15 px links with 5 px gaps. */
   .custom-footer__menu-list {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 0;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -529,6 +531,9 @@
   }
 
   .custom-footer__menu-link {
+    display: inline-block;
+    padding-block: 5px;
+    padding-inline: 0;
     color: var(--ash-amber-orange);
     font-family: 'Lora'
     , serif;
@@ -544,8 +549,8 @@
   }
 
   button.custom-footer__menu-link {
-    display: inline;
-    padding: 0;
+    display: inline-block;
+    padding: 5px 0;
     background: none;
     border: none;
     cursor: pointer;

@@ -300,6 +300,18 @@
       padding-bottom: 96px;
     }
   }
+
+  /* Product photo dots (Horizon slideshow, phones): each dot gets a 24 px tap area for Google's touch-target check
+     (WCAG 2.5.8); the visible dot keeps its size. 1 Nov 2026. */
+  slideshow-controls .slideshow-controls__dots {
+    gap: 0;
+  }
+
+  slideshow-controls .slideshow-controls__dots button {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+  }
 {% endstylesheet %}
 
 {% schema %}
