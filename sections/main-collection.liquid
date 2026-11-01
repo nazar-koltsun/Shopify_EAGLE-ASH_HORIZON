@@ -50,6 +50,17 @@
 
     {% paginate collection.products by products_per_page %}
       {% capture children %}
+        {%- comment -%}
+          Eagle & Ash, 1 Nov 2026 (Anu: guide the buyer, like LOOV's collection pages): on gift collections, an intro
+          above the products (collection field custom.intro) and one sentence under each product (collection field
+          custom.gift_notes, JSON: product handle -> sentence). Empty fields = nothing extra (the Shop page).
+        {%- endcomment -%}
+        {%- assign ea_gift_notes = collection.metafields.custom.gift_notes.value -%}
+        {%- if paginate.current_page == 1 and collection.metafields.custom.intro != blank -%}
+          <li class="ea-gift-intro">
+            <p>{{ collection.metafields.custom.intro.value | escape | newline_to_br }}</p>
+          </li>
+        {%- endif -%}
         {% for product in collection.products %}
           <li
             id="{{ section.id }}-{{ product.id }}"
@@ -61,6 +72,13 @@
             {% # theme-check-disable %}
             {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
             {% # theme-check-enable %}
+            {%- assign ea_gift_note = ea_gift_notes[product.handle] -%}
+            {%- if ea_gift_note != blank -%}
+              <p class="ea-collection-note">
+                <span class="ea-collection-note__icon" aria-hidden="true" style="--ea-icon: url('{{ 'icon-gift-box.png' | file_url }}')"></span>
+                <span>{{ ea_gift_note | escape }}</span>
+              </p>
+            {%- endif -%}
           </li>
         {% endfor %}
         {%- comment -%}
@@ -156,6 +174,80 @@
   @media screen and (min-width: 990px) {
     .product-grid.product-grid--grid:not([product-grid-view='zoom-out']) {
       --product-grid-columns-desktop: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* gift collections: intro above the products and one guiding sentence under each card (1 Nov 2026) */
+  .ea-gift-intro {
+    grid-column: 1 / -1;
+    list-style: none;
+    margin-block-end: 8px;
+  }
+
+  .ea-gift-intro p {
+    margin: 0;
+    max-width: 760px;
+    font-size: 18px;
+    line-height: 1.55;
+
+    @media screen and (max-width: 749px) {
+      font-size: 16px;
+    }
+  }
+
+  /* the card fills its grid cell by default (height: 100%); with a sentence under it, the cell grows instead */
+  .product-grid__item:has(> .ea-collection-note) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-grid__item:has(> .ea-collection-note) > .product-card {
+    height: auto;
+  }
+
+  /* all sentences in a row start on the same line: each product takes two rows of the grid (card, sentence), and the
+     card row is as tall as the tallest card in that row (Anu, 1 Nov 2026) */
+  @supports (grid-template-rows: subgrid) {
+    .product-grid__item:has(> .ea-collection-note) {
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: span 2;
+      row-gap: 10px;
+    }
+
+    .product-grid__item:has(> .ea-collection-note) > .ea-collection-note {
+      margin-block-start: 0;
+    }
+  }
+
+  /* a small gift icon in front of each sentence (Anu, 1 Nov 2026), in Blue Spectrum Dark like the FAQ label */
+  .ea-collection-note {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  /* the same gift icon as in the trust strip ("Gift-ready"), in navy #001e26 like the product-page icons, 32 px box, as the strip icon (34 px; the file has empty space around the gift; Anu: more attention) */
+  .ea-collection-note__icon {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    margin-block: -6px -4px;
+    margin-inline-start: -4px;
+    background-color: #001e26;
+    -webkit-mask: var(--ea-icon) center / contain no-repeat;
+    mask: var(--ea-icon) center / contain no-repeat;
+  }
+
+  .ea-collection-note {
+    margin: 10px 0 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--color-foreground);
+    opacity: 0.85;
+
+    @media screen and (max-width: 749px) {
+      font-size: 14px;
     }
   }
 

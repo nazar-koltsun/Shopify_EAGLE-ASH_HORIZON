@@ -330,6 +330,16 @@
         "heading": "Why buy from Eagle & Ash",
         "color_style": "teal"
       }
+    },
+    "faq_ea": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{%- render 'ea-collection-faq', collection: collection, open_all: true -%}",
+        "color_scheme": "scheme-1",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -338,6 +348,7 @@
     "trust_strip",
     "main",
     "seo_text",
+    "faq_ea",
     "notify"
   ]
 }

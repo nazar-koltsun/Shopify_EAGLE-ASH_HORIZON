@@ -1,0 +1,24 @@
+{%- doc -%}
+  Eagle & Ash gift collections (1 Nov 2026, Anu: "questions like on the home and About pages"): the same look as the
+  homepage FAQ (snippets/ea-home-faq, its classes and styles), filled from the collection field custom.faq
+  (JSON list of [question, answer]; the answer may contain links). Nothing is shown when the field is empty (Shop page).
+  Heading from the collection field custom.faq_title (words between stars in orange), default "Good to *know.*".
+  All answers are open on the collection pages (Anu, 1 Nov 2026); open_all: false opens only the first, as on the homepage.
+
+  @param {object} collection
+  @param {boolean} [open_all] - Show every answer open.
+{%- enddoc -%}
+{%- assign ea_faq = collection.metafields.custom.faq.value -%}
+{%- if ea_faq != blank and ea_faq.size > 0 -%}
+  <div class="ea-home-faq">
+    <p class="ea-home-faq__eyebrow">FAQ</p>
+    {%- assign ea_faq_title = collection.metafields.custom.faq_title.value | default: 'Good to *know.*' -%}
+    <h2 class="ea-home-faq__title">{%- render 'ea-accent-text', text: ea_faq_title -%}</h2>
+    {%- for ea_qa in ea_faq -%}
+      <details class="ea-home-faq__item"{% if forloop.first or open_all %} open{% endif %}>
+        <summary>{{ ea_qa[0] | escape }}</summary>
+        <p>{{ ea_qa[1] }}</p>
+      </details>
+    {%- endfor -%}
+  </div>
+{%- endif -%}
