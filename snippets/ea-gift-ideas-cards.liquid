@@ -1,0 +1,124 @@
+{%- doc -%}
+  Eagle & Ash "Gift Ideas" page (Anu, 1 Nov 2026: a separate page that links to all gift collections, instead of the
+  menu item opening the Christmas collection). The page's own text (written in the admin page editor) as the intro,
+  then one card per collection: photo (the collection image, else its first product), title, one line from the
+  collection field custom.card_text, and a link. Order = the handles list.
+
+  @param {string} intro - The page text (page.content).
+  @param {string} handles - Collection handles, separated by commas.
+{%- enddoc -%}
+<div class="ea-gift-ideas">
+  {%- if intro != blank -%}
+    <div class="ea-gift-ideas__intro rte">{{ intro }}</div>
+  {%- endif -%}
+  <ul class="ea-gift-ideas__grid">
+    {%- assign ea_handles = handles | split: ',' -%}
+    {%- for ea_h in ea_handles -%}
+      {%- assign ea_hs = ea_h | strip -%}
+      {%- assign ea_c = collections[ea_hs] -%}
+      {%- if ea_c == blank or ea_c.products_count == 0 -%}{%- continue -%}{%- endif -%}
+      {%- assign ea_img = ea_c.image | default: ea_c.featured_image -%}
+      <li class="ea-gift-ideas__card">
+        <a href="{{ ea_c.url }}" class="ea-gift-ideas__link">
+          {%- if ea_img -%}
+            <span class="ea-gift-ideas__media">
+              {{ ea_img | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300, 450, 600, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: ea_c.title }}
+            </span>
+          {%- endif -%}
+          <span class="ea-gift-ideas__title">{{ ea_c.title | escape }}</span>
+          {%- if ea_c.metafields.custom.card_text != blank -%}
+            <span class="ea-gift-ideas__text">{{ ea_c.metafields.custom.card_text.value | escape }}</span>
+          {%- endif -%}
+          <span class="ea-gift-ideas__more">See the gifts →</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+{% stylesheet %}
+  .ea-gift-ideas {
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+    padding: 48px var(--page-margin, 20px) 64px;
+  }
+
+  .ea-gift-ideas__intro {
+    max-width: 760px;
+    margin-block-end: 32px;
+    font-size: 18px;
+    line-height: 1.55;
+
+    @media screen and (max-width: 749px) {
+      font-size: 16px;
+    }
+  }
+
+  .ea-gift-ideas__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 40px 24px;
+    }
+  }
+
+  .ea-gift-ideas__link {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ea-gift-ideas__media {
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #f4f6f6;
+  }
+
+  .ea-gift-ideas__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .ea-gift-ideas__link:hover .ea-gift-ideas__media img {
+    transform: scale(1.03);
+  }
+
+  .ea-gift-ideas__title {
+    margin-block-start: 8px;
+    font-family: var(--font-heading--family);
+    font-size: 22px;
+    line-height: 1.25;
+
+    @media screen and (max-width: 749px) {
+      font-size: 18px;
+    }
+  }
+
+  .ea-gift-ideas__text {
+    font-size: 15px;
+    line-height: 1.5;
+
+    @media screen and (max-width: 749px) {
+      font-size: 14px;
+    }
+  }
+
+  .ea-gift-ideas__more {
+    margin-block-start: auto;
+    padding-block-start: 4px;
+    font-weight: 600;
+    color: #b83a00;
+  }
+{% endstylesheet %}

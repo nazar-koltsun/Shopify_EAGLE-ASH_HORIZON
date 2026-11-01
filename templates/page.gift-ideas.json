@@ -1,0 +1,187 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner_phone_style": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<style>@media screen and (max-width: 749px) { [id$='__section'] .overlay { background: rgb(0 30 38 / 0.62) !important; } }</style>",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "section": {
+      "type": "section",
+      "blocks": {
+        "text_tqQTNE": {
+          "type": "text",
+          "name": "Title",
+          "settings": {
+            "text": "<h1>{{ closest.page.title }}</h1>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h1",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_twGGkJ": {
+          "type": "text",
+          "name": "Description",
+          "settings": {
+            "text": "<p>Four ways to find a golf gift they don't already have.<br>Choose a gift here, then buy it on Amazon.com.</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_tqQTNE",
+        "text_twGGkJ"
+      ],
+      "name": "Gift ideas heading",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-6",
+        "background_media": "image",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": true,
+        "overlay_color": "#001e26b3",
+        "overlay_style": "gradient",
+        "gradient_direction": "to right",
+        "padding-block-start": 72,
+        "padding-block-end": 72,
+        "background_image": "shopify://shop_images/hero-draft-gift-moment-2400.jpg"
+      }
+    },
+    "trust_strip": {
+      "type": "features-section",
+      "blocks": {
+        "f1": {
+          "type": "feature",
+          "settings": {
+            "text": "Prime delivery & | Amazon returns",
+            "icon": "shopify://shop_images/icon-delivery.png"
+          }
+        },
+        "f2": {
+          "type": "feature",
+          "settings": {
+            "text": "4.5–5 stars · 150+ ratings",
+            "icon": "shopify://shop_images/icon-star-rating.png"
+          }
+        },
+        "f3": {
+          "type": "feature",
+          "settings": {
+            "text": "Gift-ready",
+            "icon": "shopify://shop_images/icon-gift-box.png"
+          }
+        },
+        "f4": {
+          "type": "feature",
+          "settings": {
+            "text": "Designed in EU",
+            "icon": "shopify://shop_images/icon-designed-nib.png"
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "settings": {
+        "heading": "Why buy from Eagle & Ash",
+        "color_style": "teal"
+      }
+    },
+    "cards": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{%- render 'ea-gift-ideas-cards', intro: page.content, handles: 'christmas-golf-gifts, golf-stocking-stuffers, gifts-for-the-golfer-who-has-everything, hole-in-one-gifts' -%}",
+        "color_scheme": "scheme-1",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "notify": {
+      "type": "ea-notify-signup",
+      "settings": {
+        "text": "Be the first to hear about new Eagle & Ash gifts. We also share the occasional Amazon deal.",
+        "klaviyo_company": "RMHHKa",
+        "klaviyo_list": "Rcmc4K",
+        "source": "Shop page: coming soon",
+        "privacy": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "heading": "Good gifts are worth hearing about.",
+        "band_style": "light"
+      }
+    }
+  },
+  "order": [
+    "banner_phone_style",
+    "section",
+    "trust_strip",
+    "cards",
+    "notify"
+  ]
+}
