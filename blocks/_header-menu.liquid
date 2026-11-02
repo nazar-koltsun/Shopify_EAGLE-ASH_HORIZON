@@ -93,8 +93,10 @@
             role="list"
           >
             {% for link in block_settings.menu.links %}
+              {%- comment -%} Eagle & Ash, 3 Nov 2026: no role="presentation" here. The <ul> is a list (role="list"), so
+                its items must stay list items; with "presentation" the links became direct children of the list
+                (axe/Lighthouse "aria-required-children", critical: desktop Accessibility 95, Agentic Browsing 3/4). {%- endcomment -%}
               <li
-                role="presentation"
                 class="menu-list__list-item"
                 on:focus="/activate"
                 on:blur="/deactivate"
