@@ -603,6 +603,24 @@
   .menu-list__link--active .menu-list__link-title::after {
     background-color: #fd5000;
   }
+
+  /* 3 Nov 2026 (Anu: the Gift Ideas drop-down flickers as a narrow white strip and does not open): the link ends ~5 px
+     above the drop-down's top edge (the bar is 80 px, the menu row only ~43 px), so a pointer in that gap or on the
+     still-opening panel counted as "left the menu" and closed it, in a loop. An invisible strip under each link that
+     has a drop-down keeps the pointer inside the menu item down to the bottom of the bar. */
+  .menu-list__link[aria-haspopup='true'] {
+    position: relative;
+  }
+
+  .menu-list__link[aria-haspopup='true']::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    height: 22px; /* the link ends 23 px above the bottom of the bar, at the top of the page and when scrolled */
+    /* above the white panel background (.menu-list::after), below the panel itself (same layer, comes later) */
+    z-index: var(--layer-header-menu);
+  }
 {% endstylesheet %}
 
 {% schema %}
