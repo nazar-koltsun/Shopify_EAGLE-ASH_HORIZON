@@ -81,9 +81,11 @@ export class ProductCard extends Component {
     this.addEventListener('click', this.navigateToProduct);
 
     // Preload the next image on the slideshow to avoid white flashes on previewImage
+    // Eagle & Ash, 3 Nov 2026: only after the page has loaded and when the card is near the screen. Before, every card
+    // fetched its hidden second photo at once (homepage: 11 photos, ~850 KB) while the hero photo was still loading.
     setTimeout(() => {
       if (this.refs.slideshow?.isNested) {
-        this.#preloadNextPreviewImage();
+        this.#preloadNextPreviewImageWhenNear();
       }
     });
   }
@@ -91,6 +93,32 @@ export class ProductCard extends Component {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('click', this.navigateToProduct);
+    this.#nextImageObserver?.disconnect();
+    this.#nextImageObserver = null;
+  }
+
+  /** @type {IntersectionObserver | null} */
+  #nextImageObserver = null;
+
+  #preloadNextPreviewImageWhenNear() {
+    const start = () => {
+      const slideshow = this.refs.slideshow;
+      if (!this.isConnected || !slideshow) return;
+
+      this.#nextImageObserver = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          this.#nextImageObserver?.disconnect();
+          this.#nextImageObserver = null;
+          this.#preloadNextPreviewImage();
+        },
+        { rootMargin: '200px 0px' }
+      );
+      this.#nextImageObserver.observe(slideshow);
+    };
+
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
   }
 
   #preloadNextPreviewImage() {
