@@ -352,7 +352,8 @@
             "text": "<p>Not ours. Book a tee time at the course they keep mentioning, then fill in the card and fold it. It is the gift they will remember longest.</p><p>Something small to unwrap with it: <a href=\"/products/bamboo-golf-tees\">bamboo golf tees</a> or a <a href=\"/products/leather-golf-tee-pouch-zip\">leather tee pouch</a>.</p>",
             "image_1": "shopify://shop_images/printable-card-preview-round-of-golf.jpg",
             "pdf_1": "eagle-and-ash-printable-golf-gift-card-round-of-golf.pdf",
-            "label_1": "Download the card (PDF)"
+            "label_1": "A round of golf",
+            "a4_1": "eagle-and-ash-printable-golf-gift-card-round-of-golf-a4.pdf"
           }
         },
         "lesson": {
@@ -362,10 +363,12 @@
             "text": "<p>Not ours either. Many golfers never get round to booking a lesson for themselves. A paid hour with the teaching professional at their club removes the excuse.</p><p>Add a <a href=\"/products/bamboo-golf-tees\">pack of tees</a>, so they have something in their pocket when they arrive.</p>",
             "image_1": "shopify://shop_images/printable-card-preview-golf-lesson-woman-golfer.jpg",
             "pdf_1": "eagle-and-ash-printable-golf-gift-card-golf-lesson-woman-golfer.pdf",
-            "label_1": "Woman golfer (PDF)",
+            "label_1": "A golf lesson · woman golfer",
             "image_2": "shopify://shop_images/printable-card-preview-golf-lesson-man-golfer.jpg",
             "pdf_2": "eagle-and-ash-printable-golf-gift-card-golf-lesson-man-golfer.pdf",
-            "label_2": "Man golfer (PDF)"
+            "label_2": "A golf lesson · man golfer",
+            "a4_1": "eagle-and-ash-printable-golf-gift-card-golf-lesson-woman-golfer-a4.pdf",
+            "a4_2": "eagle-and-ash-printable-golf-gift-card-golf-lesson-man-golfer-a4.pdf"
           }
         }
       },
@@ -375,11 +378,11 @@
       ],
       "settings": {
         "heading": "Two more ideas *you cannot wrap.*",
-        "intro": "Book it, then give it with a card you print at home. Fill it in on screen or by hand, print it and fold it in three.",
+        "intro": "Book it, then give it with our free printable golf gift card. Fill it in on screen or by hand, print it and fold it in three.",
         "note": "Each PDF has two pages: the card, and how to print and fold it.",
         "color_scheme": "scheme-1",
-        "padding-block-start": 56,
-        "padding-block-end": 56
+        "padding-block-start": 72,
+        "padding-block-end": 72
       }
     },
     "soon_row": {

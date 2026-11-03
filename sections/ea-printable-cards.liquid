@@ -30,11 +30,24 @@
                 <a class="ea-print-cards__preview" href="{{ ea_pdf | file_url }}" target="_blank" rel="noopener">
                   {{- ea_image | image_url: width: 600 | image_tag: loading: 'lazy', widths: '200, 300, 400, 600', sizes: '(max-width: 749px) 44vw, 220px', class: 'ea-print-cards__image', alt: ea_image.alt -}}
                 </a>
+                {%- comment -%} 3 Nov 2026 (Anu): the card's name, then two equal downloads, US Letter and A4, each with the
+                  download arrow (before: one main link plus a small "A4 version", which read as if the main file were A4). {%- endcomment -%}
+                {%- assign ea_name = block.settings[k_label] | default: 'The card' -%}
+                {%- assign k_a4 = 'a4_' | append: i -%}
                 <figcaption>
-                  <a class="ea-print-cards__download" href="{{ ea_pdf | file_url }}" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
-                    {{ block.settings[k_label] | default: 'Download the card (PDF)' | escape }}<span class="visually-hidden"> (opens in a new tab)</span>
-                  </a>
+                  <span class="ea-print-cards__name">{{ ea_name | escape }}</span>
+                  <span class="ea-print-cards__downloads">
+                    <a class="ea-print-cards__download" href="{{ ea_pdf | file_url }}" target="_blank" rel="noopener">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+                      US Letter<span class="visually-hidden">: {{ ea_name | escape }}, PDF (opens in a new tab)</span>
+                    </a>
+                    {%- if block.settings[k_a4] != blank -%}
+                      <a class="ea-print-cards__download" href="{{ block.settings[k_a4] | file_url }}" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+                        A4<span class="visually-hidden">: {{ ea_name | escape }}, PDF (opens in a new tab)</span>
+                      </a>
+                    {%- endif -%}
+                  </span>
                 </figcaption>
               </figure>
             {%- endif -%}
@@ -67,9 +80,16 @@
     scroll-margin-top: calc(var(--header-height, 80px) + 8px);
   }
 
+  /* the site's section heading size: 30 px on computers, 24 px on phones and tablets (3 Nov 2026) */
   .ea-print-cards__heading {
     margin: 0;
     text-align: center;
+    font-size: 30px;
+    line-height: 1.3;
+
+    @media screen and (max-width: 990px) {
+      font-size: 24px;
+    }
   }
 
   /* orange on the light blue: #e04800 (as the About page's light-blue block) */
@@ -79,7 +99,7 @@
 
   .ea-print-cards__intro {
     max-width: 640px;
-    margin: 12px auto 0;
+    margin: 16px auto 0;
     text-align: center;
     font-size: 17px;
     line-height: 1.55;
@@ -88,8 +108,8 @@
   .ea-print-cards__ideas {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 32px;
-    margin-block-start: 36px;
+    gap: 40px;
+    margin-block-start: 48px;
 
     @media screen and (max-width: 989px) {
       grid-template-columns: minmax(0, 1fr);
@@ -100,8 +120,8 @@
   .ea-print-cards__idea {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 28px;
+    gap: 28px;
+    padding: 40px 40px 36px;
     border-radius: 8px;
     background: #fff;
 
@@ -150,16 +170,44 @@
     text-align: center;
     text-underline-offset: 3px;
 
-    /* two cards side by side on phones: keep each link on one line */
+    white-space: nowrap;
+
     @media screen and (max-width: 749px) {
       font-size: 14px;
-      white-space: nowrap;
     }
   }
 
+  /* card title 22 px like the other card titles on the site (19 px on phones) */
+  .ea-print-cards__design figcaption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  /* the card's name (all three in the same style), then the two downloads side by side */
+  .ea-print-cards__name {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: center;
+  }
+
+  .ea-print-cards__downloads {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 20px;
+  }
+
   .ea-print-cards__title {
-    margin: 0 0 8px;
-    font-size: 1.375rem;
+    margin: 0 0 12px;
+    font-size: 22px;
+    line-height: 1.3;
+
+    @media screen and (max-width: 749px) {
+      font-size: 19px;
+    }
   }
 
   .ea-print-cards__text p {
@@ -173,7 +221,7 @@
   }
 
   .ea-print-cards__note {
-    margin: 24px auto 0;
+    margin: 36px auto 0;
     max-width: 640px;
     text-align: center;
     font-size: 15px;
@@ -190,8 +238,8 @@
     { "type": "textarea", "id": "intro", "label": "Text under the heading" },
     { "type": "text", "id": "note", "label": "Line under the ideas" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
-    { "type": "range", "id": "padding-block-start", "label": "Space above", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 56 },
-    { "type": "range", "id": "padding-block-end", "label": "Space below", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 56 }
+    { "type": "range", "id": "padding-block-start", "label": "Space above", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding-block-end", "label": "Space below", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 72 }
   ],
   "blocks": [
     {
@@ -201,11 +249,13 @@
         { "type": "text", "id": "title", "label": "Title" },
         { "type": "richtext", "id": "text", "label": "Text" },
         { "type": "image_picker", "id": "image_1", "label": "Card 1: preview picture" },
-        { "type": "text", "id": "pdf_1", "label": "Card 1: PDF file name in Shopify Files" },
-        { "type": "text", "id": "label_1", "label": "Card 1: link text", "default": "Download the card (PDF)" },
+        { "type": "text", "id": "pdf_1", "label": "Card 1: US Letter PDF file name in Shopify Files" },
+        { "type": "text", "id": "label_1", "label": "Card 1: name under the picture", "default": "The card" },
+        { "type": "text", "id": "a4_1", "label": "Card 1: A4 PDF file name (optional)" },
         { "type": "image_picker", "id": "image_2", "label": "Card 2 (optional): preview picture" },
-        { "type": "text", "id": "pdf_2", "label": "Card 2: PDF file name in Shopify Files" },
-        { "type": "text", "id": "label_2", "label": "Card 2: link text" }
+        { "type": "text", "id": "pdf_2", "label": "Card 2: US Letter PDF file name in Shopify Files" },
+        { "type": "text", "id": "label_2", "label": "Card 2: name under the picture" },
+        { "type": "text", "id": "a4_2", "label": "Card 2: A4 PDF file name (optional)" }
       ]
     }
   ],

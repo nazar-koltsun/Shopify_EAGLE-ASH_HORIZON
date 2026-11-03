@@ -256,6 +256,12 @@
     color: #e04800;
   }
 
+  /* product pages ("Complete the set." on the light band): the photos 86 % of the frame, like the Shop page cards,
+     times the product's own custom.card_photo_scale (Anu, 3 Nov 2026: too much "in your face") */
+  .ea-pairs-with--light .card-gallery img {
+    transform: scale(0.86) translateY(calc((1 - var(--ea-photo-scale, 1)) * 44%)) scale(var(--ea-photo-scale, 1));
+  }
+
   .ea-pairs-with--light .card-gallery {
     border-radius: 8px;
     overflow: hidden;
