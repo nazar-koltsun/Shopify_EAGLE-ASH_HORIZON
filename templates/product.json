@@ -736,6 +736,7 @@
         "icons_shape": "none",
         "section_width": "page-width",
         "band_style": "light",
+        "gift_ideas": true,
         "horizontal_alignment": "flex-start",
         "gap": 28,
         "color_scheme": "scheme-1",

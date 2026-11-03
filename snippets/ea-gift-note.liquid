@@ -2,15 +2,25 @@
   Eagle & Ash, 27 Oct 2026: the gift answer under "Why it's different" (Anu: the FAQ answer "Is it a good gift for a
   golfer?" deserves a place there; the heading is the line "Golf gifts that beat another dozen balls" from the Shop
   page drafts). Text = product metafield custom.gift_note; nothing is shown when it is empty.
+  2 Nov 2026 (Anu: "love all the proposals"): a joke per product as the heading (custom.gift_heading, empty = the
+  title below) and a line for the gift card at the end of the box (custom.gift_card_line, empty = no line). 3 Nov: label 'Adding a message? Stuck for words? Borrow this:' (Anu: must not sound as if a card is included; a bit funny; not 'gift card', which means a store card in the US).
 
   @param {object} product - The product.
   @param {string} title - Heading; words between two stars are shown in orange.
 {%- enddoc -%}
 {%- assign ea_text = product.metafields.custom.gift_note.value -%}
+{%- assign ea_title = product.metafields.custom.gift_heading.value | default: title -%}
+{%- assign ea_card_line = product.metafields.custom.gift_card_line.value -%}
 {%- if ea_text != blank -%}
   <div class="ea-gift-note">
-    <h2 class="ea-gift-note__title">{%- render 'ea-accent-text', text: title -%}</h2>
+    <h2 class="ea-gift-note__title">{%- render 'ea-accent-text', text: ea_title -%}</h2>
     <p class="ea-gift-note__text">{{ ea_text | escape | newline_to_br }}</p>
+    {%- if ea_card_line != blank -%}
+      <p class="ea-gift-note__card">
+        <span class="ea-gift-note__card-label">Adding a message? Stuck for words? Borrow this:</span>
+        <span class="ea-gift-note__card-line">“{{ ea_card_line | escape }}”</span>
+      </p>
+    {%- endif -%}
   </div>
 {%- endif -%}
 
@@ -33,10 +43,35 @@
   .ea-gift-note__title {
     margin: 0 0 12px;
     font-size: 1.5rem;
+    text-wrap: balance;
   }
 
   .ea-gift-note__text {
     margin: 0;
+  }
+
+  /* the line for the gift card: a short orange rule above it, the label in the small-text orange #b83a00 (5.4:1 on
+     the grey), the line itself in the heading font */
+  .ea-gift-note__card {
+    margin: 24px auto 0;
+    padding-block-start: 20px;
+    max-width: 520px;
+    text-wrap: balance;
+    background: linear-gradient(#fd5000, #fd5000) top center / 36px 2px no-repeat;
+  }
+
+  .ea-gift-note__card-label {
+    display: block;
+    margin-block-end: 4px;
+    color: #b83a00;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .ea-gift-note__card-line {
+    font-family: var(--font-heading--family);
+    font-size: 1.25rem;
+    line-height: 1.4;
   }
 
   @media screen and (min-width: 750px) {

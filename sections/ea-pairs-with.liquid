@@ -201,6 +201,37 @@
     </div>
   {%- endif -%}
 
+  {%- comment -%}
+    Eagle & Ash, 2 Nov 2026: the gift collections this product is in (collections with gift sentences,
+    custom.gift_notes), under the cards and away from the Amazon button (Anu: above the fold it pulled
+    attention from the button). Product pages only; updates itself when a product joins or leaves a collection.
+  {%- endcomment -%}
+  {%- if section.settings.gift_ideas and closest.product -%}
+    {%- liquid
+      assign ea_gift_count = 0
+      for ea_c in closest.product.collections
+        if ea_c.metafields.custom.gift_notes != blank
+          assign ea_gift_count = ea_gift_count | plus: 1
+        endif
+      endfor
+    -%}
+    {%- if ea_gift_count > 0 -%}
+      <nav class="ea-pairs-gifts" aria-label="More gift ideas">
+        <p class="ea-pairs-gifts__line">
+          <span class="ea-pairs-gifts__label">More gift ideas:</span>
+          {%- assign ea_n = 0 -%}
+          {%- for ea_c in closest.product.collections -%}
+            {%- if ea_c.metafields.custom.gift_notes != blank -%}
+              {%- if ea_n > 0 -%}<span class="ea-pairs-gifts__sep" aria-hidden="true">·</span>{%- endif -%}
+              <a class="ea-pairs-gifts__link" href="{{ ea_c.url }}">{{ ea_c.title | escape }}</a>
+              {%- assign ea_n = ea_n | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </p>
+      </nav>
+    {%- endif -%}
+  {%- endif -%}
+
   <div
     class="section-resource-list__content"
     style="--horizontal-alignment: {{ section.settings.horizontal_alignment }};"
@@ -249,6 +280,59 @@
         calc((100% - (var(--ea-mobile-columns) - 1) * var(--resource-list-column-gap)) / var(--ea-mobile-columns))
       );
       justify-content: center;
+    }
+  }
+
+  /* "More gift ideas:" under the cards: one centred line of underlined orange text links, as in the first
+     draft under the Amazon button (Anu, 2 Nov 2026: simpler than buttons). #b83a00 on the blue = 4.65:1. */
+  .ea-pairs-gifts {
+    margin-block-start: 36px;
+  }
+
+  .ea-pairs-gifts__line {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 2px 10px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #001e26;
+  }
+
+  .ea-pairs-gifts__label {
+    font-weight: 500;
+  }
+
+  .ea-pairs-gifts__link {
+    padding-block: 4px;
+    color: #b83a00;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ea-pairs-gifts__link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .ea-pairs-gifts__sep {
+    color: #4f6166;
+  }
+
+  /* phones: the label on its own line, no dots (they were left hanging at the line ends) */
+  @media screen and (max-width: 749px) {
+    .ea-pairs-gifts__line {
+      column-gap: 16px;
+    }
+
+    .ea-pairs-gifts__label {
+      flex-basis: 100%;
+      text-align: center;
+    }
+
+    .ea-pairs-gifts__sep {
+      display: none;
     }
   }
 
@@ -755,6 +839,13 @@
         { "value": "light", "label": "Light blue band" }
       ],
       "default": "none"
+    },
+    {
+      "type": "checkbox",
+      "id": "gift_ideas",
+      "label": "Links to the product's gift collections",
+      "info": "Product pages: \"More gift ideas:\" under the cards, for every collection with gift sentences.",
+      "default": false
     },
     {
       "type": "checkbox",

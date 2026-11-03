@@ -1,0 +1,214 @@
+{%- comment -%}
+  Eagle & Ash, 3 Nov 2026 (Anu: "make the designs as visible cards with download link near them, and the same message
+  idea as the block already has"): gift ideas that cannot be wrapped (a round, a lesson), each with a printable card
+  to download. One block per idea: title, text, up to two card designs (preview picture + PDF from Shopify Files,
+  by file name). Replaces the collection description text on the Has Everything page.
+{%- endcomment -%}
+<div class="section-background color-{{ section.settings.color_scheme }} ea-print-cards-bg"></div>
+<div id="printable-cards" class="section section--page-width ea-print-cards spacing-style" style="{% render 'spacing-padding', settings: section.settings %}">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="ea-print-cards__heading">{%- render 'ea-accent-text', text: section.settings.heading -%}</h2>
+  {%- endif -%}
+  {%- if section.settings.intro != blank -%}
+    <p class="ea-print-cards__intro">{{ section.settings.intro | escape }}</p>
+  {%- endif -%}
+
+  <div class="ea-print-cards__ideas">
+    {%- for block in section.blocks -%}
+      <article class="ea-print-cards__idea" {{ block.shopify_attributes }}>
+        <div class="ea-print-cards__designs">
+          {%- for i in (1..2) -%}
+            {%- liquid
+              assign k_image = 'image_' | append: i
+              assign k_pdf = 'pdf_' | append: i
+              assign k_label = 'label_' | append: i
+              assign ea_image = block.settings[k_image]
+              assign ea_pdf = block.settings[k_pdf]
+            -%}
+            {%- if ea_image != blank and ea_pdf != blank -%}
+              <figure class="ea-print-cards__design">
+                <a class="ea-print-cards__preview" href="{{ ea_pdf | file_url }}" target="_blank" rel="noopener">
+                  {{- ea_image | image_url: width: 600 | image_tag: loading: 'lazy', widths: '200, 300, 400, 600', sizes: '(max-width: 749px) 44vw, 220px', class: 'ea-print-cards__image', alt: ea_image.alt -}}
+                </a>
+                <figcaption>
+                  <a class="ea-print-cards__download" href="{{ ea_pdf | file_url }}" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+                    {{ block.settings[k_label] | default: 'Download the card (PDF)' | escape }}<span class="visually-hidden"> (opens in a new tab)</span>
+                  </a>
+                </figcaption>
+              </figure>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="ea-print-cards__text">
+          {%- if block.settings.title != blank -%}
+            <h3 class="ea-print-cards__title">{{ block.settings.title | escape }}</h3>
+          {%- endif -%}
+          {{ block.settings.text }}
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.note != blank -%}
+    <p class="ea-print-cards__note">{{ section.settings.note | escape }}</p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  /* the light-blue band of "Complete the set" (Soaring Brand Blue #d5ebee) */
+  .shopify-section:has(> .ea-print-cards-bg) {
+    background-color: var(--soaring-brand-blue, #d5ebee);
+  }
+
+  .ea-print-cards {
+    color: #001e26;
+    /* the Gift Ideas page links here (#printable-cards): stop below the sticky menu bar */
+    scroll-margin-top: calc(var(--header-height, 80px) + 8px);
+  }
+
+  .ea-print-cards__heading {
+    margin: 0;
+    text-align: center;
+  }
+
+  /* orange on the light blue: #e04800 (as the About page's light-blue block) */
+  .ea-print-cards__heading .ea-accent {
+    color: #e04800;
+  }
+
+  .ea-print-cards__intro {
+    max-width: 640px;
+    margin: 12px auto 0;
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  .ea-print-cards__ideas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+    margin-block-start: 36px;
+
+    @media screen and (max-width: 989px) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+  }
+
+  .ea-print-cards__idea {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 28px;
+    border-radius: 8px;
+    background: #fff;
+
+    @media screen and (max-width: 749px) {
+      padding: 20px 16px;
+    }
+  }
+
+  .ea-print-cards__designs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .ea-print-cards__design {
+    flex: 0 1 220px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ea-print-cards__preview {
+    display: block;
+    width: 100%;
+  }
+
+  /* the card as a sheet of paper */
+  .ea-print-cards__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgb(0 30 38 / 0.12), 0 8px 20px rgb(0 30 38 / 0.12);
+  }
+
+  /* the small-text orange #b83a00 on white: 5.9:1 */
+  .ea-print-cards__download {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    color: #b83a00;
+    font-weight: 600;
+    text-align: center;
+    text-underline-offset: 3px;
+
+    /* two cards side by side on phones: keep each link on one line */
+    @media screen and (max-width: 749px) {
+      font-size: 14px;
+      white-space: nowrap;
+    }
+  }
+
+  .ea-print-cards__title {
+    margin: 0 0 8px;
+    font-size: 1.375rem;
+  }
+
+  .ea-print-cards__text p {
+    margin: 0 0 8px;
+    line-height: 1.55;
+  }
+
+  .ea-print-cards__text a {
+    color: #b83a00;
+    text-underline-offset: 3px;
+  }
+
+  .ea-print-cards__note {
+    margin: 24px auto 0;
+    max-width: 640px;
+    text-align: center;
+    font-size: 15px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Printable gift cards",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Words between two stars are orange." },
+    { "type": "textarea", "id": "intro", "label": "Text under the heading" },
+    { "type": "text", "id": "note", "label": "Line under the ideas" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding-block-start", "label": "Space above", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding-block-end", "label": "Space below", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 56 }
+  ],
+  "blocks": [
+    {
+      "type": "idea",
+      "name": "Gift idea with a card",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "richtext", "id": "text", "label": "Text" },
+        { "type": "image_picker", "id": "image_1", "label": "Card 1: preview picture" },
+        { "type": "text", "id": "pdf_1", "label": "Card 1: PDF file name in Shopify Files" },
+        { "type": "text", "id": "label_1", "label": "Card 1: link text", "default": "Download the card (PDF)" },
+        { "type": "image_picker", "id": "image_2", "label": "Card 2 (optional): preview picture" },
+        { "type": "text", "id": "pdf_2", "label": "Card 2: PDF file name in Shopify Files" },
+        { "type": "text", "id": "label_2", "label": "Card 2: link text" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Printable gift cards" }]
+}
+{% endschema %}

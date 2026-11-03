@@ -1,0 +1,60 @@
+{%- doc -%}
+  Eagle & Ash: the "Coming soon" heading and gifts of a collection (moved out of sections/main-collection on 3 Nov 2026,
+  so the row can also stand as its own section, sections/ea-collection-soon). Outputs <li> elements for a grid.
+  The gifts come from the theme settings (Eagle & Ash: coming soon), only those that have a photo.
+
+  @param {object} collection - The collection; its field custom.soon_cards (product handles, comma-separated) limits
+    the gifts to those whose link contains one of them. Empty field = all (the Shop page).
+  @param {string} [heading] - Heading of the row; default "Coming soon".
+{%- enddoc -%}
+{%- comment -%} a new row with a heading; only the gifts that have a photo (Anu, 29 Oct 2026).
+  Collection field custom.soon_cards (1 Nov 2026): product handles separated by commas; only the coming-soon
+  gifts whose link contains one of them are shown on that collection. Empty field = all (the Shop page). {%- endcomment -%}
+{%- assign ea_soon_only = collection.metafields.custom.soon_cards.value | default: '' | split: ',' -%}
+{%- assign ea_soon_photos = false -%}
+{%- for i in (1..6) -%}
+  {%- assign k = 'ea_soon_' | append: i -%}
+  {%- assign ea_name = k | append: '_name' -%}
+  {%- assign ea_image = k | append: '_image' -%}
+  {%- assign ea_link = k | append: '_link' -%}
+  {%- liquid
+    assign ea_soon_show = true
+    if ea_soon_only.size > 0
+      assign ea_soon_show = false
+      for ea_h in ea_soon_only
+        assign ea_hs = ea_h | strip
+        if ea_hs != blank and settings[ea_link] contains ea_hs
+          assign ea_soon_show = true
+        endif
+      endfor
+    endif
+  -%}
+  {%- if settings[ea_name] != blank and settings[ea_image] != blank and ea_soon_show -%}{%- assign ea_soon_photos = true -%}{%- endif -%}
+{%- endfor -%}
+{%- if ea_soon_photos -%}
+  <li class="ea-soon-heading"><h2>{{ heading | default: 'Coming soon' | escape }}</h2></li>
+{%- endif -%}
+{%- for i in (1..6) -%}
+  {%- liquid
+    assign k = 'ea_soon_' | append: i
+    assign ea_name = k | append: '_name'
+    assign ea_image = k | append: '_image'
+    assign ea_badge = k | append: '_badge'
+    assign ea_link = k | append: '_link'
+  -%}
+  {%- liquid
+    assign ea_soon_show = true
+    if ea_soon_only.size > 0
+      assign ea_soon_show = false
+      for ea_h in ea_soon_only
+        assign ea_hs = ea_h | strip
+        if ea_hs != blank and settings[ea_link] contains ea_hs
+          assign ea_soon_show = true
+        endif
+      endfor
+    endif
+  -%}
+  {%- if settings[ea_name] != blank and settings[ea_image] != blank and ea_soon_show -%}
+    {%- render 'ea-soon-card', name: settings[ea_name], image: settings[ea_image], badge: settings[ea_badge], url: settings[ea_link] -%}
+  {%- endif -%}
+{%- endfor -%}

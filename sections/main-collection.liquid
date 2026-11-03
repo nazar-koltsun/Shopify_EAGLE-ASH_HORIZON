@@ -54,8 +54,12 @@
           Eagle & Ash, 1 Nov 2026 (Anu: guide the buyer, like LOOV's collection pages): on gift collections, an intro
           above the products (collection field custom.intro) and one sentence under each product (collection field
           custom.gift_notes, JSON: product handle -> sentence). Empty fields = nothing extra (the Shop page).
+          2 Nov 2026 (Anu: "LOVE the idea"): under the sentence, one true golf-history fact to tell when the gift is
+          unwrapped (collection field custom.unwrap_facts, JSON: product handle -> fact).
         {%- endcomment -%}
         {%- assign ea_gift_notes = collection.metafields.custom.gift_notes.value -%}
+        {%- assign ea_unwrap_facts = collection.metafields.custom.unwrap_facts.value -%}
+        {%- assign ea_unwrap_sources = collection.metafields.custom.unwrap_sources.value -%}
         {%- if paginate.current_page == 1 and collection.metafields.custom.intro != blank -%}
           <li class="ea-gift-intro">
             <p>{{ collection.metafields.custom.intro.value | escape | newline_to_br }}</p>
@@ -73,11 +77,28 @@
             {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
             {% # theme-check-enable %}
             {%- assign ea_gift_note = ea_gift_notes[product.handle] -%}
-            {%- if ea_gift_note != blank -%}
-              <p class="ea-collection-note">
-                <span class="ea-collection-note__icon" aria-hidden="true" style="--ea-icon: url('{{ 'icon-gift-box.png' | file_url }}')"></span>
-                <span>{{ ea_gift_note | escape }}</span>
-              </p>
+            {%- assign ea_unwrap_fact = ea_unwrap_facts[product.handle] -%}
+            {%- if ea_gift_note != blank or ea_unwrap_fact != blank -%}
+              <div class="ea-collection-note">
+                {%- if ea_gift_note != blank -%}
+                  <span class="ea-collection-note__icon" aria-hidden="true" style="--ea-icon: url('{{ 'icon-gift-box.png' | file_url }}')"></span>
+                  <p class="ea-collection-note__text">{{ ea_gift_note | escape }}</p>
+                {%- endif -%}
+                {%- comment -%} 3 Nov 2026 (Anu: less text on phones): a <details>, closed on phones (tap to read),
+                  always open on computers (CSS below); the text is in the page either way, so search engines read it. {%- endcomment -%}
+                {%- if ea_unwrap_fact != blank -%}
+                  <details class="ea-collection-fact">
+                    <summary class="ea-collection-fact__label">Tell them when they unwrap it</summary>
+                    <p class="ea-collection-fact__text">{{ ea_unwrap_fact | escape }}</p>
+                    {%- comment -%} 3 Nov 2026 (Anu: sources must be visible): the source of the fact, from the collection
+                      field custom.unwrap_sources (JSON: product handle -> [source name, URL]); none for a joke. {%- endcomment -%}
+                    {%- assign ea_src = ea_unwrap_sources[product.handle] -%}
+                    {%- if ea_src != blank -%}
+                      <p class="ea-collection-fact__source">Source: <a href="{{ ea_src[1] | escape }}" target="_blank" rel="noopener">{{ ea_src[0] | escape }}<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+                    {%- endif -%}
+                  </details>
+                {%- endif -%}
+              </div>
             {%- endif -%}
           </li>
         {% endfor %}
@@ -96,57 +117,7 @@
             -%}
           {%- endif -%}
           {%- if section.settings.show_soon -%}
-            {%- comment -%} a new row with a heading; only the gifts that have a photo (Anu, 29 Oct 2026).
-              Collection field custom.soon_cards (1 Nov 2026): product handles separated by commas; only the coming-soon
-              gifts whose link contains one of them are shown on that collection. Empty field = all (the Shop page). {%- endcomment -%}
-            {%- assign ea_soon_only = collection.metafields.custom.soon_cards.value | default: '' | split: ',' -%}
-            {%- assign ea_soon_photos = false -%}
-            {%- for i in (1..6) -%}
-              {%- assign k = 'ea_soon_' | append: i -%}
-              {%- assign ea_name = k | append: '_name' -%}
-              {%- assign ea_image = k | append: '_image' -%}
-              {%- assign ea_link = k | append: '_link' -%}
-              {%- liquid
-                assign ea_soon_show = true
-                if ea_soon_only.size > 0
-                  assign ea_soon_show = false
-                  for ea_h in ea_soon_only
-                    assign ea_hs = ea_h | strip
-                    if ea_hs != blank and settings[ea_link] contains ea_hs
-                      assign ea_soon_show = true
-                    endif
-                  endfor
-                endif
-              -%}
-              {%- if settings[ea_name] != blank and settings[ea_image] != blank and ea_soon_show -%}{%- assign ea_soon_photos = true -%}{%- endif -%}
-            {%- endfor -%}
-            {%- if ea_soon_photos -%}
-              <li class="ea-soon-heading"><h2>{{ section.settings.soon_heading | default: 'Coming soon' | escape }}</h2></li>
-            {%- endif -%}
-            {%- for i in (1..6) -%}
-              {%- liquid
-                assign k = 'ea_soon_' | append: i
-                assign ea_name = k | append: '_name'
-                assign ea_image = k | append: '_image'
-                assign ea_badge = k | append: '_badge'
-                assign ea_link = k | append: '_link'
-              -%}
-              {%- liquid
-                assign ea_soon_show = true
-                if ea_soon_only.size > 0
-                  assign ea_soon_show = false
-                  for ea_h in ea_soon_only
-                    assign ea_hs = ea_h | strip
-                    if ea_hs != blank and settings[ea_link] contains ea_hs
-                      assign ea_soon_show = true
-                    endif
-                  endfor
-                endif
-              -%}
-              {%- if settings[ea_name] != blank and settings[ea_image] != blank and ea_soon_show -%}
-                {%- render 'ea-soon-card', name: settings[ea_name], image: settings[ea_image], badge: settings[ea_badge], url: settings[ea_link] -%}
-              {%- endif -%}
-            {%- endfor -%}
+            {%- render 'ea-soon-items', collection: collection, heading: section.settings.soon_heading -%}
           {%- endif -%}
         {%- endif -%}
       {% endcapture %}
@@ -240,16 +211,106 @@
   }
 
   .ea-collection-note {
+    flex-wrap: wrap;
+    align-content: flex-start;
     margin: 10px 0 0;
     font-size: 15px;
     line-height: 1.5;
     color: var(--color-foreground);
-    opacity: 0.85;
 
     @media screen and (max-width: 749px) {
       font-size: 14px;
     }
   }
+
+  .ea-collection-note__text {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  /* the fact to tell when the gift is unwrapped (2 Nov 2026): a full-width block under the sentence, no icon; the
+     label in the small-text orange #b83a00 (5.3:1 on the light grey), a brand-orange line on the left */
+  .ea-collection-fact {
+    flex-basis: 100%;
+    margin: 4px 0 0;
+    padding: 10px 12px 11px 14px;
+    border-inline-start: 3px solid #fd5000;
+    border-radius: 0 6px 6px 0;
+    background: #f4f3f1;
+    color: #001e26;
+    font-size: 14px;
+    line-height: 1.5;
+
+    @media screen and (max-width: 749px) {
+      padding: 8px 10px 9px 12px;
+      font-size: 13px;
+    }
+  }
+
+  .ea-collection-fact__label {
+    display: block;
+    color: #b83a00;
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .ea-collection-fact__label::-webkit-details-marker {
+    display: none;
+  }
+
+  /* phones: a small arrow shows that the line opens; it turns down when open */
+  .ea-collection-fact__label::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-inline-start: 8px;
+    border-inline-end: 2px solid currentColor;
+    border-block-end: 2px solid currentColor;
+    transform: translateY(-2px) rotate(-45deg);
+    transition: transform 0.2s ease;
+  }
+
+  .ea-collection-fact[open] > .ea-collection-fact__label::after {
+    transform: translateY(-3px) rotate(45deg);
+  }
+
+  .ea-collection-fact__text {
+    margin: 2px 0 0;
+  }
+
+  .ea-collection-fact__source {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #4f6166;
+
+    a {
+      color: #4f6166;
+      text-underline-offset: 2px;
+    }
+  }
+
+  /* computers: always open, nothing to click (only where the browser can show a closed <details>' content) */
+  @supports selector(::details-content) {
+    @media screen and (min-width: 750px) {
+      .ea-collection-fact::details-content {
+        content-visibility: visible;
+      }
+
+      .ea-collection-fact__label {
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .ea-collection-fact__label::after {
+        display: none;
+      }
+    }
+  }
+
 
   /* the coming-soon gifts start a new row, under their own heading */
   .ea-soon-heading {

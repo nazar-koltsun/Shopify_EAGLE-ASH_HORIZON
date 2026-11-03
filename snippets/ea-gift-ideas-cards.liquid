@@ -6,6 +6,9 @@
 
   @param {string} intro - The page text (page.content).
   @param {string} handles - Collection handles, separated by commas.
+  @param {string} [note] - Optional line under the cards (3 Nov 2026: the printable cards), e.g. "Giving a round instead?"
+  @param {string} [note_link] - Link text after the line.
+  @param {string} [note_url] - Where the link goes.
 {%- enddoc -%}
 <div class="ea-gift-ideas">
   {%- if intro != blank -%}
@@ -34,9 +37,29 @@
       </li>
     {%- endfor -%}
   </ul>
+  {%- if note != blank and note_url != blank -%}
+    <p class="ea-gift-ideas__note">{{ note | escape }} <a href="{{ note_url }}">{{ note_link | default: 'See more' | escape }}</a></p>
+  {%- endif -%}
 </div>
 
 {% stylesheet %}
+  /* one line under the cards that leads to the printable cards (3 Nov 2026); the small-text orange #b83a00 on white */
+  .ea-gift-ideas__note {
+    margin: 64px 0 0;
+    text-align: center;
+    font-size: 17px;
+
+    a {
+      color: #b83a00;
+      font-weight: 600;
+      text-underline-offset: 3px;
+    }
+
+    @media screen and (max-width: 749px) {
+      margin-block-start: 44px;
+    }
+  }
+
   .ea-gift-ideas {
     max-width: var(--page-width, 1400px);
     margin: 0 auto;
