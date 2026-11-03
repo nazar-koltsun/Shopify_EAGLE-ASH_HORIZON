@@ -66,8 +66,17 @@
         assign ea_title = value.name
         assign ea_class = 'ea-swatch-row__link'
         assign ea_soon = false
+        assign ea_when = ''
         if ea_variant.metafields.custom.amazon_url.value == blank
+          # 3 Nov 2026 (Anu): the month too, from the Shop page's coming-soon setting
+          assign ea_soon_key = product.title | append: ', ' | append: ea_variant.title
+          capture ea_when
+            render 'ea-soon-when', name: ea_soon_key
+          endcapture
           assign ea_title = value.name | append: ': coming soon'
+          if ea_when != blank
+            assign ea_title = ea_title | append: ' · ' | append: ea_when
+          endif
           assign ea_class = ea_class | append: ' ea-swatch-row__link--soon'
           assign ea_soon = true
         endif
@@ -80,7 +89,7 @@
         if ea_variant.featured_media != blank or ea_soon
           assign ea_pick = true
         endif
-        render 'ea-card-swatch-row-item', url: ea_variant.url, title: ea_title, image: ea_img, color: value.swatch.color, text: ea_text, class: ea_class, current: ea_is_current, pick: ea_pick, media_id: ea_variant.featured_media.id, price: ea_variant.price, soon: ea_soon, name: value.name, soon_image: ea_variant.metafields.custom.soon_image.value
+        render 'ea-card-swatch-row-item', url: ea_variant.url, title: ea_title, image: ea_img, color: value.swatch.color, text: ea_text, class: ea_class, current: ea_is_current, pick: ea_pick, media_id: ea_variant.featured_media.id, price: ea_variant.price, soon: ea_soon, name: value.name, soon_when: ea_when, soon_image: ea_variant.metafields.custom.soon_image.value
       endfor
     else
       assign ea_img = product.selected_or_first_available_variant.metafields.custom.swatch_image.value
@@ -234,7 +243,8 @@
     background: rgb(255 255 255 / 0.9);
   }
 
-  .ea-card-soon__name {
+  .ea-card-soon__name,
+  .ea-card-soon__when {
     position: relative;
     font-size: 1.125rem;
   }
@@ -291,7 +301,7 @@
       event.stopPropagation();
     }
 
-    const { mediaId, url, price, soon, soonImage, color, imageSrc, imageSrcset, imageAlt, cardTitle } = pick.dataset;
+    const { mediaId, url, price, soon, soonWhen, soonImage, color, imageSrc, imageSrcset, imageAlt, cardTitle } = pick.dataset;
     const slideshow = card.querySelector('slideshow-component');
     if (slideshow && mediaId) {
       for (const slide of slideshow.querySelectorAll('slideshow-slide[variant-image]')) {
@@ -334,6 +344,13 @@
       text.className = 'ea-card-soon__text';
       text.textContent = 'Coming soon';
       panel.append(name, text);
+      // the month under it, e.g. "Nov 2026" (3 Nov 2026)
+      if (soonWhen) {
+        const when = document.createElement('span');
+        when.className = 'ea-card-soon__when';
+        when.textContent = soonWhen;
+        panel.append(when);
+      }
       gallery.append(panel);
     }
 

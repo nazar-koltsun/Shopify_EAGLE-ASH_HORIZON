@@ -1,0 +1,21 @@
+{%- doc -%}
+  Eagle & Ash, 3 Nov 2026 (Anu: "The pink pouches arrive in November ... add coming in November to the pages"):
+  when a coming-soon colour arrives, read from the coming-soon gifts of the Shop page (Theme settings → "Eagle & Ash:
+  coming soon", name + badge). One setting holds the date for the tiles, the colour buttons, the photo and the cards.
+  Prints the part of the badge after "·" ("Coming soon · Nov 2026" -> "Nov 2026"), or nothing.
+
+  @param {string} name - Product title, comma, colour, as written in the setting (e.g. "Leather Golf Tee Pouch – Zip, Pink").
+{%- enddoc -%}
+{%- liquid
+  for i in (1..6)
+    assign ea_k = 'ea_soon_' | append: i | append: '_name'
+    if settings[ea_k] == name
+      assign ea_k = 'ea_soon_' | append: i | append: '_badge'
+      assign ea_badge = settings[ea_k]
+      if ea_badge contains '·'
+        echo ea_badge | split: '·' | last | strip | escape
+      endif
+      break
+    endif
+  endfor
+-%}

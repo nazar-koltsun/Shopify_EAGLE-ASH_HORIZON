@@ -132,6 +132,7 @@
   # colour has its Amazon link.
   assign ea_soon_tokens = ''
   assign ea_soon_name = ''
+  assign ea_soon_when = ''
   assign ea_cur_variant = selected_product.selected_or_first_available_variant
   if selected_product.variants.size > 1 and ea_cur_variant.metafields.custom.amazon_url == blank
     for ea_option in selected_product.options_with_values
@@ -143,6 +144,11 @@
       assign ea_soon_tokens = ea_soon_tokens | append: '-' | append: ea_opt | append: '-' | append: ea_val | append: '~'
     endfor
     assign ea_soon_name = ea_cur_variant.title
+    # 3 Nov 2026 (Anu): the month under "Coming soon", from the Shop page's coming-soon setting
+    assign ea_soon_key = selected_product.title | append: ', ' | append: ea_cur_variant.title
+    capture ea_soon_when
+      render 'ea-soon-when', name: ea_soon_key
+    endcapture
   endif
   assign ea_soon_tokens = ea_soon_tokens | split: '~'
 
@@ -475,7 +481,9 @@
             {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first -%}
           {% endif %}
           {%- if ea_is_soon -%}
-            <span class="ea-media-soon"><span class="ea-media-soon__name">{{ ea_soon_name | escape }}</span><strong class="ea-media-soon__text">Coming soon</strong></span>
+            <span class="ea-media-soon"><span class="ea-media-soon__name">{{ ea_soon_name | escape }}</span><strong class="ea-media-soon__text">Coming soon</strong>
+              {%- if ea_soon_when != blank -%}<span class="ea-media-soon__when">{{ ea_soon_when }}</span>{%- endif -%}
+            </span>
           {%- endif -%}
         {% endcapture %}
         {% capture class %}
@@ -760,7 +768,8 @@
     pointer-events: none;
   }
 
-  .ea-media-soon__name { font-size: 1.125rem; }
+  .ea-media-soon__name,
+  .ea-media-soon__when { font-size: 1.125rem; }
 
   .ea-media-soon__text {
     font-family: var(--font-heading--family);

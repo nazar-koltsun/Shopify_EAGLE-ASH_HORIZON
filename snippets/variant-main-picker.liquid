@@ -141,7 +141,16 @@
                   <span class="ea-swatch-name" aria-hidden="true">{{ ea_label | escape }}</span>
                   {%- comment -%} A colour without an Amazon link is not on sale yet: label it. {%- endcomment -%}
                   {%- if product_option_value.variant and product_option_value.variant.metafields.custom.amazon_url == blank -%}
-                    <span class="ea-swatch-soon">Coming soon</span>
+                    {%- comment -%} 3 Nov 2026 (Anu): the month under it, from the Shop page's coming-soon setting {%- endcomment -%}
+                    {%- liquid
+                      assign ea_soon_key = product_option_value.variant.product.title | append: ', ' | append: product_option_value.variant.title
+                      capture ea_when
+                        render 'ea-soon-when', name: ea_soon_key
+                      endcapture
+                    -%}
+                    <span class="ea-swatch-soon">Coming soon
+                      {%- if ea_when != blank %} <span class="ea-swatch-soon__when">{{ ea_when }}</span>{% endif -%}
+                    </span>
                   {%- endif -%}
                 {% else %}
                   {% if product_option_value.available == true %}
@@ -382,6 +391,11 @@
     /* Darker orange for small text: brand orange #fd5000 is only 3.3:1 on white. */
     color: #b83a00;
     white-space: nowrap;
+  }
+
+  /* the month on its own line: "Coming soon" / "Nov 2026" (3 Nov 2026) */
+  .ea-swatch-soon__when {
+    display: block;
   }
 
   .variant-option__button-label--has-swatch:has(.ea-swatch-soon) .swatch {
