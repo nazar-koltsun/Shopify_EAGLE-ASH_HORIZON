@@ -1,0 +1,19 @@
+{%- comment -%}
+  Eagle & Ash, 3 Nov 2026 (Anu: "OK agent text"): Shopify's crawl rules unchanged (the documented default loop over
+  robots.default_groups), without Shopify's comment block that told AI agents to check out with Shop Pay here.
+  Delete this file to get Shopify's generated robots.txt back.
+{%- endcomment -%}
+# Eagle & Ash (eagleandash.com). This website does not take orders: there is no cart or checkout here.
+# Every product is sold on Amazon.com through the "Shop on Amazon" link on each product page.
+# Information for AI agents: https://eagleandash.com/agents.md
+{% for group in robots.default_groups %}
+  {{- group.user_agent }}
+
+  {%- for rule in group.rules -%}
+    {{ rule }}
+  {%- endfor -%}
+
+  {%- if group.sitemap != blank -%}
+    {{ group.sitemap }}
+  {%- endif -%}
+{% endfor %}
