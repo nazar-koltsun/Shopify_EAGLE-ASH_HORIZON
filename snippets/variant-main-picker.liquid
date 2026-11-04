@@ -166,7 +166,11 @@
                     {{- product_option_value | escape -}}
                   </span>
                 {% endif %}
-                {% render 'strikethrough-variant', product_option: product_option_value %}
+                {%- comment -%} 4 Nov 2026 (Anu): a coming-soon colour is "not available" in Shopify, so agents do not offer it;
+                  it keeps its "Coming soon" label instead of the sold-out line. {%- endcomment -%}
+                {%- unless product_option_value.variant and product_option_value.variant.metafields.custom.amazon_url == blank -%}
+                  {% render 'strikethrough-variant', product_option: product_option_value %}
+                {%- endunless -%}
               </label>
             {%- endfor -%}
             {% if option_id_attribute %}

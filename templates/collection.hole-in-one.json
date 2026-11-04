@@ -275,6 +275,7 @@
     },
     "notify": {
       "type": "ea-notify-signup",
+      "disabled": true,
       "settings": {
         "text": "Be the first to hear about new Eagle & Ash gifts. We also share the occasional Amazon deal.",
         "klaviyo_company": "RMHHKa",

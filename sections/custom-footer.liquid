@@ -21,7 +21,12 @@
     assign ea_about_footer = true
   endif
   # Anu, 30 Oct 2026: the Shop page too, as it ends with its own sign-up band right above the footer
-  if template.name == 'collection'
+  # Anu, 4 Nov 2026: one sign-up per page. The gift pages (collection templates with a suffix) no longer have their own
+  # band, so they keep this footer sign-up; the Gift Ideas page keeps its band, so its footer shows the slogan.
+  if template.name == 'collection' and template.suffix == blank
+    assign ea_about_footer = true
+  endif
+  if template.name == 'page' and template.suffix == 'gift-ideas'
     assign ea_about_footer = true
   endif
   if section.settings.about_motto_heading == blank
