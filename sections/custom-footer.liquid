@@ -739,6 +739,13 @@
     color: var(--ash-amber-orange);
   }
 
+  /* Anu, 4 Nov 2026: the Privacy Policy link still turned black on hover (Horizon's general rule for links in paragraphs
+     is stronger than the rule above), so it disappeared on the dark blue. Orange on #07272d: 4.7:1. */
+  .custom-footer .custom-footer__newsletter-form .email-signup-klaviyo__privacy a:hover,
+  .custom-footer .custom-footer__newsletter-form .email-signup-klaviyo__privacy a:focus-visible {
+    color: var(--ash-amber-orange);
+  }
+
 {% endstylesheet %}
 
 {% schema %}
