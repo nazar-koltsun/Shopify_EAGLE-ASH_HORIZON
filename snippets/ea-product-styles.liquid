@@ -106,4 +106,13 @@
       width: 100%;
     }
   }
+
+  /* The product description (block text_aEtTtq in both product templates) with more air on computers
+     (Anu, 4 Nov 2026: "could the sentence get even more white space? it is all still very crowded"). Phones keep
+     the template's 12 px. */
+  @media screen and (min-width: 990px) {
+    .product-information [class*='__text_aEtTtq'] {
+      padding-block: 28px;
+    }
+  }
 {% endstylesheet %}
