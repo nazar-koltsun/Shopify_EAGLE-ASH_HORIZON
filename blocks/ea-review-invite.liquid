@@ -14,14 +14,22 @@
   assign ea_title = ea_product.metafields.custom.review_invite_title.value | default: block.settings.title
   assign ea_text = ea_product.metafields.custom.review_invite_text.value | default: block.settings.text
   assign ea_button = ea_product.metafields.custom.review_invite_button.value | default: block.settings.button_label
+
+  # Anu, 4 Nov 2026: one line with the button until the first review arrives (the full section was 540 px of empty
+  # space). Judge.me writes reviews.rating_count to the product with the first review; then the full layout returns.
+  assign ea_review_count = ea_product.metafields.reviews.rating_count.value | default: 0
+  assign ea_compact = false
+  if ea_review_count < 1
+    assign ea_compact = true
+  endif
 -%}
 
-<div class="ea-review-invite">
+<div class="ea-review-invite{% if ea_compact %} ea-review-invite--compact{% endif %}">
   <span class="ea-review-invite__icon">{%- render 'ea-icon', name: 'camera' -%}</span>
   {%- if ea_title != blank -%}<p class="ea-review-invite__title">{%- render 'ea-accent-text', text: ea_title -%}</p>{%- endif -%}
-  {%- if ea_text != blank -%}<p class="ea-review-invite__text">{{ ea_text | escape | newline_to_br }}</p>{%- endif -%}
+  {%- if ea_text != blank and ea_compact == false -%}<p class="ea-review-invite__text">{{ ea_text | escape | newline_to_br }}</p>{%- endif -%}
   <button type="button" class="button ea-review-invite__button" data-ea-open-review>{{ ea_button | escape }}</button>
-  {%- if block.settings.small_print != blank -%}<p class="ea-review-invite__small">{{ block.settings.small_print | escape }}</p>{%- endif -%}
+  {%- if block.settings.small_print != blank and ea_compact == false -%}<p class="ea-review-invite__small">{{ block.settings.small_print | escape }}</p>{%- endif -%}
   {%- if ea_product.metafields.custom.review_invite_amazon.value == true -%}
     {%- capture ea_links -%}
       {%- for variant in ea_product.variants -%}
@@ -111,6 +119,37 @@
 
   .ea-review-invite__amazon a {
     color: #b83a00;
+  }
+
+  /* Before the first review: icon, title and button on one line; the section's heading and sub-line are hidden. */
+  .ea-review-invite--compact {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 16px;
+    row-gap: 8px;
+    max-width: 760px;
+    padding: 16px 24px;
+  }
+
+  .ea-review-invite--compact .ea-review-invite__button {
+    margin-block-start: 0;
+  }
+
+  .ea-review-invite--compact .ea-review-invite__amazon {
+    flex-basis: 100%;
+  }
+
+  .shopify-section:has(.ea-review-invite--compact) .text-block {
+    display: none;
+  }
+
+  /* Judge.me's empty box (84 px) folds to zero height; it stays in the page, because the card's button opens the
+     review form through Judge.me's own button inside it (assets/ea-product.js). */
+  .shopify-section:has(.ea-review-invite--compact) .shopify-app-block:has(.jdgm-review-widget) {
+    height: 0;
+    overflow: hidden;
+    margin-block-start: -12px;
   }
 
   /* This card replaces Judge.me's own empty box and its second "Write a review" button

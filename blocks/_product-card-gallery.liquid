@@ -19,7 +19,13 @@
           "
         >
           {%- if product.available == false -%}
-            {{ 'content.product_badge_sold_out' | t }}
+            {%- comment -%} Eagle & Ash, 4 Nov 2026 (Anu): a gift not yet on Amazon is "not available" in Shopify, so agents
+              do not offer it; its card says "Coming soon", not "Sold out". {%- endcomment -%}
+            {%- if product.selected_or_first_available_variant.metafields.custom.amazon_url == blank -%}
+              Coming soon
+            {%- else -%}
+              {{ 'content.product_badge_sold_out' | t }}
+            {%- endif -%}
           {%- elsif product.compare_at_price > product.price -%}
             {{ 'content.product_badge_sale' | t }}
           {%- endif -%}
