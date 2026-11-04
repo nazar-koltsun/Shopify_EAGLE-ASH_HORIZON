@@ -232,6 +232,12 @@
     {%- endif -%}
   {%- endif -%}
 
+  {%- comment -%} Anu, 4 Nov 2026: the offer ribbon below the cards and the "More gift ideas" links (at the top of the
+    section it was too much). Product pages only, with the setting "Offer ribbon below the cards". {%- endcomment -%}
+  {%- if section.settings.offer_ribbon_below -%}
+    <div class="ea-pairs-offer">{% content_for 'block', type: 'ea-offer-ribbon', id: 'offer_ribbon_below' %}</div>
+  {%- endif -%}
+
   <div
     class="section-resource-list__content"
     style="--horizontal-alignment: {{ section.settings.horizontal_alignment }};"
@@ -289,10 +295,16 @@
     }
   }
 
+  /* the offer ribbon below the cards and the gift links (Anu, 4 Nov 2026) */
+  .ea-pairs-offer {
+    margin-block-start: 0;
+  }
+
   /* "More gift ideas:" under the cards: one centred line of underlined orange text links, as in the first
      draft under the Amazon button (Anu, 2 Nov 2026: simpler than buttons). #b83a00 on the blue = 4.65:1. */
+  /* 4 Nov 2026 (Anu: the section was too tall): 36 -> 8 px; the section's own gap adds 28 px */
   .ea-pairs-gifts {
-    margin-block-start: 36px;
+    margin-block-start: 8px;
   }
 
   .ea-pairs-gifts__line {
@@ -851,6 +863,13 @@
       "id": "gift_ideas",
       "label": "Links to the product's gift collections",
       "info": "Product pages: \"More gift ideas:\" under the cards, for every collection with gift sentences.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "offer_ribbon_below",
+      "label": "Offer ribbon below the cards",
+      "info": "Shows the offer ribbon (code and dates in its own settings) under the cards and the gift links.",
       "default": false
     },
     {

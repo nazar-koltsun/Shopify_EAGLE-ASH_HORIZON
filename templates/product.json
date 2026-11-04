@@ -542,7 +542,7 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
+        "padding-block-start": 8,
         "padding-block-end": 32
       },
       "name": "Reviews on this site (Judge.me)"
@@ -609,21 +609,21 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "offer_ribbon_pairs": {
-              "type": "ea-offer-ribbon",
-              "settings": {
-                "text": "Buy any 2 Eagle & Ash products, get 15% off on Amazon.com",
-                "code": "EAGLEASH15",
-                "small_print": "Enter the code at Amazon checkout. Until Nov 30, 2026 · one use per customer.",
-                "show_until": "2026-11-30"
-              }
             }
           },
           "block_order": [
-            "text_pairs_heading",
-            "offer_ribbon_pairs"
+            "text_pairs_heading"
           ]
+        },
+        "offer_ribbon_below": {
+          "type": "ea-offer-ribbon",
+          "static": true,
+          "settings": {
+            "text": "Buy any 2 Eagle & Ash products, get 15% off on Amazon.com",
+            "code": "EAGLEASH15",
+            "small_print": "Enter the code at Amazon checkout. Until Nov 30, 2026 · one use per customer.",
+            "show_until": "2026-11-30"
+          }
         },
         "static-product-card": {
           "type": "_product-card",
@@ -727,7 +727,7 @@
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "max_products": 3,
-        "columns": 3,
+        "columns": 5,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
         "columns_gap": 12,
@@ -737,6 +737,7 @@
         "section_width": "page-width",
         "band_style": "light",
         "gift_ideas": true,
+        "offer_ribbon_below": true,
         "horizontal_alignment": "flex-start",
         "gap": 28,
         "color_scheme": "scheme-1",
@@ -766,7 +767,7 @@
     "quotes_ea",
     "story_ea",
     "pairs_with_ea",
-    "reviews_site_ea",
-    "lifestyle_ea"
+    "lifestyle_ea",
+    "reviews_site_ea"
   ]
 }
