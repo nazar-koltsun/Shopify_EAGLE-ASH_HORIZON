@@ -250,8 +250,8 @@
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
+                "padding-block-start": 12,
+                "padding-block-end": 12,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
@@ -277,7 +277,7 @@
             "highlights_ea": {
               "type": "product-highlights",
               "settings": {
-                "icon_size": 52,
+                "icon_size": 36,
                 "icon_color": "navy"
               },
               "blocks": {}
