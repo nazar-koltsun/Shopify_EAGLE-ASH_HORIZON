@@ -29,6 +29,10 @@
   if template.name == 'page' and template.suffix == 'gift-ideas'
     assign ea_about_footer = true
   endif
+  # Anu, 4 Nov 2026: the homepage keeps its dark sign-up band, so its footer shows the slogan too
+  if template.name == 'index'
+    assign ea_about_footer = true
+  endif
   if section.settings.about_motto_heading == blank
     assign ea_about_footer = false
   endif
@@ -220,12 +224,13 @@
     margin: 0;
     font-family: var(--font-heading--family);
     font-weight: 500;
-    font-size: 30px;
+    /* 4 Nov 2026 (Anu: "slightly smaller, so it does not dominate"): 30/36 -> 24/28 px, below the section headings */
+    font-size: 24px;
     line-height: 1.15;
     color: #fff;
 
     @media screen and (min-width: 990px) {
-      font-size: 36px;
+      font-size: 28px;
     }
   }
 
