@@ -213,6 +213,9 @@
   -%}
 {%- endif -%}
 
+{%- comment -%} 5 Nov 2026: OpenAI ChatGPT Ads Pixel, loads only after cookie consent (details in the snippet). {%- endcomment -%}
+{%- render 'ea-openai-pixel' -%}
+
 {% if section.settings.show_cookie_settings %}
   <script>
     (function () {

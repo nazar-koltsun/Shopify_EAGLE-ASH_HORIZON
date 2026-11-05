@@ -1,0 +1,136 @@
+{%- comment -%}
+  OpenAI ChatGPT Ads Measurement Pixel (Anu, 5 Nov 2026: "I agree on what you proposed for OpenAI Pixel").
+  OpenAI's instructions: https://developers.openai.com/ads/measurement-pixel
+
+  CONSENT (project rule: nothing tracks a visitor before consent - California CIPA letters):
+  - OpenAI's own snippet starts with consent = true. We do NOT use it that way.
+  - The OpenAI script is added to the page only after the visitor clicked "Accept" (marketing = 'yes') in
+    Shopify's cookie banner AND "sale/sharing of data" is allowed. "Your Privacy Choices" (US opt-out page) and the
+    Global Privacy Control browser signal switch the second one off. Before that, the browser sends nothing
+    to openai.com.
+  - If the visitor withdraws consent later (footer link "Cookie preferences"), oaiq('consent', false) runs,
+    which deletes the Pixel's two cookies (__oppref 30 days, __obref 365 days).
+  - Automatic advanced matching must stay OFF in Ads Manager: the Privacy Policy says we send OpenAI no
+    email addresses or names.
+
+  EVENTS:
+  - amazon_click (custom event): a click on any link to amazon.com, except the "write a review" links.
+    OpenAI counts it per ad, but cannot optimize a campaign toward a custom event.
+  - lead_created (standard event): a successful email sign-up in any of our forms (the event
+    email-signup:success from assets/email-signup-klaviyo.js; the pop-up uses the same script).
+    The sign-up campaign optimizes toward this event.
+
+  TEST: add ?ea_pixel_debug=1 to a page address; after "Accept" the OpenAI script logs its activity in the
+  browser console.
+{%- endcomment -%}
+{%- assign ea_oai_pixel_id = 'WAE3zDfxwGq5Tsp5bwj1Us' -%}
+{%- if ea_oai_pixel_id != blank and request.design_mode == false -%}
+  <script>
+    (function () {
+      var PIXEL_ID = {{ ea_oai_pixel_id | json }};
+      var SDK_URL = 'https://bzrcdn.openai.com/sdk/oaiq.min.js';
+      var debug = /[?&]ea_pixel_debug=1(&|$)/.test(window.location.search);
+      var loaded = false;
+
+      // Only an explicit "Accept" counts (marketing === 'yes'). Do NOT use cp.marketingAllowed(): in US states it is
+      // already true before the visitor answers the banner (opt-out regions). Found with a test from Washington D.C.,
+      // 5 Nov 2026. Values seen: no answer '' / Accept 'yes' / Decline 'no'.
+      function allowed() {
+        // Global Privacy Control (browser signal "do not sell or share my data"): never load, whatever was clicked.
+        if (navigator.globalPrivacyControl === true) return false;
+        var cp = window.Shopify && window.Shopify.customerPrivacy;
+        if (!cp || typeof cp.currentVisitorConsent !== 'function' || typeof cp.saleOfDataAllowed !== 'function') {
+          return false;
+        }
+        var consent = cp.currentVisitorConsent() || {};
+        return consent.marketing === 'yes' && consent.sale_of_data !== 'no' && cp.saleOfDataAllowed() === true;
+      }
+
+      function load() {
+        if (loaded || !allowed()) return;
+        loaded = true;
+        if (!window.oaiq) {
+          var queue = function () {
+            queue.q.push(arguments);
+          };
+          queue.q = [];
+          window.oaiq = queue;
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = SDK_URL;
+          var first = document.getElementsByTagName('script')[0];
+          first.parentNode.insertBefore(script, first);
+        }
+        window.oaiq('consent', true);
+        window.oaiq('init', { pixelId: PIXEL_ID, debug: debug });
+      }
+
+      function measure(eventName, data, options) {
+        if (!loaded || !allowed() || !window.oaiq) return;
+        if (options) {
+          window.oaiq('measure', eventName, data, options);
+        } else {
+          window.oaiq('measure', eventName, data);
+        }
+      }
+
+      function onLinkClick(event) {
+        if (event.type === 'auxclick' && event.button !== 1) return;
+        var link = event.target && event.target.closest ? event.target.closest('a[href]') : null;
+        if (!link) return;
+        var url;
+        try {
+          url = new URL(link.href, window.location.href);
+        } catch (error) {
+          return;
+        }
+        if (!/(^|\.)amazon\.com$/i.test(url.hostname)) return;
+        if (/\/review\//i.test(url.pathname)) return;
+        var asin = (url.pathname.match(/\/dp\/([A-Z0-9]{10})/i) || [])[1];
+        measure(
+          'custom',
+          {
+            type: 'custom',
+            contents: [
+              {
+                id: asin || 'amazon-store',
+                name: document.title.slice(0, 100),
+                content_type: asin ? 'product' : 'page'
+              }
+            ]
+          },
+          { custom_event_name: 'amazon_click' }
+        );
+      }
+
+      document.addEventListener('click', onLinkClick, true);
+      document.addEventListener('auxclick', onLinkClick, true);
+
+      document.addEventListener('email-signup:success', function () {
+        measure('lead_created', { type: 'customer_action' });
+      });
+
+      document.addEventListener('visitorConsentCollected', function () {
+        if (allowed()) {
+          load();
+        } else if (loaded && window.oaiq) {
+          window.oaiq('consent', false);
+          loaded = false;
+        }
+      });
+
+      function start() {
+        if (!window.Shopify || typeof window.Shopify.loadFeatures !== 'function') return;
+        window.Shopify.loadFeatures([{ name: 'consent-tracking-api', version: '0.1' }], function (error) {
+          if (!error) load();
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', start);
+      } else {
+        start();
+      }
+    })();
+  </script>
+{%- endif -%}
