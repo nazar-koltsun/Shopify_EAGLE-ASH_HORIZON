@@ -184,6 +184,35 @@
   </div>
 </div>
 
+{%- liquid
+  # Eagle & Ash, 5 Nov 2026: the one sign-up pop-up (snippets/ea-signup-popup.liquid), same Klaviyo list and consent
+  # line as the footer form. Never on the press, wholesale, contact and legal pages, nor on system pages.
+  assign ea_popup = true
+  case request.page_type
+    when 'policy', 'password', '404', 'cart', 'gift_card', 'captcha'
+      assign ea_popup = false
+  endcase
+  if template.name == 'page'
+    case template.suffix
+      when 'press', 'wholesale', 'contact', 'policy', 'shipping-policy'
+        assign ea_popup = false
+    endcase
+    if page.handle == 'data-sharing-opt-out'
+      assign ea_popup = false
+    endif
+  endif
+  if section.settings.klaviyo_company_id == blank or section.settings.klaviyo_list_id == blank
+    assign ea_popup = false
+  endif
+-%}
+{%- if ea_popup -%}
+  {%- render 'ea-signup-popup',
+    klaviyo_company_id: section.settings.klaviyo_company_id,
+    klaviyo_list_id: section.settings.klaviyo_list_id,
+    privacy_notice: section.settings.privacy_notice
+  -%}
+{%- endif -%}
+
 {% if section.settings.show_cookie_settings %}
   <script>
     (function () {

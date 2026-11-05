@@ -119,6 +119,14 @@ class EmailSignupKlaviyo extends HTMLElement {
       }
 
       this.#form.reset();
+      // Eagle & Ash, 5 Nov 2026: remember the sign-up on this browser, so the sign-up pop-up never shows again
+      // (assets/ea-signup-popup.js). Only a date is stored, no email address.
+      try {
+        window.localStorage.setItem('ea-signed-up', String(Date.now()));
+      } catch {
+        // storage blocked: the pop-up script then never shows anyway
+      }
+      this.dispatchEvent(new CustomEvent('email-signup:success', { bubbles: true }));
       this.#showSuccess();
     } catch {
       this.#showError(this.dataset.errorMessage);

@@ -1,0 +1,315 @@
+{%- doc -%}
+  Eagle & Ash, 5 Nov 2026: the one sign-up pop-up (Anu's rule, 3 Nov: at most one pop-up, never at once on arrival,
+  easy to close, it must help and never push people away). Same Klaviyo form and list as the footer; the source
+  "Pop-up: 20% code" tells these sign-ups apart in Klaviyo. Rendered by sections/custom-footer.liquid, which leaves it
+  out on the press, wholesale, contact and legal pages. When and how often it shows: assets/ea-signup-popup.js.
+
+  Computers: a box in the lower right corner, over nothing important (no dimmed page, the page stays usable).
+  Phones: first only a slim bar at the bottom (Google ranks pages lower when a window covers the page on phones);
+  the form opens when the visitor taps the button. On product pages it sits above the "Shop on Amazon" bar.
+
+  The offer text and the success text switch to the plain version when the 20% promotion ends
+  (Seller Central: 31 Dec 2026 11:59 PM PST = 2027-01-01T07:59:00Z).
+
+  @param {string} klaviyo_company_id - As in the footer section settings.
+  @param {string} klaviyo_list_id - As in the footer section settings.
+  @param {string} privacy_notice - The consent line with the Privacy Policy link (footer setting).
+{%- enddoc -%}
+<div
+  class="ea-pop"
+  id="ea-signup-pop"
+  role="dialog"
+  aria-modal="false"
+  aria-label="Email sign-up"
+  data-offer-end="2027-01-01T07:59:00Z"
+  data-hide-days="14"
+  data-success-offer="Thank you! Your 20% code is on its way to your inbox. In Gmail, look in the Promotions tab too."
+  data-success-plain="Thanks for subscribing!"
+  hidden
+>
+  <button type="button" class="ea-pop__close" aria-label="Close" data-ea-pop-close>
+    <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+      <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+    </svg>
+  </button>
+
+  <div class="ea-pop__teaser">
+    <p class="ea-pop__teaser-text">
+      <span data-offer>20% off for new subscribers</span>
+      <span data-no-offer hidden>New gifts and deals, first.</span>
+    </p>
+    <button type="button" class="ea-pop__open" aria-expanded="false" aria-controls="ea-pop-body" data-ea-pop-open>
+      <span data-offer>Get code</span>
+      <span data-no-offer hidden>Sign up</span>
+    </button>
+  </div>
+
+  <div class="ea-pop__body" id="ea-pop-body">
+    <h2 class="ea-pop__title">
+      <span data-offer>20% off for new subscribers</span>
+      <span data-no-offer hidden>New gifts and deals, first.</span>
+    </h2>
+    <p class="ea-pop__text">
+      <span data-offer>Sign up and we'll email you a 20% code for Eagle &amp; Ash on Amazon.com, valid until December 31. New gifts and deals, at most two emails a month.</span>
+      <span data-no-offer hidden>Be the first to hear about new golf gifts and Amazon deals. At most two emails a month.</span>
+    </p>
+    <div class="ea-pop__form">
+      {%- render 'email-signup-klaviyo-form',
+        klaviyo_company_id: klaviyo_company_id,
+        klaviyo_list_id: klaviyo_list_id,
+        label: 'SIGN UP',
+        show_interest: false,
+        form_id: 'signup-popup',
+        custom_source: 'Pop-up: 20% code',
+        privacy_notice: privacy_notice
+      -%}
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'ea-signup-popup.js' | asset_url }}" defer></script>
+
+{% stylesheet %}
+  /* Sign-up pop-up (5 Nov 2026). Dark blue as the homepage sign-up band; white on orange only bold and 19 px or more. */
+  .ea-pop {
+    --ea-pop-offset: 0px;
+    position: fixed;
+    z-index: 30; /* above the "Shop on Amazon" bar (20), which it never covers: see --ea-pop-offset */
+    inset-inline-end: 24px;
+    inset-block-end: calc(24px + var(--ea-pop-offset));
+    width: min(380px, calc(100vw - 48px));
+    padding: 28px 24px 22px;
+    border-radius: 8px;
+    background: #001e26;
+    color: #fff;
+    box-shadow: 0 12px 32px rgb(0 0 0 / 0.28);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .ea-pop[hidden] {
+    display: none;
+  }
+
+  .ea-pop.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ea-pop {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  .ea-pop [hidden] {
+    display: none;
+  }
+
+  .ea-pop__close {
+    position: absolute;
+    inset-block-start: 4px;
+    inset-inline-end: 4px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .ea-pop__close svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .ea-pop__close:hover {
+    color: #fd5000;
+  }
+
+  .ea-pop__close:focus-visible,
+  .ea-pop__open:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  .ea-pop__close:focus-visible {
+    outline-offset: -6px;
+  }
+
+  .ea-pop__title {
+    margin: 0 36px 8px 0;
+    font-family: var(--font-heading--family);
+    font-size: 24px;
+    line-height: 1.25;
+    color: #fff;
+  }
+
+  .ea-pop__text {
+    margin: 0 0 16px;
+    font-family: var(--font-body--family);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* the form block has a 20 px gap between its rows; here the consent line's own 10 px margin is enough */
+  .ea-pop__form .email-signup-klaviyo__form {
+    gap: 0;
+    padding: 0;
+  }
+
+  /* field and button side by side also on phones (the block stacks them below 750 px) */
+  .ea-pop__form .email-signup-klaviyo__form-wrap {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .ea-pop__form .email-signup__fields {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ea-pop__form .email-signup-klaviyo__input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    background: #fff;
+    color: #001e26;
+    font-size: 16px; /* 16 px: phones do not zoom into the field */
+  }
+
+  .ea-pop__form .email-signup-klaviyo__button {
+    flex: none;
+    width: auto; /* the block makes the button full width on phones, with a margin above it */
+    margin: 0;
+  }
+
+  .ea-pop__form .email-signup-klaviyo__button,
+  .ea-pop__open {
+    min-height: 48px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 4px;
+    background: #fd5000;
+    color: #fff;
+    font-family: var(--font-body--family);
+    font-size: 1.1875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .ea-pop .email-signup-klaviyo__privacy,
+  .ea-pop .email-signup-klaviyo__privacy a,
+  .ea-pop .email-signup-klaviyo__message-text {
+    color: #fff;
+    text-align: start;
+  }
+
+  .ea-pop .email-signup-klaviyo__privacy {
+    margin-block-start: 10px;
+  }
+
+  /* Horizon's general rule for links in paragraphs is stronger than a one-class rule (as in the footer, 4 Nov 2026).
+     Orange on #001e26: 5.2:1. */
+  .ea-pop .ea-pop__form .email-signup-klaviyo__privacy a:hover,
+  .ea-pop .ea-pop__form .email-signup-klaviyo__privacy a:focus-visible {
+    color: #fd5000;
+  }
+
+  .ea-pop .email-signup-klaviyo__message {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-block-start: 12px;
+  }
+
+  .ea-pop .email-signup-klaviyo__message.hidden {
+    display: none;
+  }
+
+  .ea-pop .email-signup-klaviyo__message svg,
+  .ea-pop .email-signup-klaviyo__message .svg-wrapper {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    color: #fff;
+  }
+
+  .ea-pop .email-signup-klaviyo__message-text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  /* After a sign-up the form gives its place to the thank-you line */
+  .ea-pop.is-done .email-signup-klaviyo__form-wrap,
+  .ea-pop.is-done .email-signup-klaviyo__privacy,
+  .ea-pop.is-done .ea-pop__text {
+    display: none;
+  }
+
+  .ea-pop__teaser {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ea-pop {
+      inset-inline: 0;
+      inset-block-end: var(--ea-pop-offset);
+      width: auto;
+      padding: 18px 16px calc(16px + env(safe-area-inset-bottom));
+      border-radius: 0;
+      box-shadow: 0 -6px 20px rgb(0 0 0 / 0.22);
+    }
+
+    .ea-pop__title {
+      font-size: 20px;
+    }
+
+    .ea-pop.is-collapsed {
+      padding-block: 10px calc(10px + env(safe-area-inset-bottom));
+    }
+
+    .ea-pop.is-collapsed .ea-pop__body {
+      display: none;
+    }
+
+    .ea-pop.is-collapsed .ea-pop__teaser {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding-inline-end: 40px; /* room for the close button */
+    }
+
+    .ea-pop.is-collapsed .ea-pop__close {
+      inset-block-start: 50%;
+      transform: translateY(-50%);
+    }
+
+    .ea-pop__teaser-text {
+      flex: 1;
+      margin: 0;
+      font-family: var(--font-body--family);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .ea-pop__open {
+      flex: none;
+      min-height: 44px;
+      padding: 0 14px;
+    }
+  }
+{% endstylesheet %}
