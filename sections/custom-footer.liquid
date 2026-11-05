@@ -29,6 +29,10 @@
   if template.name == 'page' and template.suffix == 'gift-ideas'
     assign ea_about_footer = true
   endif
+  # 5 Nov 2026: the press page has its own form (press kit), so its footer shows the slogan, not a second sign-up
+  if template.name == 'page' and template.suffix == 'press'
+    assign ea_about_footer = true
+  endif
   # Anu, 4 Nov 2026: the homepage keeps its dark sign-up band, so its footer shows the slogan too
   if template.name == 'index'
     assign ea_about_footer = true

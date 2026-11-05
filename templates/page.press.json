@@ -1,0 +1,132 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "press": {
+      "type": "ea-press",
+      "blocks": {
+        "gift_tee_pouch": {
+          "type": "gift",
+          "settings": {
+            "product": "leather-golf-tee-pouch-zip",
+            "label": "Play",
+            "title": "Leather Golf Tee Pouch – Zip and Flex",
+            "price_label": "Zip",
+            "product_2": "leather-golf-tee-pouch-flex",
+            "price_label_2": "Flex",
+            "line": "The tees finally get their own stylish room.",
+            "facts": "Full-grain leather, designed by us and handmade in a workshop in Turkey that we have visited.\nTwo styles: the Zip closes fully, the Flex opens with one squeeze. Cognac, Black, Green and Blue; pink arrives in November 2026.\nComes with 20 bamboo golf tees. 4.5 × 2.75 in (115 × 70 mm): it holds tees, a little cash and a car key, and the clip keeps it on the golf bag.\nIn a gift box: Zip 5.1 × 3.1 × 2.0 in (130 × 80 × 50 mm), Flex 5.7 × 4.3 × 1.2 in (145 × 110 × 30 mm)."
+          }
+        },
+        "gift_trophy": {
+          "type": "gift",
+          "settings": {
+            "product": "hole-in-one-golf-ball-display",
+            "label": "Honor",
+            "title": "Hole in One Golf Ball Display",
+            "line": "Their best shot deserves better than a sock drawer.",
+            "facts": "Solid ash wood, designed by us and handmade in a small studio in Estonia.\nWood Top or Stone Top (black engineered stone). Both together: the Duo Pack.\nA small trophy for one golf ball: 2.8 × 2.4 × 0.8 in (71 × 61 × 20 mm). The ball sits in a shallow bowl and spins when you nudge it. The underside is blank, ready for your own engraver.\nIn a gift box of 3.3 × 3.3 × 1.0 in (85 × 85 × 25 mm)."
+          }
+        },
+        "gift_bath_bombs": {
+          "type": "gift",
+          "settings": {
+            "product": "bath-bombs-for-women-golfers-chamomile",
+            "label": "Unwind",
+            "title": "Golf Ball Bath Bombs (4 Pack)",
+            "line": "Finally, a water hazard worth aiming for.",
+            "facts": "97.7% natural-origin ingredients, made in Latvia, in the EU.\nThree scents: Chamomile, Sandalwood and Mountain Mint.\nFour golf-ball-sized bath bombs, 1.6 oz (45 g) each, pressed in our own golf-ball mold, dimples included.\nEach sealed in its own wrap, in a gift box of 4.3 × 4.3 × 2.0 in (110 × 110 × 50 mm)."
+          }
+        },
+        "soon_pink": {
+          "type": "soon",
+          "settings": {
+            "image": "shopify://shop_images/soon-flex-pink-v2.jpg",
+            "name": "Leather Golf Tee Pouches in Pink",
+            "text": "Same leather, same clip: the ladies' special.",
+            "url": "/products/leather-golf-tee-pouch-flex?variant=59267815244111"
+          }
+        },
+        "launch_mulligan": {
+          "type": "launch",
+          "settings": {
+            "image": "shopify://shop_images/soon-mulligan-pills-v6.jpg",
+            "label": "Launching next",
+            "name": "Mulligan Pills – Funny Golf Tees in a Bottle",
+            "hook": "A mock prescription for real golfers. Side effects may include optimism.",
+            "facts": "20 real bamboo golf tees with height markers, 2¾ in (70 mm), in a reusable amber pharmacy-style bottle.\nDirections: \"Take one to the tee. Request a mulligan as necessary.\" Authorization: the group. Unanimously.\nA funny gift that is still useful: the tees are the real thing, and the bottle stays on as a tee holder.\nFor men and women: Christmas stockings, birthdays, golf buddies and tournament prizes.",
+            "when": "On Amazon.com in November 2026, in time for Christmas.",
+            "url": "/products/mulligan-pills-funny-golf-tees",
+            "link_label": "See Mulligan Pills",
+            "sample_link_label": "Ask for a sample"
+          }
+        }
+      },
+      "block_order": [
+        "gift_tee_pouch",
+        "gift_trophy",
+        "gift_bath_bombs",
+        "launch_mulligan",
+        "soon_pink"
+      ],
+      "settings": {
+        "heading": "Press",
+        "intro": "Eagle & Ash designs golf accessories and gifts with a little more personality: thoughtful details, gift-ready packaging and a sense of humor. Gifts a golfer didn't know they needed. Sold on Amazon.com (US), with Prime delivery and Amazon returns.",
+        "gifts_eyebrow": "Featured gifts",
+        "gifts_heading": "Three unusual gifts for *every part of the game.*",
+        "also_product": "bamboo-golf-tees",
+        "also_text": "in three lengths (1 1/2, 2 3/4 and 3 1/4 inch). Made in China.",
+        "soon_heading": "Coming *soon.*",
+        "soon_text": "Both launch on Amazon.com in November 2026.",
+        "kit_heading": "Press *kit.*",
+        "kit_text": "High-resolution photos of our gifts and of our makers' workshops, plus our logos. Leave your email to get the link.",
+        "sample_label": "I'd also like a product sample for a review or gift guide",
+        "sample_note": "Samples are subject to availability and need a work email address (your publication's domain). We confirm by email before we ship.",
+        "button_label": "Send me the press kit",
+        "success_text": "Thank you! Here is our press kit:",
+        "privacy": "<p>We use your email to send you the press kit link and, now and then, press news about our new gifts. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>",
+        "credit": "Photo credit: Courtesy of Eagle & Ash.",
+        "samples_heading": "Samples and *interviews.*",
+        "samples_text": "<p>Preparing a review or a gift guide? Tick the sample box in the form above and choose one or more gifts. Samples are subject to availability, and we confirm by email before we ship.</p><p>For interviews or quotes, write to the co-founders, Anu Aun: <a href=\"mailto:anu@eagleandash.com\" title=\"mailto:anu@eagleandash.com\">anu@eagleandash.com</a> or Yvelin Karu: <a href=\"mailto:yvelin@eagleandash.com\" title=\"mailto:yvelin@eagleandash.com\">yvelin@eagleandash.com</a>.</p>",
+        "links_family_product": "bath-bombs-for-men-sandalwood",
+        "links_family_name": "Golf Ball Bath Bombs (4 Pack)",
+        "links_heading": "Linking to our *gifts.*",
+        "links_text": "Our gifts are sold only on Amazon.com. Please link to the Amazon listings below. If you are an Amazon Associate, use your own Associates link.",
+        "link_products": [
+          "leather-golf-tee-pouch-zip",
+          "leather-golf-tee-pouch-flex",
+          "hole-in-one-golf-ball-display",
+          "golf-ball-holder-duo-pack",
+          "bath-bombs-for-women-golfers-chamomile",
+          "bath-bombs-for-men-sandalwood",
+          "golf-tournament-gift-bath-bombs-mint",
+          "bamboo-golf-tees"
+        ],
+        "kit_url": "https://drive.google.com/drive/folders/1SKVQrhnbTR2HBbEAbFSA6Epz919myQ_k",
+        "kit_link_label": "Open the press photos",
+        "free_mail_message": "For samples, please use your work email address. Freelance writer? Email anu@eagleandash.com with a link to your recent work.",
+        "klaviyo_company_id": "RMHHKa",
+        "klaviyo_list_id": "XpUDVt",
+        "sample_products": [
+          "leather-golf-tee-pouch-zip",
+          "leather-golf-tee-pouch-flex",
+          "hole-in-one-golf-ball-display",
+          "golf-ball-holder-duo-pack",
+          "bath-bombs-for-men-sandalwood",
+          "bamboo-golf-tees",
+          "mulligan-pills-funny-golf-tees"
+        ]
+      }
+    }
+  },
+  "order": [
+    "press"
+  ]
+}

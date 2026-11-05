@@ -1,0 +1,1040 @@
+{%- doc -%}
+  Eagle & Ash press page (Anu, 4 Nov 2026: doc "Press page – draft – 2026-11-04", "agree on everything").
+  Introduction, three gifts with facts (photo, name and price from the product), "Also" line, coming soon, the press kit
+  request form (Shopify contact form: the request arrives in the store's email inbox, the link is sent by hand until the
+  Klaviyo list "Press" and its automatic email exist), samples and interviews, and plain Amazon links for editors.
+  Prices always come from Shopify, so they match the product pages.
+{%- enddoc -%}
+<div class="section section--page-width">
+<div class="ea-press">
+  <header class="ea-press__head">
+    <h1 class="ea-press__title">{%- render 'ea-accent-text', text: section.settings.heading -%}</h1>
+    {%- if section.settings.intro != blank -%}
+      <p class="ea-press__intro">{{ section.settings.intro | escape }}</p>
+    {%- endif -%}
+  </header>
+
+  {%- if section.blocks.size > 0 -%}
+    <section class="ea-press__part" aria-labelledby="ea-press-gifts">
+      {%- if section.settings.gifts_eyebrow != blank -%}<p class="ea-press__eyebrow">{{ section.settings.gifts_eyebrow | escape }}</p>{%- endif -%}
+      <h2 class="ea-press__h2" id="ea-press-gifts">{%- render 'ea-accent-text', text: section.settings.gifts_heading -%}</h2>
+      <ul class="ea-press__gifts" role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'gift' -%}{%- continue -%}{%- endif -%}
+          {%- liquid
+            assign p = block.settings.product
+            assign p2 = block.settings.product_2
+            assign ea_title = block.settings.title | default: p.title
+          -%}
+          <li class="ea-press__gift" {{ block.shopify_attributes }}>
+            {%- if p.featured_image != blank -%}
+              <a class="ea-press__photo" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
+                {{- p.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300, 450, 600, 900', sizes: '(min-width: 990px) 30vw, 90vw', alt: '' -}}
+                {%- if block.settings.label != blank -%}<span class="ea-press__label">{{ block.settings.label | escape }}</span>{%- endif -%}
+              </a>
+            {%- endif -%}
+            <h3 class="ea-press__gift-title"><a href="{{ p.url }}">{{ ea_title | escape }}</a></h3>
+            {%- if p != blank -%}
+              <p class="ea-press__price">
+                {%- if p2 != blank -%}
+                  {{ block.settings.price_label | escape }} {{ p.price | money }} · {{ block.settings.price_label_2 | escape }} {{ p2.price | money }}
+                {%- else -%}
+                  {{ p.price | money }}
+                {%- endif -%}
+                <span class="ea-press__price-note"> on Amazon.com</span>
+              </p>
+            {%- endif -%}
+            {%- if block.settings.line != blank -%}
+              <p class="ea-press__line">{{ block.settings.line | escape }}</p>
+            {%- endif -%}
+            {%- assign ea_facts = block.settings.facts | newline_to_br | split: '<br />' -%}
+            <ul class="ea-press__facts">
+              {%- for ea_fact in ea_facts -%}
+                {%- assign ea_fact = ea_fact | strip -%}
+                {%- if ea_fact != blank -%}<li>{{ ea_fact | escape }}</li>{%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </li>
+        {%- endfor -%}
+      </ul>
+      {%- assign ea_also = section.settings.also_product -%}
+      {%- if ea_also != blank -%}
+        {%- comment -%} "from" when the lengths or colours have different prices (tees: 1 1/2" is $13.99, the others $14.99) {%- endcomment -%}
+        {%- capture ea_also_price -%}{% if ea_also.price_varies %}from {% endif %}{{ ea_also.price_min | money }}{%- endcapture -%}
+        <p class="ea-press__also">
+          Also: <a href="{{ ea_also.url }}">{{ ea_also.title | escape }}</a>, {{ ea_also_price }}{% if section.settings.also_text != blank %}, {{ section.settings.also_text | escape }}{% endif %}
+        </p>
+      {%- endif -%}
+    </section>
+  {%- endif -%}
+
+  {%- liquid
+    assign ea_soon_count = 0
+    assign ea_launch_count = 0
+    for block in section.blocks
+      if block.type == 'soon'
+        assign ea_soon_count = ea_soon_count | plus: 1
+      elsif block.type == 'launch'
+        assign ea_launch_count = ea_launch_count | plus: 1
+      endif
+    endfor
+  -%}
+  {%- if ea_soon_count > 0 or ea_launch_count > 0 -%}
+    <section class="ea-press__part" aria-labelledby="ea-press-soon">
+      <h2 class="ea-press__h2 ea-press__h2--tight" id="ea-press-soon">{%- render 'ea-accent-text', text: section.settings.soon_heading -%}</h2>
+      {%- if section.settings.soon_text != blank -%}<p class="ea-press__soon-text">{{ section.settings.soon_text | escape }}</p>{%- endif -%}
+      <div class="ea-press__soon-grid{% if ea_launch_count > 0 %} ea-press__soon-grid--launch{% endif %}">
+      {%- comment -%}
+        The gift that launches next, first and framed in orange (Anu, 5 Nov 2026: Mulligan Pills "first place of coming
+        soon", "a highlighted sentence ... A mock prescription for real golfers", "a border around it - launching next";
+        a fun but useful and stylish gift for Christmas 2026).
+      {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type != 'launch' -%}{%- continue -%}{%- endif -%}
+        <article class="ea-press__launch" aria-labelledby="ea-press-launch-{{ block.id }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <a class="ea-press__launch-photo" href="{{ block.settings.url }}" tabindex="-1" aria-hidden="true">
+              {{- block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300, 450, 600, 900', sizes: '(min-width: 990px) 30vw, 90vw', alt: '' -}}
+            </a>
+          {%- endif -%}
+          <div class="ea-press__launch-text">
+            {%- if block.settings.label != blank -%}<p class="ea-press__launch-label">{{ block.settings.label | escape }}</p>{%- endif -%}
+            <h3 class="ea-press__gift-title" id="ea-press-launch-{{ block.id }}"><a href="{{ block.settings.url }}">{{ block.settings.name | escape }}</a></h3>
+            {%- if block.settings.hook != blank -%}<p class="ea-press__launch-hook">{{ block.settings.hook | escape }}</p>{%- endif -%}
+            {%- assign ea_facts = block.settings.facts | newline_to_br | split: '<br />' -%}
+            <ul class="ea-press__facts">
+              {%- for ea_fact in ea_facts -%}
+                {%- assign ea_fact = ea_fact | strip -%}
+                {%- if ea_fact != blank -%}<li>{{ ea_fact | escape }}</li>{%- endif -%}
+              {%- endfor -%}
+            </ul>
+            {%- if block.settings.when != blank -%}<p class="ea-press__launch-when">{{ block.settings.when | escape }}</p>{%- endif -%}
+            <p class="ea-press__launch-links">
+              <a href="{{ block.settings.url }}">{{ block.settings.link_label | default: 'See the gift' | escape }}</a>
+              {%- if block.settings.sample_link_label != blank -%}<a href="#press-kit">{{ block.settings.sample_link_label | escape }}</a>{%- endif -%}
+            </p>
+          </div>
+        </article>
+      {%- endfor -%}
+      {%- if ea_soon_count > 0 -%}
+      <ul class="ea-press__gifts ea-press__gifts--soon" role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'soon' -%}{%- continue -%}{%- endif -%}
+          <li class="ea-press__gift" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <a class="ea-press__photo ea-press__photo--soon" href="{{ block.settings.url }}" tabindex="-1" aria-hidden="true">
+                {{- block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300, 450, 600, 900', sizes: '(min-width: 990px) 30vw, 90vw', alt: '' -}}
+                {%- if block.settings.label != blank -%}<span class="ea-press__label">{{ block.settings.label | escape }}</span>{%- endif -%}
+              </a>
+            {%- endif -%}
+            <h3 class="ea-press__gift-title"><a href="{{ block.settings.url }}">{{ block.settings.name | escape }}</a></h3>
+            {%- if block.settings.text != blank -%}<p class="ea-press__soon-line">{{ block.settings.text | escape }}</p>{%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+      {%- endif -%}
+      </div>
+    </section>
+  {%- endif -%}
+
+  <section class="ea-press__part ea-press__kit" id="press-kit" aria-labelledby="ea-press-kit">
+    <h2 class="ea-press__h2" id="ea-press-kit">{%- render 'ea-accent-text', text: section.settings.kit_heading -%}</h2>
+    {%- if section.settings.kit_text != blank -%}<p class="ea-press__kit-text">{{ section.settings.kit_text | escape }}</p>{%- endif -%}
+
+    {%- comment -%}
+      Two things happen on "Send": (1) the script below adds the email to the Klaviyo list "Press (press page form)"
+      (setting klaviyo_list_id), whose flow emails the press kit link; (2) the Shopify contact form sends the whole
+      request, with any sample wish and delivery address, to the store's email inbox (the address never goes to
+      Klaviyo). After sending, the page shows the press kit link at once, so nobody waits for the email.
+      Samples (Anu, 5 Nov 2026): several gifts may be chosen, "subject to availability", and a work email is required
+      ("we don't want just deal seekers to get free stuff").
+    {%- endcomment -%}
+    {%- form 'contact', id: 'PressKitForm', class: 'ea-press-form', data-klaviyo-company: section.settings.klaviyo_company_id, data-klaviyo-list: section.settings.klaviyo_list_id, data-free-mail-message: section.settings.free_mail_message -%}
+      <input type="hidden" name="contact[Form]" value="Press kit request (eagleandash.com/pages/press)">
+      {%- if form.posted_successfully? -%}
+        <div class="ea-press-form__ok" role="status" tabindex="-1" autofocus>
+          <p>{{ section.settings.success_text | escape }}</p>
+          {%- if section.settings.kit_url != blank -%}
+            <a class="button ea-press-form__button ea-press-form__kit-link" href="{{ section.settings.kit_url }}" target="_blank" rel="noopener">{{ section.settings.kit_link_label | escape }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if form.errors -%}
+        <p class="ea-press-form__error" role="alert">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+      {%- endif -%}
+      <div class="ea-press-form__row">
+        <label class="ea-press-form__field">
+          <span>Work email</span>
+          <input type="email" name="contact[email]" required autocomplete="email" spellcheck="false" autocapitalize="off">
+        </label>
+        <label class="ea-press-form__field">
+          <span>Publication or website</span>
+          <input type="text" name="contact[Publication or website]" required autocomplete="organization">
+        </label>
+      </div>
+      <label class="ea-press-form__check">
+        <input type="checkbox" name="contact[Sample wanted]" value="Yes" data-press-sample>
+        <span>{{ section.settings.sample_label | escape }}</span>
+      </label>
+      <div class="ea-press-form__sample">
+        <p class="ea-press-form__sample-note">{{ section.settings.sample_note | escape }}</p>
+        <fieldset class="ea-press-form__gifts">
+          <legend>Which gifts? Choose one or more.</legend>
+          {%- for p in section.settings.sample_products -%}
+            {%- liquid
+              assign ea_name = p.title
+              if p.metafields.custom.style_swatch.value != blank and p.metafields.custom.other_styles.value.size > 1
+                assign ea_name = section.settings.links_family_name | default: p.title
+              endif
+              if p.metafields.custom.coming_soon.value != blank or p.available == false
+                assign ea_name = ea_name | append: ' (after the launch)'
+              endif
+            -%}
+            <label class="ea-press-form__check ea-press-form__check--gift">
+              <input type="checkbox" name="contact[Sample: {{ ea_name | escape }}]" value="Yes" data-press-gift="{{ ea_name | escape }}">
+              <span>{{ ea_name | escape }}</span>
+            </label>
+          {%- endfor -%}
+        </fieldset>
+        <label class="ea-press-form__field">
+          <span>Colour, scent or length you would like (optional)</span>
+          <input type="text" name="contact[Colour, scent or length]">
+        </label>
+        <label class="ea-press-form__field">
+          <span>Link to one of your recent articles</span>
+          <input type="url" name="contact[Recent article]" inputmode="url" placeholder="https://">
+        </label>
+        <label class="ea-press-form__field">
+          <span>Your name</span>
+          <input type="text" name="contact[name]" autocomplete="name" data-press-sample-required>
+        </label>
+        <label class="ea-press-form__field">
+          <span>Delivery address</span>
+          <textarea name="contact[Delivery address]" rows="3" autocomplete="street-address" data-press-sample-required></textarea>
+        </label>
+      </div>
+      <p class="ea-press-form__error" role="alert" data-press-error hidden></p>
+      <button type="submit" class="button ea-press-form__button">{{ section.settings.button_label | escape }}</button>
+      {%- if section.settings.privacy != blank -%}<div class="ea-press-form__privacy">{{ section.settings.privacy }}</div>{%- endif -%}
+    {%- endform -%}
+
+    {%- if section.settings.credit != blank -%}<p class="ea-press__credit">{{ section.settings.credit | escape }}</p>{%- endif -%}
+  </section>
+
+  {%- if section.settings.samples_text != blank -%}
+    <section class="ea-press__part" aria-labelledby="ea-press-samples">
+      <h2 class="ea-press__h2" id="ea-press-samples">{%- render 'ea-accent-text', text: section.settings.samples_heading -%}</h2>
+      <div class="ea-press__rte">{{ section.settings.samples_text }}</div>
+    </section>
+  {%- endif -%}
+
+  {%- if section.settings.link_products != blank -%}
+    <section class="ea-press__part" aria-labelledby="ea-press-links">
+      <h2 class="ea-press__h2" id="ea-press-links">{%- render 'ea-accent-text', text: section.settings.links_heading -%}</h2>
+      {%- if section.settings.links_text != blank -%}<p>{{ section.settings.links_text | escape }}</p>{%- endif -%}
+      <ul class="ea-press__links" role="list">
+        {%- assign ea_families_done = '' -%}
+        {%- for p in section.settings.link_products -%}
+          {%- liquid
+            assign ea_family = p.metafields.custom.other_styles.value | map: 'handle'
+            assign ea_family_key = ea_family | join: ','
+          -%}
+          {%- comment -%}
+            Sister scent pages (custom.style_swatch + custom.other_styles, the bath bombs) share one row: the name once and
+            one link, with all scents in brackets. On Amazon the scents are one listing with a scent choice, so one link
+            opens all of them (Anu, 4 Nov 2026: "no need to replicate bath bombs", "keep only Sandalwood").
+          {%- endcomment -%}
+          {%- if p.metafields.custom.style_swatch.value != blank and ea_family.size > 1 -%}
+            {%- if ea_families_done contains ea_family_key -%}{%- continue -%}{%- endif -%}
+            {%- liquid
+              assign ea_families_done = ea_families_done | append: '|' | append: ea_family_key
+              assign ea_link_product = p
+              if section.settings.links_family_product != blank and ea_family contains section.settings.links_family_product.handle
+                assign ea_link_product = section.settings.links_family_product
+              endif
+              assign ea_url = ea_link_product.selected_or_first_available_variant.metafields.custom.amazon_url.value | split: '?' | first
+              assign ea_names = ''
+              for item in p.metafields.custom.other_styles.value
+                assign ea_name = item.title
+                if item.title contains '–'
+                  assign ea_name = item.title | split: '–' | last
+                endif
+                assign ea_name = ea_name | split: '(' | first | strip
+                unless forloop.first
+                  if forloop.last
+                    assign ea_names = ea_names | append: ' and '
+                  else
+                    assign ea_names = ea_names | append: ', '
+                  endif
+                endunless
+                assign ea_names = ea_names | append: ea_name
+              endfor
+            -%}
+            {%- if ea_url != blank -%}
+              <li>
+                <span class="ea-press__link-name">{{ section.settings.links_family_name | default: p.title | escape }}</span>
+                <span><a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a> ({{ ea_names | escape }})</span>
+              </li>
+            {%- endif -%}
+            {%- continue -%}
+          {%- endif -%}
+          {%- comment -%} The plain Amazon address (no Attribution code): editors add their own Associates link. {%- endcomment -%}
+          {%- assign ea_url = p.selected_or_first_available_variant.metafields.custom.amazon_url.value | split: '?' | first -%}
+          {%- comment -%}
+            Variations in brackets (Anu, 5 Nov 2026: "list variations in brackets for all the products"). Each name opens
+            its own Amazon page, because the colours and lengths have their own Amazon addresses. Variations without an
+            Amazon address (Pink, until it is on Amazon) are left out.
+          {%- endcomment -%}
+          {%- capture ea_variations -%}
+            {%- if p.has_only_default_variant == false -%}
+              {%- assign ea_n = 0 -%}
+              {%- for v in p.variants -%}{%- if v.metafields.custom.amazon_url.value != blank -%}{%- assign ea_n = ea_n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+              {%- assign ea_i = 0 -%}
+              {%- for v in p.variants -%}
+                {%- assign ea_v_url = v.metafields.custom.amazon_url.value | split: '?' | first -%}
+                {%- if ea_v_url == blank -%}{%- continue -%}{%- endif -%}
+                {%- liquid
+                  assign ea_i = ea_i | plus: 1
+                  assign ea_sep = ''
+                  if ea_i > 1 and ea_i == ea_n
+                    assign ea_sep = ' and '
+                  elsif ea_i > 1
+                    assign ea_sep = ', '
+                  endif
+                -%}
+                {{- ea_sep -}}<a href="{{ ea_v_url }}" target="_blank" rel="noopener">{{ v.title | escape }}</a>
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endcapture -%}
+          {%- if ea_url != blank -%}
+            <li>
+              <span class="ea-press__link-name">{{ p.title | escape }}</span>
+              <span><a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if ea_variations != blank %} ({{ ea_variations }}){% endif %}</span>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </section>
+  {%- endif -%}
+</div>
+</div>
+
+{% stylesheet %}
+  .ea-press {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    padding-block: 48px 72px;
+    color: #001e26;
+  }
+
+  .ea-press__head {
+    max-width: 760px;
+  }
+
+  /* page title: 24 px on phones, 32 px on computers, Lora 400, as every page title (design rules, 5 Nov 2026) */
+  .ea-press__title {
+    margin: 0 0 20px;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .ea-press__intro,
+  .ea-press__kit-text {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  /* small label above the gifts heading, as above the FAQ (Anu, 4 Nov 2026: "Featured" above the three cards) */
+  .ea-press__eyebrow {
+    margin: 0 0 6px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #115e67;
+  }
+
+  /* the site's heading scale (3 Nov 2026): 30 px computers, 24 px phones; card titles 22 / 19 px */
+  .ea-press__h2 {
+    margin: 0 0 20px;
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  .ea-press .ea-accent {
+    color: #fd5000;
+  }
+
+  .ea-press__gifts {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ea-press__gift {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ea-press__photo {
+    position: relative;
+    display: block;
+    margin-block-end: 8px;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: inset 0 0 0 1px #e3e7e7;
+  }
+
+  .ea-press__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(0.9);
+  }
+
+  /* the gift's role in the game, top left on the photo (Anu, 4 Nov 2026: Play, Honor, Unwind) */
+  .ea-press__label {
+    position: absolute;
+    inset-block-start: 12px;
+    inset-inline-start: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #001e26;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* coming-soon photos are full scenes on the Shop tiles' light background: fill the frame */
+  .ea-press__photo--soon img {
+    object-fit: cover;
+    transform: none;
+  }
+
+  .ea-press__h2--tight {
+    margin-block-end: 8px;
+  }
+
+  .ea-press__soon-text {
+    margin: 0 0 20px;
+    font-size: 17px;
+  }
+
+  .ea-press__soon-line {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .ea-press__gift-title {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.3;
+  }
+
+  .ea-press__gift-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ea-press__gift-title a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ea-press__price {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .ea-press__price-note {
+    font-weight: 400;
+    color: rgb(0 30 38 / 0.7);
+  }
+
+  .ea-press__line {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-style: italic;
+  }
+
+  .ea-press__facts,
+  .ea-press__list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 4px 0 0;
+    padding-inline-start: 20px;
+    line-height: 1.5;
+  }
+
+  .ea-press__also {
+    margin: 28px 0 0;
+  }
+
+  .ea-press a {
+    text-underline-offset: 3px;
+  }
+
+  .ea-press__also a,
+  .ea-press__rte a,
+  .ea-press__links a,
+  .ea-press-form__privacy a {
+    color: #b83a00;
+  }
+
+  /* the orange heading word on the blue band: #e04800 (3.3:1, large text), as on "Complete the set" */
+  .ea-press__kit .ea-accent {
+    color: #e04800;
+  }
+
+  /* the press kit band: the light blue of "Complete the set" */
+  .ea-press__kit {
+    padding: 32px 20px;
+    border-radius: 8px;
+    background: var(--soaring-brand-blue, #d5ebee);
+  }
+
+  .ea-press-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 760px;
+    margin-block-start: 20px;
+  }
+
+  .ea-press-form__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .ea-press-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 15px;
+  }
+
+  .ea-press-form__field input,
+  .ea-press-form__field textarea,
+  .ea-press-form__field select {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 14px;
+    border: 1px solid #001e26;
+    border-radius: 4px;
+    background: #fff;
+    font: inherit;
+    font-size: 16px;
+    color: #001e26;
+  }
+
+  .ea-press-form__check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .ea-press-form__check input {
+    width: 20px;
+    height: 20px;
+    margin: 1px 0 0;
+    accent-color: #001e26;
+    flex: none;
+  }
+
+  /* the name and delivery address appear only when the sample box is ticked */
+  .ea-press-form__sample {
+    display: none;
+    gap: 16px;
+  }
+
+  .ea-press-form:has(.ea-press-form__check input:checked) .ea-press-form__sample {
+    display: grid;
+  }
+
+  .ea-press-form__sample-note {
+    margin: 0;
+    font-size: 15px;
+  }
+
+  /* the site's button: Roboto capitals, bold, 19 px, 0.12em, white on #fd5000 (design rules) */
+  .ea-press-form__button {
+    align-self: flex-start;
+    min-height: 48px;
+    padding-inline: 28px;
+    font-family: var(--font-body--family);
+    font-size: 1.1875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    --button-color: #fff;
+    --button-background-color: #fd5000;
+    --button-border-color: #fd5000;
+  }
+
+  .ea-press-form__button:hover {
+    --button-background-color: #b83a00;
+    --button-border-color: #b83a00;
+  }
+
+  .ea-press-form__privacy,
+  .ea-press__credit {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  .ea-press-form__privacy p {
+    margin: 0;
+  }
+
+  .ea-press-form__ok {
+    margin: 0;
+    padding: 12px 16px;
+    border-radius: 4px;
+    background: #fff;
+    font-weight: 600;
+  }
+
+  .ea-press-form__error {
+    margin: 0;
+    color: #a3000b;
+    font-weight: 600;
+  }
+
+  .ea-press__credit {
+    margin-block-start: 16px;
+  }
+
+  .ea-press__rte p {
+    margin: 0 0 10px;
+    line-height: 1.6;
+  }
+
+  .ea-press__links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0 0;
+    padding: 0;
+  }
+
+  .ea-press__links li {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 12px;
+  }
+
+  .ea-press__link-name {
+    min-width: 0;
+    font-weight: 600;
+  }
+
+  .ea-press__links a {
+    overflow-wrap: anywhere;
+  }
+
+  /* coming-soon cards smaller than the featured three (Anu, 4 Nov 2026): two per row on phones */
+  .ea-press__gifts--soon {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .ea-press__gifts--soon .ea-press__gift-title {
+    font-size: 17px;
+  }
+
+  .ea-press__gifts--soon .ea-press__soon-line {
+    font-size: 15px;
+  }
+
+  /* "Launching next": the next gift, framed in brand orange, first in Coming soon (Anu, 5 Nov 2026) */
+  .ea-press__soon-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .ea-press__launch {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    padding: 20px;
+    border: 2px solid #fd5000;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .ea-press__launch-photo {
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 6px;
+  }
+
+  .ea-press__launch-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ea-press__launch-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* white on #b83a00: 5.0:1, readable at 12 px (white on #fd5000 only for bold 19 px and up) */
+  .ea-press__launch-label {
+    align-self: flex-start;
+    margin: 0;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #b83a00;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ea-press__launch-hook {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.35;
+    color: #115e67;
+  }
+
+  .ea-press__launch-when {
+    margin: 4px 0 0;
+    font-weight: 600;
+  }
+
+  .ea-press__launch-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin: 0;
+  }
+
+  .ea-press__launch-links a {
+    color: #b83a00;
+    font-weight: 600;
+  }
+
+  .ea-press__links span a {
+    white-space: nowrap;
+  }
+
+  .ea-press-form__gifts {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .ea-press-form__gifts legend {
+    margin-block-end: 10px;
+    padding: 0;
+    font-size: 15px;
+  }
+
+  .ea-press-form__ok p {
+    margin: 0 0 12px;
+  }
+
+  .ea-press-form__kit-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ea-press__launch {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: 28px;
+      padding: 24px;
+    }
+
+    .ea-press-form__gifts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 24px;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    /* the launch card wide, the other coming-soon gifts in a narrow column next to it */
+    .ea-press__soon-grid--launch {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .ea-press__soon-grid--launch .ea-press__gifts--soon {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ea-press__soon-grid--launch .ea-press__gifts--soon .ea-press__gift {
+      display: flex;
+      grid-row: auto;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .ea-press-form__row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ea-press__kit {
+      padding: 40px;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .ea-press {
+      gap: 72px;
+      padding-block: 64px 96px;
+    }
+
+    .ea-press__title {
+      font-size: 32px;
+    }
+
+    .ea-press__h2 {
+      font-size: 28px;
+    }
+
+    .ea-press__gifts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 40px;
+    }
+
+    /* every card's name, price, sentence and first fact start on the same line as in the other cards
+       (Anu, 4 Nov 2026): the cards share the rows of the grid */
+    .ea-press__gift {
+      display: grid;
+      grid-row: span 5;
+      grid-template-rows: subgrid;
+      row-gap: 8px;
+    }
+
+    .ea-press__gifts--soon .ea-press__gift {
+      grid-row: span 3;
+    }
+
+    .ea-press__gift-title {
+      font-size: 22px;
+    }
+
+    /* the names in one column, each on one line (Anu, 4 Nov 2026: "sleek") */
+    .ea-press__links {
+      display: grid;
+      grid-template-columns: max-content minmax(0, 1fr);
+      column-gap: 32px;
+      row-gap: 8px;
+    }
+
+    .ea-press__links li {
+      display: contents;
+    }
+
+    .ea-press__link-name {
+      white-space: nowrap;
+    }
+
+    /* four per row on computers: each photo about a quarter narrower than a featured one */
+    .ea-press__gifts--soon {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 32px;
+    }
+
+    .ea-press__gifts--soon .ea-press__gift-title {
+      font-size: 19px;
+    }
+  }
+  /* section titles 30 px from 1200 px (28 px from 990 px, 24 px below): the site's heading scale */
+  @media screen and (min-width: 1200px) {
+    .ea-press__h2 {
+      font-size: 30px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (() => {
+    // Eagle & Ash press form (5 Nov 2026). On "Send": check the sample part, add the email to the Klaviyo list
+    // "Press (press page form)" (its flow emails the press kit link), then send the Shopify contact form as usual.
+    // The delivery address goes only to the store inbox (Shopify), never to Klaviyo.
+    const FREE_MAIL = /@(gmail|googlemail|yahoo|ymail|rocketmail|hotmail|outlook|live|msn|aol|icloud|me|mac|proton|protonmail|pm|gmx|mail|yandex|comcast|att|verizon|sbcglobal|bellsouth|cox|charter|earthlink|juno|optonline)\.[a-z.]+$/i;
+
+    const setUp = (form) => {
+      if (!form || form.dataset.pressReady) return;
+      form.dataset.pressReady = '1';
+      const sample = form.querySelector('[data-press-sample]');
+      const errorBox = form.querySelector('[data-press-error]');
+      const requiredWithSample = form.querySelectorAll('[data-press-sample-required]');
+      const showError = (text) => {
+        errorBox.textContent = text;
+        errorBox.hidden = false;
+        errorBox.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      };
+      const syncRequired = () => requiredWithSample.forEach((el) => { el.required = sample.checked; });
+      sample?.addEventListener('change', syncRequired);
+      syncRequired();
+
+      form.addEventListener('submit', async (event) => {
+        if (form.dataset.pressSending === 'done') return; // second, real submit
+        event.preventDefault();
+        errorBox.hidden = true;
+        const email = (form.querySelector('[name="contact[email]"]')?.value || '').trim();
+        const publication = (form.querySelector('[name="contact[Publication or website]"]')?.value || '').trim();
+        const gifts = [...form.querySelectorAll('[data-press-gift]:checked')].map((el) => el.dataset.pressGift);
+        if (sample?.checked) {
+          if (gifts.length === 0) { showError('Please choose at least one gift for your sample.'); return; }
+          if (FREE_MAIL.test(email)) {
+            showError(form.dataset.freeMailMessage || 'For samples, please use your work email address.');
+            return;
+          }
+        }
+        const button = form.querySelector('button[type="submit"]');
+        if (button) button.disabled = true;
+        const company = form.dataset.klaviyoCompany;
+        const list = form.dataset.klaviyoList;
+        if (company && list && email) {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 5000);
+          try {
+            await fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${encodeURIComponent(company)}`, {
+              method: 'POST',
+              signal: controller.signal,
+              headers: { 'Content-Type': 'application/vnd.api+json', Accept: 'application/vnd.api+json', revision: '2025-07-15' },
+              body: JSON.stringify({ data: { type: 'subscription', attributes: {
+                custom_source: 'Press page: press kit',
+                profile: { data: { type: 'profile', attributes: {
+                  email,
+                  properties: {
+                    'Press publication': publication,
+                    'Press sample requested': sample?.checked ? 'Yes' : 'No',
+                    'Press sample gifts': sample?.checked ? gifts.join(', ') : '',
+                  },
+                  subscriptions: { email: { marketing: { consent: 'SUBSCRIBED' } } },
+                } } },
+              }, relationships: { list: { data: { type: 'list', id: list } } } } }),
+            });
+          } catch (e) {
+            // Klaviyo not reachable: the Shopify form still sends the request, and the page shows the link.
+          } finally {
+            clearTimeout(timer);
+          }
+        }
+        form.dataset.pressSending = 'done';
+        // requestSubmit runs Shopify's own submit listeners (spam protection) too; this handler then lets it pass
+        if (typeof form.requestSubmit === 'function') form.requestSubmit();
+        else HTMLFormElement.prototype.submit.call(form);
+      });
+    };
+
+    const init = () => document.querySelectorAll('form#PressKitForm').forEach(setUp);
+    init();
+    document.addEventListener('shopify:section:load', init);
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Press page",
+  "class": "section-wrapper",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Words between two stars are orange.", "default": "Press" },
+    { "type": "textarea", "id": "intro", "label": "Introduction" },
+    { "type": "text", "id": "gifts_eyebrow", "label": "Gifts: small label above the heading", "default": "Featured gifts" },
+    { "type": "text", "id": "gifts_heading", "label": "Gifts: heading", "default": "Three gifts for your *gift guide.*" },
+    { "type": "product", "id": "also_product", "label": "\"Also:\" product" },
+    { "type": "text", "id": "also_text", "label": "\"Also:\" text after the price" },
+    { "type": "text", "id": "soon_heading", "label": "Coming soon: heading", "default": "Coming *soon.*" },
+    { "type": "text", "id": "soon_text", "label": "Coming soon: sentence under the heading", "info": "The gifts themselves are \"Coming soon\" blocks." },
+    { "type": "text", "id": "kit_heading", "label": "Press kit: heading", "default": "Press *kit.*" },
+    { "type": "textarea", "id": "kit_text", "label": "Press kit: text" },
+    { "type": "text", "id": "sample_label", "label": "Sample tick box", "default": "I'd also like a product sample for a review or gift guide" },
+    { "type": "textarea", "id": "sample_note", "label": "Sample: note above the sample fields" },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Send me the press kit" },
+    { "type": "text", "id": "success_text", "label": "Message after sending", "default": "Thank you! We'll email you the link to the press kit." },
+    { "type": "richtext", "id": "privacy", "label": "Line under the form" },
+    { "type": "text", "id": "credit", "label": "Photo credit", "info": "Empty until the photographer has answered." },
+    { "type": "url", "id": "kit_url", "label": "Press kit: link shown after sending", "info": "The Google Drive folder with the press photos." },
+    { "type": "text", "id": "kit_link_label", "label": "Press kit: link button", "default": "Open the press photos" },
+    { "type": "product_list", "id": "sample_products", "label": "Sample: gifts to choose from", "limit": 10 },
+    { "type": "text", "id": "free_mail_message", "label": "Sample: message for a private email address" },
+    { "type": "text", "id": "klaviyo_company_id", "label": "Klaviyo company ID", "default": "RMHHKa" },
+    { "type": "text", "id": "klaviyo_list_id", "label": "Klaviyo list ID (press list)", "info": "The list \"Press (press page form)\". Its flow emails the press kit link." },
+    { "type": "text", "id": "samples_heading", "label": "Samples: heading", "default": "Samples and *interviews.*" },
+    { "type": "richtext", "id": "samples_text", "label": "Samples: text" },
+    { "type": "text", "id": "links_heading", "label": "Links: heading", "default": "Linking to our *gifts.*" },
+    { "type": "textarea", "id": "links_text", "label": "Links: text" },
+    { "type": "product_list", "id": "link_products", "label": "Links: products", "limit": 12, "info": "Each shows its plain Amazon address (from the first colour's Amazon link, without the tracking code)." },
+    { "type": "text", "id": "links_family_name", "label": "Links: name of the scents row", "default": "Golf Ball Bath Bombs (4 Pack)", "info": "Sister scent pages share one row: this name, one Amazon link, all scents in brackets." },
+    { "type": "product", "id": "links_family_product", "label": "Links: scent whose Amazon link the row uses", "info": "On Amazon the scents are one listing with a scent choice, so one link opens all of them. Empty: the first scent in the list." }
+  ],
+  "blocks": [
+    {
+      "type": "gift",
+      "name": "Gift",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product (photo, link, price)" },
+        { "type": "text", "id": "label", "label": "Label on the photo (e.g. Play)" },
+        { "type": "text", "id": "title", "label": "Name shown", "info": "Empty = the product's name." },
+        { "type": "text", "id": "price_label", "label": "Price label (when there are two products)" },
+        { "type": "product", "id": "product_2", "label": "Second product (optional, its price only)" },
+        { "type": "text", "id": "price_label_2", "label": "Second price label" },
+        { "type": "text", "id": "line", "label": "One-line angle" },
+        { "type": "textarea", "id": "facts", "label": "Facts: one per line" }
+      ]
+    },
+    {
+      "type": "launch",
+      "name": "Launching next",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Launching next" },
+        { "type": "text", "id": "name", "label": "Name" },
+        { "type": "text", "id": "hook", "label": "Highlighted sentence" },
+        { "type": "textarea", "id": "facts", "label": "Facts: one per line" },
+        { "type": "text", "id": "when", "label": "When (bold line)" },
+        { "type": "url", "id": "url", "label": "Link (the product's page)" },
+        { "type": "text", "id": "link_label", "label": "Link text", "default": "See the gift" },
+        { "type": "text", "id": "sample_link_label", "label": "Link to the sample form (optional)" }
+      ]
+    },
+    {
+      "type": "soon",
+      "name": "Coming soon",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "name", "label": "Name" },
+        { "type": "text", "id": "label", "label": "Label on the photo (optional)" },
+        { "type": "text", "id": "text", "label": "Line under the name" },
+        { "type": "url", "id": "url", "label": "Link (the product's page, where people can sign up)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Press page" }]
+}
+{% endschema %}
