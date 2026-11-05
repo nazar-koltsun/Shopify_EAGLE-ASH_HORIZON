@@ -105,8 +105,10 @@
 {%- render 'ea-product-styles' -%}
 {%- comment -%} 3 Nov 2026 (Anu: the trophy photos were too much "in your face"): product field custom.page_photo_scale (%)
   shows the product's white-background main photos (file names with "-01-main") smaller in the gallery.
-  4 Nov 2026 (Anu: "zoom out the main image slightly, to have more space around it"): empty = 90 %. {%- endcomment -%}
-{%- assign ea_page_scale = product.metafields.custom.page_photo_scale.value | default: 90 -%}
+  4 Nov 2026 (Anu: "zoom out the main image slightly, to have more space around it"): empty = 90 %.
+  5 Nov 2026 (Anu: "make the main images on product pages smaller still - they are still too much in your face"):
+  empty = 78 % (trophy 66, Duo 76 in their product fields). {%- endcomment -%}
+{%- assign ea_page_scale = product.metafields.custom.page_photo_scale.value | default: 78 -%}
 {%- if ea_page_scale != blank -%}
   <style>media-gallery .product-media__image[src*="-01-main"] { transform: scale({{ ea_page_scale | divided_by: 100.0 }}); }</style>
 {%- endif -%}
