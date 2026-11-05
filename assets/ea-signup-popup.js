@@ -2,7 +2,7 @@
  * Eagle & Ash sign-up pop-up (5 Nov 2026), markup in snippets/ea-signup-popup.liquid.
  *
  * Anu's rule (3 Nov 2026): at most one pop-up, never at once on arrival, easy to close, it must help.
- * When it shows: once per visit, after 30 seconds on the site (and at least 5 seconds on the current page), or after
+ * When it shows: once per visit, after 20 seconds on the site (30 until 5 Nov 2026; Anu: "maybe 20 sec") (and at least 5 seconds on the current page), or after
  * the visitor has scrolled through half of a long page (and at least 10 seconds on it).
  * It waits while Shopify's cookie banner or its preferences window is open, while another dialog is open, and while
  * another sign-up form of ours is on screen.
@@ -91,7 +91,7 @@
 
   const timeOrScrollReached = () => {
     const now = Date.now();
-    if (now - visitStart >= 30000 && now - pageStart >= 5000) return true;
+    if (now - visitStart >= 20000 && now - pageStart >= 5000) return true;
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     return scrollable > 400 && window.scrollY / scrollable >= 0.5 && now - pageStart >= 10000;
   };
