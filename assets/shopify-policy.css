@@ -58,8 +58,17 @@ main .shopify-policy__body h6 {
   color: #000;
 }
 
+/* Anu, 5 Nov 2026: section headings in Lora 22 px (the site's sub-heading size; were bold Roboto 16 px, the size
+   of the text). Phones 20 px, below the 24 px page title. Same as sections/policy-content.liquid. */
 main .shopify-policy__body h2 {
-  font-size: 16px;
+  margin-block: 1.6em 0.5em;
+  font-family: var(--font-heading--family);
+  font-weight: 500;
+  font-size: 22px;
+
+  @media (max-width: 749px) {
+    font-size: 20px;
+  }
 }
 
 main .shopify-policy__body p.no-margin {

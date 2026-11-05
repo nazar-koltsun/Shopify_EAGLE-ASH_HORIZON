@@ -174,12 +174,10 @@
 
   .ea-about-intro__body p { margin: 0; }
 
-  @media screen and (min-width: 990px) {
-    .ea-about-intro .ea-about-intro__title { font-size: 28px; }
-  }
-
-  @media screen and (min-width: 1200px) {
-    .ea-about-intro .ea-about-intro__title { font-size: 30px; }
+  /* Anu, 5 Nov 2026: every page title (H1) 32 px on computers, as on Contact, Wholesale and the legal pages
+     (was 28/30 px here); phones keep 24 px */
+  @media screen and (min-width: 750px) {
+    .ea-about-intro .ea-about-intro__title { font-size: 32px; }
   }
 
   @media screen and (min-width: 750px) {
