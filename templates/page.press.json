@@ -22,7 +22,8 @@
             "product_2": "leather-golf-tee-pouch-flex",
             "price_label_2": "Flex",
             "line": "The tees finally get their own stylish room.",
-            "facts": "Full-grain leather, designed by us and handmade in a workshop in Turkey that we have visited.\nTwo styles: the Zip closes fully, the Flex opens with one squeeze. Cognac, Black, Green and Blue; pink arrives in November 2026.\nComes with 20 bamboo golf tees. 4.5 × 2.75 in (115 × 70 mm): it holds tees, a little cash and a car key, and the clip keeps it on the golf bag.\nIn a gift box: Zip 5.1 × 3.1 × 2.0 in (130 × 80 × 50 mm), Flex 5.7 × 4.3 × 1.2 in (145 × 110 × 30 mm)."
+            "facts": "Full-grain leather, designed by us and handmade in a workshop in Turkey that we have visited.\nTwo styles: the Zip closes fully, the Flex opens with one squeeze. Cognac, Black, Green and Blue; pink arrives in November 2026.\nComes with 20 bamboo golf tees. 4.5 × 2.75 in (115 × 70 mm): it holds tees, a little cash and a car key, and the clip keeps it on the golf bag.\nIn a gift box: Zip 5.1 × 3.1 × 2.0 in (130 × 80 × 50 mm), Flex 5.7 × 4.3 × 1.2 in (145 × 110 × 30 mm).",
+            "line_2": "It clips to the golf bag, so a tee is always within reach, and the Flex opens with one hand."
           }
         },
         "gift_trophy": {
@@ -32,7 +33,8 @@
             "label": "Honor",
             "title": "Hole in One Golf Ball Display",
             "line": "Their best shot deserves better than a sock drawer.",
-            "facts": "Solid ash wood, designed by us and handmade in a small studio in Estonia.\nWood Top or Stone Top (black engineered stone). Both together: the Duo Pack.\nA small trophy for one golf ball: 2.8 × 2.4 × 0.8 in (71 × 61 × 20 mm). The ball sits in a shallow bowl and spins when you nudge it. The underside is blank, ready for your own engraver.\nIn a gift box of 3.3 × 3.3 × 1.0 in (85 × 85 × 25 mm)."
+            "facts": "Solid ash wood, designed by us and handmade in a small studio in Estonia.\nWood Top or Stone Top (black engineered stone). Both together: the Duo Pack.\nA small trophy for one golf ball: 2.8 × 2.4 × 0.8 in (71 × 61 × 20 mm). The ball sits in a shallow bowl and spins when you nudge it. The underside is blank, ready for your own engraver.\nIn a gift box of 3.3 × 3.3 × 1.0 in (85 × 85 × 25 mm).",
+            "line_2": "On a desk or a shelf, it's modern decor that starts conversations, and the ball spins when you nudge it: a fidget toy with a story."
           }
         },
         "gift_bath_bombs": {
@@ -42,7 +44,8 @@
             "label": "Unwind",
             "title": "Golf Ball Bath Bombs (4 Pack)",
             "line": "Finally, a water hazard worth aiming for.",
-            "facts": "97.7% natural-origin ingredients, made in Latvia, in the EU.\nThree scents: Chamomile, Sandalwood and Mountain Mint.\nFour golf-ball-sized bath bombs, 1.6 oz (45 g) each, pressed in our own golf-ball mold, dimples included.\nEach sealed in its own wrap, in a gift box of 4.3 × 4.3 × 2.0 in (110 × 110 × 50 mm)."
+            "facts": "97.7% natural-origin ingredients, made in Latvia, in the EU.\nThree scents: Chamomile, Sandalwood and Mountain Mint.\nFour golf-ball-sized bath bombs, 1.6 oz (45 g) each, pressed in our own golf-ball mold, dimples included.\nEach sealed in its own wrap, in a gift box of 4.3 × 4.3 × 2.0 in (110 × 110 × 50 mm).",
+            "line_2": "After 18 holes, drop one into a warm bath or a foot bath: a relaxing soak your feet have earned."
           }
         },
         "soon_pink": {
@@ -65,7 +68,11 @@
             "when": "Expected on Amazon.com from November 16, 2026, in time for Christmas.",
             "url": "/products/mulligan-pills-funny-golf-tees",
             "link_label": "See Mulligan Pills",
-            "sample_link_label": "Ask for a sample"
+            "sample_link_label": "Ask for a sample",
+            "price": "$12.99",
+            "amazon_url": "https://www.amazon.com/dp/B0HK51RT8H",
+            "links_name": "Mulligan Pills",
+            "links_note": "expected from November 16, 2026"
           }
         }
       },
@@ -93,22 +100,10 @@
         "success_text": "Thank you! Here is our press kit:",
         "privacy": "<p>We use your email to send you the press kit link and, now and then, press news about our new gifts. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>",
         "credit": "Photo credit: Courtesy of Eagle & Ash.",
-        "kit_url": "https://drive.google.com/drive/folders/1SKVQrhnbTR2HBbEAbFSA6Epz919myQ_k",
-        "kit_link_label": "Open the press photos",
-        "sample_products": [
-          "leather-golf-tee-pouch-zip",
-          "leather-golf-tee-pouch-flex",
-          "hole-in-one-golf-ball-display",
-          "golf-ball-holder-duo-pack",
-          "bath-bombs-for-men-sandalwood",
-          "bamboo-golf-tees",
-          "mulligan-pills-funny-golf-tees"
-        ],
-        "free_mail_message": "For samples, please use your work email address. Freelance writer? Email anu@eagleandash.com with a link to your recent work.",
-        "klaviyo_company_id": "RMHHKa",
-        "klaviyo_list_id": "XpUDVt",
         "samples_heading": "Samples and *interviews.*",
         "samples_text": "<p>Preparing a review or a gift guide? Tick the sample box in the form above and choose one or more products. Samples are subject to availability, and we confirm by email before we ship.</p><p>For interviews or quotes, write to the co-founders, Anu Aun: <a href=\"mailto:anu@eagleandash.com\" title=\"mailto:anu@eagleandash.com\">anu@eagleandash.com</a> or Yvelin Karu: <a href=\"mailto:yvelin@eagleandash.com\" title=\"mailto:yvelin@eagleandash.com\">yvelin@eagleandash.com</a>.</p>",
+        "links_family_product": "bath-bombs-for-men-sandalwood",
+        "links_family_name": "Golf Ball Bath Bombs (4 Pack)",
         "links_heading": "Linking to our *gifts.*",
         "links_text": "Our gifts are sold only on Amazon.com. Please link to the Amazon listings below. If you are an Amazon Associate, use your own Associates link.",
         "link_products": [
@@ -121,8 +116,21 @@
           "golf-tournament-gift-bath-bombs-mint",
           "bamboo-golf-tees"
         ],
-        "links_family_name": "Golf Ball Bath Bombs (4 Pack)",
-        "links_family_product": "bath-bombs-for-men-sandalwood"
+        "kit_url": "https://drive.google.com/drive/folders/1SKVQrhnbTR2HBbEAbFSA6Epz919myQ_k",
+        "kit_link_label": "Open the press photos",
+        "free_mail_message": "For samples, please use your work email address. Freelance writer? Email anu@eagleandash.com with a link to your recent work.",
+        "klaviyo_company_id": "RMHHKa",
+        "klaviyo_list_id": "XpUDVt",
+        "sample_products": [
+          "leather-golf-tee-pouch-zip",
+          "leather-golf-tee-pouch-flex",
+          "hole-in-one-golf-ball-display",
+          "golf-ball-holder-duo-pack",
+          "bath-bombs-for-men-sandalwood",
+          "bamboo-golf-tees",
+          "mulligan-pills-funny-golf-tees"
+        ],
+        "links_soon_suffix": "from November 2026"
       }
     }
   },
