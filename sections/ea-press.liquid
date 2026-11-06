@@ -947,7 +947,8 @@
         const publication = (form.querySelector('[name="contact[Publication or website]"]')?.value || '').trim();
         const gifts = [...form.querySelectorAll('[data-press-gift]:checked')].map((el) => el.dataset.pressGift);
         if (sample?.checked) {
-          if (gifts.length === 0) { showError('Please choose at least one gift for your sample.'); return; }
+          // "product", not "gift": it must not sound as if we give the editor a present (Anu, 6 Nov 2026)
+          if (gifts.length === 0) { showError('Please choose at least one product for your sample.'); return; }
           if (FREE_MAIL.test(email)) {
             showError(form.dataset.freeMailMessage || 'For samples, please use your work email address.');
             return;
