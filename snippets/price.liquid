@@ -9,7 +9,11 @@
 {%- comment -%} Eagle & Ash (30 Oct 2026, Anu: OK): a coming-soon product (product field custom.coming_soon, e.g. Mulligan Pills)
   has no price yet, because it is not on Amazon yet: its badge text ("Coming soon · Nov 2026") instead of $0.00, everywhere
   a price is shown (cards, search, product page). {%- endcomment -%}
+{%- comment -%} Anu, 6 Nov 2026: "please add the price 12.99 to our webpage coming soon pages as well": once the Shopify price is
+  set (above $0.00), it shows before the badge text: "$12.99 · Coming soon · Nov 2026". {%- endcomment -%}
 {%- if product_resource.metafields.custom.coming_soon.value != blank -%}
+  {%- assign ea_soon_price = product_resource.selected_or_first_available_variant.price | default: 0 -%}
+  {%- if ea_soon_price > 0 -%}<span class="price">{{ ea_soon_price | money }}</span> · {% endif -%}
   <span class="ea-price-soon">{{ product_resource.metafields.custom.coming_soon.value | escape }}</span>
 {%- else -%}
 

@@ -137,6 +137,19 @@
               </a>
             {%- endif -%}
             <h3 class="ea-press__gift-title"><a href="{{ block.settings.url }}">{{ block.settings.name | escape }}</a></h3>
+            {%- comment -%} Prices from the products, as on the main cards (Anu, 6 Nov 2026: pink pouches "36.99 for zip and 39.99 for flex") {%- endcomment -%}
+            {%- assign ea_sp = block.settings.product -%}
+            {%- assign ea_sp2 = block.settings.product_2 -%}
+            {%- if ea_sp != blank -%}
+              <p class="ea-press__price">
+                {%- if ea_sp2 != blank -%}
+                  {{ block.settings.price_label | escape }} {{ ea_sp.price | money }} · {{ block.settings.price_label_2 | escape }} {{ ea_sp2.price | money }}
+                {%- else -%}
+                  {{ ea_sp.price | money }}
+                {%- endif -%}
+                <span class="ea-press__price-note"> on Amazon.com</span>
+              </p>
+            {%- endif -%}
             {%- if block.settings.text != blank -%}<p class="ea-press__soon-line">{{ block.settings.text | escape }}</p>{%- endif -%}
           </li>
         {%- endfor -%}
@@ -876,7 +889,7 @@
     }
 
     .ea-press__gifts--soon .ea-press__gift {
-      grid-row: span 3;
+      grid-row: span 4;
     }
 
     .ea-press__gift-title {
@@ -1078,7 +1091,11 @@
         { "type": "text", "id": "name", "label": "Name" },
         { "type": "text", "id": "label", "label": "Label on the photo (optional)" },
         { "type": "text", "id": "text", "label": "Line under the name" },
-        { "type": "url", "id": "url", "label": "Link (the product's page, where people can sign up)" }
+        { "type": "url", "id": "url", "label": "Link (the product's page, where people can sign up)" },
+        { "type": "product", "id": "product", "label": "Product for the price (optional)" },
+        { "type": "text", "id": "price_label", "label": "Price label (when there are two products)" },
+        { "type": "product", "id": "product_2", "label": "Second product (optional, its price only)" },
+        { "type": "text", "id": "price_label_2", "label": "Second price label" }
       ]
     }
   ],

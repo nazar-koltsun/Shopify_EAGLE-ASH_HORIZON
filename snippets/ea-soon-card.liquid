@@ -10,7 +10,30 @@
   @param {string} [url] - The gift's own coming-soon page; empty: the sign-up on the same page.
   @param {string} [tag] - 'div' inside a sliding row (homepage tab); default 'li' (Shop page grid).
 {%- enddoc -%}
-{%- assign ea_tag = tag | default: 'li' -%}
+{%- liquid
+  assign ea_tag = tag | default: 'li'
+  # Price from the linked product, or from the colour in "?variant=" (Anu, 6 Nov 2026: prices on the coming-soon tiles,
+  # Pink Zip $36.99, Pink Flex $39.99, Mulligan Pills $12.99). Nothing when the link is not a product or the price is $0.00.
+  assign ea_price = ''
+  if url contains '/products/'
+    assign ea_handle = url | split: '/products/' | last | split: '?' | first
+    assign ea_p = all_products[ea_handle]
+    if ea_p != blank
+      assign ea_amount = ea_p.price
+      if url contains 'variant='
+        assign ea_vid = url | split: 'variant=' | last | split: '&' | first | plus: 0
+        for ea_v in ea_p.variants
+          if ea_v.id == ea_vid
+            assign ea_amount = ea_v.price
+          endif
+        endfor
+      endif
+      if ea_amount > 0
+        assign ea_price = ea_amount | money
+      endif
+    endif
+  endif
+-%}
 <{{ ea_tag }} class="ea-soon-card">
   <a class="ea-soon-card__link" href="{{ url | default: '#ea-notify' }}">
     <span class="ea-soon-card__frame">
@@ -26,6 +49,7 @@
       {%- endif -%}
     </span>
     <span class="ea-soon-card__name">{{ name | escape }}</span>
+    {%- if ea_price != blank -%}<span class="ea-soon-card__price">{{ ea_price }}</span>{%- endif -%}
     <span class="ea-soon-card__cta">Get notified →</span>
   </a>
 </{{ ea_tag }}>
@@ -83,6 +107,10 @@
 
   .ea-soon-card__name {
     padding-block-start: 4px;
+    font-size: 1rem;
+  }
+
+  .ea-soon-card__price {
     font-size: 1rem;
   }
 
