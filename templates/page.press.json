@@ -62,7 +62,7 @@
             "name": "Mulligan Pills – Funny Golf Tees in a Bottle",
             "hook": "A mock prescription for real golfers. Side effects may include optimism.",
             "facts": "20 real bamboo golf tees with height markers, 2¾ in (70 mm), in a reusable amber pharmacy-style bottle.\nDirections: \"Take one to the tee. Request a mulligan as necessary.\" Authorization: the group. Unanimously.\nA funny gift that is still useful: the tees are the real thing, and the bottle stays on as a tee holder.\nFor men and women: Christmas stockings, birthdays, golf buddies and tournament prizes.",
-            "when": "On Amazon.com in November 2026, in time for Christmas.",
+            "when": "Expected on Amazon.com from November 16, 2026, in time for Christmas.",
             "url": "/products/mulligan-pills-funny-golf-tees",
             "link_label": "See Mulligan Pills",
             "sample_link_label": "Ask for a sample"
@@ -82,7 +82,7 @@
         "gifts_eyebrow": "Featured gifts",
         "gifts_heading": "Three unusual gifts for *every part of the game.*",
         "also_product": "bamboo-golf-tees",
-        "also_text": "in three lengths (1 1/2, 2 3/4 and 3 1/4 inch). Made in China.",
+        "also_text": "in three lengths (1 1/2, 2 3/4 and 3 1/4 inch).",
         "soon_heading": "Coming *soon.*",
         "soon_text": "Both launch on Amazon.com in November 2026.",
         "kit_heading": "Press *kit.*",
@@ -93,10 +93,22 @@
         "success_text": "Thank you! Here is our press kit:",
         "privacy": "<p>We use your email to send you the press kit link and, now and then, press news about our new gifts. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>",
         "credit": "Photo credit: Courtesy of Eagle & Ash.",
+        "kit_url": "https://drive.google.com/drive/folders/1SKVQrhnbTR2HBbEAbFSA6Epz919myQ_k",
+        "kit_link_label": "Open the press photos",
+        "sample_products": [
+          "leather-golf-tee-pouch-zip",
+          "leather-golf-tee-pouch-flex",
+          "hole-in-one-golf-ball-display",
+          "golf-ball-holder-duo-pack",
+          "bath-bombs-for-men-sandalwood",
+          "bamboo-golf-tees",
+          "mulligan-pills-funny-golf-tees"
+        ],
+        "free_mail_message": "For samples, please use your work email address. Freelance writer? Email anu@eagleandash.com with a link to your recent work.",
+        "klaviyo_company_id": "RMHHKa",
+        "klaviyo_list_id": "XpUDVt",
         "samples_heading": "Samples and *interviews.*",
-        "samples_text": "<p>Preparing a review or a gift guide? Tick the sample box in the form above and choose one or more gifts. Samples are subject to availability, and we confirm by email before we ship.</p><p>For interviews or quotes, write to the co-founders, Anu Aun: <a href=\"mailto:anu@eagleandash.com\" title=\"mailto:anu@eagleandash.com\">anu@eagleandash.com</a> or Yvelin Karu: <a href=\"mailto:yvelin@eagleandash.com\" title=\"mailto:yvelin@eagleandash.com\">yvelin@eagleandash.com</a>.</p>",
-        "links_family_product": "bath-bombs-for-men-sandalwood",
-        "links_family_name": "Golf Ball Bath Bombs (4 Pack)",
+        "samples_text": "<p>Preparing a review or a gift guide? Tick the sample box in the form above and choose one or more products. Samples are subject to availability, and we confirm by email before we ship.</p><p>For interviews or quotes, write to the co-founders, Anu Aun: <a href=\"mailto:anu@eagleandash.com\" title=\"mailto:anu@eagleandash.com\">anu@eagleandash.com</a> or Yvelin Karu: <a href=\"mailto:yvelin@eagleandash.com\" title=\"mailto:yvelin@eagleandash.com\">yvelin@eagleandash.com</a>.</p>",
         "links_heading": "Linking to our *gifts.*",
         "links_text": "Our gifts are sold only on Amazon.com. Please link to the Amazon listings below. If you are an Amazon Associate, use your own Associates link.",
         "link_products": [
@@ -109,20 +121,8 @@
           "golf-tournament-gift-bath-bombs-mint",
           "bamboo-golf-tees"
         ],
-        "kit_url": "https://drive.google.com/drive/folders/1SKVQrhnbTR2HBbEAbFSA6Epz919myQ_k",
-        "kit_link_label": "Open the press photos",
-        "free_mail_message": "For samples, please use your work email address. Freelance writer? Email anu@eagleandash.com with a link to your recent work.",
-        "klaviyo_company_id": "RMHHKa",
-        "klaviyo_list_id": "XpUDVt",
-        "sample_products": [
-          "leather-golf-tee-pouch-zip",
-          "leather-golf-tee-pouch-flex",
-          "hole-in-one-golf-ball-display",
-          "golf-ball-holder-duo-pack",
-          "bath-bombs-for-men-sandalwood",
-          "bamboo-golf-tees",
-          "mulligan-pills-funny-golf-tees"
-        ]
+        "links_family_name": "Golf Ball Bath Bombs (4 Pack)",
+        "links_family_product": "bath-bombs-for-men-sandalwood"
       }
     }
   },

@@ -47,6 +47,12 @@
             {%- if block.settings.line != blank -%}
               <p class="ea-press__line">{{ block.settings.line | escape }}</p>
             {%- endif -%}
+            {%- comment -%}
+              The reason to buy after the one-line angle, in body text (Anu, 6 Nov 2026: the sentences "need a second part
+              ... that gives a reason to buy ... so the editors have a whole story in front of them"). Always printed, also
+              when empty, so the cards keep sharing the same grid rows.
+            {%- endcomment -%}
+            <p class="ea-press__why">{{ block.settings.line_2 | escape }}</p>
             {%- assign ea_facts = block.settings.facts | newline_to_br | split: '<br />' -%}
             <ul class="ea-press__facts">
               {%- for ea_fact in ea_facts -%}
@@ -100,6 +106,9 @@
           <div class="ea-press__launch-text">
             {%- if block.settings.label != blank -%}<p class="ea-press__launch-label">{{ block.settings.label | escape }}</p>{%- endif -%}
             <h3 class="ea-press__gift-title" id="ea-press-launch-{{ block.id }}"><a href="{{ block.settings.url }}">{{ block.settings.name | escape }}</a></h3>
+            {%- if block.settings.price != blank -%}
+              <p class="ea-press__price">{{ block.settings.price | escape }}<span class="ea-press__price-note"> on Amazon.com</span></p>
+            {%- endif -%}
             {%- if block.settings.hook != blank -%}<p class="ea-press__launch-hook">{{ block.settings.hook | escape }}</p>{%- endif -%}
             {%- assign ea_facts = block.settings.facts | newline_to_br | split: '<br />' -%}
             <ul class="ea-press__facts">
@@ -179,7 +188,8 @@
       <div class="ea-press-form__sample">
         <p class="ea-press-form__sample-note">{{ section.settings.sample_note | escape }}</p>
         <fieldset class="ea-press-form__gifts">
-          <legend>Which gifts? Choose one or more.</legend>
+          {%- comment -%} "products", not "gifts": it must not sound as if we give the editor a present (Anu, 6 Nov 2026) {%- endcomment -%}
+          <legend>Which products? Choose one or more.</legend>
           {%- for p in section.settings.sample_products -%}
             {%- liquid
               assign ea_name = p.title
@@ -281,37 +291,61 @@
           {%- comment -%} The plain Amazon address (no Attribution code): editors add their own Associates link. {%- endcomment -%}
           {%- assign ea_url = p.selected_or_first_available_variant.metafields.custom.amazon_url.value | split: '?' | first -%}
           {%- comment -%}
-            Variations in brackets (Anu, 5 Nov 2026: "list variations in brackets for all the products"). Each name opens
-            its own Amazon page, because the colours and lengths have their own Amazon addresses. Variations without an
-            Amazon address (Pink, until it is on Amazon) are left out.
+            Variations in brackets as plain text, as in the bath bomb row (Anu, 5 Nov 2026: "list variations in brackets
+            for all the products"; 6 Nov 2026: "listed behind the links as regular list, just as for the bath bombs").
+            One link per product: on Amazon every colour or length opens from it. A colour without its own Amazon
+            address yet (Pink) is named after the others with the text of setting links_soon_suffix (Anu, 6 Nov 2026:
+            "the pink pouches don't need a separate link, they will be reachable from the same parent link").
           {%- endcomment -%}
-          {%- capture ea_variations -%}
-            {%- if p.has_only_default_variant == false -%}
-              {%- assign ea_n = 0 -%}
-              {%- for v in p.variants -%}{%- if v.metafields.custom.amazon_url.value != blank -%}{%- assign ea_n = ea_n | plus: 1 -%}{%- endif -%}{%- endfor -%}
-              {%- assign ea_i = 0 -%}
-              {%- for v in p.variants -%}
-                {%- assign ea_v_url = v.metafields.custom.amazon_url.value | split: '?' | first -%}
-                {%- if ea_v_url == blank -%}{%- continue -%}{%- endif -%}
-                {%- liquid
-                  assign ea_i = ea_i | plus: 1
-                  assign ea_sep = ''
-                  if ea_i > 1 and ea_i == ea_n
-                    assign ea_sep = ' and '
-                  elsif ea_i > 1
-                    assign ea_sep = ', '
-                  endif
-                -%}
-                {{- ea_sep -}}<a href="{{ ea_v_url }}" target="_blank" rel="noopener">{{ v.title | escape }}</a>
-              {%- endfor -%}
-            {%- endif -%}
-          {%- endcapture -%}
+          {%- liquid
+            assign ea_on = ''
+            assign ea_soon = ''
+            unless p.has_only_default_variant
+              for v in p.variants
+                if v.metafields.custom.amazon_url.value != blank
+                  assign ea_on = ea_on | append: v.title | append: '|'
+                else
+                  assign ea_soon = ea_soon | append: v.title | append: '|'
+                endif
+              endfor
+            endunless
+            assign ea_on = ea_on | split: '|'
+            assign ea_soon = ea_soon | split: '|'
+            assign ea_variations = ''
+            for ea_v in ea_on
+              unless forloop.first
+                if forloop.last
+                  assign ea_variations = ea_variations | append: ' and '
+                else
+                  assign ea_variations = ea_variations | append: ', '
+                endif
+              endunless
+              assign ea_variations = ea_variations | append: ea_v
+            endfor
+            if ea_soon.size > 0
+              assign ea_soon_names = ea_soon | join: ' and '
+              assign ea_variations = ea_variations | append: '; ' | append: ea_soon_names | append: ' ' | append: section.settings.links_soon_suffix | strip
+            endif
+          -%}
           {%- if ea_url != blank -%}
             <li>
               <span class="ea-press__link-name">{{ p.title | escape }}</span>
-              <span><a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if ea_variations != blank %} ({{ ea_variations }}){% endif %}</span>
+              <span><a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if ea_variations != blank %} ({{ ea_variations | escape }}){% endif %}</span>
             </li>
           {%- endif -%}
+        {%- endfor -%}
+        {%- comment -%}
+          Gifts that are not on sale yet: their Amazon address from the "Launching next" card, with a note such as the
+          expected date (Anu, 6 Nov 2026: Mulligan Pills "let's already add a link - it will start to show the product
+          next week"). The product's own "Shop on Amazon" button stays "Coming soon" until its Amazon link is set.
+        {%- endcomment -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'launch' or block.settings.amazon_url == blank -%}{%- continue -%}{%- endif -%}
+          {%- assign ea_url = block.settings.amazon_url | split: '?' | first -%}
+          <li>
+            <span class="ea-press__link-name">{{ block.settings.links_name | default: block.settings.name | escape }}</span>
+            <span><a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if block.settings.links_note != blank %} ({{ block.settings.links_note | escape }}){% endif %}</span>
+          </li>
         {%- endfor -%}
       </ul>
     </section>
@@ -466,6 +500,12 @@
     margin: 0;
     font-family: var(--font-heading--family);
     font-style: italic;
+  }
+
+  /* the reason to buy: running text, so Roboto (design rules: Lora for headings only) */
+  .ea-press__why {
+    margin: 0;
+    line-height: 1.5;
   }
 
   .ea-press__facts,
@@ -830,7 +870,7 @@
        (Anu, 4 Nov 2026): the cards share the rows of the grid */
     .ea-press__gift {
       display: grid;
-      grid-row: span 5;
+      grid-row: span 6;
       grid-template-rows: subgrid;
       row-gap: 8px;
     }
@@ -991,7 +1031,8 @@
     { "type": "textarea", "id": "links_text", "label": "Links: text" },
     { "type": "product_list", "id": "link_products", "label": "Links: products", "limit": 12, "info": "Each shows its plain Amazon address (from the first colour's Amazon link, without the tracking code)." },
     { "type": "text", "id": "links_family_name", "label": "Links: name of the scents row", "default": "Golf Ball Bath Bombs (4 Pack)", "info": "Sister scent pages share one row: this name, one Amazon link, all scents in brackets." },
-    { "type": "product", "id": "links_family_product", "label": "Links: scent whose Amazon link the row uses", "info": "On Amazon the scents are one listing with a scent choice, so one link opens all of them. Empty: the first scent in the list." }
+    { "type": "product", "id": "links_family_product", "label": "Links: scent whose Amazon link the row uses", "info": "On Amazon the scents are one listing with a scent choice, so one link opens all of them. Empty: the first scent in the list." },
+    { "type": "text", "id": "links_soon_suffix", "label": "Links: text after a colour that is not on Amazon yet", "default": "from November 2026", "info": "Such a colour (no Amazon link on its variant) is named after the others, e.g. \"; Pink from November 2026\"." }
   ],
   "blocks": [
     {
@@ -1005,6 +1046,7 @@
         { "type": "product", "id": "product_2", "label": "Second product (optional, its price only)" },
         { "type": "text", "id": "price_label_2", "label": "Second price label" },
         { "type": "text", "id": "line", "label": "One-line angle" },
+        { "type": "textarea", "id": "line_2", "label": "Reason to buy (after the angle)" },
         { "type": "textarea", "id": "facts", "label": "Facts: one per line" }
       ]
     },
@@ -1015,12 +1057,16 @@
         { "type": "image_picker", "id": "image", "label": "Photo" },
         { "type": "text", "id": "label", "label": "Label", "default": "Launching next" },
         { "type": "text", "id": "name", "label": "Name" },
+        { "type": "text", "id": "price", "label": "Amazon price (e.g. $12.99)", "info": "Written by hand until the product is on sale: change it when the Amazon price changes." },
         { "type": "text", "id": "hook", "label": "Highlighted sentence" },
         { "type": "textarea", "id": "facts", "label": "Facts: one per line" },
         { "type": "text", "id": "when", "label": "When (bold line)" },
         { "type": "url", "id": "url", "label": "Link (the product's page)" },
         { "type": "text", "id": "link_label", "label": "Link text", "default": "See the gift" },
-        { "type": "text", "id": "sample_link_label", "label": "Link to the sample form (optional)" }
+        { "type": "text", "id": "sample_link_label", "label": "Link to the sample form (optional)" },
+        { "type": "url", "id": "amazon_url", "label": "Amazon address for the links list (optional)", "info": "Shown in \"Linking to our gifts\" before the product is on sale." },
+        { "type": "text", "id": "links_name", "label": "Name in the links list", "info": "Empty = the name above." },
+        { "type": "text", "id": "links_note", "label": "Note in brackets in the links list", "info": "For example the expected date." }
       ]
     },
     {
