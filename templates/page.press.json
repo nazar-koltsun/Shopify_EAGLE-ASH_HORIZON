@@ -54,7 +54,11 @@
             "image": "shopify://shop_images/soon-flex-pink-v2.jpg",
             "name": "Leather Golf Tee Pouches in Pink",
             "text": "Same leather, same clip: the ladies' special.",
-            "url": "/products/leather-golf-tee-pouch-flex?variant=59267815244111"
+            "url": "/products/leather-golf-tee-pouch-flex?variant=59267815244111",
+            "product": "leather-golf-tee-pouch-zip",
+            "price_label": "Zip",
+            "product_2": "leather-golf-tee-pouch-flex",
+            "price_label_2": "Flex"
           }
         },
         "launch_mulligan": {
