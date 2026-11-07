@@ -341,6 +341,49 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "printable_cards": {
+      "type": "ea-printable-cards",
+      "blocks": {
+        "round": {
+          "type": "idea",
+          "settings": {
+            "title": "A round somewhere they have not played.",
+            "text": "<p>Not ours. Book a tee time at the course they keep mentioning, then fill in the card and fold it. It is the gift they will remember longest.</p><p>Something small to unwrap with it: <a href=\"/products/bamboo-golf-tees\">bamboo golf tees</a> or a <a href=\"/products/leather-golf-tee-pouch-zip\">leather tee pouch</a>.</p>",
+            "image_1": "shopify://shop_images/printable-card-preview-round-of-golf.jpg",
+            "pdf_1": "eagle-and-ash-printable-golf-gift-card-round-of-golf.pdf",
+            "label_1": "A round of golf",
+            "a4_1": "eagle-and-ash-printable-golf-gift-card-round-of-golf-a4.pdf"
+          }
+        },
+        "lesson": {
+          "type": "idea",
+          "settings": {
+            "title": "A lesson, booked and paid.",
+            "text": "<p>Not ours either. Many golfers never get round to booking a lesson for themselves. A paid hour with the teaching professional at their club removes the excuse.</p><p>Add a <a href=\"/products/bamboo-golf-tees\">pack of tees</a>, so they have something in their pocket when they arrive.</p>",
+            "image_1": "shopify://shop_images/printable-card-preview-golf-lesson-for-her.jpg",
+            "pdf_1": "eagle-and-ash-printable-golf-gift-card-golf-lesson-for-her.pdf",
+            "label_1": "A golf lesson for her",
+            "image_2": "shopify://shop_images/printable-card-preview-golf-lesson-for-him.jpg",
+            "pdf_2": "eagle-and-ash-printable-golf-gift-card-golf-lesson-for-him.pdf",
+            "label_2": "A golf lesson for him",
+            "a4_1": "eagle-and-ash-printable-golf-gift-card-golf-lesson-for-her-a4.pdf",
+            "a4_2": "eagle-and-ash-printable-golf-gift-card-golf-lesson-for-him-a4.pdf"
+          }
+        }
+      },
+      "block_order": [
+        "round",
+        "lesson"
+      ],
+      "settings": {
+        "heading": "Two ideas *you cannot wrap.*",
+        "intro": "Book it, then give it with our free printable golf gift card. Fill it in on screen or by hand, print it and fold it in three.",
+        "note": "Each PDF has two pages: the card, and how to print and fold it.",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      }
     }
   },
   "order": [
@@ -348,6 +391,7 @@
     "section",
     "trust_strip",
     "main",
+    "printable_cards",
     "seo_text",
     "faq_ea",
     "notify"

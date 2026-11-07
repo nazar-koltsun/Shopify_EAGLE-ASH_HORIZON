@@ -55,6 +55,14 @@
     endif
   -%}
   {%- if settings[ea_name] != blank and settings[ea_image] != blank and ea_soon_show -%}
-    {%- render 'ea-soon-card', name: settings[ea_name], image: settings[ea_image], badge: settings[ea_badge], url: settings[ea_link] -%}
+    {%- comment -%} A launch date in the badge ("Launching …"): orange border (Anu, 7 Nov 2026). It is first because it is
+      gift 1 in Theme settings; the order there is the launch order. {%- endcomment -%}
+    {%- liquid
+      assign ea_is_launch = false
+      if settings[ea_badge] contains 'Launching'
+        assign ea_is_launch = true
+      endif
+    -%}
+    {%- render 'ea-soon-card', name: settings[ea_name], image: settings[ea_image], badge: settings[ea_badge], url: settings[ea_link], launch: ea_is_launch -%}
   {%- endif -%}
 {%- endfor -%}

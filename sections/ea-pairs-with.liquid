@@ -73,7 +73,11 @@
           if ea_soon_any
             echo '<!--@list/split-->'
           endif
-          render 'ea-soon-card', name: settings[ea_name], image: settings[ea_image], badge: settings[ea_badge], url: settings[ea_link], tag: 'div'
+          assign ea_is_launch = false
+          if settings[ea_badge] contains 'Launching'
+            assign ea_is_launch = true
+          endif
+          render 'ea-soon-card', name: settings[ea_name], image: settings[ea_image], badge: settings[ea_badge], url: settings[ea_link], tag: 'div', launch: ea_is_launch
           assign ea_soon_any = true
         endif
       endfor

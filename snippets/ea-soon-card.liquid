@@ -9,6 +9,7 @@
   @param {string} [badge] - Text on the photo, e.g. "Coming soon · Nov 2026".
   @param {string} [url] - The gift's own coming-soon page; empty: the sign-up on the same page.
   @param {string} [tag] - 'div' inside a sliding row (homepage tab); default 'li' (Shop page grid).
+  @param {boolean} [launch] - The gift with a launch date (badge starting "Launching"): orange border, first in every coming-soon row (Anu, 7 Nov 2026).
 {%- enddoc -%}
 {%- liquid
   assign ea_tag = tag | default: 'li'
@@ -34,7 +35,7 @@
     endif
   endif
 -%}
-<{{ ea_tag }} class="ea-soon-card">
+<{{ ea_tag }} class="ea-soon-card{% if launch %} ea-soon-card--launch{% endif %}">
   <a class="ea-soon-card__link" href="{{ url | default: '#ea-notify' }}">
     <span class="ea-soon-card__frame">
       {%- if image != blank -%}
@@ -57,6 +58,19 @@
 {% stylesheet %}
   .ea-soon-card {
     list-style: none;
+  }
+
+  /* the gift that launches next: an orange border as on the press page (Anu, 7 Nov 2026) */
+  .ea-soon-card--launch .ea-soon-card__link {
+    height: 100%;
+    padding: 10px;
+    border: 2px solid #fd5000;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .ea-soon-card--launch .ea-soon-card__badge {
+    background: #b83a00;
   }
 
   .ea-soon-card__link {
