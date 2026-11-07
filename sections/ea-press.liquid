@@ -300,8 +300,8 @@
             {%- if ea_url != blank -%}
               <li>
                 <span class="ea-press__link-name">{{ section.settings.links_family_name | default: p.title | escape }}</span>
-                <span>Product page: <a href="{{ shop.url }}{{ ea_link_product.url }}">eagleandash.com{{ ea_link_product.url }}</a></span>
-                <span>Amazon: <a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a> ({{ ea_names | escape }})</span>
+                <span class="ea-press__link-urls"><span>Product page: <a href="{{ shop.url }}{{ ea_link_product.url }}">eagleandash.com{{ ea_link_product.url }}</a></span>
+                <span>Amazon: <a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a> ({{ ea_names | escape }})</span></span>
               </li>
             {%- endif -%}
             {%- continue -%}
@@ -348,8 +348,8 @@
           {%- if ea_url != blank -%}
             <li>
               <span class="ea-press__link-name">{{ p.title | escape }}</span>
-              <span>Product page: <a href="{{ shop.url }}{{ p.url }}">eagleandash.com{{ p.url }}</a></span>
-              <span>Amazon: <a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if ea_variations != blank %} ({{ ea_variations | escape }}){% endif %}</span>
+              <span class="ea-press__link-urls"><span>Product page: <a href="{{ shop.url }}{{ p.url }}">eagleandash.com{{ p.url }}</a></span>
+              <span>Amazon: <a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if ea_variations != blank %} ({{ ea_variations | escape }}){% endif %}</span></span>
             </li>
           {%- endif -%}
         {%- endfor -%}
@@ -363,8 +363,8 @@
           {%- assign ea_url = block.settings.amazon_url | split: '?' | first -%}
           <li>
             <span class="ea-press__link-name">{{ block.settings.links_name | default: block.settings.name | escape }}</span>
-            {%- if block.settings.url != blank -%}<span>Product page: <a href="{{ shop.url }}{{ block.settings.url }}">eagleandash.com{{ block.settings.url }}</a></span>{%- endif -%}
-            <span>Amazon: <a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if block.settings.links_note != blank %} ({{ block.settings.links_note | escape }}){% endif %}</span>
+            <span class="ea-press__link-urls">{%- if block.settings.url != blank -%}<span>Product page: <a href="{{ shop.url }}{{ block.settings.url }}">eagleandash.com{{ block.settings.url }}</a></span>{%- endif -%}
+            <span>Amazon: <a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if block.settings.links_note != blank %} ({{ block.settings.links_note | escape }}){% endif %}</span></span>
           </li>
         {%- endfor -%}
       </ul>
@@ -711,6 +711,19 @@
     overflow-wrap: anywhere;
   }
 
+  /* product page and Amazon, one line each (Anu 7 Nov 2026) */
+  .ea-press__link-urls {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    min-width: 0;
+  }
+
+  .ea-press__link-urls > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   /* coming-soon cards smaller than the featured three (Anu, 4 Nov 2026): two per row on phones */
   .ea-press__gifts--soon {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -912,7 +925,7 @@
       display: grid;
       grid-template-columns: max-content minmax(0, 1fr);
       column-gap: 32px;
-      row-gap: 8px;
+      row-gap: 16px;
     }
 
     .ea-press__links li {
