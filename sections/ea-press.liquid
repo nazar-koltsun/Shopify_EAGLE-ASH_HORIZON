@@ -12,6 +12,10 @@
     {%- if section.settings.intro != blank -%}
       <p class="ea-press__intro">{{ section.settings.intro | escape }}</p>
     {%- endif -%}
+    {%- comment -%} A way to the press kit form at the top (ChatGPT review, Anu 7 Nov 2026). {%- endcomment -%}
+    {%- if section.settings.kit_jump_label != blank -%}
+      <p class="ea-press__jump"><a class="button ea-press-form__button" href="#press-kit">{{ section.settings.kit_jump_label | escape }}</a></p>
+    {%- endif -%}
   </header>
 
   {%- if section.blocks.size > 0 -%}
@@ -296,7 +300,8 @@
             {%- if ea_url != blank -%}
               <li>
                 <span class="ea-press__link-name">{{ section.settings.links_family_name | default: p.title | escape }}</span>
-                <span><a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a> ({{ ea_names | escape }})</span>
+                <span>Product page: <a href="{{ shop.url }}{{ ea_link_product.url }}">eagleandash.com{{ ea_link_product.url }}</a></span>
+                <span>Amazon: <a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a> ({{ ea_names | escape }})</span>
               </li>
             {%- endif -%}
             {%- continue -%}
@@ -343,7 +348,8 @@
           {%- if ea_url != blank -%}
             <li>
               <span class="ea-press__link-name">{{ p.title | escape }}</span>
-              <span><a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if ea_variations != blank %} ({{ ea_variations | escape }}){% endif %}</span>
+              <span>Product page: <a href="{{ shop.url }}{{ p.url }}">eagleandash.com{{ p.url }}</a></span>
+              <span>Amazon: <a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if ea_variations != blank %} ({{ ea_variations | escape }}){% endif %}</span>
             </li>
           {%- endif -%}
         {%- endfor -%}
@@ -357,7 +363,8 @@
           {%- assign ea_url = block.settings.amazon_url | split: '?' | first -%}
           <li>
             <span class="ea-press__link-name">{{ block.settings.links_name | default: block.settings.name | escape }}</span>
-            <span><a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if block.settings.links_note != blank %} ({{ block.settings.links_note | escape }}){% endif %}</span>
+            {%- if block.settings.url != blank -%}<span>Product page: <a href="{{ shop.url }}{{ block.settings.url }}">eagleandash.com{{ block.settings.url }}</a></span>{%- endif -%}
+            <span>Amazon: <a href="{{ ea_url }}" target="_blank" rel="noopener">{{ ea_url | remove: 'https://' | remove: 'www.' }}</a>{% if block.settings.links_note != blank %} ({{ block.settings.links_note | escape }}){% endif %}</span>
           </li>
         {%- endfor -%}
       </ul>
@@ -377,6 +384,10 @@
 
   .ea-press__head {
     max-width: 760px;
+  }
+
+  .ea-press__jump {
+    margin: 24px 0 0;
   }
 
   /* page title: 24 px on phones, 32 px on computers, Lora 400, as every page title (design rules, 5 Nov 2026) */
@@ -1019,6 +1030,7 @@
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "info": "Words between two stars are orange.", "default": "Press" },
     { "type": "textarea", "id": "intro", "label": "Introduction" },
+    { "type": "text", "id": "kit_jump_label", "label": "Button under the introduction (jumps to the press kit form)", "default": "Get the press kit" },
     { "type": "text", "id": "gifts_eyebrow", "label": "Gifts: small label above the heading", "default": "Featured gifts" },
     { "type": "text", "id": "gifts_heading", "label": "Gifts: heading", "default": "Three gifts for your *gift guide.*" },
     { "type": "product", "id": "also_product", "label": "\"Also:\" product" },

@@ -95,21 +95,21 @@
         "also_product": "bamboo-golf-tees",
         "also_text": "in three lengths (1 1/2, 2 3/4 and 3 1/4 inch).",
         "soon_heading": "Coming *soon.*",
-        "soon_text": "Both launch on Amazon.com in November 2026.",
+        "soon_text": "Mulligan Pills launch on Amazon.com on November 16, 2026. The pink pouches follow in December 2026.",
         "kit_heading": "Press *kit.*",
-        "kit_text": "High-resolution photos of our gifts and of our makers' workshops, plus our logos. Leave your email to get the link.",
+        "kit_text": "High-resolution photos of our gifts and of our makers' workshops, plus our logos. Leave your email to get the link. Freelance writer without a work email? Write to hello@eagleandash.com with a link to your recent work.",
         "sample_label": "I'd also like a product sample for a review or gift guide",
         "sample_note": "Samples are subject to availability and need a work email address (your publication's domain). We confirm by email before we ship.",
         "button_label": "Send me the press kit",
         "success_text": "Thank you! Here is our press kit:",
         "privacy": "<p>We use your email to send you the press kit link and, now and then, press news about our new gifts. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>",
-        "credit": "Photo credit: Courtesy of Eagle & Ash.",
+        "credit": "Photos are free to use for editorial coverage of Eagle & Ash. Credit: Courtesy of Eagle & Ash.",
         "samples_heading": "Samples and *interviews.*",
         "samples_text": "<p>Preparing a review or a gift guide? Tick the sample box in the form above and choose one or more products. Samples are subject to availability, and we confirm by email before we ship.</p><p>For interviews or quotes, write to the co-founders, Anu Aun: <a href=\"mailto:anu@eagleandash.com\" title=\"mailto:anu@eagleandash.com\">anu@eagleandash.com</a> or Yvelin Karu: <a href=\"mailto:yvelin@eagleandash.com\" title=\"mailto:yvelin@eagleandash.com\">yvelin@eagleandash.com</a>.</p>",
         "links_family_product": "bath-bombs-for-men-sandalwood",
         "links_family_name": "Golf Ball Bath Bombs (4 Pack)",
         "links_heading": "Linking to our *gifts.*",
-        "links_text": "Our gifts are sold only on Amazon.com. Please link to the Amazon listings below. If you are an Amazon Associate, use your own Associates link.",
+        "links_text": "Our product pages on eagleandash.com have all details and photos. Readers buy on Amazon.com. If you mention Eagle & Ash, a link from our name to eagleandash.com helps a small brand a lot. For the buy link, use Amazon or your own Amazon Associates link.",
         "link_products": [
           "leather-golf-tee-pouch-zip",
           "leather-golf-tee-pouch-flex",
@@ -134,7 +134,8 @@
           "bamboo-golf-tees",
           "mulligan-pills-funny-golf-tees"
         ],
-        "links_soon_suffix": "from November 2026"
+        "links_soon_suffix": "from December 2026",
+        "kit_jump_label": "Get the press kit"
       }
     }
   },
