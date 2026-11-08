@@ -51,7 +51,7 @@
           "type": "text",
           "name": "Description",
           "settings": {
-            "text": "<p>Four ways to find a golf gift they don't already have.<br>Choose a gift here, then buy it on Amazon.com.</p>",
+            "text": "<p>Five ways to find a golf gift they don't already have.<br>Choose a gift here, then buy it on Amazon.com.</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -154,7 +154,7 @@
     "cards": {
       "type": "custom-liquid",
       "settings": {
-        "custom_liquid": "{%- render 'ea-gift-ideas-cards', intro: page.content, handles: 'christmas-golf-gifts, golf-stocking-stuffers, gifts-for-the-golfer-who-has-everything, hole-in-one-gifts', note: 'Giving a round of golf or a lesson instead?', note_link: 'Print a card for it →', note_url: '/collections/gifts-for-the-golfer-who-has-everything#printable-cards' -%}",
+        "custom_liquid": "{%- render 'ea-gift-ideas-cards', intro: page.content, handles: 'golf-gifts-for-men, christmas-golf-gifts, golf-stocking-stuffers, gifts-for-the-golfer-who-has-everything, hole-in-one-gifts', note: 'Giving a round of golf or a lesson instead?', note_link: 'Print a card for it →', note_url: '/collections/gifts-for-the-golfer-who-has-everything#printable-cards' -%}",
         "color_scheme": "scheme-1",
         "section_width": "full-width",
         "padding-block-start": 0,
