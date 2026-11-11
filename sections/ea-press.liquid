@@ -240,6 +240,13 @@
           <textarea name="contact[Delivery address]" rows="3" autocomplete="street-address" data-press-sample-required></textarea>
         </label>
       </div>
+      {%- comment -%} Press news only with a separate, optional tick (GDPR: no consent tied to getting the kit; Anu, 11 Nov 2026) {%- endcomment -%}
+      {%- if section.settings.news_label != blank -%}
+      <label class="ea-press-form__check ea-press-form__check--news">
+        <input type="checkbox" name="contact[Press news wanted]" value="Yes" data-press-news>
+        <span>{{ section.settings.news_label | escape }}</span>
+      </label>
+      {%- endif -%}
       <p class="ea-press-form__error" role="alert" data-press-error hidden></p>
       <button type="submit" class="button ea-press-form__button">{{ section.settings.button_label | escape }}</button>
       {%- if section.settings.privacy != blank -%}<div class="ea-press-form__privacy">{{ section.settings.privacy }}</div>{%- endif -%}
@@ -626,7 +633,7 @@
     gap: 16px;
   }
 
-  .ea-press-form:has(.ea-press-form__check input:checked) .ea-press-form__sample {
+  .ea-press-form:has([data-press-sample]:checked) .ea-press-form__sample {
     display: grid;
   }
 
@@ -961,8 +968,9 @@
 
 {% javascript %}
   (() => {
-    // Eagle & Ash press form (5 Nov 2026). On "Send": check the sample part, add the email to the Klaviyo list
-    // "Press (press page form)" (its flow emails the press kit link), then send the Shopify contact form as usual.
+    // Eagle & Ash press form (5 Nov 2026; press-news tick box 11 Nov 2026). On "Send": check the sample part; with the
+    // news tick, add the email to the Klaviyo list "Press (press page form)" (flow R5Gbsb emails the kit); without it, send
+    // only the event "Press kit requested" (flow UxSt76 emails the kit, no subscription). Then send the Shopify contact form.
     // The delivery address goes only to the store inbox (Shopify), never to Klaviyo.
     const FREE_MAIL = /@(gmail|googlemail|yahoo|ymail|rocketmail|hotmail|outlook|live|msn|aol|icloud|me|mac|proton|protonmail|pm|gmx|mail|yandex|comcast|att|verizon|sbcglobal|bellsouth|cox|charter|earthlink|juno|optonline)\.[a-z.]+$/i;
 
@@ -1000,7 +1008,37 @@
         if (button) button.disabled = true;
         const company = form.dataset.klaviyoCompany;
         const list = form.dataset.klaviyoList;
-        if (company && list && email) {
+        const news = form.querySelector('[data-press-news]');
+        const wantsNews = !news || news.checked; // no tick box on the page = old behaviour
+        const pressProps = {
+          'Press publication': publication,
+          'Press sample requested': sample?.checked ? 'Yes' : 'No',
+          'Press sample gifts': sample?.checked ? gifts.join(', ') : '',
+          'Press news wanted': wantsNews ? 'Yes' : 'No',
+        };
+        // Not ticked: only an event "Press kit requested" (no subscription). Its own flow sends the press kit email once.
+        if (company && email && !wantsNews) {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 5000);
+          try {
+            await fetch(`https://a.klaviyo.com/client/events/?company_id=${encodeURIComponent(company)}`, {
+              method: 'POST',
+              signal: controller.signal,
+              headers: { 'Content-Type': 'application/vnd.api+json', Accept: 'application/vnd.api+json', revision: '2025-07-15' },
+              body: JSON.stringify({ data: { type: 'event', attributes: {
+                properties: pressProps,
+                metric: { data: { type: 'metric', attributes: { name: 'Press kit requested' } } },
+                profile: { data: { type: 'profile', attributes: { email } } },
+              } } }),
+            });
+          } catch (e) {
+            // Klaviyo not reachable: the Shopify form still sends the request, and the page shows the link.
+          } finally {
+            clearTimeout(timer);
+          }
+        }
+        // Ticked: join the press list (consent to press news); the list's flow sends the press kit email.
+        if (company && list && email && wantsNews) {
           const controller = new AbortController();
           const timer = setTimeout(() => controller.abort(), 5000);
           try {
@@ -1012,11 +1050,7 @@
                 custom_source: 'Press page: press kit',
                 profile: { data: { type: 'profile', attributes: {
                   email,
-                  properties: {
-                    'Press publication': publication,
-                    'Press sample requested': sample?.checked ? 'Yes' : 'No',
-                    'Press sample gifts': sample?.checked ? gifts.join(', ') : '',
-                  },
+                  properties: pressProps,
                   subscriptions: { email: { marketing: { consent: 'SUBSCRIBED' } } },
                 } } },
               }, relationships: { list: { data: { type: 'list', id: list } } } } }),
@@ -1059,6 +1093,7 @@
     { "type": "textarea", "id": "kit_text", "label": "Press kit: text" },
     { "type": "text", "id": "sample_label", "label": "Sample tick box", "default": "I'd also like a product sample for a review or gift guide" },
     { "type": "textarea", "id": "sample_note", "label": "Sample: note above the sample fields" },
+    { "type": "text", "id": "news_label", "label": "Press news tick box (optional)", "default": "Also email me press news about new Eagle & Ash gifts (optional)", "info": "Ticked: the email joins the Klaviyo press list (press news). Not ticked: only the press kit email, no subscription." },
     { "type": "text", "id": "button_label", "label": "Button", "default": "Send me the press kit" },
     { "type": "text", "id": "success_text", "label": "Message after sending", "default": "Thank you! We'll email you the link to the press kit." },
     { "type": "richtext", "id": "privacy", "label": "Line under the form" },
@@ -1076,7 +1111,7 @@
     { "type": "product_list", "id": "link_products", "label": "Links: products", "limit": 12, "info": "Each shows its plain Amazon address (from the first colour's Amazon link, without the tracking code)." },
     { "type": "text", "id": "links_family_name", "label": "Links: name of the scents row", "default": "Golf Ball Bath Bombs (4 Pack)", "info": "Sister scent pages share one row: this name, one Amazon link, all scents in brackets." },
     { "type": "product", "id": "links_family_product", "label": "Links: scent whose Amazon link the row uses", "info": "On Amazon the scents are one listing with a scent choice, so one link opens all of them. Empty: the first scent in the list." },
-    { "type": "text", "id": "links_soon_suffix", "label": "Links: text after a colour that is not on Amazon yet", "default": "from November 2026", "info": "Such a colour (no Amazon link on its variant) is named after the others, e.g. \"; Pink from November 2026\"." }
+    { "type": "text", "id": "links_soon_suffix", "label": "Links: text after a colour that is not on Amazon yet", "default": "from December 2026", "info": "Such a colour (no Amazon link on its variant) is named after the others, e.g. \"; Pink from November 2026\"." }
   ],
   "blocks": [
     {
