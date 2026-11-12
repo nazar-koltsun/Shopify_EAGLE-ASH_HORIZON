@@ -25,6 +25,7 @@
     {% endif %}
 
     {%- render 'meta-tags' -%}
+    <meta name="p:domain_verify" content="bb8513d2e1ddfe5d814bff6e72f0f051">
     {%- render 'stylesheets' -%}
     {% if request.path contains '/policies/privacy-policy' %}
       {{ 'shopify-policy.css' | asset_url | stylesheet_tag }}
