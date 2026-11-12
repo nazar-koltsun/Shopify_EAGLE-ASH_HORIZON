@@ -1,0 +1,91 @@
+{%- comment -%}
+  ChatGPT Ads: Amazon links with the ChatGPT Attribution codes (Anu, 12 Nov 2026: "you can put the ChatGPT links live").
+  Source: 07_Website/Amazon Attribution/Amazon_Attribution_Tags_Nov_12_2026_ChatGPT.csv (campaign "ChatGPT Ads – eagleandash.com",
+  19 ad groups: 18 products + Brand Store).
+
+  WHAT IT DOES
+  - Only when the page address contains utm_source=chatgpt_ads (every ChatGPT ad link has it). Other visitors: nothing changes.
+  - Then every Amazon link on the page that already carries our website code (maas=...) switches to the ChatGPT link of the
+    same ASIN, and the Brand Store link (footer Amazon icon) switches to the ChatGPT Brand Store link. Plain Amazon links
+    without a code (press page links for editors) and "write a review" links are not touched.
+  - Links to our own pages keep utm_source=chatgpt_ads in their address, so the next page also uses the ChatGPT links.
+  - Nothing is saved in the browser (no cookie, no storage) and nothing is sent anywhere: EU law treats storing something
+    on the device for ad measurement as needing consent (decision 10 Nov 2026). Amazon only sees the code when the visitor
+    clicks an Amazon link, exactly like the website code today.
+  - Without JavaScript the normal website links stay, so a button never breaks.
+  A new product: add its ASIN and its ChatGPT link to the list below (from a new Attribution ad group).
+{%- endcomment -%}
+{%- if request.design_mode == false -%}
+<script>
+  (function () {
+    var SOURCE = 'chatgpt_ads';
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('utm_source') !== SOURCE) return;
+    var LINKS = {
+      "B0HG284NRM": "https://www.amazon.com/dp/B0HG284NRM?maas=maas_adg_8A420CBACC5E71DE71A27F3A3DEBDAE9_afap_abs&ref_=aa_maas&tag=maas",
+      "B0H4WY41GZ": "https://www.amazon.com/dp/B0H4WY41GZ?maas=maas_adg_01C24FD259B7584638E96A87B4CB79C0_afap_abs&ref_=aa_maas&tag=maas",
+      "B0GXLMT3X4": "https://www.amazon.com/dp/B0GXLMT3X4?maas=maas_adg_4F866E5B515330B0727F960227C0F804_afap_abs&ref_=aa_maas&tag=maas",
+      "B0HG2QNPP3": "https://www.amazon.com/dp/B0HG2QNPP3?maas=maas_adg_D4EDD01F10CA648CA46BB4B70F3285D4_afap_abs&ref_=aa_maas&tag=maas",
+      "B0HG29RJQR": "https://www.amazon.com/dp/B0HG29RJQR?maas=maas_adg_10AEF0A854C5BE1F6F2BAFEFC753FD4C_afap_abs&ref_=aa_maas&tag=maas",
+      "B0G65F7RW6": "https://www.amazon.com/dp/B0G65F7RW6?maas=maas_adg_6B4195B289C1DF9C30492B556733DE96_afap_abs&ref_=aa_maas&tag=maas",
+      "B0H46NTZGR": "https://www.amazon.com/dp/B0H46NTZGR?maas=maas_adg_DE22784AD7A1A291EC823D106ED866E6_afap_abs&ref_=aa_maas&tag=maas",
+      "store": "https://www.amazon.com/stores/EAGLEASH/page/54F7FEDD-529C-4894-8E55-8D4A601F3CC1?maas=maas_adg_08E9F49453808A061D7CCB6DD90B7B04_afap_abs&ref_=aa_maas&tag=maas",
+      "B0H4XBHKWN": "https://www.amazon.com/dp/B0H4XBHKWN?maas=maas_adg_30784150671C0A217B4FACA03F841F7D_afap_abs&ref_=aa_maas&tag=maas",
+      "B0H46WKP72": "https://www.amazon.com/dp/B0H46WKP72?maas=maas_adg_5D74EBD20C1172319F7667C7A3BA1C20_afap_abs&ref_=aa_maas&tag=maas",
+      "B0H4WSNR4P": "https://www.amazon.com/dp/B0H4WSNR4P?maas=maas_adg_F455113D2C8CE9D491A43FFED86234DE_afap_abs&ref_=aa_maas&tag=maas",
+      "B0HK54138S": "https://www.amazon.com/dp/B0HK54138S?maas=maas_adg_07148A148B9A20948919E1BFE0339FD4_afap_abs&ref_=aa_maas&tag=maas",
+      "B0HK542V36": "https://www.amazon.com/dp/B0HK542V36?maas=maas_adg_97042BD05F78502C9D59A64D75D3740B_afap_abs&ref_=aa_maas&tag=maas",
+      "B0H46G3CJH": "https://www.amazon.com/dp/B0H46G3CJH?maas=maas_adg_C2CF7C1D915A40B615B53D726A94D26F_afap_abs&ref_=aa_maas&tag=maas",
+      "B0GXMQ4BMC": "https://www.amazon.com/dp/B0GXMQ4BMC?maas=maas_adg_EB8A3A4E7E974110121AC125807C08D3_afap_abs&ref_=aa_maas&tag=maas",
+      "B0H4WZLJZ8": "https://www.amazon.com/dp/B0H4WZLJZ8?maas=maas_adg_BFC617CAAB643F0A634973525A84A53E_afap_abs&ref_=aa_maas&tag=maas",
+      "B0HK51RT8H": "https://www.amazon.com/dp/B0HK51RT8H?maas=maas_adg_EBC51E8F4168D36107E4207789B0DD70_afap_abs&ref_=aa_maas&tag=maas",
+      "B0H4WT2JXY": "https://www.amazon.com/dp/B0H4WT2JXY?maas=maas_adg_EEE4F999E3CBF4C96A760599D8D077C7_afap_abs&ref_=aa_maas&tag=maas",
+      "B0H4X59YW9": "https://www.amazon.com/dp/B0H4X59YW9?maas=maas_adg_4BCE20915880B076C75296C485AF23E0_afap_abs&ref_=aa_maas&tag=maas"
+    };
+
+    function amazonTarget(href) {
+      var url;
+      try { url = new URL(href, window.location.href); } catch (e) { return null; }
+      if (!/(^|\.)amazon\.com$/i.test(url.hostname)) return null;
+      if (/\/stores\//.test(url.pathname)) return LINKS.store;
+      var m = url.pathname.match(/\/dp\/([A-Z0-9]{10})/);
+      if (!m || !url.searchParams.get('maas')) return null; // only links that already carry our website code
+      return LINKS[m[1]] || null;
+    }
+
+    function ownTarget(a) {
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || /^(mailto|tel|javascript):/i.test(href)) return null;
+      var url;
+      try { url = new URL(href, window.location.href); } catch (e) { return null; }
+      if (url.origin !== window.location.origin) return null;
+      if (url.searchParams.get('utm_source') === SOURCE) return null;
+      url.searchParams.set('utm_source', SOURCE);
+      return url.toString();
+    }
+
+    function swap(root) {
+      var links = (root || document).querySelectorAll('a[href]');
+      for (var i = 0; i < links.length; i++) {
+        var a = links[i];
+        var next = amazonTarget(a.href) || ownTarget(a);
+        if (next && next !== a.href) a.setAttribute('href', next);
+      }
+    }
+
+    function start() {
+      swap(document);
+      // Colour changes and pop-ups replace parts of the page: switch the new links too.
+      new MutationObserver(function (records) {
+        for (var i = 0; i < records.length; i++) {
+          var r = records[i];
+          if (r.type === 'childList') { for (var j = 0; j < r.addedNodes.length; j++) { var n = r.addedNodes[j]; if (n.nodeType === 1) { if (n.matches && n.matches('a[href]')) swap(n.parentNode); else swap(n); } } }
+          else if (r.type === 'attributes' && r.target.matches && r.target.matches('a[href]')) { var t = amazonTarget(r.target.href) || ownTarget(r.target); if (t && t !== r.target.href) r.target.setAttribute('href', t); }
+        }
+      }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] });
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+  })();
+</script>
+{%- endif -%}
