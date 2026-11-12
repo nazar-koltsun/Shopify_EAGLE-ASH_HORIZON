@@ -147,6 +147,13 @@
                 "soon_badge_ea"
               ]
             },
+            "amazon_soon_ea": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{%- comment -%} Anu, 12 Nov 2026: Mulligan Pills is on Amazon before its launch day; keep the launch badge and add the Amazon button. Renders only when the variant has an Amazon link (custom.amazon_url), so pages without one stay as they were. {%- endcomment -%}{%- assign ea_url = closest.product.selected_or_first_available_variant.metafields.custom.amazon_url.value -%}{%- if ea_url != blank -%}<div class=\"ea-amazon ea-amazon--sans ea-soon-amazon\"><a class=\"button ea-amazon__button\" href=\"{{ ea_url }}\" target=\"_blank\" rel=\"noopener\" data-ea-amazon-link>Shop on Amazon</a><p class=\"ea-amazon__note\">Prime-eligible \u00b7 Ships and returns via Amazon in the US.</p></div><style>.ea-soon-amazon { margin-block-start: 20px; }</style>{%- endif -%}"
+              },
+              "blocks": {}
+            },
             "divider_VJhene": {
               "type": "_divider",
               "name": "t:names.divider",
@@ -195,6 +202,7 @@
           },
           "block_order": [
             "group_icgrde",
+            "amazon_soon_ea",
             "divider_VJhene",
             "text_aEtTtq",
             "soon_signup_ea"
