@@ -42,11 +42,20 @@
             "link": "https://www.amazon.com/stores/page/54F7FEDD-529C-4894-8E55-8D4A601F3CC1",
             "icon": "amazon"
           }
+        },
+        "social_link_pinterest": {
+          "type": "social_link",
+          "settings": {
+            "title": "Pinterest",
+            "link": "https://www.pinterest.com/eagleandash/",
+            "icon": "pinterest"
+          }
         }
       },
       "block_order": [
         "social_link_instagram",
         "social_link_facebook",
+        "social_link_pinterest",
         "social_link_amazon"
       ],
       "settings": {
