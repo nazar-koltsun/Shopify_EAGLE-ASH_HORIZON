@@ -1,0 +1,78 @@
+{%- comment -%}
+  "Copy" button after every message in lists marked <ul class="ea-copy-list"> inside a blog post (Anu, 13 Nov 2026).
+  One tap copies the message text. Nothing is counted or sent anywhere yet: counting copies needs a decision on where
+  the counts are stored (see memory note blog-posts-check-and-cross-link). Without the script the lists simply have
+  no buttons. Rendered at the END of the blog post section, so the lists already exist.
+{%- endcomment -%}
+<style>
+  .ea-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 8px;
+    padding: 0 12px;
+    min-height: 30px;
+    vertical-align: middle;
+    border: 1px solid #b9d9de;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #115e67;
+    font-family: var(--font-body--family, 'Roboto'), sans-serif;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .ea-copy-btn:hover,
+  .ea-copy-btn:focus-visible { background: #edf6f8; border-color: #115e67; }
+  .ea-copy-btn.is-copied { background: #115e67; border-color: #115e67; color: #ffffff; }
+  .ea-copy-btn svg { width: 14px; height: 14px; flex: none; }
+  .ea-copy-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+<div class="ea-copy-status" role="status" aria-live="polite"></div>
+<script>
+  (function () {
+    var lists = document.querySelectorAll('.ea-blog-post .ea-copy-list');
+    if (!lists.length) return;
+    var status = document.querySelector('.ea-copy-status');
+    function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+      return new Promise(function (resolve, reject) {
+        var area = document.createElement('textarea');
+        area.value = text;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand('copy') ? resolve() : reject(); } catch (e) { reject(e); }
+        document.body.removeChild(area);
+      });
+    }
+    var icon = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>';
+    lists.forEach(function (list) {
+      list.querySelectorAll(':scope > li').forEach(function (li) {
+        var text = li.textContent.trim();
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'ea-copy-btn';
+        button.setAttribute('aria-label', 'Copy message: ' + text);
+        button.innerHTML = icon + '<span>Copy</span>';
+        var label = button.querySelector('span');
+        button.addEventListener('click', function () {
+          copyText(text).then(function () {
+            button.classList.add('is-copied');
+            label.textContent = 'Copied';
+            if (status) status.textContent = 'Message copied.';
+            setTimeout(function () {
+              button.classList.remove('is-copied');
+              label.textContent = 'Copy';
+              if (status) status.textContent = '';
+            }, 2000);
+          });
+        });
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(button);
+      });
+    });
+  })();
+</script>

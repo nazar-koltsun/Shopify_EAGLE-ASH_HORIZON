@@ -1,0 +1,105 @@
+{%- doc -%}
+  Comment box at the end of a blog post (Anu, 13 Nov 2026): one box per post, moderated in Shopify (Manage blogs →
+  comments "pending moderation"). Name and email are optional: an empty name is sent as "Anonymous", an empty email as
+  no-email@eagleandash.com, because Shopify does not accept a comment without both. The email is never shown.
+  Design rules: section title Lora 500 30/28/24, Roboto text, button Roboto caps bold 19 px on #fd5000.
+
+  @param {object} [article] - The article (real posts)
+  @param {boolean} [preview] - true on the preview page: same form, nothing is sent
+  @param {string} [title] - section title, one *word* in orange (default: a general invitation)
+  @param {string} [intro] - one sentence under the title
+{%- enddoc -%}
+<style>
+  .ea-blog-comments { width: 100%; max-width: var(--normal-content-width, 760px); margin: 56px auto 0; padding-top: 40px; border-top: 1px solid #d5ebee; font-family: var(--font-body--family, 'Roboto'), sans-serif; color: #001e26; }
+  .ea-blog-comments__title { margin: 0 0 20px; font-family: var(--font-heading--family, 'Lora'), serif; font-weight: 500; font-size: 24px; line-height: 1.25; }
+  @media screen and (min-width: 990px) { .ea-blog-comments__title { font-size: 28px; } }
+  @media screen and (min-width: 1200px) { .ea-blog-comments__title { font-size: 30px; } }
+  .ea-blog-comments__title .ea-accent { color: #fd5000; }
+  .ea-blog-comments__intro { margin: 0 0 28px; font-size: 17px; line-height: 1.6; }
+  .ea-blog-comments__list { margin: 0 0 36px; padding: 0; list-style: none; }
+  .ea-blog-comments__item { margin: 0 0 16px; padding: 18px 20px; background: #edf6f8; border-radius: 6px; }
+  .ea-blog-comments__item p { margin: 0; font-size: 16px; line-height: 1.6; }
+  .ea-blog-comments__by { margin-top: 8px !important; font-size: 14px !important; color: #4a5a5e; }
+  .ea-blog-comments__form { display: grid; gap: 18px; }
+  .ea-blog-comments__field { display: grid; gap: 6px; }
+  .ea-blog-comments__field label { font-size: 15px; font-weight: 500; }
+  .ea-blog-comments__field label span { font-weight: 400; color: #4a5a5e; }
+  .ea-blog-comments__field input,
+  .ea-blog-comments__field textarea { width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid #8fb3b8; border-radius: 6px; background: #ffffff; color: #001e26; font: 16px/1.5 var(--font-body--family, 'Roboto'), sans-serif; }
+  .ea-blog-comments__field textarea { min-height: 120px; resize: vertical; }
+  .ea-blog-comments__field input:focus-visible,
+  .ea-blog-comments__field textarea:focus-visible { outline: 2px solid #115e67; outline-offset: 1px; }
+  .ea-blog-comments__pair { display: grid; gap: 18px; }
+  @media screen and (min-width: 750px) { .ea-blog-comments__pair { grid-template-columns: 1fr 1fr; } }
+  .ea-blog-comments__note { margin: 0; font-size: 14px; line-height: 1.55; color: #4a5a5e; }
+  .ea-blog-comments__note a { color: #b83a00; }
+  .ea-blog-comments__button { justify-self: start; padding: 16px 28px; border: 0; border-radius: 4px; background: #fd5000; color: #ffffff; font-family: var(--font-body--family, 'Roboto'), sans-serif; font-size: 19px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; }
+  .ea-blog-comments__button:hover { background: #e04800; }
+  .ea-blog-comments__message { margin: 0; padding: 14px 16px; border-radius: 6px; background: #edf6f8; font-size: 16px; }
+</style>
+
+{%- capture ea_comment_fields -%}
+  <div class="ea-blog-comments__field">
+    <label for="ea-comment-body">Your message</label>
+    <textarea id="ea-comment-body" name="comment[body]" required aria-required="true"></textarea>
+  </div>
+  <div class="ea-blog-comments__pair">
+    <div class="ea-blog-comments__field">
+      <label for="ea-comment-author">Name or initials <span>(optional)</span></label>
+      <input id="ea-comment-author" type="text" name="comment[author]" autocomplete="name">
+    </div>
+    <div class="ea-blog-comments__field">
+      <label for="ea-comment-email">Email <span>(optional, never shown)</span></label>
+      <input id="ea-comment-email" type="email" name="comment[email]" autocomplete="email" autocapitalize="off" autocorrect="off">
+    </div>
+  </div>
+  <p class="ea-blog-comments__note">We read every message before it appears. Your name or initials appear with your message; leave the name empty to post as Anonymous. Your email is only for us, if we want to ask you something. <a href="/policies/privacy-policy">Privacy Policy</a></p>
+  <button type="submit" class="ea-blog-comments__button">Send your message</button>
+{%- endcapture -%}
+
+<div class="ea-blog-comments" id="comments">
+  {%- liquid
+    assign ea_c_title = title | default: 'Share your own golf card *message*.'
+    assign ea_c_intro = intro | default: 'Written a card that made a golfer laugh, or cry a little? Share the message here, for anyone looking for the right words.'
+  -%}
+  <h2 class="ea-blog-comments__title">{%- render 'ea-accent-text', text: ea_c_title -%}</h2>
+  <p class="ea-blog-comments__intro">{{ ea_c_intro | escape }}</p>
+
+  {%- if article and article.comments_count > 0 -%}
+    <ul class="ea-blog-comments__list" role="list">
+      {%- for comment in article.comments -%}
+        <li class="ea-blog-comments__item">
+          {{ comment.content }}
+          <p class="ea-blog-comments__by">{{ comment.author | escape }}</p>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  {%- if preview -%}
+    <form class="ea-blog-comments__form" data-ea-comment-form onsubmit="return false;">
+      {{ ea_comment_fields }}
+    </form>
+  {%- else -%}
+    {%- form 'new_comment', article, class: 'ea-blog-comments__form', data-ea-comment-form: '' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="ea-blog-comments__message" role="status">Thank you. Your message will appear after we have read it.</p>
+      {%- elsif form.errors -%}
+        <p class="ea-blog-comments__message" role="alert">Please write a message before you send it.</p>
+      {%- endif -%}
+      {{ ea_comment_fields }}
+    {%- endform -%}
+  {%- endif -%}
+</div>
+<script>
+  (function () {
+    var form = document.querySelector('[data-ea-comment-form]');
+    if (!form) return;
+    form.addEventListener('submit', function () {
+      var author = form.querySelector('[name="comment[author]"]');
+      var email = form.querySelector('[name="comment[email]"]');
+      if (author && !author.value.trim()) author.value = 'Anonymous';
+      if (email && !email.value.trim()) email.value = 'no-email@eagleandash.com';
+    });
+  })();
+</script>

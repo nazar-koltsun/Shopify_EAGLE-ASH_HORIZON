@@ -46,3 +46,58 @@
   .ea-blog-post .blog-post-content .ea-blog-toc { font-size: 15px; line-height: 1.9; }
   .ea-blog-post .blog-post-content :is(h2, h3)[id] { scroll-margin-top: 110px; }
 </style>
+<style>
+  /* Pinterest pictures in a post (13 Nov 2026, preview): 1000 x 1500 file shown small, beside the list of its section
+     on computers, centred under the section title on phones. "Save on Pinterest" is a plain link: no Pinterest script. */
+  .ea-blog-post .blog-post-content h2 { clear: both; }
+  .ea-blog-post .blog-post-content .ea-blog-pin { margin: 4px auto 28px; width: min(100%, 260px); }
+  .ea-blog-post .blog-post-content .ea-blog-pin img { width: 100%; height: auto; border-radius: 4px; box-shadow: 0 6px 18px rgba(0, 30, 38, 0.12); }
+  .ea-blog-post .blog-post-content .ea-blog-pin figcaption { margin-top: 10px; font-family: var(--font-body--family, 'Roboto'), sans-serif; font-size: 15px; text-align: center; }
+  @media screen and (min-width: 750px) {
+    .ea-blog-post .blog-post-content .ea-blog-pin { float: right; width: 280px; margin: 6px 0 24px 40px; }
+  }
+</style>
+<style>
+  /* top picture as wide as the text column on computers (13 Nov 2026, preview): full page width made photos look zoomed in */
+  @media screen and (min-width: 990px) {
+    .ea-blog-post .blog-post-featured-image { width: 100%; max-width: 760px; margin-inline: auto; }
+  }
+</style>
+<style>
+  /* free printable cards in a post: small card pictures with their download links (13 Nov 2026, preview) */
+  .ea-blog-post .blog-post-content .ea-card-downloads { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 8px 0 28px; }
+  .ea-blog-post .blog-post-content .ea-card-download { margin: 0; text-align: center; }
+  .ea-blog-post .blog-post-content .ea-card-download img { display: block; width: 100%; max-width: 170px; height: auto; margin: 0 auto 14px; border-radius: 4px; box-shadow: 0 4px 14px rgba(0, 30, 38, 0.14); }
+  .ea-blog-post .blog-post-content .ea-card-download figcaption { font-family: var(--font-body--family, 'Roboto'), sans-serif; font-size: 15px; line-height: 1.5; }
+  .ea-blog-post .blog-post-content .ea-card-download strong { display: block; font-size: 16px; font-weight: 500; }
+  @media screen and (max-width: 749px) {
+    .ea-blog-post .blog-post-content .ea-card-downloads { grid-template-columns: 1fr; gap: 16px; }
+    .ea-blog-post .blog-post-content .ea-card-download { display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: center; text-align: left; }
+    .ea-blog-post .blog-post-content .ea-card-download img { width: 96px; margin: 0; }
+  }
+</style>
+<style>
+  /* photo inside a post with a source line (13 Nov 2026, preview) */
+  .ea-blog-post .blog-post-content .ea-blog-photo { margin: 8px 0 32px; }
+  .ea-blog-post .blog-post-content .ea-blog-photo img { border-radius: 4px; }
+  .ea-blog-post .blog-post-content .ea-blog-photo figcaption { margin-top: 10px; font-family: var(--font-body--family, 'Roboto'), sans-serif; font-size: 14px; line-height: 1.5; color: #4a5a5e; }
+</style>
+<style>
+  /* a short section and its picture as one row: text centred against the picture (13 Nov 2026, preview) */
+  .ea-blog-post .blog-post-content .ea-blog-split { display: flex; align-items: center; gap: 40px; margin: 1.6em 0; clear: both; }
+  .ea-blog-post .blog-post-content .ea-blog-split__text { flex: 1; min-width: 0; }
+  .ea-blog-post .blog-post-content .ea-blog-split__text h3 { margin-top: 0; }
+  .ea-blog-post .blog-post-content .ea-blog-split .ea-blog-pin { float: none; flex: none; width: 280px; margin: 0; }
+  .ea-blog-post .blog-post-content .ea-blog-split + h3 { margin-top: 1.2em; }
+  @media screen and (max-width: 749px) {
+    .ea-blog-post .blog-post-content .ea-blog-split { flex-direction: column; align-items: stretch; gap: 20px; }
+    .ea-blog-post .blog-post-content .ea-blog-split .ea-blog-pin { width: min(100%, 260px); margin: 0 auto; }
+  }
+</style>
+<style>
+  /* a portrait photo with its source line in a row with the text (13 Nov 2026, preview) */
+  .ea-blog-post .blog-post-content .ea-blog-split .ea-blog-photo { flex: none; width: 280px; margin: 0; }
+  @media screen and (max-width: 749px) {
+    .ea-blog-post .blog-post-content .ea-blog-split .ea-blog-photo { width: min(100%, 260px); margin: 0 auto; }
+  }
+</style>

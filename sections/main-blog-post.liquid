@@ -31,36 +31,24 @@
     {% content_for 'blocks' %}
 
     {% if blog.comments_enabled? %}
-      <div class="blog-post-comments-container">
-        <h2 class="h3">{{- 'blogs.article.comments_heading' | t: count: article.comments_count -}}</h2>
-
-        <div class="blog-post-comments">
-          {% paginate article.comments by 10 %}
-            {% for comment in article.comments %}
-              <div class="blog-post-comment">
-                {{ comment.content }}
-                <div class="blog-post-comment__author">
-                  <span class="blog-post-comment__author-name">{{- comment.author -}}</span>
-                  <span>{{- 'blogs.article.comment_author_separator' | t -}}</span>
-                  <span class="blog-post-comment__date">
-                    {{- comment.created_at | time_tag: format: 'date' -}}
-                  </span>
-                </div>
-              </div>
-            {% endfor %}
-
-            <div class="blog-post-comments-pagination">
-              {{- paginate | default_pagination -}}
-            </div>
-          {% endpaginate %}
-        </div>
-
-        {% render 'blog-comment-form', article: article, section_id: section.id %}
-      </div>
+      {%- comment -%} Eagle & Ash comment box (13 Nov 2026): one moderated box per post, name and email optional {%- endcomment -%}
+      {%- liquid
+        assign ea_c_title = 'Add your *own* story.'
+        assign ea_c_intro = 'Something to add, or a golf story of your own? Share it here, for anyone reading after you.'
+        if article.handle == 'what-to-write-in-a-golf-gift-card'
+          assign ea_c_title = 'Share your own golf card *message*.'
+          assign ea_c_intro = 'Written a card that made a golfer laugh, or cry a little? Share the message here, for anyone looking for the right words.'
+        elsif article.handle == 'free-printable-golf-gift-cards'
+          assign ea_c_title = 'Gave a round or a lesson? Tell us *how*.'
+          assign ea_c_intro = 'What did you write on the card, and how did they take it? Share it here: it helps the next gift giver.'
+        endif
+      -%}
+      {% render 'ea-blog-comments', article: article, title: ea_c_title, intro: ea_c_intro %}
     {% endif %}
   </div>
 </div>
 {%- render 'ea-blog-post-motion' -%}
+{%- render 'ea-blog-copy' -%}
 
 <script type="application/ld+json">
   {{ article | structured_data }}

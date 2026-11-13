@@ -26,7 +26,7 @@
     }, { threshold: 0.2 });
     roots.forEach(function (root) {
       root.classList.add('ea-motion');
-      root.querySelectorAll('.blog-post-featured-image__image, .blog-post-content img').forEach(function (img) {
+      root.querySelectorAll('.blog-post-featured-image__image, .blog-post-content p > img').forEach(function (img) {
         img.classList.add('ea-zoom');
         io.observe(img);
       });
