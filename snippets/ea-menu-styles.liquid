@@ -1,0 +1,39 @@
+{%- comment -%}
+  Header dropdowns (Anu, 13 Nov 2026: menu shortened to Shop · Gift Ideas · Wholesale · About Us). The dropdown is as
+  wide as the menu bar items, which became too narrow for the Gift Ideas tiles. Picture dropdowns are now up to 960 px
+  wide, aligned to the right edge of the menu, with all tiles in one row; text dropdowns (About Us) keep each link on
+  one line. {% stylesheet %} is bundled for the whole theme, so this snippet is not rendered anywhere.
+{%- endcomment -%}
+{% stylesheet %}
+  @media screen and (min-width: 750px) {
+    .menu-list__submenu:has(.mega-menu__link-image) {
+      left: auto;
+      right: 0;
+      width: min(960px, calc(100vw - 80px));
+    }
+    .menu-list__submenu [data-menu-grid-id]:has(.mega-menu__list > li:nth-child(7):last-child),
+    .menu-list__submenu [data-menu-list-id]:has(> li:nth-child(7):last-child) {
+      --menu-columns-desktop: 7;
+    }
+    .menu-list__submenu:not(:has(.mega-menu__link-image)) [data-menu-grid-id] {
+      --menu-columns-desktop: 1;
+      --menu-columns-tablet: 1;
+    }
+    .menu-list__submenu:not(:has(.mega-menu__link-image)) .mega-menu__link {
+      white-space: nowrap;
+    }
+    /* text dropdown only as wide as its links, under the last menu item */
+    .menu-list__submenu:not(:has(.mega-menu__link-image)) {
+      left: auto;
+      right: 0;
+      width: max-content;
+      min-width: 220px;
+    }
+    /* never break a word in the middle */
+    .menu-list__submenu .mega-menu__link .wrap-text {
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: none;
+    }
+  }
+{% endstylesheet %}
