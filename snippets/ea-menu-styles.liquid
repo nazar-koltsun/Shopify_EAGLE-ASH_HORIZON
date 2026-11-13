@@ -29,6 +29,16 @@
       width: max-content;
       min-width: 220px;
     }
+    .menu-list__submenu:not(:has(.mega-menu__link-image)) .menu-list__submenu-inner {
+      background: var(--color-background, #ffffff);
+      box-shadow: var(--shadow-popover);
+    }
+    /* the shared white panel behind all dropdowns (.menu-list::after) is as wide as the menu bar: hide it while a
+       text dropdown is open, that dropdown brings its own background. The text dropdown is the LAST menu item
+       (About Us); a nested :has() is not allowed in CSS, so the rule names the last item. */
+    .menu-list:has(.menu-list__list-item:last-child:is(:hover, :focus-within))::after {
+      opacity: 0;
+    }
     /* never break a word in the middle */
     .menu-list__submenu .mega-menu__link .wrap-text {
       overflow-wrap: normal;
