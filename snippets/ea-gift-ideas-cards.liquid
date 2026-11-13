@@ -14,6 +14,8 @@
   @param {string} [extra_url] - Its link.
   @param {string} [extra_image] - A theme asset file name for its photo.
   @param {string} [extra_more] - Its link text, e.g. "See the courses →".
+  @param {string} [guides] - Optional row of blog links under the cards: "Label|url;Label|url" (13 Nov 2026).
+  @param {string} [guides_label] - Text before the links, e.g. "Stories and guides:".
 {%- enddoc -%}
 <div class="ea-gift-ideas">
   {%- if intro != blank -%}
@@ -56,12 +58,34 @@
       </li>
     {%- endif -%}
   </ul>
+  {%- if guides != blank -%}
+    <p class="ea-gift-ideas__guides">
+      <span>{{ guides_label | default: 'Stories and guides:' | escape }}</span>
+      {%- assign ea_gl = guides | split: ';' -%}
+      {%- for ea_g in ea_gl -%}
+        {%- assign ea_gp = ea_g | split: '|' -%}
+        <a href="{{ ea_gp[1] | strip }}">{{ ea_gp[0] | strip | escape }}</a>{%- unless forloop.last -%}<span aria-hidden="true"> · </span>{%- endunless -%}
+      {%- endfor -%}
+    </p>
+  {%- endif -%}
   {%- if note != blank and note_url != blank -%}
     <p class="ea-gift-ideas__note">{{ note | escape }} <a href="{{ note_url }}">{{ note_link | default: 'See more' | escape }}</a></p>
   {%- endif -%}
 </div>
 
 {% stylesheet %}
+  /* row of blog links under the cards (13 Nov 2026) */
+  .ea-gift-ideas__guides {
+    margin: 56px 0 0;
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.8;
+
+    span:first-child { font-weight: 600; margin-right: 6px; }
+    a { color: #b83a00; font-weight: 600; text-underline-offset: 3px; }
+  }
+  .ea-gift-ideas__guides + .ea-gift-ideas__note { margin-top: 16px; }
+
   /* one line under the cards that leads to the printable cards (3 Nov 2026); the small-text orange #b83a00 on white */
   .ea-gift-ideas__note {
     margin: 64px 0 0;

@@ -154,7 +154,7 @@
     "cards": {
       "type": "custom-liquid",
       "settings": {
-        "custom_liquid": "{%- render 'ea-gift-ideas-cards', intro: page.content, handles: 'christmas-golf-gifts, golf-stocking-stuffers, golf-gifts-for-men, gifts-for-the-golfer-who-has-everything, hole-in-one-gifts', extra_title: 'Golf Course Gift Cards', extra_text: 'A round at a public course in their state, and how to give it.', extra_url: '/pages/golf-course-gift-cards', extra_image: 'ea-golf-kiawah.jpg', extra_more: 'See the courses →', note: 'Giving a round of golf or a lesson instead?', note_link: 'Print a card for it →', note_url: '/blogs/golf/free-printable-golf-gift-cards' -%}",
+        "custom_liquid": "{%- render 'ea-gift-ideas-cards', intro: page.content, handles: 'christmas-golf-gifts, golf-stocking-stuffers, golf-gifts-for-men, gifts-for-the-golfer-who-has-everything, hole-in-one-gifts', extra_title: 'Golf Course Gift Cards', extra_text: 'A round at a public course in their state, and how to give it.', extra_url: '/pages/golf-course-gift-cards', extra_image: 'ea-golf-kiawah.jpg', extra_more: 'See the courses →', guides_label: 'Stories and guides:', guides: 'Free printable cards|/blogs/golf/free-printable-golf-gift-cards;50 card messages|/blogs/golf/what-to-write-in-a-golf-gift-card;21 golf stories|/blogs/golf/golf-fun-facts;All posts →|/blogs/golf' -%}",
         "color_scheme": "scheme-1",
         "section_width": "full-width",
         "padding-block-start": 0,
