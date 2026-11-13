@@ -18,3 +18,11 @@
   {%- if ea_lora_400 -%}{{ ea_lora_400 | font_face: font_display: 'swap' }}{%- endif -%}
   {%- if ea_lora_600 -%}{{ ea_lora_600 | font_face: font_display: 'swap' }}{%- endif -%}
 {% endstyle %}
+{%- comment -%} Main titles (H1) everywhere in Lora 400, banners included (Anu, 13 Nov 2026: banner titles 400 like all
+page titles; section titles stay 500). Same selectors as Horizon's H1 preset in assets/base.css, one level stronger. {%- endcomment -%}
+<style>
+  html body h1,
+  html body .h1.h1,
+  html body .text-block.h1 > *,
+  html body .text-block.h1 :is(h1, h2, h3, h4, h5, h6) { font-weight: 400; }
+</style>
