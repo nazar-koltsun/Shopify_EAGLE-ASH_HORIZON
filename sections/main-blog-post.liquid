@@ -54,7 +54,12 @@
 {%- render 'ea-blog-copy' -%}
 
 <script type="application/ld+json">
-  {{ article | structured_data }}
+  {%- comment -%} Anu, 13 Nov 2026: no personal name as author. Shopify's structured data names the staff account
+  (a Person); Google reads it. The author is shown as the organization "Eagle & Ash team" instead. {%- endcomment -%}
+  {%- capture ea_ld -%}{{ article | structured_data }}{%- endcapture -%}
+  {%- capture ea_person -%}"author":{"@type":"Person","name":{{ article.author | json }}}{%- endcapture -%}
+  {%- capture ea_team -%}"author":{"@type":"Organization","name":"Eagle & Ash team","url":{{ shop.url | append: '/pages/our-story' | json }}}{%- endcapture -%}
+  {{ ea_ld | replace: ea_person, ea_team }}
 </script>
 
 {% stylesheet %}
