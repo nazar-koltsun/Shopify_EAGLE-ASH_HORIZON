@@ -118,7 +118,7 @@
     <h2 class="ea-gc__h2" id="ea-gc-chosen">How we <span class="ea-accent">chose</span>.</h2>
     <ul class="ea-gc__rules" role="list">
       <li><h3 class="ea-gc__rule-title">Public golfers welcome</h3><p>Every course here takes public golfers. Private clubs are left out: only their members and guests can play, so a gift card could not be used. Where a hotel stay is required, the course is marked.</p></li>
-      <li><h3 class="ea-gc__rule-title">Our own checks</h3><p>We started from public rankings (Golfweek's Best 2026 and GOLF Magazine's Top 100 Courses You Can Play 2024-25), then left out every course a gift buyer cannot use: private clubs, courses without a way to give a round, courses closed this year. For every course we checked who can play, how to give a round and, where published, the booking window and the season. Each reason names its source.</p></li>
+      <li><h3 class="ea-gc__rule-title">Our own checks</h3><p>We started from public rankings (Golfweek's Best 2026 and GOLF Magazine's Top 100 Courses You Can Play 2024-25), then left out every course a gift buyer cannot use: private clubs, courses without a way to give a round, courses closed this year. Our own search added 13 courses that neither ranking lists, each for a story worth telling: Scottish sheep on the fairways in Tennessee, the Wyoming course where the world-record 579-yard drive was hit, a Montana course that was also the town's emergency airstrip. For every course we checked who can play, how to give a round and, where published, the booking window and the season. Where a course sells gift cards online, we read the card's own page to see whether it pays for golf or only for the shop. Each reason names its source.</p></li>
       <li><h3 class="ea-gc__rule-title">Nobody paid to be here</h3><p>No course pays to be on this list. Booking windows, seasons and gift cards come from each course's own website, checked on 11 and 12 November 2026. They change, so check the course's site before you buy.</p></li>
     </ul>
     <p class="ea-gc__credits">Photos from Wikimedia Commons:
@@ -731,6 +731,35 @@
   @media screen and (min-width: 990px) { .ea-gc__eagle { width: 2641px; } }
   .ea-gc__words-intro { margin-bottom: 4px; }
   .ea-gc__words-intro + .ea-gc__words { margin-top: 0; }
+
+  /* v9 (13 Nov 2026, Anu): banner bright like the homepage banner: a white layer on the left that fades out to the
+     right (the photo stays bright), title in our dark blue #07272d with the orange key words. Phones: as on the
+     homepage, the photo on top and the text below it on white. Steps 01-03 on a petrol band #115e67 (board B),
+     numbers light orange #ffa36e for contrast on petrol; the eagle stays on white below. */
+  .ea-gc__hero { color: #001e26; }
+  .ea-gc__hero::after { background: linear-gradient(to right, rgba(255,255,255,.88) 0%, rgba(255,255,255,.72) 40%, rgba(255,255,255,0) 75%); }
+  .ea-gc__hero .ea-gc__title { color: #07272d; }
+  .ea-gc__hero .ea-gc__intro { color: #001e26; }
+  .ea-gc__hero .ea-gc__checked { color: #115e67; opacity: 1; }
+  .ea-gc__hero .ea-gc__select select { border-color: #115e67; }
+  .ea-gc__photo-credit { text-shadow: 0 1px 3px rgba(0, 30, 38, .7); }
+  @media screen and (max-width: 749px) {
+    .ea-gc__hero { display: grid; grid-template-rows: auto auto auto; }
+    .ea-gc__hero::after { display: none; }
+    .ea-gc__hero-img { position: relative; inset: auto; grid-row: 1; aspect-ratio: 4 / 3; height: auto; }
+    .ea-gc__photo-credit { position: static; grid-row: 2; justify-self: end; margin: 6px 16px 0; color: #4a5a5e; opacity: 1; text-shadow: none; }
+    .ea-gc__hero-text { grid-row: 3; padding-block: 16px 32px; }
+  }
+  .ea-gc__part--steps { margin-inline: calc(50% - 50vw); padding: 44px max(16px, calc((100vw - 1200px) / 2)); background: #115e67; color: #fff; }
+  .ea-gc__part--steps .ea-gc__step-heading.ea-story__heading { color: #fff; }
+  .ea-gc__part--steps .ea-story__number { color: #ffa36e; }
+  .ea-gc__part--steps .ea-gc__step p { color: #fff; }
+  .ea-gc__part--steps a, .ea-gc__part--steps a:hover { color: #fff; text-decoration: underline; }
+  .ea-gc__part--steps a:hover { color: #ffa36e; }
+  .ea-gc--top { gap: 0; }
+  .ea-gc__hero { margin-block-end: 0; }
+  /* orange title words on the brightened photo: #e04800 (3.5:1 on the lightest sky; #fd5000 was 2.8:1). Phones: title on white, #fd5000 stays */
+  @media screen and (min-width: 750px) { .ea-gc__hero .ea-accent { color: #e04800; } }
 {% endstylesheet %}
 
 {% javascript %}
