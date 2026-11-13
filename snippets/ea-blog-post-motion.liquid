@@ -13,6 +13,9 @@
     transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   .ea-blog-post.ea-motion .ea-zoom.is-in { transform: scale(1); }
+  /* pictures in a figure (cards, pins, photos) zoom too (Anu, 13 Nov 2026: "they draw more attention"), kept inside
+     their own box so they never grow over the text; 24 px extra room so the soft shadow is not cut */
+  .ea-blog-post.ea-motion .blog-post-content figure { overflow: clip; overflow-clip-margin: 24px; }
 </style>
 <script>
   (function () {
@@ -26,7 +29,7 @@
     }, { threshold: 0.2 });
     roots.forEach(function (root) {
       root.classList.add('ea-motion');
-      root.querySelectorAll('.blog-post-featured-image__image, .blog-post-content p > img').forEach(function (img) {
+      root.querySelectorAll('.blog-post-featured-image__image, .blog-post-content img').forEach(function (img) {
         img.classList.add('ea-zoom');
         io.observe(img);
       });
