@@ -154,7 +154,7 @@
     "cards": {
       "type": "custom-liquid",
       "settings": {
-        "custom_liquid": "{%- render 'ea-gift-ideas-cards', intro: page.content, handles: 'christmas-golf-gifts, golf-stocking-stuffers, golf-gifts-for-men, gifts-for-the-golfer-who-has-everything, hole-in-one-gifts', extra_title: 'Golf Course Gift Cards', extra_text: 'A round at a public course in their state, and how to give it.', extra_url: '/pages/golf-course-gift-cards', extra_image: 'ea-golf-kiawah.jpg', extra_more: 'See the courses →', note: 'Giving a round of golf or a lesson instead?', note_link: 'Print a card for it →', note_url: '/collections/gifts-for-the-golfer-who-has-everything#printable-cards' -%}",
+        "custom_liquid": "{%- render 'ea-gift-ideas-cards', intro: page.content, handles: 'christmas-golf-gifts, golf-stocking-stuffers, golf-gifts-for-men, gifts-for-the-golfer-who-has-everything, hole-in-one-gifts', extra_title: 'Golf Course Gift Cards', extra_text: 'A round at a public course in their state, and how to give it.', extra_url: '/pages/golf-course-gift-cards', extra_image: 'ea-golf-kiawah.jpg', extra_more: 'See the courses →', note: 'Giving a round of golf or a lesson instead?', note_link: 'Print a card for it →', note_url: '/blogs/golf/free-printable-golf-gift-cards' -%}",
         "color_scheme": "scheme-1",
         "section_width": "full-width",
         "padding-block-start": 0,
