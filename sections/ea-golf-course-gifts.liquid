@@ -27,7 +27,7 @@
       </li>
       <li class="ea-gc__step">
         <h3 class="ea-story__heading ea-gc__step-heading"><span class="ea-story__number" aria-hidden="true">02</span><span class="ea-story__heading-text">A gift card, or a booked tee time</span></h3>
-        <p>A gift card lets them choose the day: many courses book only 1 to 4 weeks ahead, and many close in winter. Know their calendar? Book the tee time for them.</p>
+        <ul class="ea-gc__step-points" role="list"><li>A gift card lets them choose the day: many courses book only 1 to 4 weeks ahead, and many close in winter.</li><li>Know their calendar? Book the tee time for them.</li></ul>
       </li>
       <li class="ea-gc__step">
         <h3 class="ea-story__heading ea-gc__step-heading"><span class="ea-story__number" aria-hidden="true">03</span><span class="ea-story__heading-text">Add something to unwrap</span></h3>
@@ -788,6 +788,16 @@
   }
   .ea-gc__hero .ea-gc__select--hero select:focus-visible { outline: 2px solid #07272d; outline-offset: 2px; }
   .ea-gc__hero .ea-gc__select--hero select option { color: #001e26; background: #ffffff; }
+
+  /* v11 (13 Nov 2026, Anu): banner title as big as the other banner titles (homepage, gift pages: Lora 500,
+     clamp(28px, 5.6vw, 56px)), wider text column so it stays on two lines; step 02 as two points with small dots */
+  .ea-gc__hero .ea-gc__title { font-size: clamp(28px, 5.6vw, 56px); font-weight: 500; line-height: 1.08; }
+  .ea-gc__hero-text { max-width: 760px; }
+  .ea-gc__step-points { margin: 0; padding: 0; list-style: none; }
+  .ea-gc__step-points li { position: relative; padding-left: 18px; font-family: var(--font-body--family); font-size: 16px; line-height: 1.6; color: #fff; }
+  .ea-gc__step-points li + li { margin-top: 8px; }
+  .ea-gc__step-points li::before { content: ""; position: absolute; left: 2px; top: 0.66em; width: 6px; height: 6px; border-radius: 50%; background: #ffa36e; }
+  .ea-gc__hero .ea-gc__intro { max-width: 640px; }
 {% endstylesheet %}
 
 {% javascript %}
