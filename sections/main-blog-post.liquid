@@ -1,7 +1,9 @@
 
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<div class="section color-{{ section.settings.color_scheme }}">
+{%- comment -%} Eagle & Ash design rules for blog posts (titles, links, spacing): snippets/ea-blog-post-styles.liquid, 13 Nov 2026 {%- endcomment -%}
+{%- render 'ea-blog-post-styles' -%}
+<div class="section ea-blog-post color-{{ section.settings.color_scheme }}">
   <div
     class="
       spacing-style
@@ -58,6 +60,7 @@
     {% endif %}
   </div>
 </div>
+{%- render 'ea-blog-post-motion' -%}
 
 <script type="application/ld+json">
   {{ article | structured_data }}

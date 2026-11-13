@@ -1,0 +1,48 @@
+{%- comment -%}
+  Blog post pages: our design rules (07_Website/CLAUDE.md "Design rules for every page") on top of Horizon's
+  article layout. Wrapper class .ea-blog-post. Page title 32 px Lora 400 from 750 px (24 px on phones), as
+  every page title since 1d62cd2; section titles 30 / 28 / 24 px Lora 500 as every section title; at least
+  20 px between a title and its first sentence; links in running text #b83a00.
+{%- endcomment -%}
+<style>
+  .ea-blog-post header .text-block h1 {
+    font-family: var(--font-heading--family, 'Lora'), serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.25;
+  }
+  @media screen and (min-width: 750px) {
+    .ea-blog-post header .text-block h1 { font-size: 32px; }
+  }
+  .ea-blog-post .blog-post-content h2 {
+    font-family: var(--font-heading--family, 'Lora'), serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.25;
+    margin-top: 1.8em;
+    margin-bottom: 20px;
+  }
+  @media screen and (min-width: 990px) {
+    .ea-blog-post .blog-post-content h2 { font-size: 28px; }
+  }
+  @media screen and (min-width: 1200px) {
+    .ea-blog-post .blog-post-content h2 { font-size: 30px; }
+  }
+  .ea-blog-post .blog-post-content h3 {
+    font-family: var(--font-heading--family, 'Lora'), serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.3;
+    margin-top: 1.6em;
+    margin-bottom: 20px;
+  }
+  .ea-blog-post .blog-post-content img { display: block; width: 100%; height: auto; }
+  .ea-blog-post .blog-post-content .ea-blog-source { font-size: 14px; color: rgb(var(--color-foreground-rgb) / 0.75); }
+  .ea-blog-post .blog-post-content li + li { margin-top: 6px; }
+  .ea-blog-post .blog-post-content a,
+  .ea-blog-post .blog-post-content a:hover { color: #b83a00; }
+</style>
+<style>
+  .ea-blog-post .blog-post-content .ea-blog-toc { font-size: 15px; line-height: 1.9; }
+  .ea-blog-post .blog-post-content :is(h2, h3)[id] { scroll-margin-top: 110px; }
+</style>

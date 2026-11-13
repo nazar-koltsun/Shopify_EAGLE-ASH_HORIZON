@@ -1,0 +1,17 @@
+{%- comment -%}
+  Blog list page (/blogs/golf, "Stories and guides"): page title like every page title (Lora 400, 32 px from 750 px,
+  24 px on phones) and the intro in Roboto. {% stylesheet %} tags are bundled for the whole theme, so this snippet
+  does not need to be rendered anywhere. 12 Nov 2026.
+{%- endcomment -%}
+{% stylesheet %}
+  .shopify-section:has(.blog-posts-container) .text-block h1 {
+    font-family: var(--font-heading--family, 'Lora'), serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.25;
+  }
+  @media screen and (min-width: 750px) {
+    .shopify-section:has(.blog-posts-container) .text-block h1 { font-size: 32px; }
+  }
+  .shopify-section:has(.blog-posts-container) .text-block p { font-family: var(--font-body--family, 'Roboto'), sans-serif; font-size: 17px; line-height: 1.6; max-width: 680px; }
+{% endstylesheet %}

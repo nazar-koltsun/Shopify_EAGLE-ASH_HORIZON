@@ -117,6 +117,12 @@
     }
   }
 
+  /* one idea only (golf course gift guide, 9 Nov 2026): one centred card instead of half a row */
+  .ea-print-cards__ideas:has(> .ea-print-cards__idea:only-child) {
+    grid-template-columns: minmax(0, 640px);
+    justify-content: center;
+  }
+
   .ea-print-cards__idea {
     display: flex;
     flex-direction: column;
