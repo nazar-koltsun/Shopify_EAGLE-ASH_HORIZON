@@ -41,6 +41,9 @@
   {%- comment -%} Eagle & Ash, 13 Nov 2026: pages have no featured image, so the golf course gift guide shows its
   banner photo (The Ocean Course, Kiawah Island; CC0, Wikimedia Commons) in the Gift Ideas menu. {%- endcomment -%}
   <img src="{{ 'ea-golf-menu.jpg' | asset_url }}" alt="" width="640" height="480" loading="lazy" class="{{ class }}">
+{% elsif link.type == 'blog_link' %}
+  {%- comment -%} Eagle & Ash, 13 Nov 2026: the blog "Stories and guides" in the Gift Ideas menu shows Exhibit 7 (top hat). {%- endcomment -%}
+  <img src="{{ 'golf-fun-facts-exhibit-07.jpg' | file_url }}" alt="" width="1600" height="900" loading="lazy" class="{{ class }}">
 {% elsif link.type == 'catalog_link' %}
   {% assign product_object = collections.all.products | where: 'featured_image' | first %}
   {{

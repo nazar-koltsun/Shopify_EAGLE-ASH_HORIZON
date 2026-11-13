@@ -20,70 +20,36 @@
     style="{% render 'spacing-style', settings: section.settings %}"
   >
     {% content_for 'blocks' %}
+    {%- render 'ea-blog-filter' -%}
 
     <div
       ref="grid"
       class="blog-posts-container"
     >
-      {% liquid
-        assign items_on_page = blog.articles.size
-      %}
-      {% for article in blog.articles %}
-        {% liquid
-          # Defaults for compact layout
-          assign col_span = 2
-          assign scale = 0.6
-          assign is_horizontal = false
-
-          case items_on_page
-            when 1
-              # Single post: full width hero
-              assign col_span = 6
-              assign scale = 1
-              assign is_horizontal = true
-            when 2
-              # Two posts: both standard side by side
-              assign col_span = 3
-              assign scale = 0.8
-            when 3
-              # Three posts: hero + 2 standard
-              if forloop.index == 1
-                assign col_span = 6
-                assign scale = 1
-                assign is_horizontal = true
-              else
-                assign col_span = 3
-                assign scale = 0.8
-              endif
-            when 4
-              # Four posts: all standard in 2x2 grid
-              assign col_span = 3
-              assign scale = 0.8
-            when 5
-              # Five posts: hero + 4 standard
-              if forloop.index == 1
-                assign col_span = 6
-                assign scale = 1
-                assign is_horizontal = true
-              else
-                assign col_span = 3
-                assign scale = 0.8
-              endif
-            else
-              # 6+ posts: hero, 2 standard, rest compact
-              if forloop.index == 1
-                assign col_span = 6
-                assign scale = 1
-                assign is_horizontal = true
-              elsif forloop.index <= 3
-                assign col_span = 3
-                assign scale = 0.8
-              else
-                assign col_span = 2
-                assign scale = 0.6
-              endif
-          endcase
-        %}
+      {%- comment -%} Eagle & Ash (13 Nov 2026): one post per row, picture left and text right; posts tagged "Pinned"
+      first, the rest newest first. articles[...] needs "blog/post", which is what article.handle holds. {%- endcomment -%}
+      {%- liquid
+        assign ea_pinned = ''
+        assign ea_rest = ''
+        for a in blog.articles
+          if a.tags contains 'Pinned'
+            assign ea_pinned = ea_pinned | append: a.handle | append: '|'
+          else
+            assign ea_rest = ea_rest | append: a.handle | append: '|'
+          endif
+        endfor
+        assign ea_order = ea_pinned | append: ea_rest | split: '|'
+      -%}
+      {% for ea_handle in ea_order %}
+        {%- liquid
+          assign article = articles[ea_handle]
+          if article == blank
+            continue
+          endif
+          assign col_span = 6
+          assign scale = 1
+          assign is_horizontal = true
+        -%}
         {% style %}
           [data-blog-index="{{ section.id }}-{{ forloop.index }}"] {
             --col-span: {{ col_span }};

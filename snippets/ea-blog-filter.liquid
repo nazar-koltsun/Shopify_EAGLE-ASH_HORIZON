@@ -1,0 +1,24 @@
+{%- comment -%}
+  Filter buttons above the blog posts (Anu, 13 Nov 2026: "resources and fun separately"): All + one button per post
+  tag, using Shopify's own tag pages (/blogs/golf/tagged/<tag>). The tag "Pinned" only moves a post to the top
+  (sections/main-blog.liquid) and gets no button. Nothing is shown while the blog has no other tags.
+{%- endcomment -%}
+{%- liquid
+  assign ea_tags = ''
+  for t in blog.all_tags
+    if t != 'Pinned'
+      assign ea_tags = ea_tags | append: t | append: '|'
+    endif
+  endfor
+  assign ea_tags = ea_tags | split: '|'
+-%}
+{%- if ea_tags.size > 0 -%}
+  <nav class="ea-blog-filter" aria-label="Show posts by topic">
+    <a href="{{ blog.url }}" class="ea-blog-filter__pill{% if current_tags == blank %} is-active{% endif %}"{% if current_tags == blank %} aria-current="page"{% endif %}>All</a>
+    {%- for t in ea_tags -%}
+      {%- assign ea_on = false -%}
+      {%- if current_tags contains t -%}{%- assign ea_on = true -%}{%- endif -%}
+      <a href="{{ blog.url }}/tagged/{{ t | handleize }}" class="ea-blog-filter__pill{% if ea_on %} is-active{% endif %}"{% if ea_on %} aria-current="page"{% endif %}>{{ t | escape }}</a>
+    {%- endfor -%}
+  </nav>
+{%- endif -%}

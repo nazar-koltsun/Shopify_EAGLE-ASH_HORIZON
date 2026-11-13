@@ -1,0 +1,46 @@
+{%- doc -%}
+  Eagle & Ash blog cards (Anu, 13 Nov 2026: the list page looked generic): per post a label on the picture, a picture
+  of what is inside, a written summary instead of the cut-off first sentences, and a specific link text.
+  Posts without an entry keep Shopify's normal card. article.handle includes the blog handle ("golf/<post>"), so the
+  match uses "contains".
+
+  @param {object} article - The article
+  @param {string} field - 'label', 'image' (theme asset name), 'summary' or 'link'
+{%- enddoc -%}
+{%- liquid
+  assign h = article.handle
+  assign v = ''
+  if h contains 'free-printable-golf-gift-cards'
+    case field
+      when 'label'
+        assign v = 'Free printable · 3 cards'
+      when 'image'
+        assign v = 'ea-blog-card-printable.jpg'
+      when 'summary'
+        assign v = 'Three free cards to print or fill in on screen, for a round of golf or a golf lesson. Plus how to arrange the gift and what to ask the course first.'
+      when 'link'
+        assign v = 'Get the free cards →'
+    endcase
+  elsif h contains 'what-to-write-in-a-golf-gift-card'
+    case field
+      when 'label'
+        assign v = '50 messages to copy'
+      when 'image'
+        assign v = 'ea-blog-card-messages.jpg'
+      when 'summary'
+        assign v = 'Short messages for a golf card, sorted by occasion: funny, thoughtful, hole in one, Christmas, birthday, beginner and retirement. Copy one with a tap.'
+      when 'link'
+        assign v = 'See the 50 messages →'
+    endcase
+  elsif h contains 'golf-fun-facts'
+    case field
+      when 'label'
+        assign v = '21 stories with sources'
+      when 'summary'
+        assign v = "True stories behind golf's prizes, balls, tees and traditions, each with its source. Good ones to tell when they unwrap the gift."
+      when 'link'
+        assign v = 'Read the 21 stories →'
+    endcase
+  endif
+-%}
+{{- v -}}

@@ -9,8 +9,17 @@
 {%- assign image = article.image -%}
 
 {%- assign block_settings = block.settings -%}
-<div class="blog-post-card__image-container">
+{%- comment -%} Eagle & Ash (13 Nov 2026): label on the picture and a picture of what is inside, from snippets/ea-blog-card-info {%- endcomment -%}
+{%- capture ea_card_label -%}{% render 'ea-blog-card-info', article: article, field: 'label' %}{%- endcapture -%}
+{%- capture ea_card_image -%}{% render 'ea-blog-card-info', article: article, field: 'image' %}{%- endcapture -%}
+<div class="blog-post-card__image-container{% if ea_card_label != blank %} ea-blog-card-media{% endif %}">
   <a href="{{ article.url }}">
+    {%- if ea_card_label != blank -%}<span class="ea-blog-card-label">{{ ea_card_label | escape }}</span>{%- endif -%}
+    {%- if ea_card_image != blank -%}
+    <img src="{{ ea_card_image | asset_url }}" width="1500" height="1000" alt="{{ image.alt | default: article.title | escape }}" loading="eager"
+      class="border-style blog-post-card__image blog-post-card__image--{{ block_settings.height }}"
+      style="{% render 'border-override', settings: block_settings %}">
+    {%- else -%}
     <img
       srcset="
         {% if image.width >= 350 %}{{ image | image_url: width: 350 }} 350w,{% endif %}
@@ -32,6 +41,7 @@
       "
       style="{% render 'border-override', settings: block_settings %}"
     >
+    {%- endif -%}
   </a>
 </div>
 

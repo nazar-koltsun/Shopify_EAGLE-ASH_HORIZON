@@ -11,6 +11,13 @@
   assign block_settings = block.settings
 
   assign content = onboarding_text | default: article.excerpt | default: article.content
+  # Eagle & Ash (13 Nov 2026): written summary and a specific link text on blog cards (snippets/ea-blog-card-info)
+  capture ea_card_summary
+    render 'ea-blog-card-info', article: article, field: 'summary'
+  endcapture
+  capture ea_card_link
+    render 'ea-blog-card-info', article: article, field: 'link'
+  endcapture
 
   if block_settings.type_preset == 'rte' or block_settings.type_preset == 'paragraph'
     assign is_rte = true
@@ -62,10 +69,15 @@
   %}
 
   <{{ element }} {{ attributes }}>
+    {%- if show_read_more and ea_card_summary != blank -%}
+      <span class="ea-blog-card-summary">{{ ea_card_summary | escape }}</span>
+      <a class="ea-blog-card-link" href="{{ article.url }}">{{ ea_card_link | default: 'Read more →' | escape }}</a>
+    {%- else -%}
     {{ content | strip_html | truncatewords: truncatewords }}
     {% if show_read_more %}
       <a href="{{ article.url }}">{{- 'content.read_more' | t -}}</a>
     {% endif %}
+    {%- endif -%}
   </{{ element }}>
 {% endif %}
 
