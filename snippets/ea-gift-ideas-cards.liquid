@@ -9,6 +9,11 @@
   @param {string} [note] - Optional line under the cards (3 Nov 2026: the printable cards), e.g. "Giving a round instead?"
   @param {string} [note_link] - Link text after the line.
   @param {string} [note_url] - Where the link goes.
+  @param {string} [extra_title] - Optional last card that is not a collection (13 Nov 2026: the golf course gift guide page).
+  @param {string} [extra_text] - Its one line.
+  @param {string} [extra_url] - Its link.
+  @param {string} [extra_image] - A theme asset file name for its photo.
+  @param {string} [extra_more] - Its link text, e.g. "See the courses →".
 {%- enddoc -%}
 <div class="ea-gift-ideas">
   {%- if intro != blank -%}
@@ -36,6 +41,20 @@
         </a>
       </li>
     {%- endfor -%}
+    {%- if extra_title != blank and extra_url != blank -%}
+      <li class="ea-gift-ideas__card">
+        <a href="{{ extra_url }}" class="ea-gift-ideas__link">
+          {%- if extra_image != blank -%}
+            <span class="ea-gift-ideas__media">
+              <img src="{{ extra_image | asset_url }}" alt="{{ extra_title | escape }}" loading="lazy" width="1200" height="900">
+            </span>
+          {%- endif -%}
+          <span class="ea-gift-ideas__title">{{ extra_title | escape }}</span>
+          {%- if extra_text != blank -%}<span class="ea-gift-ideas__text">{{ extra_text | escape }}</span>{%- endif -%}
+          <span class="ea-gift-ideas__more">{{ extra_more | default: 'See more →' | escape }}</span>
+        </a>
+      </li>
+    {%- endif -%}
   </ul>
   {%- if note != blank and note_url != blank -%}
     <p class="ea-gift-ideas__note">{{ note | escape }} <a href="{{ note_url }}">{{ note_link | default: 'See more' | escape }}</a></p>
@@ -98,6 +117,13 @@
 
   /* exactly five cards (8 Nov 2026: Golf Gifts for Men added): one row of five from 1200 px, three + two below,
      so no card stands alone in a second row */
+  /* six cards: two rows of three on computers (13 Nov 2026) */
+  .ea-gift-ideas__grid:has(> li:nth-child(6):last-child) {
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
   .ea-gift-ideas__grid:has(> li:nth-child(5):last-child) {
     @media screen and (min-width: 990px) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
