@@ -14,4 +14,7 @@
     .shopify-section:has(.blog-posts-container) .text-block h1 { font-size: 32px; }
   }
   .shopify-section:has(.blog-posts-container) .text-block p { font-family: var(--font-body--family, 'Roboto'), sans-serif; font-size: 17px; line-height: 1.6; max-width: 680px; }
+  /* "Read more..." under each post card in our dark orange like all text links (Anu, 13 Nov 2026) */
+  .blog-posts-container .rte a[href*="/blogs/"] { color: #b83a00; font-weight: 600; text-underline-offset: 3px; }
+  .blog-posts-container .rte a[href*="/blogs/"]:hover { color: #8a2c00; }
 {% endstylesheet %}
