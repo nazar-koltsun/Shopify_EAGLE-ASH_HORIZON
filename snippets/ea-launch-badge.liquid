@@ -1,0 +1,28 @@
+{%- doc -%}
+  Eagle & Ash, 16 Nov 2026 (Anu: "normal product page, but with a suitable sign such as freshly launched"): a small
+  badge under the product title on the normal product page, from the product field custom.launch_note
+  (e.g. "Just launched"). Nothing when the field is empty, so other products are unchanged. Remove the field
+  when the product is no longer new (FTC: "new" for about 6 months at most).
+
+  @param {object} product - The product.
+{%- enddoc -%}
+{%- assign ea_launch_note = product.metafields.custom.launch_note.value -%}
+{%- if ea_launch_note != blank -%}
+  <p class="ea-launch-badge">{{ ea_launch_note | escape }}</p>
+{%- endif -%}
+
+{% stylesheet %}
+  /* the same shape as the coming-soon badge (snippets/ea-coming-soon-badge), Roboto 14 px bold, white on dark teal */
+  .ea-launch-badge {
+    align-self: flex-start;
+    margin: 12px 0 0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: #001e26;
+    color: #fff;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+{% endstylesheet %}

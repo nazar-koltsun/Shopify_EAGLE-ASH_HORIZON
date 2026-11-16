@@ -162,10 +162,17 @@
                     "show_count": true
                   },
                   "blocks": {}
+                },
+                "launch_badge_ea": {
+                  "type": "custom-liquid",
+                  "settings": {
+                    "custom_liquid": "{%- render 'ea-launch-badge', product: closest.product -%}"
+                  }
                 }
               },
               "block_order": [
                 "text_xrnftG",
+                "launch_badge_ea",
                 "amazon_rating_ea",
                 "price_tVjtKg"
               ]
