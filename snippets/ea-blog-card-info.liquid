@@ -32,6 +32,17 @@
       when 'link'
         assign v = 'See the 50 messages →'
     endcase
+  elsif h contains 'why-is-it-called-a-mulligan'
+    case field
+      when 'label'
+        assign v = 'Two stories, one word'
+      when 'image'
+        assign v = 'ea-blog-card-mulligan.jpg'
+      when 'summary'
+        assign v = 'What a mulligan is, why the Rules of Golf have none, and the two men the name may come from. Plus how to use mulligans without an argument.'
+      when 'link'
+        assign v = 'Read the mulligan story →'
+    endcase
   elsif h contains 'golf-fun-facts'
     case field
       when 'label'

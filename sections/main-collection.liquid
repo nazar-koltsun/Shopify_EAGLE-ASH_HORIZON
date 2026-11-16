@@ -61,6 +61,10 @@
         {%- assign ea_unwrap_facts = collection.metafields.custom.unwrap_facts.value -%}
         {%- assign ea_unwrap_sources = collection.metafields.custom.unwrap_sources.value -%}
         {%- assign ea_unwrap_post = collection.metafields.custom.unwrap_post_facts.value -%}
+        {%- comment -%} 16 Nov 2026: a box under the story that asks readers for their own story (Anu: "a message box below
+          it with CTA - tell your mulligan story"). Collection field custom.unwrap_cta, JSON: product handle ->
+          [question, sentence, link label, link]. {%- endcomment -%}
+        {%- assign ea_unwrap_cta = collection.metafields.custom.unwrap_cta.value -%}
         {%- if paginate.current_page == 1 and collection.metafields.custom.intro != blank -%}
           <li class="ea-gift-intro">
             <p>{{ collection.metafields.custom.intro.value | escape | newline_to_br }}</p>
@@ -104,6 +108,14 @@
                       <p class="ea-collection-fact__more"><a href="/blogs/golf/golf-fun-facts#fact-{{ ea_post_fact }}">Read the full story →</a></p>
                     {%- endif -%}
                   </details>
+                {%- endif -%}
+                {%- assign ea_cta = ea_unwrap_cta[product.handle] -%}
+                {%- if ea_cta != blank -%}
+                  <div class="ea-collection-cta">
+                    <p class="ea-collection-cta__question">{{ ea_cta[0] | escape }}</p>
+                    {%- if ea_cta[1] != blank -%}<p class="ea-collection-cta__text">{{ ea_cta[1] | escape }}</p>{%- endif -%}
+                    <a class="ea-collection-cta__link" href="{{ ea_cta[3] | escape }}">{{ ea_cta[2] | escape }} →</a>
+                  </div>
                 {%- endif -%}
               </div>
             {%- endif -%}
@@ -298,6 +310,39 @@
       color: #4f6166;
       text-underline-offset: 2px;
     }
+  }
+
+  /* 16 Nov 2026: the box that asks for the reader's own story (custom.unwrap_cta), light blue like other info boxes */
+  .ea-collection-cta {
+    flex-basis: 100%;
+    margin: 10px 0 0;
+    padding: 14px 16px;
+    border-radius: 4px;
+    background: #edf6f8;
+    font-family: var(--font-body--family, 'Roboto', sans-serif);
+    color: #07272d;
+  }
+
+  .ea-collection-cta__question {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .ea-collection-cta__text {
+    margin: 6px 0 0;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .ea-collection-cta__link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #b83a00;
+    text-underline-offset: 2px;
   }
 
   /* 16 Nov 2026: link to the same story in the fun facts post; small orange text = #b83a00 (WCAG AA) */
