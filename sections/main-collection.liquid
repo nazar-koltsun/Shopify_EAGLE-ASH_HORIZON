@@ -60,6 +60,7 @@
         {%- assign ea_gift_notes = collection.metafields.custom.gift_notes.value -%}
         {%- assign ea_unwrap_facts = collection.metafields.custom.unwrap_facts.value -%}
         {%- assign ea_unwrap_sources = collection.metafields.custom.unwrap_sources.value -%}
+        {%- assign ea_unwrap_post = collection.metafields.custom.unwrap_post_facts.value -%}
         {%- if paginate.current_page == 1 and collection.metafields.custom.intro != blank -%}
           <li class="ea-gift-intro">
             <p>{{ collection.metafields.custom.intro.value | escape | newline_to_br }}</p>
@@ -95,6 +96,12 @@
                     {%- assign ea_src = ea_unwrap_sources[product.handle] -%}
                     {%- if ea_src != blank -%}
                       <p class="ea-collection-fact__source">Source: <a href="{{ ea_src[1] | escape }}" target="_blank" rel="noopener">{{ ea_src[0] | escape }}<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+                    {%- endif -%}
+                    {%- comment -%} 16 Nov 2026: the same story in the fun facts post (collection field
+                      custom.unwrap_post_facts, JSON: product handle -> fact number); no link when the story is not in the post. {%- endcomment -%}
+                    {%- assign ea_post_fact = ea_unwrap_post[product.handle] -%}
+                    {%- if ea_post_fact != blank -%}
+                      <p class="ea-collection-fact__more"><a href="/blogs/golf/golf-fun-facts#fact-{{ ea_post_fact }}">Read the full story →</a></p>
                     {%- endif -%}
                   </details>
                 {%- endif -%}
@@ -289,6 +296,18 @@
 
     a {
       color: #4f6166;
+      text-underline-offset: 2px;
+    }
+  }
+
+  /* 16 Nov 2026: link to the same story in the fun facts post; small orange text = #b83a00 (WCAG AA) */
+  .ea-collection-fact__more {
+    margin: 8px 0 0;
+    font-size: 14px;
+    font-weight: 500;
+
+    a {
+      color: #b83a00;
       text-underline-offset: 2px;
     }
   }
