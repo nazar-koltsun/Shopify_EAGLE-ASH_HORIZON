@@ -65,18 +65,18 @@
           "type": "launch",
           "settings": {
             "image": "shopify://shop_images/soon-mulligan-pills-v6.jpg",
-            "label": "Launching next",
+            "label": "Just launched",
             "name": "Mulligan Pills – Funny Golf Tees in a Bottle",
             "hook": "A mock prescription for real golfers. Side effects may include optimism.",
             "facts": "20 real bamboo golf tees with height markers, 2¾ in (70 mm), in a reusable amber pharmacy-style bottle.\nDirections: \"Take one to the tee. Request a mulligan as necessary.\" Authorization: the group. Unanimously.\nA funny gift that is still useful: the tees are the real thing, and the bottle stays on as a tee holder.\nFor men and women: Christmas stockings, birthdays, golf buddies and tournament prizes.",
-            "when": "Expected on Amazon.com from November 16, 2026, in time for Christmas.",
+            "when": "Now on Amazon.com, in time for Christmas.",
             "url": "/products/mulligan-pills-funny-golf-tees",
             "link_label": "See Mulligan Pills",
             "sample_link_label": "Ask for a sample",
             "price": "$12.99",
             "amazon_url": "https://www.amazon.com/dp/B0HK51RT8H",
             "links_name": "Mulligan Pills",
-            "links_note": "link active from November 16, 2026"
+            "links_note": ""
           }
         }
       },
@@ -94,8 +94,8 @@
         "gifts_heading": "Three unusual gifts for *every part of the game.*",
         "also_product": "bamboo-golf-tees",
         "also_text": "in three lengths (1 1/2, 2 3/4 and 3 1/4 inch).",
-        "soon_heading": "Coming *soon.*",
-        "soon_text": "Mulligan Pills launch on Amazon.com on November 16, 2026. The pink pouches follow in December 2026.",
+        "soon_heading": "New and *coming soon.*",
+        "soon_text": "Mulligan Pills are now on Amazon.com. The pink pouches follow in December 2026.",
         "kit_heading": "Press *kit.*",
         "kit_text": "High-resolution photos of our gifts and of our makers' workshops, plus our logos. Leave your email to get the link. Samples need your work email.",
         "sample_label": "I'd also like a product sample for a review or gift guide",
