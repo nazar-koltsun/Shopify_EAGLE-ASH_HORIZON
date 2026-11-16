@@ -60,10 +60,10 @@
       ],
       "settings": {
         "description": "Whether you have a question about a gift or an Amazon order, or you'd like to order 10 or more pieces for your business, we'd love to hear from you. Tell us a little about what you're looking for, and we'll take it from there.",
-        "title": "Get in Touch",
+        "title": "Get in touch.",
         "email": "hello@eagleandash.com",
         "phone": "",
-        "form_title": "Start a Conversation",
+        "form_title": "Start a conversation.",
         "submit_label": "SEND",
         "privacy_notice": "<p>We use the details you provide only to respond to your enquiry. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p><p>Sending us a gift idea? Thank you! The small print: sending an idea is a friendly gesture, not an agreement. Ideas are not confidential, and we may already be working on something similar. We do not pay for ideas. If one becomes a gift, we may thank you by name, but we cannot promise it.</p>"
       }

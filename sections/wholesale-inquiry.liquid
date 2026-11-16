@@ -114,7 +114,11 @@
     color: var(--deepest-brand-blue);
     text-align: center;
 
-    @media screen and (max-width: 749px) {
+    @media screen and (max-width: 1199px) {
+      font-size: 28px;
+    }
+
+    @media screen and (max-width: 989px) {
       font-size: 24px;
     }
   }
@@ -205,8 +209,7 @@
   }
 
   .wholesale-inquiry__feature-title {
-    font-family: 'Lora'
-    , serif;
+    font-family: var(--font-body--family, 'Roboto', sans-serif); /* Eagle & Ash, 16 Nov 2026: labels in Roboto */
     font-weight: 400;
     font-size: 16px;
     line-height: 1.3;

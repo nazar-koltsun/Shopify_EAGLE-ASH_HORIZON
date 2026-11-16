@@ -136,7 +136,7 @@
     top: 20px;
     left: 0;
     margin: 0;
-    font-family: 'Lora', serif;
+    font-family: var(--font-body--family, 'Roboto', sans-serif); /* Eagle & Ash, 16 Nov 2026: Roboto for form text (design rules) */
     font-weight: 500;
     font-size: 16px;
     color: #000000;
@@ -167,7 +167,7 @@
     width: 100%;
     margin: 0;
     padding: 0 0 4px;
-    font-family: 'Lora', serif;
+    font-family: var(--font-body--family, 'Roboto', sans-serif); /* Eagle & Ash, 16 Nov 2026: Roboto for form text (design rules) */
     font-size: 16px;
     color: #000000;
     background: transparent;
@@ -186,23 +186,27 @@
     padding-block-end: 10px;
   }
 
+  /* Eagle & Ash, 16 Nov 2026: the site's button style (design rules: Roboto capitals, bold, 19 px, 0.12em, white on #fd5000) */
   .contact-form__submit {
     align-self: flex-start;
     margin: 0;
     margin-block-start: 8px;
-    padding: 0;
-    font-family: 'Lora', serif;
-    font-weight: 500;
-    font-size: 16px;
-    color: #000000;
-    background: none;
+    padding: 14px 32px;
+    font-family: var(--font-body--family, 'Roboto', sans-serif);
+    font-weight: 700;
+    font-size: 1.1875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #fd5000;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: background-color 0.3s ease;
   }
 
   .contact-form__submit:hover {
-    color: var(--ash-amber-orange, #fe5000);
+    background: #e04800;
   }
 
   .contact-form__error,
@@ -212,7 +216,7 @@
     gap: 10px;
     margin-block-end: 16px;
     padding: 12px 14px;
-    font-family: 'Lora', serif;
+    font-family: var(--font-body--family, 'Roboto', sans-serif); /* Eagle & Ash, 16 Nov 2026: Roboto for form text (design rules) */
     font-size: 14px;
     line-height: 1.4;
     color: var(--deepest-brand-blue, #07272d);
@@ -244,7 +248,7 @@
   .contact-form__privacy {
     margin: 0;
     margin-block-start: 40px;
-    font-family: 'Lora', sans-serif;
+    font-family: var(--font-body--family, 'Roboto', sans-serif);
     font-weight: 400;
     font-size: 12px;
     line-height: 1.4;

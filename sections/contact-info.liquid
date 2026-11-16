@@ -110,8 +110,7 @@
   .contact-info__description {
     margin: 0;
     max-width: 36em;
-    font-family: 'Lora'
-    , serif;
+    font-family: var(--font-body--family, 'Roboto', sans-serif); /* Eagle & Ash, 16 Nov 2026: running text in Roboto */
     font-weight: 400;
     font-size: 16px;
     color: #000000;
@@ -122,8 +121,16 @@
     font-family: 'Lora'
     , serif;
     font-weight: 500;
-    font-size: 32px;
+    font-size: 30px; /* Eagle & Ash, 16 Nov 2026: the site's section heading scale 30 / 28 / 24 (was 32) */
     color: var(--deepest-brand-blue);
+
+    @media screen and (max-width: 1199px) {
+      font-size: 28px;
+    }
+
+    @media screen and (max-width: 989px) {
+      font-size: 24px;
+    }
   }
 
   .contact-info__title--form {
@@ -160,8 +167,7 @@
   }
 
   .contact-info__detail-label {
-    font-family: 'Lora'
-    , serif;
+    font-family: var(--font-body--family, 'Roboto', sans-serif); /* Eagle & Ash, 16 Nov 2026: labels in Roboto */
     font-weight: 500;
     font-size: 16px;
     color: #000000;

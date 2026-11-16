@@ -23,7 +23,7 @@
           "type": "feature",
           "settings": {
             "icon": "shopify://shop_images/events.png",
-            "title": "Events & Tournaments"
+            "title": "Events & tournaments"
           }
         },
         "feature_2": {
@@ -37,7 +37,7 @@
           "type": "feature",
           "settings": {
             "icon": "shopify://shop_images/corporate.png",
-            "title": "Corporate & Group gifting"
+            "title": "Corporate & group gifting"
           }
         },
         "feature_4": {
@@ -45,7 +45,7 @@
           "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/Bespoke.png",
-            "title": "Golf Clubs"
+            "title": "Golf clubs"
           }
         }
       },
@@ -56,7 +56,7 @@
         "feature_4"
       ],
       "settings": {
-        "title": "Ordering 10 or More?",
+        "title": "Ordering 10 or more?",
         "description_top": "<p>Ordering for a tournament, a golf club or your clients? Tell us the occasion, the products, the number of pieces (from 10) and the date you need them. We reply within one business day.<br/><br/>For companies, golf clubs and event organisers · US orders ship through Amazon, EU orders ship from Tallinn · bath bombs: US only.</p>",
         "description_bottom": "<p>If you'd like to learn more about the standards behind every Eagle & Ash product, explore <a href=\"/pages/our-story\" title=\"Our Story\"><strong>Our Story</strong></a> before getting in touch.</p>",
         "privacy_notice": "<p>We use the details you provide only to respond to your enquiry. See our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>"
@@ -77,9 +77,9 @@
           "settings": {
             "image": "shopify://shop_images/carousel-award.webp",
             "title": "Awards",
-            "back_title": "Handcrafted Awards That Carry Meaning",
+            "back_title": "Handcrafted awards that carry meaning.",
             "back_text": "More than a trophy: a small stand that keeps the ball from a great round. Each one is handmade from solid ash wood and engineered stone in a small studio in Tartu, Estonia. Wood Top, Stone Top or a Duo Pack, each in a gift box. The underside has room for an engraving by your local engraver.",
-            "back_action_title": "Start a Conversation",
+            "back_action_title": "Start a conversation",
             "back_action_url": "shopify://pages/contact"
           }
         },
@@ -87,10 +87,10 @@
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/carousel-recovery.webp",
-            "title": "Bath Bombs",
-            "back_title": "A Golf Ball for the Bath",
+            "title": "Bath bombs",
+            "back_title": "A golf ball for the bath.",
             "back_text": "Our golf ball bath bombs turn an unexpected idea into a memorable gift. Four in a gift box, in chamomile, sandalwood or mountain mint, made in Latvia. A fun prize for tournaments and client gifts in the US (bath bombs ship to US addresses only).",
-            "back_action_title": "Start a Conversation",
+            "back_action_title": "Start a conversation",
             "back_action_url": "shopify://pages/contact"
           }
         },
@@ -99,9 +99,9 @@
           "settings": {
             "image": "shopify://shop_images/carousel-tees.webp",
             "title": "Essentials",
-            "back_title": "Everyday Essentials, Thoughtfully Made",
+            "back_title": "Everyday essentials, thoughtfully made.",
             "back_text": "Bamboo golf tees with printed height markers, in three lengths (3¼″, 2¾″ and 1½″), 50 per pack. Made in China. A small, useful extra for every player's gift bag.",
-            "back_action_title": "Start a Conversation",
+            "back_action_title": "Start a conversation",
             "back_action_url": "shopify://pages/contact"
           }
         },
@@ -110,9 +110,9 @@
           "settings": {
             "image": "shopify://shop_images/carousel-leather.webp",
             "title": "Leather",
-            "back_title": "Crafted to Stay with You",
+            "back_title": "Crafted to stay with you.",
             "back_text": "Made from premium leather and designed with everyday practicality in mind, our tee pouches combine function with timeless craftsmanship. Easy to attach during play and refined enough to be gifted, they are products golfers will use, keep and remember. A distinctive addition to any premium golf offering.",
-            "back_action_title": "Start a Conversation",
+            "back_action_title": "Start a conversation",
             "back_action_url": "shopify://pages/contact"
           }
         }
@@ -125,15 +125,15 @@
       ],
       "name": "Collection Cards",
       "settings": {
-        "heading": "What We Offer"
+        "heading": "What we offer."
       }
     },
     "content_with_image": {
       "type": "content-with-image",
       "settings": {
-        "title": "Experience the Collection First",
+        "title": "Experience the collection first.",
         "description": "<p>We believe exceptional craftsmanship should be experienced, not just viewed.</p><p><strong>Request a curated sample collection and discover the quality, materials, and finishing of every Eagle & Ash product before placing your wholesale order.</strong></p><p>Each sample collection includes one piece from our current range. Simply get in touch, and we'll prepare a tailored quotation based on your location and requirements.</p>",
-        "cta_label": "Request a Sample Collection",
+        "cta_label": "Request a sample collection",
         "cta_link": "shopify://pages/contact",
         "image": "shopify://shop_images/Collection.webp"
       }
