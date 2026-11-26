@@ -22,7 +22,7 @@
             "product_2": "leather-golf-tee-pouch-flex",
             "price_label_2": "Flex",
             "line": "The tees finally get their own stylish room.",
-            "facts": "Full-grain leather, designed by us and handmade in Turkey, in a workshop that specializes in high-end small leather goods. We work closely with them.\nTwo styles: the Zip closes fully, the Flex opens with one squeeze. Cognac, Black, Green and Blue; pink arrives in December 2026.\nComes with 20 durable bamboo golf tees. 4.5 × 2.75 in (115 × 70 mm): it holds tees, a little cash and a car key, and the clip keeps it on the golf bag.\nIn a gift box: Zip 5.1 × 3.1 × 2.0 in (130 × 80 × 50 mm), Flex 5.7 × 4.3 × 1.2 in (145 × 110 × 30 mm).",
+            "facts": "Full-grain leather, designed by us and handmade in Turkey, in a workshop that specializes in high-end small leather goods. We work closely with them.\nTwo styles: the Zip closes fully, the Flex opens with one squeeze. Cognac, Black, Green, Blue and Pink.\nComes with 20 durable bamboo golf tees. 4.5 × 2.75 in (115 × 70 mm): it holds tees, a little cash and a car key, and the clip keeps it on the golf bag.\nIn a gift box: Zip 5.1 × 3.1 × 2.0 in (130 × 80 × 50 mm), Flex 5.7 × 4.3 × 1.2 in (145 × 110 × 30 mm).",
             "line_2": "It clips to the golf bag, so a tee is always within reach, and the Flex opens with one hand."
           }
         },
@@ -48,24 +48,11 @@
             "line_2": "After 18 holes, drop one into a warm bath or a foot bath: a relaxing soak your feet have earned."
           }
         },
-        "soon_pink": {
-          "type": "soon",
-          "settings": {
-            "image": "shopify://shop_images/soon-flex-pink-v2.jpg",
-            "name": "Leather Golf Tee Pouches in Pink",
-            "text": "Same leather, same clip: the ladies' special.",
-            "url": "/products/leather-golf-tee-pouch-flex?variant=59267815244111",
-            "product": "leather-golf-tee-pouch-zip",
-            "price_label": "Zip",
-            "product_2": "leather-golf-tee-pouch-flex",
-            "price_label_2": "Flex"
-          }
-        },
         "launch_mulligan": {
           "type": "launch",
           "settings": {
             "image": "shopify://shop_images/soon-mulligan-pills-v6.jpg",
-            "label": "Just launched",
+            "label": "2026 Christmas novelty",
             "name": "Mulligan Pills – Funny Golf Tees in a Bottle",
             "hook": "A mock prescription for real golfers. Side effects may include optimism.",
             "facts": "20 real bamboo golf tees with height markers, 2¾ in (70 mm), in a reusable amber pharmacy-style bottle.\nDirections: \"Take one to the tee. Request a mulligan as necessary.\" Authorization: the group. Unanimously.\nA funny gift that is still useful: the tees are the real thing, and the bottle stays on as a tee holder.\nFor men and women: Christmas stockings, birthdays, golf buddies and tournament prizes.",
@@ -84,8 +71,7 @@
         "gift_tee_pouch",
         "gift_trophy",
         "gift_bath_bombs",
-        "launch_mulligan",
-        "soon_pink"
+        "launch_mulligan"
       ],
       "settings": {
         "heading": "Press",
@@ -94,8 +80,8 @@
         "gifts_heading": "Three unusual gifts for *every part of the game.*",
         "also_product": "bamboo-golf-tees",
         "also_text": "in three lengths (1 1/2, 2 3/4 and 3 1/4 inch).",
-        "soon_heading": "New and *coming soon.*",
-        "soon_text": "Mulligan Pills are now on Amazon.com. The pink pouches follow in December 2026.",
+        "soon_heading": "Just *launched.*",
+        "soon_text": "Mulligan Pills and the pink tee pouches are now on Amazon.com.",
         "kit_heading": "Press *kit.*",
         "kit_text": "High-resolution photos of our gifts and of our makers' workshops, plus our logos. Leave your email to get the link. Samples need your work email.",
         "sample_label": "I'd also like a product sample for a review or gift guide",
