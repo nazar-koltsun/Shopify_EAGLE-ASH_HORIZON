@@ -121,10 +121,13 @@
           endif
         endfor
       -%}
+      {%- assign ea_hl = false -%}
+      {%- if section.settings.highlight_product != blank and product.handle == section.settings.highlight_product -%}{%- assign ea_hl = true -%}{%- endif -%}
       <div
-        class="resource-list__item"
+        class="resource-list__item{% if ea_hl %} ea-highlight-card{% endif %}"
         {% if ea_start != blank %}data-ea-start-variant="{{ ea_start | escape }}"{% endif %}
       >
+        {%- if ea_hl and section.settings.highlight_label != blank -%}<span class="ea-highlight-card__badge">{{ section.settings.highlight_label | escape }}</span>{%- endif -%}
         {% # theme-check-disable UniqueStaticBlockId %}
           {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product %}
         {% # theme-check-enable UniqueStaticBlockId %}
@@ -144,7 +147,10 @@
   {%- if ea_tabs and section.settings.all_products != blank -%}
     {% capture ea_all_items %}
       {% for product in section.settings.all_products %}
-        <div class="resource-list__item">
+        {%- assign ea_hl = false -%}
+        {%- if section.settings.highlight_product != blank and product.handle == section.settings.highlight_product -%}{%- assign ea_hl = true -%}{%- endif -%}
+        <div class="resource-list__item{% if ea_hl %} ea-highlight-card{% endif %}">
+          {%- if ea_hl and section.settings.highlight_label != blank -%}<span class="ea-highlight-card__badge">{{ section.settings.highlight_label | escape }}</span>{%- endif -%}
           {% # theme-check-disable UniqueStaticBlockId %}
             {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product %}
           {% # theme-check-enable UniqueStaticBlockId %}
@@ -533,6 +539,34 @@
     display: none;
   }
 
+  /* Anu, 26 Nov 2026: one product framed in orange with a label ("2026 CHRISTMAS NOVELTY" on Mulligan Pills), first in
+     the tabs All and Our picks; same frame and badge colours as the launch tile (snippets/ea-soon-card) */
+  .ea-highlight-card {
+    position: relative;
+    padding: 10px;
+    border: 2px solid #fd5000;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .ea-highlight-card__badge {
+    position: absolute;
+    z-index: 2;
+    top: 22px;
+    left: 22px;
+    padding: 5px 9px;
+    border-radius: 4px;
+    background: #b83a00;
+    color: #fff;
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
   /* Coming soon: the same tiles as on the Shop page (snippets/ea-soon-card), in the same sliding row as the products,
      framed like the product photos */
   .ea-pairs-with--tiles .ea-soon-card__frame {
@@ -896,6 +930,17 @@
       "id": "main_start_variants",
       "label": "Second tab: cards that open on a variant",
       "info": "handle: variant name, separated by commas, e.g. hole-in-one-golf-ball-display: Stone Top"
+    },
+    {
+      "type": "text",
+      "id": "highlight_product",
+      "label": "Highlighted product (orange frame)",
+      "info": "Product handle, e.g. mulligan-pills-funny-golf-tees. Put it first in both product lists."
+    },
+    {
+      "type": "text",
+      "id": "highlight_label",
+      "label": "Label on the highlighted product"
     },
     {
       "type": "text",

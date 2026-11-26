@@ -331,6 +331,7 @@
       },
       "settings": {
         "products": [
+          "mulligan-pills-funny-golf-tees",
           "hole-in-one-golf-ball-display",
           "leather-golf-tee-pouch-zip",
           "bath-bombs-for-men-sandalwood",
@@ -339,7 +340,7 @@
         ],
         "layout_type": "carousel",
         "carousel_on_mobile": false,
-        "max_products": 5,
+        "max_products": 6,
         "columns": 4,
         "mobile_columns": "2",
         "mobile_card_size": "44cqw",
@@ -359,6 +360,7 @@
         "tab_main_label": "Our picks",
         "tab_soon_label": "Coming soon",
         "all_products": [
+          "mulligan-pills-funny-golf-tees",
           "hole-in-one-golf-ball-display",
           "leather-golf-tee-pouch-zip",
           "leather-golf-tee-pouch-flex",
@@ -371,7 +373,9 @@
         "soon_klaviyo_list": "Rcmc4K",
         "soon_privacy": "<p>Yes, email me new gifts and deals. You can unsubscribe at any time. See our <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
         "soon_signup_heading": "Good gifts are worth hearing about.",
-        "main_start_variants": "hole-in-one-golf-ball-display: Stone Top, leather-golf-tee-pouch-flex: Green"
+        "main_start_variants": "hole-in-one-golf-ball-display: Stone Top, leather-golf-tee-pouch-flex: Green, leather-golf-tee-pouch-zip: Pink",
+        "highlight_product": "mulligan-pills-funny-golf-tees",
+        "highlight_label": "2026 Christmas novelty"
       },
       "block_order": [
         "see_all",
