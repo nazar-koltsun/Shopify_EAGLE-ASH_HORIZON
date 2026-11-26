@@ -71,13 +71,18 @@
           </li>
         {%- endif -%}
         {% for product in collection.products %}
+          {%- comment -%} Anu, 26 Nov 2026: one product framed in orange with a label, as on the homepage
+            (section settings highlight_product / highlight_label; styles .ea-highlight-card in sections/ea-pairs-with) {%- endcomment -%}
+          {%- assign ea_hl = false -%}
+          {%- if section.settings.highlight_product != blank and product.handle == section.settings.highlight_product -%}{%- assign ea_hl = true -%}{%- endif -%}
           <li
             id="{{ section.id }}-{{ product.id }}"
-            class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+            class="product-grid__item product-grid__item--{{ forloop.index0 }}{% if ea_hl %} ea-highlight-card{% endif %}"
             data-page="{{ paginate.current_page }}"
             data-product-id="{{ product.id }}"
             ref="cards[]"
           >
+            {%- if ea_hl and section.settings.highlight_label != blank -%}<span class="ea-highlight-card__badge">{{ section.settings.highlight_label | escape }}</span>{%- endif -%}
             {% # theme-check-disable %}
             {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
             {% # theme-check-enable %}
@@ -586,6 +591,17 @@
     {
       "type": "header",
       "content": "Review tile (Eagle & Ash)"
+    },
+    {
+      "type": "text",
+      "id": "highlight_product",
+      "label": "Highlighted product (orange frame)",
+      "info": "Product handle, e.g. mulligan-pills-funny-golf-tees"
+    },
+    {
+      "type": "text",
+      "id": "highlight_label",
+      "label": "Label on the highlighted product"
     },
     {
       "type": "text",
